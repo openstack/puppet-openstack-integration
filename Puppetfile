@@ -112,7 +112,7 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :branch => '1.3.x'
+  :branch => '1.4.x'
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
