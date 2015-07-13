@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 # Copyright 2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -19,3 +19,32 @@ if [ $(id -u) != 0 ]; then
 fi
 
 $SUDO ./install_modules.sh
+
+PUPPET_ARGS="--detailed-exitcodes --verbose --color=false --debug"
+
+function run_puppet() {
+    local manifest=$1
+
+    $SUDO puppet apply $PUPPET_ARGS fixtures/${manifest}.pp
+    local res=$?
+
+    return $res
+}
+
+# Run puppet and assert something changes.
+set +e
+run_puppet scenario001
+RESULT=$?
+set -e
+if [ $RESULT -ne 2 ]; then
+    exit 1
+fi
+
+# Run puppet a second time and assert nothing changes.
+set +e
+run_puppet scenario001
+RESULT=$?
+set -e
+if [ $RESULT -ne 0 ]; then
+    exit 1
+fi
