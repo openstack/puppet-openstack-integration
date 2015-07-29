@@ -79,3 +79,28 @@ class { '::keystone::roles::admin':
 class { '::keystone::endpoint':
   default_domain => 'admin',
 }
+
+class { '::tempest':
+  debug               => true,
+  use_stderr          => false,
+  log_file            => 'tempest.log',
+  tempest_clone_owner => 'jenkins',
+  # using a local clone should be faster
+  tempest_repo_uri    => 'file:///opt/git/openstack/tempest',
+  tempest_clone_path  => '/tmp/tempest',
+  lock_path           => '/tmp/tempest',
+  tempest_config_file => '/tmp/tempest/etc/tempest.conf',
+  configure_images    => false,
+  configure_networks  => false,
+  identity_uri        => 'http://127.0.0.1:5000/v2.0',
+  identity_uri_v3     => 'http://127.0.0.1:5000/v3',
+  admin_username      => 'admin',
+  admin_tenant_name   => 'openstack',
+  admin_password      => 'a_big_secret',
+  admin_domain_name   => 'default_domain',
+  auth_version        => 'v3',
+  cinder_available    => false,
+  glance_available    => false,
+  horizon_available   => false,
+  nova_available      => false,
+}
