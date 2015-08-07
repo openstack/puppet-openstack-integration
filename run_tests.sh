@@ -39,4 +39,4 @@ fi
 
 ${BUNDLE} install --no-color --without development test system_tests
 
-./tools/install_modules.sh
+./install_modules.sh
