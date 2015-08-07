@@ -1,17 +1,19 @@
-#!/bin/bash -ex
+#!/bin/bash
 
-export SCRIPT_DIR=$(pwd)
-export PUPPETFILE_DIR=${SCRIPT_DIR}/.modules
+set -ex
+
+export SCRIPT_DIR=$(readlink -f "$(dirname $0)")
+export PUPPETFILE_DIR=/etc/puppet/modules
 
 install_external() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 ${GEM_HOME}/bin/r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k puppetfile install -v
 }
 
 install_openstack() {
   cat > clonemap.yaml <<EOF
 clonemap:
   - name: '(.*?)/puppet-(.*)'
-    dest: '$PUPPETFILE_DIR/\2'
+    dest: '/etc/puppet/modules/\2'
 EOF
 
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
@@ -26,8 +28,10 @@ EOF
 }
 
 install_all() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile ${GEM_HOME}/bin/r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k puppetfile install -v
 }
+
+gem install r10k --no-ri --no-rdoc
 
 # If zuul-cloner is there, have it install modules using zuul refs
 if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
@@ -40,4 +44,4 @@ else
   install_all
 fi
 
-puppet module list --color=false
+puppet module list
