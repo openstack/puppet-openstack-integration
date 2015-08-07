@@ -2,11 +2,15 @@
 
 set -ex
 
+if [ ! -z ${GEM_HOME} ]; then
+    GEM_BIN_DIR=${GEM_HOME}/bin/
+fi
+
 export SCRIPT_DIR=$(readlink -f "$(dirname $0)")
 export PUPPETFILE_DIR=/etc/puppet/modules
 
 install_external() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 ${GEM_BIN_DIR}r10k puppetfile install -v
 }
 
 install_openstack() {
@@ -28,7 +32,7 @@ EOF
 }
 
 install_all() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile ${GEM_BIN_DIR}r10k puppetfile install -v
 }
 
 gem install r10k --no-ri --no-rdoc
