@@ -33,6 +33,9 @@ install_all() {
 
 gem install r10k --no-ri --no-rdoc
 
+# make sure there is no puppet module pre-installed
+rm -rf "${PUPPETFILE_DIR:?}/"*
+
 # If zuul-cloner is there, have it install modules using zuul refs
 if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
   csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
