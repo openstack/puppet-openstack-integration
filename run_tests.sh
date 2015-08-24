@@ -57,4 +57,4 @@ if [ $RESULT -ne 0 ]; then
     exit 1
 fi
 
-cd /tmp/openstack/tempest; tox -eall -- identity
+cd /tmp/openstack/tempest; tox -eall -- identity image

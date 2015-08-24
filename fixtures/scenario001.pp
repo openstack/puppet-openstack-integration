@@ -80,6 +80,42 @@ class { '::keystone::endpoint':
   default_domain => 'admin',
 }
 
+# Deploy Glance
+class { '::glance::db::mysql':
+  password => 'glance',
+}
+include ::glance
+include ::glance::client
+class { '::glance::keystone::auth':
+  password => 'a_big_secret',
+}
+class { '::glance::api':
+  debug               => true,
+  verbose             => true,
+  database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
+  keystone_password   => 'a_big_secret',
+}
+class { '::glance::registry':
+  debug               => true,
+  verbose             => true,
+  database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
+  keystone_password   => 'a_big_secret',
+}
+glance_image { 'cirros':
+  ensure           => present,
+  container_format => 'bare',
+  disk_format      => 'qcow2',
+  is_public        => 'yes',
+  source           => 'http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img',
+}
+glance_image { 'cirros_alt':
+  ensure           => present,
+  container_format => 'bare',
+  disk_format      => 'qcow2',
+  is_public        => 'yes',
+  source           => 'http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img',
+}
+
 class { '::tempest':
   debug               => true,
   use_stderr          => false,
@@ -89,7 +125,7 @@ class { '::tempest':
   tempest_clone_path  => '/tmp/openstack/tempest',
   lock_path           => '/tmp/openstack/tempest',
   tempest_config_file => '/tmp/openstack/tempest/etc/tempest.conf',
-  configure_images    => false,
+  configure_images    => true,
   configure_networks  => false,
   identity_uri        => 'http://127.0.0.1:5000/v2.0',
   identity_uri_v3     => 'http://127.0.0.1:5000/v3',
@@ -98,8 +134,10 @@ class { '::tempest':
   admin_password      => 'a_big_secret',
   admin_domain_name   => 'default_domain',
   auth_version        => 'v3',
+  image_name          => 'cirros',
+  image_name_alt      => 'cirros_alt',
   cinder_available    => false,
-  glance_available    => false,
+  glance_available    => true,
   horizon_available   => false,
   nova_available      => false,
 }
