@@ -39,6 +39,30 @@ function run_puppet() {
     return $res
 }
 
+function is_fedora {
+    # note we consider CentOS 7 as fedora for now
+    lsb_release -i 2>/dev/null | grep -iq "fedora" || \
+        lsb_release -i 2>/dev/null | grep -iq "CentOS"
+}
+
+function uses_debs {
+    # check if apt-get is installed, valid for debian based
+    type "apt-get" 2>/dev/null
+}
+
+if uses_debs; then
+    sudo apt-get install -y dstat
+elif is_fedora; then
+    sudo yum install -y dstat
+fi
+
+# use dstat to monitor system activity during integration testing
+if type "dstat" 2>/dev/null; then
+  $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | sudo tee --append /var/log/dstat.log > /dev/null &
+fi
+
+$SUDO ./install_modules.sh
+
 # Run puppet and assert something changes.
 set +e
 run_puppet scenario001
