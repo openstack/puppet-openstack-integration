@@ -19,6 +19,14 @@ if [ $(id -u) != 0 ]; then
 fi
 
 $SUDO ./install_modules.sh
+# TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
+# can clone tempest outside of the gate. Also, tempest should be sandboxed into
+# the local directory but works needs to be added into puppet to properly find
+# the path.
+if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
+        git://git.openstack.org openstack/tempest
+fi
 
 PUPPET_ARGS="--detailed-exitcodes --verbose --color=false --debug"
 
@@ -49,4 +57,4 @@ if [ $RESULT -ne 0 ]; then
     exit 1
 fi
 
-cd /tmp/tempest; tox -eall -- identity
+cd /tmp/openstack/tempest; tox -eall -- identity
