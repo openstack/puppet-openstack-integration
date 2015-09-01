@@ -25,6 +25,7 @@ case $::osfamily {
       package_manage => false,
     }
     Exec['apt_update'] -> Package<||>
+    $package_provider = 'apt'
   }
   'RedHat': {
     class { '::openstack_extras::repo::redhat::redhat':
@@ -44,6 +45,7 @@ case $::osfamily {
       },
     }
     package { 'openstack-selinux': ensure => 'latest' }
+    $package_provider = 'yum'
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -52,6 +54,16 @@ case $::osfamily {
 
 # Deploy MySQL Server
 class { '::mysql::server': }
+
+# Deploy RabbitMQ
+class { '::rabbitmq':
+  delete_guest_user => true,
+  package_provider  => $package_provider,
+}
+rabbitmq_vhost { '/':
+  provider => 'rabbitmqctl',
+  require  => Class['rabbitmq'],
+}
 
 # Deploy Keystone
 class { '::keystone::client': }
