@@ -53,9 +53,8 @@ fi
 
 puppet module list
 
-# TODO(emilien) drop that code once Ubuntu Liberty packaging is fixed
 if type "apt-get" 2>/dev/null; then
-  sudo add-apt-repository -y ppa:ubuntu-cloud-archive/liberty-staging
-  sudo apt-get update
-  sudo apt-get install -y python-pymysql
+    # apt-get update needs to be run to be able (later) to install
+    # ubuntu-cloud-keyring package with puppet
+    /usr/bin/apt-get update
 fi
