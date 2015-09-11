@@ -102,7 +102,4 @@ if uses_debs; then
 fi
 
 # run a scenario that validates Keystone, Nova, Glance and Neutron
-# TODO(emilien) the checkout thing is temporary, while test_list_projects_returns_only_authorized_projects is
-# failing for us we checkout the most recent commit without this test.
-# https://bugs.launchpad.net/tempest/+bug/1492419
-cd /tmp/openstack/tempest; git checkout b6369eaa58f2c9ce334863cb3ba54c5656cf64c4; tox -eall -- smoke
+cd /tmp/openstack/tempest; tox -eall -- smoke
