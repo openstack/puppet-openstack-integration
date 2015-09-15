@@ -81,7 +81,28 @@ if [ $RESULT -ne 0 ]; then
     exit 1
 fi
 
+# TODO(emilien) later, we should use local image if present. That would be a next iteration.
+wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
+
+# TODO(emilien) drop this code after b3 goes in 'liberty/proposed'
+if uses_debs; then
+    # tl;dr; floating-ip is broken in ubuntu/liberty/proposed: http://goo.gl/Yoaqzo
+    # our current CI is getting packages from ubuntu liberty/proposed
+    # liberty/proposed provides python-netaddr > 0.7.15 but a too old version
+    # of neutron that does not include https://review.openstack.org/#/c/218723/
+    # which is required when you run python-netaddr > 0.7.15.
+    # ubuntu team is about to provide liberty-3 soon in liberty/proposed but in
+    # the meantime, we need to pin netaddr==0.7.15 so we can create floating-IP
+    sudo pip install -Iv netaddr==0.7.15
+    sudo service neutron-server restart
+    sudo service neutron-plugin-openvswitch-agent restart
+    sudo service neutron-dhcp-agent restart
+    sudo service neutron-metadata-agent restart
+    sudo service neutron-l3-agent restart
+fi
+
+# run a scenario that validates Keystone, Nova, Glance and Neutron
 # TODO(emilien) the checkout thing is temporary, while test_list_projects_returns_only_authorized_projects is
 # failing for us we checkout the most recent commit without this test.
 # https://bugs.launchpad.net/tempest/+bug/1492419
-cd /tmp/openstack/tempest; git checkout b6369eaa58f2c9ce334863cb3ba54c5656cf64c4; tox -eall -- identity image
+cd /tmp/openstack/tempest; git checkout b6369eaa58f2c9ce334863cb3ba54c5656cf64c4; tox -eall -- smoke
