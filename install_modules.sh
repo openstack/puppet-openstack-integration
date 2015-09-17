@@ -57,4 +57,10 @@ if type "apt-get" 2>/dev/null; then
     # apt-get update needs to be run to be able (later) to install
     # ubuntu-cloud-keyring package with puppet
     /usr/bin/apt-get update
+else
+    # disable SElinux
+    # something is python-cffi is preventing Nova & Keystone to
+    # correctly run when SElinux is enforced. See bug:
+    # https://bugzilla.redhat.com/show_bug.cgi?id=1249685
+    /usr/sbin/setenforce 0
 fi
