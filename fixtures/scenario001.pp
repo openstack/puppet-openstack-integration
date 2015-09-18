@@ -99,7 +99,8 @@ class { '::keystone':
 }
 include ::apache
 class { '::keystone::wsgi::apache':
-  ssl => false,
+  ssl     => false,
+  workers => 4,
 }
 class { '::keystone::roles::admin':
   email    => 'test@example.tld',
@@ -123,12 +124,14 @@ class { '::glance::api':
   verbose             => true,
   database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
   keystone_password   => 'a_big_secret',
+  workers             => 4,
 }
 class { '::glance::registry':
   debug               => true,
   verbose             => true,
   database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
   keystone_password   => 'a_big_secret',
+  workers             => 4,
 }
 
 # Deploy Neutron
@@ -154,6 +157,7 @@ class { '::neutron::server':
   auth_password       => 'a_big_secret',
   identity_uri        => 'http://127.0.0.1:35357/',
   sync_db             => true,
+  api_workers         => 4,
 }
 class { '::neutron::plugins::ml2':
   type_drivers         => ['vxlan'],
@@ -166,9 +170,10 @@ class { '::neutron::agents::ml2::ovs':
   tunnel_types     => ['vxlan'],
 }
 class { '::neutron::agents::metadata':
-  debug         => true,
-  auth_password => 'a_big_secret',
-  shared_secret => 'a_big_secret',
+  debug            => true,
+  auth_password    => 'a_big_secret',
+  shared_secret    => 'a_big_secret',
+  metadata_workers => 4,
 }
 class { '::neutron::agents::lbaas':
   debug => true,
@@ -207,6 +212,9 @@ class { '::nova::api':
   identity_uri                         => 'http://127.0.0.1:35357/',
   osapi_v3                             => true,
   neutron_metadata_proxy_shared_secret => 'a_big_secret',
+  osapi_compute_workers                => 4,
+  ec2_workers                          => 4,
+  metadata_workers                     => 4,
 }
 class { '::nova::cert': }
 class { '::nova::client': }
