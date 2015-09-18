@@ -62,5 +62,7 @@ else
     # something is python-cffi is preventing Nova & Keystone to
     # correctly run when SElinux is enforced. See bug:
     # https://bugzilla.redhat.com/show_bug.cgi?id=1249685
-    /usr/sbin/setenforce 0
+    # We use || true because if selinux is Disabled the following
+    # command would fail
+    /usr/sbin/setenforce 0 || true
 fi
