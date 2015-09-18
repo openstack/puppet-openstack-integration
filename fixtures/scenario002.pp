@@ -380,6 +380,18 @@ ring_account_device { '127.0.0.1:6002/1':
   weight => 1,
 }
 
+# Deploy Horizon
+$vhost_params = { add_listen => false }
+class { '::horizon':
+  secret_key         => 'big_secret',
+  vhost_extra_params => $vhost_params,
+  servername         => $::hostname,
+  allowed_hosts      => $::hostname,
+  # need to disable offline compression due to
+  # https://bugs.launchpad.net/ubuntu/+source/horizon/+bug/1424042
+  compress_offline   => false,
+}
+
 # Configure Tempest and the resources
 $os_auth_options = '--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url http://127.0.0.1:5000/v2.0'
 
@@ -472,7 +484,7 @@ class { '::tempest':
   image_name_alt       => 'cirros_alt',
   cinder_available     => false,
   glance_available     => true,
-  horizon_available    => false,
+  horizon_available    => true,
   nova_available       => true,
   neutron_available    => true,
   ceilometer_available => false,
@@ -485,6 +497,7 @@ class { '::tempest':
   image_ssh_user       => 'cirros',
   image_alt_ssh_user   => 'cirros',
   img_file             => 'cirros-0.3.4-x86_64-disk.img',
+  dashboard_url        => "http://${::hostname}/",
   # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
   # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
   # img_dir            => '/home/jenkins/cache/files',
