@@ -68,13 +68,13 @@ rabbitmq_vhost { '/':
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user { ['neutron', 'nova', 'cinder']:
+rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance']:
   admin    => true,
   password => 'an_even_bigger_secret',
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/']:
+rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/']:
   configure_permission => '.*',
   write_permission     => '.*',
   read_permission      => '.*',
@@ -132,6 +132,12 @@ class { '::glance::registry':
   database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
   keystone_password   => 'a_big_secret',
   workers             => 4,
+}
+class { '::glance::notify::rabbitmq':
+  rabbit_userid       => 'glance',
+  rabbit_password     => 'an_even_bigger_secret',
+  rabbit_host         => '127.0.0.1',
+  notification_driver => 'messagingv2',
 }
 
 # Deploy Neutron
@@ -199,13 +205,15 @@ class { '::nova::keystone::auth':
   password => 'a_big_secret',
 }
 class { '::nova':
-  database_connection => 'mysql://nova:nova@127.0.0.1/nova?charset=utf8',
-  rabbit_host         => '127.0.0.1',
-  rabbit_userid       => 'nova',
-  rabbit_password     => 'an_even_bigger_secret',
-  glance_api_servers  => 'localhost:9292',
-  verbose             => true,
-  debug               => true,
+  database_connection    => 'mysql://nova:nova@127.0.0.1/nova?charset=utf8',
+  rabbit_host            => '127.0.0.1',
+  rabbit_userid          => 'nova',
+  rabbit_password        => 'an_even_bigger_secret',
+  glance_api_servers     => 'localhost:9292',
+  verbose                => true,
+  debug                  => true,
+  notification_driver    => 'messagingv2',
+  notify_on_state_change => 'vm_and_task_state',
 }
 class { '::nova::api':
   admin_password                       => 'a_big_secret',
@@ -222,7 +230,11 @@ class { '::nova::client': }
 class { '::nova::conductor': }
 class { '::nova::consoleauth': }
 class { '::nova::cron::archive_deleted_rows': }
-class { '::nova::compute': vnc_enabled => true }
+class { '::nova::compute':
+  vnc_enabled                 => true,
+  instance_usage_audit        => true,
+  instance_usage_audit_period => 'hour',
+}
 class { '::nova::compute::libvirt':
   libvirt_virt_type => 'qemu',
   migration_support => true,
@@ -284,6 +296,45 @@ cinder::type { 'BACKEND_1':
   set_value => 'BACKEND_1',
   notify    => Service['cinder-volume'],
   require   => Service['cinder-api'],
+}
+
+# Deploy Ceilometer
+class { '::ceilometer':
+  metering_secret => 'secrete',
+  rabbit_userid   => 'ceilometer',
+  rabbit_password => 'an_even_bigger_secret',
+  rabbit_host     => '127.0.0.1',
+  debug           => true,
+  verbose         => true,
+}
+class { '::ceilometer::db::mysql':
+  password => 'ceilometer',
+}
+class { '::ceilometer::db':
+  database_connection => 'mysql://ceilometer:ceilometer@127.0.0.1/ceilometer?charset=utf8',
+}
+class { '::ceilometer::keystone::auth':
+  password => 'a_big_secret',
+}
+class { '::ceilometer::api':
+  enabled               => true,
+  keystone_password     => 'a_big_secret',
+  keystone_identity_uri => 'http://127.0.0.1:35357/',
+  service_name          => 'httpd',
+}
+class { '::ceilometer::wsgi::apache':
+  ssl     => false,
+  workers => '4',
+}
+class { '::ceilometer::collector': }
+class { '::ceilometer::expirer': }
+class { '::ceilometer::alarm::evaluator': }
+class { '::ceilometer::alarm::notifier': }
+class { '::ceilometer::agent::notification': }
+class { '::ceilometer::agent::polling': }
+class { '::ceilometer::agent::auth':
+  auth_password => 'a_big_secret',
+  auth_url      => 'http://127.0.0.1:5000/v2.0',
 }
 
 # Configure Tempest and the resources
@@ -357,38 +408,39 @@ glance_image { 'cirros_alt':
 }
 
 class { '::tempest':
-  debug               => true,
-  use_stderr          => false,
-  log_file            => 'tempest.log',
-  tempest_clone_owner => 'jenkins',
-  git_clone           => false,
-  tempest_clone_path  => '/tmp/openstack/tempest',
-  lock_path           => '/tmp/openstack/tempest',
-  tempest_config_file => '/tmp/openstack/tempest/etc/tempest.conf',
-  configure_images    => true,
-  configure_networks  => true,
-  identity_uri        => 'http://127.0.0.1:5000/v2.0',
-  identity_uri_v3     => 'http://127.0.0.1:5000/v3',
-  admin_username      => 'admin',
-  admin_tenant_name   => 'openstack',
-  admin_password      => 'a_big_secret',
-  admin_domain_name   => 'default_domain',
-  auth_version        => 'v3',
-  image_name          => 'cirros',
-  image_name_alt      => 'cirros_alt',
-  cinder_available    => true,
-  glance_available    => true,
-  horizon_available   => false,
-  nova_available      => true,
-  neutron_available   => true,
-  public_network_name => 'public',
-  flavor_ref          => '42',
-  flavor_ref_alt      => '84',
-  image_ssh_user      => 'cirros',
-  image_alt_ssh_user  => 'cirros',
-  img_file            => 'cirros-0.3.4-x86_64-disk.img',
+  debug                => true,
+  use_stderr           => false,
+  log_file             => 'tempest.log',
+  tempest_clone_owner  => 'jenkins',
+  git_clone            => false,
+  tempest_clone_path   => '/tmp/openstack/tempest',
+  lock_path            => '/tmp/openstack/tempest',
+  tempest_config_file  => '/tmp/openstack/tempest/etc/tempest.conf',
+  configure_images     => true,
+  configure_networks   => true,
+  identity_uri         => 'http://127.0.0.1:5000/v2.0',
+  identity_uri_v3      => 'http://127.0.0.1:5000/v3',
+  admin_username       => 'admin',
+  admin_tenant_name    => 'openstack',
+  admin_password       => 'a_big_secret',
+  admin_domain_name    => 'default_domain',
+  auth_version         => 'v3',
+  image_name           => 'cirros',
+  image_name_alt       => 'cirros_alt',
+  cinder_available     => true,
+  glance_available     => true,
+  horizon_available    => false,
+  nova_available       => true,
+  neutron_available    => true,
+  ceilometer_available => true,
+  public_network_name  => 'public',
+  flavor_ref           => '42',
+  flavor_ref_alt       => '84',
+  image_ssh_user       => 'cirros',
+  image_alt_ssh_user   => 'cirros',
+  img_file             => 'cirros-0.3.4-x86_64-disk.img',
   # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
   # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
-  # img_dir           => '/home/jenkins/cache/files',
-  img_dir             => '/tmp/openstack/tempest',
+  # img_dir            => '/home/jenkins/cache/files',
+  img_dir              => '/tmp/openstack/tempest',
 }
