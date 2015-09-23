@@ -7,7 +7,7 @@ if [ ! -z ${GEM_HOME} ]; then
 fi
 
 export SCRIPT_DIR=$(readlink -f "$(dirname $0)")
-export PUPPETFILE_DIR=/etc/puppet/modules
+export PUPPETFILE_DIR=${PUPPETFILE_DIR:-/etc/puppet/modules}
 
 install_external() {
   PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 ${GEM_BIN_DIR}r10k puppetfile install -v
@@ -17,7 +17,7 @@ install_openstack() {
   cat > clonemap.yaml <<EOF
 clonemap:
   - name: '(.*?)/puppet-(.*)'
-    dest: '/etc/puppet/modules/\2'
+    dest: '$PUPPETFILE_DIR/\2'
 EOF
 
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
