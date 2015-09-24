@@ -57,6 +57,11 @@ if type "apt-get" 2>/dev/null; then
     # apt-get update needs to be run to be able (later) to install
     # ubuntu-cloud-keyring package with puppet
     /usr/bin/apt-get update
+
+    # install rabbitmq-server from ubuntu repository until
+    # rabbitmq repository contains the fix mentionned in:
+    # https://github.com/rabbitmq/rabbitmq-server/issues/321
+    /usr/bin/apt-get install -y rabbitmq-server
 else
     # disable SElinux
     # something is python-cffi is preventing Nova & Keystone to
