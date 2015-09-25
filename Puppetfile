@@ -96,7 +96,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :branch => '1.8.x'
+  :branch => '2.1.x'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
