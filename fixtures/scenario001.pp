@@ -68,13 +68,13 @@ rabbitmq_vhost { '/':
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance']:
+rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance', 'sahara']:
   admin    => true,
   password => 'an_even_bigger_secret',
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/']:
+rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/', 'sahara@/']:
   configure_permission => '.*',
   write_permission     => '.*',
   read_permission      => '.*',
@@ -337,6 +337,37 @@ class { '::ceilometer::agent::auth':
   auth_url      => 'http://127.0.0.1:5000/v2.0',
 }
 
+# Deploy Sahara
+class { '::sahara::db::mysql':
+  password => 'sahara',
+}
+class { '::sahara::keystone::auth':
+  password     => 'a_big_secret',
+  # because of bug 1356053
+  service_type => 'data_processing',
+}
+class { '::sahara':
+  database_connection => 'mysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+  # two plugins because of hardcode in tempest:
+  # https://github.com/openstack/tempest/blob/master/tempest/config.py#L923
+  plugins             => ['vanilla', 'hdp'],
+  rabbit_userid       => 'sahara',
+  rabbit_password     => 'an_even_bigger_secret',
+  rabbit_host         => '127.0.0.1',
+  rpc_backend         => 'rabbit',
+  admin_password      => 'a_big_secret',
+  admin_user          => 'sahara',
+  admin_tenant_name   => 'services',
+  debug               => true,
+  verbose             => true,
+}
+class { '::sahara::service::api': }
+class { '::sahara::service::engine': }
+class { '::sahara::client': }
+class { '::sahara::notify':
+  enable_notifications => true,
+}
+
 # Configure Tempest and the resources
 $os_auth_options = '--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url http://127.0.0.1:5000/v2.0'
 
@@ -433,6 +464,7 @@ class { '::tempest':
   nova_available       => true,
   neutron_available    => true,
   ceilometer_available => true,
+  sahara_available     => true,
   public_network_name  => 'public',
   flavor_ref           => '42',
   flavor_ref_alt       => '84',
