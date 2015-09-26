@@ -42,7 +42,7 @@ mod 'manila',
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
-  :ref => 'stable/kilo'
+  :ref => 'master'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
