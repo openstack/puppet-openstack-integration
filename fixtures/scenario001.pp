@@ -100,7 +100,7 @@ class { '::keystone':
 include ::apache
 class { '::keystone::wsgi::apache':
   ssl     => false,
-  workers => 4,
+  workers => 2,
 }
 class { '::keystone::roles::admin':
   email    => 'test@example.tld',
@@ -124,14 +124,14 @@ class { '::glance::api':
   verbose             => true,
   database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
   keystone_password   => 'a_big_secret',
-  workers             => 4,
+  workers             => 2,
 }
 class { '::glance::registry':
   debug               => true,
   verbose             => true,
   database_connection => 'mysql://glance:glance@127.0.0.1/glance?charset=utf8',
   keystone_password   => 'a_big_secret',
-  workers             => 4,
+  workers             => 2,
 }
 class { '::glance::notify::rabbitmq':
   rabbit_userid       => 'glance',
@@ -179,7 +179,7 @@ class { '::neutron::agents::metadata':
   debug            => true,
   auth_password    => 'a_big_secret',
   shared_secret    => 'a_big_secret',
-  metadata_workers => 4,
+  metadata_workers => 2,
 }
 class { '::neutron::agents::lbaas':
   debug => true,
@@ -220,9 +220,9 @@ class { '::nova::api':
   identity_uri                         => 'http://127.0.0.1:35357/',
   osapi_v3                             => true,
   neutron_metadata_proxy_shared_secret => 'a_big_secret',
-  osapi_compute_workers                => 4,
-  ec2_workers                          => 4,
-  metadata_workers                     => 4,
+  osapi_compute_workers                => 2,
+  ec2_workers                          => 2,
+  metadata_workers                     => 2,
   default_floating_pool                => 'public',
 }
 class { '::nova::cert': }
@@ -266,7 +266,7 @@ class { '::cinder::api':
   keystone_password   => 'a_big_secret',
   identity_uri        => 'http://127.0.0.1:35357/',
   default_volume_type => 'BACKEND_1',
-  service_workers     => 4,
+  service_workers     => 2,
 }
 class { '::cinder::quota': }
 class { '::cinder::scheduler': }
@@ -324,7 +324,7 @@ class { '::ceilometer::api':
 }
 class { '::ceilometer::wsgi::apache':
   ssl     => false,
-  workers => '4',
+  workers => '2',
 }
 class { '::ceilometer::collector': }
 class { '::ceilometer::expirer': }

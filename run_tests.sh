@@ -85,4 +85,4 @@ fi
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
 # run a scenario that validates Keystone, Nova, Glance, Neutron, Ceilometer, Cinder and Sahara
-cd /tmp/openstack/tempest; tox -eall -- --concurrency=4 smoke
+cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke
