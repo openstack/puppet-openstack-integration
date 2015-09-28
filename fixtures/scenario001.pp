@@ -95,7 +95,6 @@ class { '::keystone':
   admin_token         => 'admin_token',
   enabled             => true,
   service_name        => 'httpd',
-  default_domain      => 'default_domain',
 }
 include ::apache
 class { '::keystone::wsgi::apache':
@@ -454,7 +453,7 @@ class { '::tempest':
   admin_username       => 'admin',
   admin_tenant_name    => 'openstack',
   admin_password       => 'a_big_secret',
-  admin_domain_name    => 'default_domain',
+  admin_domain_name    => 'Default',
   auth_version         => 'v3',
   image_name           => 'cirros',
   image_name_alt       => 'cirros_alt',
