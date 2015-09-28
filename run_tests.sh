@@ -84,5 +84,5 @@ fi
 # TODO(emilien) later, we should use local image if present. That would be a next iteration.
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
-# run a scenario that validates Keystone, Nova, Glance, Neutron, Ceilometer, Cinder, Sahara and Heat
+# run a scenario that validates Keystone, Nova, Glance, Neutron, Ceilometer, Cinder, Sahara, Swift and Heat
 cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke
