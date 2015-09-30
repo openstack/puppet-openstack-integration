@@ -61,8 +61,6 @@ if type "dstat" 2>/dev/null; then
   $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | sudo tee --append /var/log/dstat.log > /dev/null &
 fi
 
-$SUDO ./install_modules.sh
-
 # Run puppet and assert something changes.
 set +e
 run_puppet scenario001
