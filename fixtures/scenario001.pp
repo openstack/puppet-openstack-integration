@@ -68,13 +68,13 @@ rabbitmq_vhost { '/':
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance']:
+rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance', 'trove']:
   admin    => true,
   password => 'an_even_bigger_secret',
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/']:
+rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/', 'trove@/']:
   configure_permission => '.*',
   write_permission     => '.*',
   read_permission      => '.*',
@@ -337,6 +337,37 @@ class { '::ceilometer::agent::auth':
   auth_url      => 'http://127.0.0.1:5000/v2.0',
 }
 
+# Deploy Trove
+class { '::trove':
+  database_connection   => 'mysql://trove:trove@127.0.0.1/trove?charset=utf8',
+  rabbit_userid         => 'trove',
+  rabbit_password       => 'an_even_bigger_secret',
+  rabbit_host           => '127.0.0.1',
+  nova_proxy_admin_pass => 'a_big_secret',
+}
+class { '::trove::db::mysql':
+  password => 'trove',
+}
+class { '::trove::keystone::auth':
+  password => 'a_big_secret',
+}
+class { '::trove::api':
+  keystone_password => 'a_big_secret',
+  auth_url          => 'http://127.0.0.1:35357/',
+  debug             => true,
+  verbose           => true,
+  workers           => 2,
+}
+class { '::trove::client': }
+class { '::trove::conductor':
+  debug   => true,
+  verbose => true,
+}
+class { '::trove::taskmanager':
+  debug   => true,
+  verbose => true,
+}
+
 # Configure Tempest and the resources
 $os_auth_options = '--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url http://127.0.0.1:5000/v2.0'
 
@@ -433,6 +464,7 @@ class { '::tempest':
   nova_available       => true,
   neutron_available    => true,
   ceilometer_available => true,
+  trove_available      => true,
   sahara_available     => false,
   heat_available       => false,
   swift_available      => false,

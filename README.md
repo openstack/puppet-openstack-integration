@@ -39,6 +39,7 @@ same node.
 | heat       |             |       X     |
 | swift      |             |       X     |
 | sahara     |             |       X     |
+| trove      |      X      |             |
 
 When the Jenkins slave is created, the *run_tests.sh* script will executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
