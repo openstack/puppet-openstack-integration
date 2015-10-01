@@ -13,6 +13,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+export SCENARIO=${SCENARIO:-scenario001}
+
+if [ ! -f fixtures/${SCENARIO}.pp ]; then
+    echo "fixtures/${SCENARIO}.pp file does not exist. Please define a valid scenario."
+    exit 1
+fi
+
 if [ $(id -u) != 0 ]; then
   # preserve environment so we can have ZUUL_* params
   SUDO='sudo -E'
@@ -65,7 +72,7 @@ $SUDO ./install_modules.sh
 
 # Run puppet and assert something changes.
 set +e
-run_puppet scenario001
+run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 2 ]; then
@@ -74,7 +81,7 @@ fi
 
 # Run puppet a second time and assert nothing changes.
 set +e
-run_puppet scenario001
+run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
@@ -84,5 +91,5 @@ fi
 # TODO(emilien) later, we should use local image if present. That would be a next iteration.
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
-# run a scenario that validates Keystone, Nova, Glance, Neutron, Ceilometer, Cinder, Sahara, Swift and Heat
+# run tempest smoke suite
 cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke
