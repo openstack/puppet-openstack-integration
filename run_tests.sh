@@ -19,6 +19,7 @@ if [ $(id -u) != 0 ]; then
 fi
 
 $SUDO ./install_modules.sh
+
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
@@ -51,14 +52,15 @@ function uses_debs {
 }
 
 if uses_debs; then
-    sudo apt-get install -y dstat
+    $SUDO apt-get update
+    $SUDO apt-get install -y dstat
 elif is_fedora; then
-    sudo yum install -y dstat
+    $SUDO yum install -y dstat
 fi
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
-  $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | sudo tee --append /var/log/dstat.log > /dev/null &
+  $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
 fi
 
 # Run puppet and assert something changes.
