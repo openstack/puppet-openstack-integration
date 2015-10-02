@@ -360,7 +360,9 @@ class { '::sahara':
   debug               => true,
   verbose             => true,
 }
-class { '::sahara::service::api': }
+class { '::sahara::service::api':
+  api_workers => 2,
+}
 class { '::sahara::service::engine': }
 class { '::sahara::client': }
 class { '::sahara::notify':
