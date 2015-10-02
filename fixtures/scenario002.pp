@@ -68,13 +68,13 @@ rabbitmq_vhost { '/':
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user { ['neutron', 'nova', 'cinder', 'ceilometer', 'glance']:
+rabbitmq_user { ['glance', 'nova', 'neutron', 'sahara', 'heat']:
   admin    => true,
   password => 'an_even_bigger_secret',
   provider => 'rabbitmqctl',
   require  => Class['rabbitmq'],
 }
-rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'ceilometer@/', 'glance@/']:
+rabbitmq_user_permissions { ['glance@/', 'nova@/', 'neutron@/', 'sahara@/', 'heat@/']:
   configure_permission => '.*',
   write_permission     => '.*',
   read_permission      => '.*',
@@ -247,94 +247,137 @@ class { '::nova::network::neutron':
   neutron_admin_auth_url => 'http://127.0.0.1:35357/v2.0',
 }
 
-# Deploy Cinder
-class { '::cinder::db::mysql':
-  password => 'cinder',
+# Deploy Sahara
+class { '::sahara::db::mysql':
+  password => 'sahara',
 }
-class { '::cinder::keystone::auth':
-  password => 'a_big_secret',
+class { '::sahara::keystone::auth':
+  password     => 'a_big_secret',
+  # because of bug 1356053
+  service_type => 'data_processing',
 }
-class { '::cinder':
-  database_connection => 'mysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
-  rabbit_host         => '127.0.0.1',
-  rabbit_userid       => 'cinder',
+class { '::sahara':
+  database_connection => 'mysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+  # two plugins because of hardcode in tempest:
+  # https://github.com/openstack/tempest/blob/master/tempest/config.py#L923
+  plugins             => ['vanilla', 'hdp'],
+  rabbit_userid       => 'sahara',
   rabbit_password     => 'an_even_bigger_secret',
-  verbose             => true,
+  rabbit_host         => '127.0.0.1',
+  rpc_backend         => 'rabbit',
+  admin_password      => 'a_big_secret',
+  admin_user          => 'sahara',
+  admin_tenant_name   => 'services',
   debug               => true,
+  verbose             => true,
 }
-class { '::cinder::api':
-  keystone_password   => 'a_big_secret',
-  identity_uri        => 'http://127.0.0.1:35357/',
-  default_volume_type => 'BACKEND_1',
-  service_workers     => 2,
+class { '::sahara::service::api':
+  api_workers => 2,
 }
-class { '::cinder::quota': }
-class { '::cinder::scheduler': }
-class { '::cinder::scheduler::filter': }
-class { '::cinder::volume': }
-class { '::cinder::cron::db_purge': }
-class { '::cinder::glance':
-  glance_api_servers  => 'localhost:9292',
-}
-class { '::cinder::setup_test_volume':
-  size => '15G',
-}
-cinder::backend::iscsi { 'BACKEND_1':
-  iscsi_ip_address => '127.0.0.1',
-}
-class { '::cinder::backends':
-  enabled_backends => ['BACKEND_1'],
-}
-Cinder::Type {
-  os_password    => 'a_big_secret',
-  os_tenant_name => 'services',
-  os_username    => 'cinder',
-  os_auth_url    => 'http://127.0.0.1:5000/v2.0',
-}
-cinder::type { 'BACKEND_1':
-  set_key   => 'volume_backend_name',
-  set_value => 'BACKEND_1',
-  notify    => Service['cinder-volume'],
-  require   => Service['cinder-api'],
+class { '::sahara::service::engine': }
+class { '::sahara::client': }
+class { '::sahara::notify':
+  enable_notifications => true,
 }
 
-# Deploy Ceilometer
-class { '::ceilometer':
-  metering_secret => 'secrete',
-  rabbit_userid   => 'ceilometer',
-  rabbit_password => 'an_even_bigger_secret',
-  rabbit_host     => '127.0.0.1',
-  debug           => true,
-  verbose         => true,
+# Deploy Heat
+class { '::heat':
+  rabbit_userid       => 'heat',
+  rabbit_password     => 'an_even_bigger_secret',
+  rabbit_host         => '127.0.0.1',
+  database_connection => 'mysql://heat:heat@127.0.0.1/heat?charset=utf8',
+  identity_uri        => 'http://127.0.0.1:35357/',
+  keystone_password   => 'a_big_secret',
+  debug               => true,
+  verbose             => true,
 }
-class { '::ceilometer::db::mysql':
-  password => 'ceilometer',
+class { '::heat::db::mysql':
+  password => 'heat',
 }
-class { '::ceilometer::db':
-  database_connection => 'mysql://ceilometer:ceilometer@127.0.0.1/ceilometer?charset=utf8',
+class { '::heat::keystone::auth':
+  password                  => 'a_big_secret',
+  configure_delegated_roles => true,
 }
-class { '::ceilometer::keystone::auth':
-  password => 'a_big_secret',
+class { '::heat::keystone::domain':
+  domain_password => 'oh_my_no_secret',
 }
-class { '::ceilometer::api':
-  enabled               => true,
-  keystone_password     => 'a_big_secret',
-  keystone_identity_uri => 'http://127.0.0.1:35357/',
-  service_name          => 'httpd',
-}
-class { '::ceilometer::wsgi::apache':
-  ssl     => false,
+class { '::heat::client': }
+class { '::heat::api':
   workers => '2',
 }
-class { '::ceilometer::collector': }
-class { '::ceilometer::expirer': }
-class { '::ceilometer::alarm::evaluator': }
-class { '::ceilometer::alarm::notifier': }
-class { '::ceilometer::agent::notification': }
-class { '::ceilometer::agent::polling': }
-class { '::ceilometer::agent::auth':
-  auth_password => 'a_big_secret',
-  auth_url      => 'http://127.0.0.1:5000/v2.0',
+class { '::heat::engine':
+  auth_encryption_key => '1234567890AZERTYUIOPMLKJHGFDSQ12',
+}
+class { '::heat::api_cloudwatch':
+  workers => '2',
+}
+class { '::heat::api_cfn':
+  workers => '2',
+}
+
+# Deploy Swift
+include ::memcached
+class { '::swift':
+  swift_hash_suffix => 'secrete',
+}
+class { '::swift::proxy':
+  proxy_local_net_ip => '127.0.0.1',
+  workers            => '4',
+  pipeline           => [
+'catch_errors', 'healthcheck', 'cache', 'tempurl', 'ratelimit',
+'authtoken', 'keystone', 'formpost', 'staticweb', 'container_quotas',
+'account_quotas', 'proxy-logging', 'proxy-server'
+  ],
+}
+include ::swift::proxy::catch_errors
+include ::swift::proxy::healthcheck
+include ::swift::proxy::proxy_logging
+include ::swift::proxy::cache
+include ::swift::proxy::tempurl
+include ::swift::proxy::ratelimit
+class { '::swift::proxy::authtoken':
+  auth_uri       => 'http://127.0.0.1:5000/v2.0',
+  identity_uri   => 'http://127.0.0.1:35357/',
+  admin_password => 'a_big_secret',
+}
+class { '::swift::proxy::keystone':
+  operator_roles => ['Member', 'admin', 'SwiftOperator']
+}
+include ::swift::proxy::formpost
+include ::swift::proxy::staticweb
+include ::swift::proxy::container_quotas
+include ::swift::proxy::account_quotas
+include ::swift::proxy::tempauth
+class { '::swift::keystone::auth':
+  password       => 'a_big_secret',
+  operator_roles => ['admin', 'SwiftOperator', 'ResellerAdmin'],
+}
+file { '/srv/node':
+  ensure  => directory,
+  owner   => 'swift',
+  group   => 'swift',
+  require => Package['swift'],
+}
+include ::swift::ringbuilder
+class { '::swift::storage::all':
+  storage_local_net_ip => '127.0.0.1',
+  incoming_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
+  outgoing_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
+}
+$swift_components = ['account', 'container', 'object']
+swift::storage::filter::recon { $swift_components : }
+swift::storage::filter::healthcheck { $swift_components : }
+ring_object_device { '127.0.0.1:6000/1':
+  zone   => 1,
+  weight => 1,
+}
+ring_container_device { '127.0.0.1:6001/1':
+  zone   => 1,
+  weight => 1,
+}
+ring_account_device { '127.0.0.1:6002/1':
+  zone   => 1,
+  weight => 1,
 }
 
 # Configure Tempest and the resources
@@ -427,15 +470,15 @@ class { '::tempest':
   auth_version         => 'v3',
   image_name           => 'cirros',
   image_name_alt       => 'cirros_alt',
-  cinder_available     => true,
+  cinder_available     => false,
   glance_available     => true,
   horizon_available    => false,
   nova_available       => true,
   neutron_available    => true,
-  ceilometer_available => true,
-  sahara_available     => false,
-  heat_available       => false,
-  swift_available      => false,
+  ceilometer_available => false,
+  sahara_available     => true,
+  heat_available       => true,
+  swift_available      => true,
   public_network_name  => 'public',
   flavor_ref           => '42',
   flavor_ref_alt       => '84',
