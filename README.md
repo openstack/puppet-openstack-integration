@@ -28,27 +28,17 @@ OpenStack services are balanced between two scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running all on the
 same node.
 
-------------------------------------------
 |     -      | scenario001 | scenario002 |
-|-----------------------------------------
+|:----------:|:-----------:|:-----------:|
 | keystone   |      X      |       X     |
-|-----------------------------------------
 | glance     |      X      |       X     |
-|-----------------------------------------
 | nova       |      X      |       X     |
-|-----------------------------------------
 | neutron    |      X      |       X     |
-|-----------------------------------------
 | cinder     |      X      |             |
-|-----------------------------------------
 | ceilometer |      X      |             |
-|-----------------------------------------
 | heat       |             |       X     |
-|-----------------------------------------
 | swift      |             |       X     |
-|-----------------------------------------
 | sahara     |             |       X     |
-|-----------------------------------------
 
 When the Jenkins slave is created, the *run_tests.sh* script will executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
