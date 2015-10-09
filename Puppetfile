@@ -1,5 +1,13 @@
 # OpenStack modules
 
+mod 'aodh',
+  :git => 'https://git.openstack.org/openstack/puppet-aodh',
+  :ref => 'master'
+
+mod 'barbican',
+  :git => 'https://git.openstack.org/openstack/puppet-barbican',
+  :ref => 'master'
+
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
   :ref => 'master'
@@ -40,8 +48,16 @@ mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
   :ref => 'master'
 
+mod 'mistral',
+  :git => 'https://git.openstack.org/openstack/puppet-mistral',
+  :ref => 'master'
+
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
+  :ref => 'master'
+
+mod 'murano',
+  :git => 'https://git.openstack.org/openstack/puppet-murano',
   :ref => 'master'
 
 mod 'neutron',
