@@ -146,6 +146,10 @@ mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
   :branch => '4.4.x'
 
+mod 'powerdns',
+  :git => 'https://github.com/antonlindstrom/puppet-powerdns',
+  :tag => '0.0.5'
+
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
   :tag => '1.9.4'
