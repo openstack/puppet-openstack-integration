@@ -102,6 +102,10 @@ mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
   :branch => '1.2.x'
 
+mod 'corosync',
+  :git => 'https://github.com/puppet-community/puppet-corosync',
+  :tag => '0.7.0'
+
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
   :tag => '3.0.0'
