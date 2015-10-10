@@ -14,6 +14,7 @@ group :development, :test do
   gem 'puppet-lint-numericvariable',          :require => 'false'
   gem 'json',                                 :require => 'false'
   gem 'webmock',                              :require => 'false'
+  gem 'netaddr',                              :require => 'false'
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
