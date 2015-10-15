@@ -253,8 +253,6 @@ class { '::sahara::db::mysql':
 }
 class { '::sahara::keystone::auth':
   password     => 'a_big_secret',
-  # because of bug 1356053
-  service_type => 'data_processing',
 }
 class { '::sahara':
   database_connection => 'mysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
