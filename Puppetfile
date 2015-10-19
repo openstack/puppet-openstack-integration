@@ -120,7 +120,7 @@ mod 'concat',
 
 mod 'corosync',
   :git => 'https://github.com/puppet-community/puppet-corosync',
-  :tag => '0.7.0'
+  :tag => '0.8.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
