@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# This script is used by Puppet OpenStack modules to prepare
+# modules before running dependencies.
+#
 
 set -ex
 
@@ -10,11 +14,4 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export PUPPETFILE_DIR=${PUPPETFILE_DIR:-/etc/puppet/modules}
 source $SCRIPT_DIR/functions
 
-gem install r10k --no-ri --no-rdoc
-
-# make sure there is no puppet module pre-installed
-rm -rf "${PUPPETFILE_DIR:?}/"*
-
 install_modules
-
-puppet module list
