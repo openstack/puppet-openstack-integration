@@ -39,6 +39,7 @@ scenario](#All-In-One).
 | neutron    |      X      |       X     |       X     |
 | cinder     |      X      |             |       X     |
 | ceilometer |      X      |             |             |
+| aodh       |      X      |             |             |
 | heat       |             |       X     |             |
 | swift      |             |       X     |             |
 | sahara     |             |       X     |             |

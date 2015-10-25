@@ -86,5 +86,8 @@ fi
 # TODO(emilien) later, we should use local image if present. That would be a next iteration.
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
-# run tempest smoke suite
-cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke dashboard
+# Select what to test:
+# - smoke suite
+# - dashboard (horizon)
+# - TelemetryAlarming (Aodh)
+cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke dashboard TelemetryAlarming
