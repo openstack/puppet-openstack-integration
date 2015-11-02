@@ -140,7 +140,7 @@ mod 'python',
 
 mod 'qpid',
   :git => 'https://github.com/dprince/puppet-qpid',
-  :tag => '1.0.2'
+  :tag => '1.0.3'
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
