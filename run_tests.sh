@@ -59,10 +59,14 @@ function uses_debs {
 }
 
 if uses_debs; then
+    wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb -O /tmp/puppet.deb
+    $SUDO dpkg -i /tmp/puppet.deb
     $SUDO apt-get update
-    $SUDO apt-get install -y dstat
+    $SUDO apt-get install -y dstat puppet
 elif is_fedora; then
-    $SUDO yum install -y dstat
+    wget https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm -O /tmp/puppet.rpm
+    $SUDO rpm -ivh /tmp/puppet.rpm
+    $SUDO yum install -y dstat puppet
 fi
 
 # use dstat to monitor system activity during integration testing
