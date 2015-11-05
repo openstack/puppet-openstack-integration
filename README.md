@@ -6,7 +6,8 @@ puppet-openstack-integration
 1. [Overview - What is Puppet OpenStack Integration?](#overview)
 2. [Description - What does the project do?](#description)
 3. [Development - Guide for contributing](#development)
-4. [Contributors - Those with commits](#contributors)
+4. [All-in-one - How to deploy a cloud with Puppet](#All-In-One)
+5. [Contributors - Those with commits](#contributors)
 
 
 Overview
@@ -27,20 +28,22 @@ OpenStack Infrastructure is deploying two jobs per supported Operating System
 OpenStack services are balanced between two scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running all on the
 same node.
+One manifest (scenario003) is used for people who want to [run a simple All-In-One
+scenario](#All-In-One).
 
-|     -      | scenario001 | scenario002 |
-|:----------:|:-----------:|:-----------:|
-| keystone   |      X      |       X     |
-| glance     |      X      |       X     |
-| nova       |      X      |       X     |
-| neutron    |      X      |       X     |
-| cinder     |      X      |             |
-| ceilometer |      X      |             |
-| heat       |             |       X     |
-| swift      |             |       X     |
-| sahara     |             |       X     |
-| trove      |      X      |             |
-| horizon    |             |       X     |
+|     -      | scenario001 | scenario002 | scenario003 |
+|:----------:|:-----------:|:-----------:|:-----------:|
+| keystone   |      X      |       X     |       X     |
+| glance     |      X      |       X     |       X     |
+| nova       |      X      |       X     |       X     |
+| neutron    |      X      |       X     |       X     |
+| cinder     |      X      |             |       X     |
+| ceilometer |      X      |             |             |
+| heat       |             |       X     |             |
+| swift      |             |       X     |             |
+| sahara     |             |       X     |             |
+| trove      |      X      |             |             |
+| horizon    |             |       X     |       X     |
 
 When the Jenkins slave is created, the *run_tests.sh* script will executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
@@ -63,6 +66,27 @@ Development
 Developer documentation for the entire Puppet OpenStack project:
 
 * https://wiki.openstack.org/wiki/Puppet
+
+
+All-In-One
+----------
+
+If you're new in Puppet OpenStack and you want to deploy an All-In-One setup of
+an OpenStack Cloud with the Puppet modules, please follow the steps:
+
+```bash
+git clone git://git.openstack.org/openstack/puppet-openstack-integration
+cd puppet-openstack-integration
+./all-in-one.sh
+```
+or
+
+```bash
+curl -sL http://git.openstack.org/cgit/openstack/puppet-openstack-integration/plain/all-in-one.sh | bash
+```
+
+Look at [Description](#description) to see which services it will install
+(scenario003).
 
 
 Contributors

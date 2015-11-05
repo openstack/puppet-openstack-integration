@@ -68,3 +68,18 @@ install_modules() {
     install_all
   fi
 }
+
+is_fedora() {
+    if [ -f /etc/os-release ]; then
+        source /etc/os-release
+        test "$ID" = "fedora" -o "$ID" = "centos"
+    else
+        return 1
+    fi
+}
+
+uses_debs() {
+    # check if apt-get is installed, valid for debian based
+    type "apt-get" 2>/dev/null
+}
+

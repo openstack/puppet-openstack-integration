@@ -14,6 +14,8 @@
 # under the License.
 
 export SCENARIO=${SCENARIO:-scenario001}
+export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
+source $SCRIPT_DIR/functions
 
 if [ ! -f fixtures/${SCENARIO}.pp ]; then
     echo "fixtures/${SCENARIO}.pp file does not exist. Please define a valid scenario."
@@ -43,17 +45,6 @@ function run_puppet() {
     local res=$?
 
     return $res
-}
-
-function is_fedora {
-    # note we consider CentOS 7 as fedora for now
-    lsb_release -i 2>/dev/null | grep -iq "fedora" || \
-        lsb_release -i 2>/dev/null | grep -iq "CentOS"
-}
-
-function uses_debs {
-    # check if apt-get is installed, valid for debian based
-    type "apt-get" 2>/dev/null
 }
 
 if uses_debs; then
