@@ -25,8 +25,6 @@ if [ $(id -u) != 0 ]; then
   SUDO='sudo -E'
 fi
 
-$SUDO ./install_modules.sh
-
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
@@ -68,6 +66,8 @@ elif is_fedora; then
     $SUDO rpm -ivh /tmp/puppet.rpm
     $SUDO yum install -y dstat puppet
 fi
+
+$SUDO ./install_modules.sh
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
