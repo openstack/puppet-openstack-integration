@@ -194,7 +194,7 @@ class { '::neutron::agents::metering':
   debug => true,
 }
 class { '::neutron::server::notifications':
-  nova_admin_password => 'a_big_secret',
+  password => 'a_big_secret',
 }
 
 # Deploy Nova
