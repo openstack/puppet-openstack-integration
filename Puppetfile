@@ -68,6 +68,10 @@ mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
   :ref => 'master'
 
+mod 'openstack_integration',
+  :git => 'https://git.openstack.org/openstack/puppet-openstack-integration',
+  :ref => 'master'
+
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
   :ref => 'master'

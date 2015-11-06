@@ -14,81 +14,24 @@
 # limitations under the License.
 #
 
-Exec { logoutput => 'on_failure' }
+include ::openstack_integration
+include ::openstack_integration::repos
+include ::openstack_integration::rabbitmq
+include ::openstack_integration::mysql
+include ::openstack_integration::keystone
 
-# Common resources
-case $::osfamily {
-  'Debian': {
-    include ::apt
-    class { '::openstack_extras::repo::debian::ubuntu':
-      release         => 'liberty',
-      package_require => true,
-    }
-    $package_provider = 'apt'
-  }
-  'RedHat': {
-    class { '::openstack_extras::repo::redhat::redhat':
-      release => 'liberty',
-    }
-    package { 'openstack-selinux': ensure => 'latest' }
-    $package_provider = 'yum'
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
-# Deploy MySQL Server
-class { '::mysql::server': }
-
-# Deploy RabbitMQ
-class { '::rabbitmq':
-  delete_guest_user => true,
-  package_provider  => $package_provider,
-}
-rabbitmq_vhost { '/':
-  provider => 'rabbitmqctl',
-  require  => Class['rabbitmq'],
-}
 rabbitmq_user { ['glance', 'nova', 'neutron', 'sahara', 'heat']:
   admin    => true,
   password => 'an_even_bigger_secret',
   provider => 'rabbitmqctl',
-  require  => Class['rabbitmq'],
+  require  => Class['::rabbitmq'],
 }
 rabbitmq_user_permissions { ['glance@/', 'nova@/', 'neutron@/', 'sahara@/', 'heat@/']:
   configure_permission => '.*',
   write_permission     => '.*',
   read_permission      => '.*',
   provider             => 'rabbitmqctl',
-  require              => Class['rabbitmq'],
-}
-
-# Deploy Keystone
-class { '::keystone::client': }
-class { '::keystone::cron::token_flush': }
-class { '::keystone::db::mysql':
-  password => 'keystone',
-}
-class { '::keystone':
-  verbose             => true,
-  debug               => true,
-  database_connection => 'mysql://keystone:keystone@127.0.0.1/keystone',
-  admin_token         => 'admin_token',
-  enabled             => true,
-  service_name        => 'httpd',
-}
-include ::apache
-class { '::keystone::wsgi::apache':
-  ssl     => false,
-  workers => 2,
-}
-class { '::keystone::roles::admin':
-  email    => 'test@example.tld',
-  password => 'a_big_secret',
-}
-class { '::keystone::endpoint':
-  default_domain => 'admin',
+  require              => Class['::rabbitmq'],
 }
 
 # Deploy Glance
