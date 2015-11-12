@@ -424,7 +424,7 @@ class { '::tempest':
   debug                => true,
   use_stderr           => false,
   log_file             => 'tempest.log',
-  tempest_clone_owner  => 'jenkins',
+  tempest_clone_owner  => $::id,
   git_clone            => false,
   tempest_clone_path   => '/tmp/openstack/tempest',
   lock_path            => '/tmp/openstack/tempest',
