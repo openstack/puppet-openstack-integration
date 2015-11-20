@@ -72,10 +72,23 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
+cat > ~/openrc <<EOF
+export OS_PROJECT_DOMAIN_ID=default
+export OS_USER_DOMAIN_ID=default
+export OS_PROJECT_NAME=openstack
+export OS_TENANT_NAME=openstack
+export OS_USERNAME=admin
+export OS_PASSWORD=a_big_secret
+export OS_AUTH_URL=http://127.0.0.1:35357/v3
+export OS_IDENTITY_API_VERSION=3
+EOF
+
 cat <<-EOF
 
 OpenStack Dashboard available: http://127.0.0.1/${DASHBOARD}
 To access through Horizon, use the following user/password:
   admin / a_big_secret
+To use OpenStack through the CLI, run:
+  source ~/openrc
 
 EOF
