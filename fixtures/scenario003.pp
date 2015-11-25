@@ -384,7 +384,7 @@ class { '::tempest':
   debug               => true,
   use_stderr          => false,
   log_file            => 'tempest.log',
-  git_clone           => true,
+  git_clone           => false,
   tempest_clone_path  => '/tmp/tempest',
   tempest_clone_owner => $::id,
   lock_path           => '/tmp/tempest',
