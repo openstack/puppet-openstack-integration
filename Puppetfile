@@ -2,7 +2,7 @@
 
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'barbican',
   :git => 'https://git.openstack.org/openstack/puppet-barbican',
@@ -10,43 +10,43 @@ mod 'barbican',
 
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'gnocchi',
   :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'heat',
   :git => 'https://git.openstack.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'horizon',
   :git => 'https://git.openstack.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'ironic',
   :git => 'https://git.openstack.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'mistral',
   :git => 'https://git.openstack.org/openstack/puppet-mistral',
@@ -58,51 +58,51 @@ mod 'monasca',
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'openstack_integration',
   :git => 'https://git.openstack.org/openstack/puppet-openstack-integration',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'tuskar',
   :git => 'https://git.openstack.org/openstack/puppet-tuskar',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/liberty'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
