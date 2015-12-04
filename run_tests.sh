@@ -94,3 +94,4 @@ wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp
 # - dashboard (horizon)
 # - TelemetryAlarming (Aodh)
 cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke dashboard TelemetryAlarming
+/tmp/openstack/tempest/.tox/all/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
