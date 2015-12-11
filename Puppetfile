@@ -112,11 +112,11 @@ mod 'zaqar',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :branch => '1.4.x'
+  :branch => '1.7.x'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :branch => '2.1.x'
+  :branch => '2.2.x'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -128,11 +128,11 @@ mod 'corosync',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :tag => '3.0.0'
+  :tag => '3.1.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :branch => '1.6.x'
+  :branch => '1.7.x'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -152,7 +152,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :branch => '4.4.x'
+  :branch => '4.6.x'
 
 mod 'powerdns',
   :git => 'https://github.com/antonlindstrom/puppet-powerdns',
@@ -160,7 +160,7 @@ mod 'powerdns',
 
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
-  :tag => '1.9.4'
+  :tag => '1.10.0'
 
 mod 'qpid',
   :git => 'https://github.com/dprince/puppet-qpid',
@@ -168,7 +168,7 @@ mod 'qpid',
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
-  :tag => '5.2.3'
+  :tag => '5.3.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -180,7 +180,7 @@ mod 'staging',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :branch => '4.6.x'
+  :branch => '4.9.x'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
