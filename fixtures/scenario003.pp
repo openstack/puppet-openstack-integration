@@ -14,60 +14,12 @@
 # limitations under the License.
 #
 
-Exec { logoutput => 'on_failure' }
+include ::openstack_integration
+include ::openstack_integration::repos
+include ::openstack_integration::rabbitmq
+include ::openstack_integration::mysql
+include ::openstack_integration::keystone
 
-# Common resources
-case $::osfamily {
-  'Debian': {
-    include ::apt
-    class { '::openstack_extras::repo::debian::ubuntu':
-      release         => 'liberty',
-      repo            => 'proposed',
-      package_require => true,
-    }
-    $package_provider = 'apt'
-  }
-  'RedHat': {
-    class { '::openstack_extras::repo::redhat::redhat':
-      manage_rdo => false,
-      repo_hash  => {
-        'openstack-common-testing'  => {
-          'baseurl'  => 'http://cbs.centos.org/repos/cloud7-openstack-common-testing/x86_64/os/',
-          'descr'    => 'openstack-common-testing',
-          'gpgcheck' => 'no',
-        },
-        'openstack-liberty-testing' => {
-          'baseurl'  => 'http://cbs.centos.org/repos/cloud7-openstack-liberty-testing/x86_64/os/',
-          'descr'    => 'openstack-liberty-testing',
-          'gpgcheck' => 'no',
-        },
-        'openstack-liberty-trunk'   => {
-          'baseurl'  => 'http://trunk.rdoproject.org/centos7-liberty/current-passed-ci/',
-          'descr'    => 'openstack-liberty-trunk',
-          'gpgcheck' => 'no',
-        },
-      },
-    }
-    package { 'openstack-selinux': ensure => 'latest' }
-    $package_provider = 'yum'
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
-# Deploy MySQL Server
-class { '::mysql::server': }
-
-# Deploy RabbitMQ
-class { '::rabbitmq':
-  delete_guest_user => true,
-  package_provider  => $package_provider,
-}
-rabbitmq_vhost { '/':
-  provider => 'rabbitmqctl',
-  require  => Class['rabbitmq'],
-}
 rabbitmq_user { ['neutron', 'nova', 'cinder', 'glance']:
   admin    => true,
   password => 'an_even_bigger_secret',
@@ -80,33 +32,6 @@ rabbitmq_user_permissions { ['neutron@/', 'nova@/', 'cinder@/', 'glance@/']:
   read_permission      => '.*',
   provider             => 'rabbitmqctl',
   require              => Class['rabbitmq'],
-}
-
-# Deploy Keystone
-class { '::keystone::client': }
-class { '::keystone::cron::token_flush': }
-class { '::keystone::db::mysql':
-  password => 'keystone',
-}
-class { '::keystone':
-  verbose             => true,
-  debug               => true,
-  database_connection => 'mysql://keystone:keystone@127.0.0.1/keystone',
-  admin_token         => 'admin_token',
-  enabled             => true,
-  service_name        => 'httpd',
-}
-include ::apache
-class { '::keystone::wsgi::apache':
-  ssl     => false,
-  workers => 2,
-}
-class { '::keystone::roles::admin':
-  email    => 'test@example.tld',
-  password => 'a_big_secret',
-}
-class { '::keystone::endpoint':
-  default_domain => 'admin',
 }
 
 # Deploy Glance
