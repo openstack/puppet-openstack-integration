@@ -7,14 +7,11 @@ class openstack_integration::repos {
         release         => 'liberty',
         package_require => true,
       }
-      $package_provider = 'apt'
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
         release => 'liberty',
       }
-      package { 'openstack-selinux': ensure => 'latest' }
-      $package_provider = 'yum'
     }
     default: {
       fail("Unsupported osfamily (${::osfamily})")
