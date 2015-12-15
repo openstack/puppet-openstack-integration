@@ -49,13 +49,13 @@ source $SCRIPT_DIR/functions
 
 if is_fedora; then
     sudo yum -y remove facter puppet rdo-release
-    sudo yum -y install libxml2-devel libxslt-devel ruby-devel rubygems
+    sudo yum -y install libxml2-devel libxslt-devel ruby-devel rubygems wget
     sudo yum -y groupinstall "Development Tools"
     DASHBOARD="dashboard"
 elif uses_debs; then
     sudo apt-get remove -y --purge facter puppet puppet-common
     sudo apt-get update
-    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby
+    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget
     DASHBOARD="horizon"
 fi
 
