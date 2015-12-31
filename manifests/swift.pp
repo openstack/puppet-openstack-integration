@@ -47,6 +47,7 @@ class openstack_integration::swift {
     storage_local_net_ip => '127.0.0.1',
     incoming_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
     outgoing_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
+    mount_check          => false,
   }
   $swift_components = ['account', 'container', 'object']
   swift::storage::filter::recon { $swift_components : }
