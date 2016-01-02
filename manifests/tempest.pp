@@ -24,6 +24,10 @@
 #   (optional) Define if Horizon needs to be tested.
 #   Default to false.
 #
+# [*ironic*]
+#   (optional) Define if Ironic needs to be tested.
+#   Default to false.
+#
 # [*neutron*]
 #   (optional) Define if Neutron needs to be tested.
 #   Default to true.
@@ -51,6 +55,7 @@ class openstack_integration::tempest (
   $glance     = true,
   $heat       = false,
   $horizon    = false,
+  $ironic     = false,
   $neutron    = true,
   $nova       = true,
   $sahara     = false,
@@ -89,6 +94,7 @@ class openstack_integration::tempest (
     sahara_available     => $sahara,
     heat_available       => $heat,
     swift_available      => $swift,
+    ironic_available     => $ironic,
     public_network_name  => 'public',
     dashboard_url        => "http://${::hostname}/",
     flavor_ref           => '42',
