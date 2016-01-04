@@ -21,4 +21,5 @@ class openstack_integration::rabbitmq {
     require  => Class['::rabbitmq'],
   }
 
+  Rabbitmq_user_permissions<||> -> Package <| tag == 'openstack' |>
 }
