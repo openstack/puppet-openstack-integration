@@ -33,4 +33,5 @@ class { '::openstack_integration::tempest':
   sahara  => true,
   heat    => true,
   swift   => true,
+  require => Class['::rabbitmq'],
 }

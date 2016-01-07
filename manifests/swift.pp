@@ -52,17 +52,18 @@ class openstack_integration::swift {
   $swift_components = ['account', 'container', 'object']
   swift::storage::filter::recon { $swift_components : }
   swift::storage::filter::healthcheck { $swift_components : }
-  ring_object_device { '127.0.0.1:6000/1':
+  # As of mitaka swift-ring-builder requires devices >= replica count
+  # Default replica count is 3
+  ring_object_device { ['127.0.0.1:6000/1', '127.0.0.1:6000/2', '127.0.0.1:6000/3']:
     zone   => 1,
     weight => 1,
   }
-  ring_container_device { '127.0.0.1:6001/1':
+  ring_container_device { ['127.0.0.1:6001/1', '127.0.0.1:6001/2','127.0.0.1:6001/3']:
     zone   => 1,
     weight => 1,
   }
-  ring_account_device { '127.0.0.1:6002/1':
+  ring_account_device { ['127.0.0.1:6002/1', '127.0.0.1:6002/2','127.0.0.1:6002/3']:
     zone   => 1,
     weight => 1,
   }
-
 }
