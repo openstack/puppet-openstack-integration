@@ -21,7 +21,7 @@ class openstack_integration::cinder {
     password => 'a_big_secret',
   }
   class { '::cinder':
-    database_connection => 'mysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
+    database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
     rabbit_host         => '127.0.0.1',
     rabbit_userid       => 'cinder',
     rabbit_password     => 'an_even_bigger_secret',

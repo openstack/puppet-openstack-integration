@@ -15,7 +15,7 @@ class openstack_integration::trove {
   }
 
   class { '::trove':
-    database_connection   => 'mysql://trove:trove@127.0.0.1/trove?charset=utf8',
+    database_connection   => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
     rabbit_userid         => 'trove',
     rabbit_password       => 'an_even_bigger_secret',
     rabbit_host           => '127.0.0.1',

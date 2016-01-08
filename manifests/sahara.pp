@@ -21,7 +21,7 @@ class openstack_integration::sahara {
     password     => 'a_big_secret',
   }
   class { '::sahara':
-    database_connection => 'mysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+    database_connection => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
     # two plugins because of hardcode in tempest:
     # https://github.com/openstack/tempest/blob/master/tempest/config.py#L923
     plugins             => ['vanilla', 'hdp'],
