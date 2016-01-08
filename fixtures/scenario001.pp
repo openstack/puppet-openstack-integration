@@ -27,22 +27,9 @@ include ::openstack_integration::aodh
 include ::openstack_integration::trove
 include ::openstack_integration::provision
 
-# Aodh is not yet packaged in UCA, but only in RDO.
-case $::osfamily {
-  'Debian': {
-    $aodh_enabled = false
-  }
-  'RedHat': {
-    $aodh_enabled = true
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
 class { '::openstack_integration::tempest':
   cinder     => true,
   ceilometer => true,
-  aodh       => $aodh_enabled,
+  aodh       => true,
   trove      => true,
 }
