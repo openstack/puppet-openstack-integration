@@ -29,7 +29,7 @@ class openstack_integration::aodh {
         verbose             => true,
         debug               => true,
         rabbit_host         => '127.0.0.1',
-        database_connection => 'mysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
+        database_connection => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
       }
       class { '::aodh::db::mysql':
         password => 'aodh',

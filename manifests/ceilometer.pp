@@ -26,7 +26,7 @@ class openstack_integration::ceilometer {
     password => 'ceilometer',
   }
   class { '::ceilometer::db':
-    database_connection => 'mysql://ceilometer:ceilometer@127.0.0.1/ceilometer?charset=utf8',
+    database_connection => 'mysql+pymysql://ceilometer:ceilometer@127.0.0.1/ceilometer?charset=utf8',
   }
   class { '::ceilometer::keystone::auth':
     password => 'a_big_secret',

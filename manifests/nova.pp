@@ -21,7 +21,7 @@ class openstack_integration::nova {
     password => 'a_big_secret',
   }
   class { '::nova':
-    database_connection    => 'mysql://nova:nova@127.0.0.1/nova?charset=utf8',
+    database_connection    => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     rabbit_host            => '127.0.0.1',
     rabbit_userid          => 'nova',
     rabbit_password        => 'an_even_bigger_secret',

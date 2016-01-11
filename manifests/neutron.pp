@@ -32,7 +32,7 @@ class openstack_integration::neutron {
   }
   class { '::neutron::client': }
   class { '::neutron::server':
-    database_connection => 'mysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
+    database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
     auth_password       => 'a_big_secret',
     identity_uri        => 'http://127.0.0.1:35357/',
     sync_db             => true,
