@@ -37,7 +37,6 @@ class openstack_integration::nova {
     osapi_v3                             => true,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
     osapi_compute_workers                => 2,
-    ec2_workers                          => 2,
     metadata_workers                     => 2,
     default_floating_pool                => 'public',
   }
@@ -59,8 +58,7 @@ class openstack_integration::nova {
   class { '::nova::scheduler': }
   class { '::nova::vncproxy': }
   class { '::nova::network::neutron':
-    neutron_admin_password => 'a_big_secret',
-    neutron_admin_auth_url => 'http://127.0.0.1:35357/v2.0',
+    neutron_password => 'a_big_secret',
   }
 
 }
