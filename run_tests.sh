@@ -14,6 +14,7 @@
 # under the License.
 
 export SCENARIO=${SCENARIO:-scenario001}
+export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
@@ -43,7 +44,6 @@ PUPPET_ARGS="--detailed-exitcodes --verbose --color=false --debug"
 
 function run_puppet() {
     local manifest=$1
-
     $SUDO puppet apply $PUPPET_ARGS fixtures/${manifest}.pp
     local res=$?
 
@@ -70,6 +70,9 @@ fi
 
 # Run puppet and assert something changes.
 set +e
+if [ "${MANAGE_REPOS}" = true ]; then
+  $SUDO puppet apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
+fi
 run_puppet $SCENARIO
 RESULT=$?
 set -e

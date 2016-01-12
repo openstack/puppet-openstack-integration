@@ -15,7 +15,6 @@
 #
 
 include ::openstack_integration
-include ::openstack_integration::repos
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
