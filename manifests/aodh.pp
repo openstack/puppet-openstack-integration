@@ -19,8 +19,6 @@ class openstack_integration::aodh {
     'Debian': {
       class { '::ceilometer::alarm::evaluator': }
       class { '::ceilometer::alarm::notifier': }
-      # for tempest
-      $aodh_enabled = false
     }
     'RedHat': {
       class { '::aodh':
@@ -56,8 +54,6 @@ class openstack_integration::aodh {
       class { '::aodh::listener': }
       class { '::aodh::evaluator': }
       class { '::aodh::db::sync': }
-      # for tempest
-      $aodh_enabled = true
     }
     default: {
       fail("Unsupported osfamily (${::osfamily})")
