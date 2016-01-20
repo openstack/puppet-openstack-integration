@@ -29,19 +29,22 @@ class openstack_integration::trove {
   }
   class { '::trove::api':
     keystone_password => 'a_big_secret',
-    auth_url          => 'http://127.0.0.1:35357/',
+    auth_uri          => 'http://127.0.0.1:5000/',
+    identity_uri      => 'http://127.0.0.1:35357/',
     debug             => true,
     verbose           => true,
     workers           => 2,
   }
   class { '::trove::client': }
   class { '::trove::conductor':
-    debug   => true,
-    verbose => true,
+    debug    => true,
+    verbose  => true,
+    auth_url => 'http://127.0.0.1:5000/',
   }
   class { '::trove::taskmanager':
-    debug   => true,
-    verbose => true,
+    debug    => true,
+    verbose  => true,
+    auth_url => 'http://127.0.0.1:5000/',
   }
 
 }
