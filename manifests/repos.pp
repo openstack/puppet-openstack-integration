@@ -11,16 +11,15 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        # pin a recent delorean but will be current-passed-ci later when RDO will be ready
         manage_rdo => false,
         repo_hash  => {
-          'mitaka-current' => {
-            'baseurl'  => 'http://trunk.rdoproject.org/centos7/ec/f9/ecf9888afcfccabdbb1d4c2f04f5ccd96ffa2f3d_0294440f/',
-            'descr'    => 'Mitaka trunk',
+          'mitaka-current-passed-ci' => {
+            'baseurl'  => 'http://trunk.rdoproject.org/centos7/current-passed-ci/',
+            'descr'    => 'Mitaka tested',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'delorean-deps'  => {
+          'delorean-deps'            => {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/',
             'descr'    => 'Liberty delorean-deps',
             'gpgcheck' => 'no',
