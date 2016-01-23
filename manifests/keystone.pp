@@ -1,4 +1,13 @@
-class openstack_integration::keystone {
+# Configure the Keystone service
+#
+# [*default_domain*]
+#   (optional) Define the default domain id.
+#   Set to 'undef' for 'Default' domain.
+#   Default to undef.
+#
+class openstack_integration::keystone (
+  $default_domain = undef,
+) {
 
   class { '::keystone::client': }
   class { '::keystone::cron::token_flush': }
@@ -12,6 +21,7 @@ class openstack_integration::keystone {
     admin_token         => 'admin_token',
     enabled             => true,
     service_name        => 'httpd',
+    default_domain      => $default_domain,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
