@@ -26,6 +26,7 @@ include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
 include ::openstack_integration::gnocchi
 include ::openstack_integration::trove
+include ::openstack_integration::ceph
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
