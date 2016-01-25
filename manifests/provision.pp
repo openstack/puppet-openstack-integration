@@ -20,6 +20,25 @@ class openstack_integration::provision {
   }
   Keystone_user_role['admin@openstack'] -> Exec['manage_m1.micro_nova_flavor']
 
+  # https://bugs.launchpad.net/gnocchi/+bug/1538872
+  if defined (Package['gnocchi']) {
+    exec { 'manage_gnocchi_high_policy':
+      path     => '/usr/bin:/bin:/usr/sbin:/sbin',
+      provider => shell,
+      command  => "gnocchi ${os_auth_options} archive-policy create -d granularity:1s,points:86400 -d granularity:1m,points:43200 -d granularity:1h,points:8760 high",
+      unless   => "gnocchi ${os_auth_options} archive-policy list | grep high",
+    }
+    exec { 'manage_gnocchi_high_policy_rule':
+      path     => '/usr/bin:/bin:/usr/sbin:/sbin',
+      provider => shell,
+      command  => "gnocchi ${os_auth_options} archive-policy-rule create -a high -m '*' default",
+      unless   => "gnocchi ${os_auth_options} archive-policy-rule list | grep default",
+    }
+    Keystone_user_role['admin@openstack'] -> Exec['manage_gnocchi_high_policy']
+    Exec['manage_gnocchi_high_policy'] -> Service['ceilometer-collector']
+    Exec['manage_gnocchi_high_policy'] -> Exec ['manage_gnocchi_high_policy_rule']
+  }
+
   neutron_network { 'public':
     tenant_name     => 'openstack',
     router_external => true,

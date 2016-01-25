@@ -40,6 +40,7 @@ scenario](#All-In-One).
 | cinder     |      X      |             |       X     |
 | ceilometer |      X      |             |             |
 | aodh       |      X      |             |             |
+| gnocchi    |      X      |             |             |
 | heat       |             |       X     |             |
 | swift      |             |       X     |             |
 | sahara     |             |       X     |             |

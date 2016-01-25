@@ -24,6 +24,7 @@ include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
+include ::openstack_integration::gnocchi
 include ::openstack_integration::trove
 include ::openstack_integration::provision
 
