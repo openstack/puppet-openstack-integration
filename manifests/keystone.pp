@@ -5,8 +5,15 @@
 #   Set to 'undef' for 'Default' domain.
 #   Default to undef.
 #
+# [*using_domain_config*]
+#   (optional) Eases the use of the keystone_domain_config resource type.
+#   It ensures that a directory for holding the domain configuration is present
+#   and the associated configuration in keystone.conf is set up right.
+#   Defaults to false
+#
 class openstack_integration::keystone (
-  $default_domain = undef,
+  $default_domain      = undef,
+  $using_domain_config = false,
 ) {
 
   class { '::keystone::client': }
@@ -22,6 +29,7 @@ class openstack_integration::keystone (
     enabled             => true,
     service_name        => 'httpd',
     default_domain      => $default_domain,
+    using_domain_config => $using_domain_config,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
