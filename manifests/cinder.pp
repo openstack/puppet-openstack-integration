@@ -83,17 +83,9 @@ class openstack_integration::cinder (
   class { '::cinder::backends':
     enabled_backends => ['BACKEND_1'],
   }
-  Cinder::Type {
-    os_password    => 'a_big_secret',
-    os_tenant_name => 'services',
-    os_username    => 'cinder',
-    os_auth_url    => 'http://127.0.0.1:5000/v2.0',
-  }
-  cinder::type { 'BACKEND_1':
-    set_key   => 'volume_backend_name',
-    set_value => 'BACKEND_1',
-    notify    => Service['cinder-volume'],
-    require   => Service['cinder-api'],
+  cinder_type { 'BACKEND_1':
+    ensure     => present,
+    properties => ['volume_backend_name=BACKEND_1'],
   }
 
 }
