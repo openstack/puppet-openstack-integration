@@ -22,13 +22,13 @@ class openstack_integration::repos {
         manage_priorities => false,
         manage_rdo        => false,
         repo_hash         => {
-          'mitaka-current-passed-ci' => {
-            'baseurl'  => 'http://trunk.rdoproject.org/centos7/current-passed-ci/',
-            'descr'    => 'Mitaka tested',
+          'mitaka-current' => {
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7/5b/14/5b14d1e1de78ca59521b953f7e4e345665e6cea8_563ab7b1/',
+            'descr'    => 'Mitaka Current',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'delorean-deps'            => {
+          'delorean-deps'  => {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/',
             'descr'    => 'Liberty delorean-deps',
             'gpgcheck' => 'no',
