@@ -17,19 +17,23 @@ class openstack_integration::nova {
   class { '::nova::db::mysql':
     password => 'nova',
   }
+  class { '::nova::db::mysql_api':
+    password => 'nova',
+  }
   class { '::nova::keystone::auth':
     password => 'a_big_secret',
   }
   class { '::nova':
-    database_connection    => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
-    rabbit_host            => '127.0.0.1',
-    rabbit_userid          => 'nova',
-    rabbit_password        => 'an_even_bigger_secret',
-    glance_api_servers     => 'localhost:9292',
-    verbose                => true,
-    debug                  => true,
-    notification_driver    => 'messagingv2',
-    notify_on_state_change => 'vm_and_task_state',
+    database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
+    api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
+    rabbit_host             => '127.0.0.1',
+    rabbit_userid           => 'nova',
+    rabbit_password         => 'an_even_bigger_secret',
+    glance_api_servers      => 'localhost:9292',
+    verbose                 => true,
+    debug                   => true,
+    notification_driver     => 'messagingv2',
+    notify_on_state_change  => 'vm_and_task_state',
   }
   class { '::nova::api':
     admin_password                       => 'a_big_secret',
@@ -39,6 +43,7 @@ class openstack_integration::nova {
     osapi_compute_workers                => 2,
     metadata_workers                     => 2,
     default_floating_pool                => 'public',
+    sync_db_api                          => true,
   }
   class { '::nova::cert': }
   class { '::nova::client': }
