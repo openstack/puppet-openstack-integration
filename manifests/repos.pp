@@ -13,7 +13,7 @@ class openstack_integration::repos {
       # Ceph will be installed from there.
       apt::pin { 'ceph':
         priority => 1001,
-        origin   => 'ceph.com',
+        origin   => 'download.ceph.com',
       }
     }
     'RedHat': {
