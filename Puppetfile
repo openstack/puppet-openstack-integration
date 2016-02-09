@@ -116,7 +116,7 @@ mod 'zaqar',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :branch => '1.7.x'
+  :branch => '1.8.x'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
