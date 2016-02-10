@@ -97,5 +97,5 @@ wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp
 # - dashboard (horizon)
 # - TelemetryAlarming (Aodh)
 # - api.baremetal (Ironic)
-cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke dashboard TelemetryAlarming api.baremetal
+cd /tmp/openstack/tempest; git checkout 04d8c9d9791bc464c68ffe87471f704d09748075; tox -eall -- --concurrency=2 smoke dashboard TelemetryAlarming api.baremetal
 /tmp/openstack/tempest/.tox/all/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
