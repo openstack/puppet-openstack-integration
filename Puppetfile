@@ -148,7 +148,7 @@ mod 'memcached',
 
 mod 'mongodb',
   :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :branch => '0.11.0'
+  :branch => '0.12.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
