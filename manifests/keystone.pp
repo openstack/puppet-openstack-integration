@@ -41,7 +41,7 @@ class openstack_integration::keystone (
     password => 'a_big_secret',
   }
   class { '::keystone::endpoint':
-    default_domain => 'admin',
+    default_domain => $default_domain,
   }
 
 }
