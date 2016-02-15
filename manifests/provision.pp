@@ -88,4 +88,5 @@ class openstack_integration::provision {
     # source        => '/home/jenkins/cache/files/cirros-0.3.4-x86_64-disk.img',
     source           => 'http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img',
   }
+  Keystone_user_role['admin@openstack'] -> Glance_image<||>
 }
