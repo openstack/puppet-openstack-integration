@@ -14,6 +14,7 @@
 # under the License.
 
 export SCENARIO=${SCENARIO:-scenario001}
+export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
@@ -36,7 +37,7 @@ if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
         git://git.openstack.org openstack/tempest
 fi
 
-PUPPET_ARGS="--detailed-exitcodes --verbose --color=false --debug"
+PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
 
 function run_puppet() {
     local manifest=$1
