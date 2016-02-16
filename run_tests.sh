@@ -15,6 +15,7 @@
 
 export SCENARIO=${SCENARIO:-scenario001}
 export PUPPET_ARGS=${PUPPET_ARGS:-}
+export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
@@ -62,7 +63,9 @@ elif is_fedora; then
     $SUDO yum install -y dstat puppet
 fi
 
-$SUDO ./install_modules.sh
+if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
+    $SUDO ./install_modules.sh
+fi
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
