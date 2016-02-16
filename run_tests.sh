@@ -15,6 +15,7 @@
 
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
+export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
@@ -40,7 +41,7 @@ else
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 fi
 
-PUPPET_ARGS="--detailed-exitcodes --verbose --color=false --debug"
+PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
 
 function run_puppet() {
     local manifest=$1
