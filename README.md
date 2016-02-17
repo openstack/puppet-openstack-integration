@@ -34,7 +34,7 @@ scenario](#All-In-One).
 |     -      | scenario001 | scenario002 | scenario003 |
 |:----------:|:-----------:|:-----------:|:-----------:|
 | keystone   |      X      |       X     |       X     |
-| glance     |      X      |       X     |       X     |
+| glance     |     rbd     |     file    |     file    |
 | nova       |      X      |       X     |       X     |
 | neutron    |      X      |       X     |       X     |
 | cinder     |      X      |             |       X     |

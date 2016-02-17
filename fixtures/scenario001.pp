@@ -18,7 +18,9 @@ include ::openstack_integration
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
-include ::openstack_integration::glance
+class { '::openstack_integration::glance':
+  backend => 'rbd',
+}
 include ::openstack_integration::neutron
 include ::openstack_integration::nova
 include ::openstack_integration::cinder
