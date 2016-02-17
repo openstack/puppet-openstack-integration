@@ -48,6 +48,10 @@
 #   (optional) Define if Trove needs to be tested.
 #   Default to false.
 #
+# [*zaqar*]
+#   (optional) Define if Zaqar needs to be tested.
+#   Default to false.
+#
 class openstack_integration::tempest (
   $aodh       = false,
   $ceilometer = false,
@@ -61,6 +65,7 @@ class openstack_integration::tempest (
   $sahara     = false,
   $swift      = false,
   $trove      = false,
+  $zaqar      = false,
 ) {
 
   include ::openstack_integration::config
@@ -98,6 +103,7 @@ class openstack_integration::tempest (
     heat_available         => $heat,
     swift_available        => $swift,
     ironic_available       => $ironic,
+    zaqar_available        => $zaqar,
     public_network_name    => 'public',
     dashboard_url          => $::openstack_integration::config::base_url,
     flavor_ref             => '42',

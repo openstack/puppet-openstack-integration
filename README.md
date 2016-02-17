@@ -49,6 +49,7 @@ scenario](#All-In-One).
 | trove      |             |             |       X     |              |
 | horizon    |             |             |       X     |       X      |
 | ironic     |             |       X     |             |              |
+| zaqar      |             |       X     |             |              |
 | ceph       |      X      |             |             |              |
 | mongodb    |             |       X     |             |              |
 

@@ -20,10 +20,13 @@ case $::osfamily {
     # ironic-conductor is broken for Ubuntu Trusty
     # https://bugs.launchpad.net/cloud-archive/+bug/1530869
     $ironic_enabled = false
+    # zaqar is not packaged in Ubuntu Trusty
+    $zaqar_enabled  = false
   }
   'RedHat': {
     $ipv6           = true
     $ironic_enabled = true
+    $zaqar_enabled  = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -47,6 +50,7 @@ include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
+include ::openstack_integration::zaqar
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
@@ -55,4 +59,5 @@ class { '::openstack_integration::tempest':
   cinder => true,
   swift  => true,
   ironic => $ironic_enabled,
+  zaqar  => $zaqar_enabled,
 }

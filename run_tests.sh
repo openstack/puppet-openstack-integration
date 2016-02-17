@@ -148,6 +148,8 @@ TESTS="${TESTS} TelemetryAlarming"
 # https://bugs.launchpad.net/ironic/+bug/1554237
 TESTS="${TESTS} api.baremetal.admin.test_drivers"
 
+# Zaqar
+TESTS="${TESTS} TestManageQueue"
 cd /tmp/openstack/tempest
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
