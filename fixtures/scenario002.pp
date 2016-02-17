@@ -26,6 +26,7 @@ include ::openstack_integration::horizon
 include ::openstack_integration::sahara
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
+include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
 case $::osfamily {
