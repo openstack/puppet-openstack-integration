@@ -30,6 +30,11 @@ class openstack_integration::keystone (
     service_name        => 'httpd',
     default_domain      => $default_domain,
     using_domain_config => $using_domain_config,
+    # RDO is now using default value (keystone-paste.ini)
+    # so we make sure the value is undef for both distros.
+    # once this patch will be merged, we'll patch puppet-keystone to drop default in params.pp
+    # and drop this parameter here.
+    paste_config        => 'keystone-paste.ini',
   }
   include ::apache
   class { '::keystone::wsgi::apache':
