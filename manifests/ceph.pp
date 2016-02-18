@@ -39,4 +39,11 @@ class openstack_integration::ceph {
   class { '::ceph::profile::mon': }
   class { '::ceph::profile::osd': }
 
+  # Extra Ceph configuration to increase performances
+  $ceph_extra_config = {
+    'client/rbd_default_features' => { value => '15' },
+  }
+  class { '::ceph::conf':
+    args => $ceph_extra_config,
+  }
 }

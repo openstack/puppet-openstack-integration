@@ -22,8 +22,12 @@ class { '::openstack_integration::glance':
   backend => 'rbd',
 }
 include ::openstack_integration::neutron
-include ::openstack_integration::nova
-include ::openstack_integration::cinder
+class { '::openstack_integration::nova':
+  libvirt_rbd => true,
+}
+class { '::openstack_integration::cinder':
+  backend => 'rbd',
+}
 include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
 include ::openstack_integration::gnocchi
