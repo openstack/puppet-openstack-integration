@@ -50,14 +50,9 @@ class openstack_integration::keystone (
   }
   class { '::keystone::disable_admin_token_auth': }
 
-  if $default_domain {
-    $default_domain_real = $default_domain
-  } else {
-    $default_domain_real = 'default'
-  }
   class { '::openstack_extras::auth_file':
     password       => 'a_big_secret',
-    project_domain => $default_domain_real,
-    user_domain    => $default_domain_real,
+    project_domain => 'default',
+    user_domain    => 'default',
   }
 }
