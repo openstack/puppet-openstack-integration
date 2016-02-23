@@ -1,4 +1,13 @@
-class openstack_integration::nova {
+# Configure the Cinder service
+#
+# [*libvirt_rbd*]
+#   (optional) Boolean to configure or not Nova
+#   to use Libvirt RBD backend.
+#   Defaults to false.
+#
+class openstack_integration::nova (
+  $libvirt_rbd = false,
+) {
 
   rabbitmq_user { 'nova':
     admin    => true,
@@ -59,6 +68,19 @@ class openstack_integration::nova {
     libvirt_virt_type => 'qemu',
     migration_support => true,
     vncserver_listen  => '0.0.0.0',
+  }
+  if $libvirt_rbd {
+    class { '::nova::compute::rbd':
+      libvirt_rbd_user        => 'openstack',
+      libvirt_rbd_secret_uuid => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+      libvirt_rbd_secret_key  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
+      libvirt_images_rbd_pool => 'nova',
+      rbd_keyring             => 'client.openstack',
+      # ceph packaging is already managed by puppet-ceph
+      manage_ceph_client      => false,
+    }
+    # make sure ceph pool exists before running nova-compute
+    Exec['create-nova'] -> Service['nova-compute']
   }
   class { '::nova::scheduler': }
   class { '::nova::vncproxy': }

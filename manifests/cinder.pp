@@ -1,4 +1,13 @@
-class openstack_integration::cinder {
+# Configure the Cinder service
+#
+# [*backend*]
+#   (optional) Cinder backend to use.
+#   Can be 'iscsi' or 'rbd'.
+#   Defaults to 'iscsi'.
+#
+class openstack_integration::cinder (
+  $backend = 'iscsi',
+) {
 
   rabbitmq_user { 'cinder':
     admin    => true,
@@ -37,16 +46,35 @@ class openstack_integration::cinder {
   class { '::cinder::quota': }
   class { '::cinder::scheduler': }
   class { '::cinder::scheduler::filter': }
-  class { '::cinder::volume': }
+  class { '::cinder::volume':
+    volume_clear => 'none',
+  }
   class { '::cinder::cron::db_purge': }
   class { '::cinder::glance':
     glance_api_servers  => 'localhost:9292',
   }
-  class { '::cinder::setup_test_volume':
-    size => '15G',
-  }
-  cinder::backend::iscsi { 'BACKEND_1':
-    iscsi_ip_address => '127.0.0.1',
+  case $backend {
+    'iscsi': {
+      class { '::cinder::setup_test_volume':
+        size => '15G',
+      }
+      cinder::backend::iscsi { 'BACKEND_1':
+        iscsi_ip_address => '127.0.0.1',
+      }
+    }
+    'rbd': {
+      cinder::backend::rbd { 'BACKEND_1':
+        rbd_user        => 'openstack',
+        rbd_pool        => 'cinder',
+        rbd_secret_uuid => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+      }
+      # make sure ceph pool exists before running Cinder API & Volume
+      Exec['create-cinder'] -> Service['cinder-api']
+      Exec['create-cinder'] -> Service['cinder-volume']
+    }
+    default: {
+      fail("Unsupported backend (${backend})")
+    }
   }
   class { '::cinder::backends':
     enabled_backends => ['BACKEND_1'],
