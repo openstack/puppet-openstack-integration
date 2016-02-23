@@ -50,4 +50,5 @@ class openstack_integration::keystone (
     project_domain => 'default',
     user_domain    => 'default',
   }
+  Keystone_user_role['admin@openstack'] -> File['/root/openrc']
 }
