@@ -25,7 +25,7 @@ class openstack_integration::ceph {
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'mode'    => '0644',
         'cap_mon' => 'allow r',
-        'cap_osd' => 'allow class-read object_prefix rbd_children, allow rwx pool=cinder, allow rwx pool=nova, allow rwx pool=glance',
+        'cap_osd' => 'allow class-read object_prefix rbd_children, allow rwx pool=cinder, allow rwx pool=nova, allow rwx pool=glance, allow rwx pool=gnocchi',
       },
     },
     osds                      => {
@@ -33,7 +33,7 @@ class openstack_integration::ceph {
     },
   }
 
-  $ceph_pools = ['glance', 'nova', 'cinder']
+  $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
   ceph::pool { $ceph_pools: }
 
   class { '::ceph::profile::mon': }
