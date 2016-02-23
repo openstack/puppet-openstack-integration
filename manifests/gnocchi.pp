@@ -29,7 +29,12 @@ class openstack_integration::gnocchi {
     class { '::gnocchi::db::sync': }
     class { '::gnocchi::metricd': }
     class { '::gnocchi::storage': }
-    class { '::gnocchi::storage::file': }
+    class { '::gnocchi::storage::ceph':
+      ceph_username => 'openstack',
+      ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
+    }
+    # make sure ceph pool exists before running gnocchi (dbsync & services)
+    Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
     class { '::gnocchi::statsd':
       archive_policy_name => 'high',
       flush_delay         => '100',

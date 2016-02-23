@@ -40,7 +40,7 @@ scenario](#All-In-One).
 | cinder     |     rbd     |     iscsi   |     iscsi   |
 | ceilometer |      X      |             |             |
 | aodh       |      X      |             |             |
-| gnocchi    |      X      |             |             |
+| gnocchi    |     rbd     |             |             |
 | heat       |             |       X     |             |
 | swift      |             |       X     |             |
 | sahara     |             |       X     |             |
