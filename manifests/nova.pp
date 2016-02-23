@@ -29,7 +29,7 @@ class openstack_integration::nova {
     rabbit_host             => '127.0.0.1',
     rabbit_userid           => 'nova',
     rabbit_password         => 'an_even_bigger_secret',
-    glance_api_servers      => 'localhost:9292',
+    glance_api_servers      => 'http://127.0.0.1:9292',
     verbose                 => true,
     debug                   => true,
     notification_driver     => 'messagingv2',
