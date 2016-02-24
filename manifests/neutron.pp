@@ -26,7 +26,7 @@ class openstack_integration::neutron {
     rabbit_host           => '127.0.0.1',
     allow_overlapping_ips => true,
     core_plugin           => 'ml2',
-    service_plugins       => ['router', 'metering'],
+    service_plugins       => ['router', 'metering', 'firewall'],
     debug                 => true,
     verbose               => true,
   }
@@ -69,6 +69,10 @@ class openstack_integration::neutron {
   }
   class { '::neutron::server::notifications':
     password => 'a_big_secret',
+  }
+  class { '::neutron::services::fwaas':
+    enabled => true,
+    driver  => 'neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver',
   }
   include ::vswitch::ovs
 
