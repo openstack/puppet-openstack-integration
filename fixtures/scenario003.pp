@@ -21,26 +21,15 @@ include ::openstack_integration::keystone
 include ::openstack_integration::glance
 include ::openstack_integration::neutron
 include ::openstack_integration::nova
-include ::openstack_integration::swift
-include ::openstack_integration::ironic
-include ::openstack_integration::mongodb
+include ::openstack_integration::trove
+include ::openstack_integration::horizon
+include ::openstack_integration::heat
+include ::openstack_integration::sahara
 include ::openstack_integration::provision
 
-case $::osfamily {
-  'Debian': {
-    # ironic-conductor is broken for Ubuntu Trusty
-    # https://bugs.launchpad.net/cloud-archive/+bug/1530869
-    $ironic_enabled = false
-  }
-  'RedHat': {
-    $ironic_enabled = true
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
 class { '::openstack_integration::tempest':
-  swift  => true,
-  ironic => $ironic_enabled,
+  trove   => true,
+  sahara  => true,
+  horizon => true,
+  heat    => true,
 }
