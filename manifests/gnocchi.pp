@@ -23,7 +23,8 @@ class openstack_integration::gnocchi {
     }
     include ::apache
     class { '::gnocchi::wsgi::apache':
-      ssl => false,
+      workers => 2,
+      ssl     => false,
     }
     class { '::gnocchi::client': }
     class { '::gnocchi::db::sync': }

@@ -36,7 +36,8 @@ class openstack_integration::neutron {
     auth_password       => 'a_big_secret',
     identity_uri        => 'http://127.0.0.1:35357/',
     sync_db             => true,
-    api_workers         => 4,
+    api_workers         => 2,
+    rpc_workers         => 2,
   }
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan'],

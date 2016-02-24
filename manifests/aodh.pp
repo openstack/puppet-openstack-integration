@@ -44,7 +44,8 @@ class openstack_integration::aodh {
     service_name          => 'httpd',
   }
   class { '::aodh::wsgi::apache':
-    ssl => false,
+    workers => 2,
+    ssl     => false,
   }
   class { '::aodh::auth':
     auth_url      => 'http://127.0.0.1:5000/v2.0',
