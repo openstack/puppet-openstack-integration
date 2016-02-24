@@ -43,7 +43,7 @@ rm -rf /tmp/puppet-openstack-integration
 git clone git://git.openstack.org/openstack/puppet-openstack-integration /tmp/puppet-openstack-integration
 cd /tmp/puppet-openstack-integration
 
-export SCENARIO=scenario003
+export SCENARIO=scenario-aio
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 

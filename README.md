@@ -28,27 +28,27 @@ OpenStack Infrastructure is deploying two jobs per supported Operating System
 OpenStack services are balanced between two scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running all on the
 same node.
-One manifest (scenario003) is used for people who want to [run a simple All-In-One
+One manifest (scenario-aio) is used for people who want to [run a simple All-In-One
 scenario](#All-In-One).
 
-|     -      | scenario001 | scenario002 | scenario003 |
-|:----------:|:-----------:|:-----------:|:-----------:|
-| keystone   |      X      |       X     |       X     |
-| glance     |     rbd     |     file    |     file    |
-| nova       |     rbd     |       X     |       X     |
-| neutron    |      X      |       X     |       X     |
-| cinder     |     rbd     |     iscsi   |     iscsi   |
-| ceilometer |      X      |             |             |
-| aodh       |      X      |             |             |
-| gnocchi    |     rbd     |             |             |
-| heat       |             |       X     |             |
-| swift      |             |       X     |             |
-| sahara     |             |       X     |             |
-| trove      |      X      |             |             |
-| horizon    |             |       X     |       X     |
-| ironic     |             |       X     |             |
-| ceph       |      X      |             |             |
-| mongodb    |             |       X     |             |
+|     -      | scenario001 | scenario002 | scenario-aio |
+|:----------:|:-----------:|:-----------:|:------------:|
+| keystone   |      X      |       X     |       X      |
+| glance     |     rbd     |     file    |     file     |
+| nova       |     rbd     |       X     |       X      |
+| neutron    |      X      |       X     |       X      |
+| cinder     |     rbd     |     iscsi   |     iscsi    |
+| ceilometer |      X      |             |              |
+| aodh       |      X      |             |              |
+| gnocchi    |     rbd     |             |              |
+| heat       |             |       X     |              |
+| swift      |             |       X     |              |
+| sahara     |             |       X     |              |
+| trove      |      X      |             |              |
+| horizon    |             |       X     |       X      |
+| ironic     |             |       X     |              |
+| ceph       |      X      |             |              |
+| mongodb    |             |       X     |              |
 
 When the Jenkins slave is created, the *run_tests.sh* script will executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
@@ -91,7 +91,7 @@ curl -sL http://git.openstack.org/cgit/openstack/puppet-openstack-integration/pl
 ```
 
 Look at [Description](#description) to see which services it will install
-(scenario003).
+(scenario-aio).
 
 
 Contributors
