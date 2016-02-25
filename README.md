@@ -34,7 +34,7 @@ scenario](#All-In-One).
 |     -      | scenario001 | scenario002 | scenario003 | scenario-aio |
 |:----------:|:-----------:|:-----------:|:-----------:|:-------------:
 | keystone   |      X      |       X     |       X     |       X      |
-| glance     |     rbd     |     file    |     file    |     file     |
+| glance     |     rbd     |     swift   |     file    |     file     |
 | nova       |     rbd     |       X     |       X     |       X      |
 | neutron    |      X      |       X     |       X     |       X      |
 | cinder     |     rbd     |     iscsi   |             |    iscsi     |

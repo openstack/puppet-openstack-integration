@@ -2,7 +2,7 @@
 #
 # [*backend*]
 #   (optional) Glance backend to use.
-#   Can be 'file' or 'rbd'.
+#   Can be 'file', 'swift' or 'rbd'.
 #   Defaults to 'file'.
 #
 class openstack_integration::glance (
@@ -44,6 +44,15 @@ class openstack_integration::glance (
       $backend_store = ['rbd']
       # make sure ceph pool exists before running Glance API
       Exec['create-glance'] -> Service['glance-api']
+    }
+    'swift': {
+      Service<| tag == 'swift-service' |> -> Service['glance-api']
+      $backend_store = ['swift']
+      class { '::glance::backend::swift':
+        swift_store_user                    => 'services:glance',
+        swift_store_key                     => 'a_big_secret',
+        swift_store_create_container_on_put => 'True',
+      }
     }
     default: {
       fail("Unsupported backend (${backend})")
