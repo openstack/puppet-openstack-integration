@@ -85,27 +85,8 @@ class openstack_integration::nova (
   class { '::nova::scheduler': }
   class { '::nova::vncproxy': }
 
-  # Nova versions are different on Ubuntu & RedHat systems.
-  # RedHat packaging is more recent than Ubuntu.
-  # Recent Nova in Mitaka requires keystone v3 credentials.
-  # See LP #1542486 for more details.
-  # Drop this case when Ubuntu will update Mitaka packaging.
-  case $::osfamily {
-    'Debian': {
-      class { '::nova::network::neutron':
-        neutron_auth_url    => 'http://127.0.0.1:35357',
-        neutron_auth_plugin => 'password',
-        neutron_password    => 'a_big_secret',
-      }
-    }
-    'RedHat': {
-      class { '::nova::network::neutron':
-        neutron_password => 'a_big_secret',
-      }
-    }
-    default: {
-      fail("Unsupported osfamily (${::osfamily})")
-    }
+  class { '::nova::network::neutron':
+    neutron_password => 'a_big_secret',
   }
 
 }
