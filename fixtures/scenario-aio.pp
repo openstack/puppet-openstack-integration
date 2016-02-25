@@ -27,4 +27,5 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   horizon => true,
+  cinder  => true,
 }
