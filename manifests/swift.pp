@@ -6,7 +6,7 @@ class openstack_integration::swift {
   }
   class { '::swift::proxy':
     proxy_local_net_ip => '127.0.0.1',
-    workers            => '4',
+    workers            => '2',
     pipeline           => [
   'catch_errors', 'healthcheck', 'cache', 'tempurl', 'ratelimit',
   'authtoken', 'keystone', 'formpost', 'staticweb', 'container_quotas',

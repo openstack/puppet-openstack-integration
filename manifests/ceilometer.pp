@@ -41,9 +41,13 @@ class openstack_integration::ceilometer {
     ssl     => false,
     workers => '2',
   }
-  class { '::ceilometer::collector': }
+  class { '::ceilometer::collector':
+    collector_workers => '2',
+  }
   class { '::ceilometer::expirer': }
-  class { '::ceilometer::agent::notification': }
+  class { '::ceilometer::agent::notification':
+    notification_workers => '2',
+  }
   class { '::ceilometer::agent::polling': }
   class { '::ceilometer::agent::auth':
     auth_password => 'a_big_secret',
