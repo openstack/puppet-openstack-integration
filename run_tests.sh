@@ -63,13 +63,13 @@ elif is_fedora; then
     $SUDO yum install -y dstat puppet
 fi
 
-if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
-    $SUDO ./install_modules.sh
-fi
-
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
   $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
+fi
+
+if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
+    $SUDO ./install_modules.sh
 fi
 
 # Run puppet and assert something changes.
