@@ -22,12 +22,12 @@ Infrastructure environment.
 Description
 -----------
 
-OpenStack Infrastructure is deploying two jobs per supported Operating System
-(Ubuntu and CentOS): scenario001 and scenario002.
+OpenStack Infrastructure is deploying three jobs per supported Operating System
+(Ubuntu and CentOS): scenario001, scenario002 and scenario003.
 
-OpenStack services are balanced between two scenarios because OpenStack
-Infastructure Jenkins slaves can not afford the load of running all on the
-same node.
+OpenStack services are balanced between three scenarios because OpenStack
+Infastructure Jenkins slaves can not afford the load of running everything on
+the same node.
 One manifest (scenario-aio) is used for people who want to [run a simple All-In-One
 scenario](#All-In-One).
 
