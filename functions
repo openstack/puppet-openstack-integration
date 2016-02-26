@@ -46,9 +46,8 @@ EOF
 # Uses the following variables:
 #
 # - ``SCRIPT_DIR`` must be set to script path
-# - ``GEM_BIN_DIR`` must be set to Gem bin directory
 install_all() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile ${GEM_BIN_DIR}r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k puppetfile install -v
 }
 
 # Install Puppet OpenStack modules and dependencies by using
