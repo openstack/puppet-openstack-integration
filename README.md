@@ -37,7 +37,7 @@ scenario](#All-In-One).
 | glance     |     rbd     |     file    |     file    |     file     |
 | nova       |     rbd     |       X     |       X     |       X      |
 | neutron    |      X      |       X     |       X     |       X      |
-| cinder     |     rbd     |             |             |    iscsi     |
+| cinder     |     rbd     |     iscsi   |             |    iscsi     |
 | ceilometer |      X      |             |             |              |
 | aodh       |      X      |             |             |              |
 | gnocchi    |     rbd     |             |             |              |
