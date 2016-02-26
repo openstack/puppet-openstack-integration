@@ -21,6 +21,7 @@ include ::openstack_integration::keystone
 include ::openstack_integration::glance
 include ::openstack_integration::neutron
 include ::openstack_integration::nova
+include ::openstack_integration::cinder
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
 include ::openstack_integration::mongodb
@@ -41,6 +42,7 @@ case $::osfamily {
 }
 
 class { '::openstack_integration::tempest':
+  cinder => true,
   swift  => true,
   ironic => $ironic_enabled,
 }
