@@ -34,6 +34,7 @@ class openstack_integration::heat {
   class { '::heat::keystone::domain':
     domain_password => 'oh_my_no_secret',
   }
+  Keystone_user_role['heat_admin::heat@::heat'] -> File['/root/openrc']
   class { '::heat::client': }
   class { '::heat::api':
     workers => '2',
