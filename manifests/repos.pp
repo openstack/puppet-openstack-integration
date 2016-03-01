@@ -23,7 +23,7 @@ class openstack_integration::repos {
         manage_rdo        => false,
         repo_hash         => {
           'mitaka-current' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7/1e/61/1e61bfcbfa131264db899c9f47870f684ac15489_a2b13371/',
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7/e4/60/e460518d2d1c503725d799c2ce05c67e20acf2e4_ec46ffa0/',
             'descr'    => 'Mitaka Current',
             'gpgcheck' => 'no',
             'priority' => 1,

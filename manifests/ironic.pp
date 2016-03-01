@@ -39,5 +39,6 @@ class openstack_integration::ironic {
     workers        => '2',
   }
   class { '::ironic::conductor': }
+  Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
 
 }
