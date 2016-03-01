@@ -25,7 +25,7 @@ class openstack_integration::neutron {
   class { '::neutron':
     rabbit_user           => 'neutron',
     rabbit_password       => 'an_even_bigger_secret',
-    rabbit_host           => '127.0.0.1',
+    rabbit_host           => $::openstack_integration::config::rabbit_host,
     rabbit_port           => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     allow_overlapping_ips => true,

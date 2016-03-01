@@ -33,7 +33,7 @@ class openstack_integration::cinder (
   }
   class { '::cinder':
     database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
-    rabbit_host         => '127.0.0.1',
+    rabbit_host         => $::openstack_integration::config::rabbit_host,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     rabbit_userid       => 'cinder',
     rabbit_password     => 'an_even_bigger_secret',

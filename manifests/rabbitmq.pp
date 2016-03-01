@@ -29,18 +29,20 @@ class openstack_integration::rabbitmq {
       notify   => Service['rabbitmq-server'],
     }
     class { '::rabbitmq':
-      delete_guest_user => true,
-      package_provider  => $package_provider,
-      ssl               => true,
-      ssl_only          => true,
-      ssl_cacert        => $::openstack_integration::params::cacert_path,
-      ssl_cert          => $::openstack_integration::params::cert_path,
-      ssl_key           => "/etc/rabbitmq/ssl/private/${::fqdn}.pem",
+      delete_guest_user     => true,
+      package_provider      => $package_provider,
+      ssl                   => true,
+      ssl_only              => true,
+      ssl_cacert            => $::openstack_integration::params::cacert_path,
+      ssl_cert              => $::openstack_integration::params::cert_path,
+      ssl_key               => "/etc/rabbitmq/ssl/private/${::fqdn}.pem",
+      environment_variables => $::openstack_integration::config::rabbit_env,
     }
   } else {
     class { '::rabbitmq':
-      delete_guest_user => true,
-      package_provider  => $package_provider,
+      delete_guest_user     => true,
+      package_provider      => $package_provider,
+      environment_variables => $::openstack_integration::config::rabbit_env,
     }
   }
   rabbitmq_vhost { '/':

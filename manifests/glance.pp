@@ -80,7 +80,7 @@ class openstack_integration::glance (
   class { '::glance::notify::rabbitmq':
     rabbit_userid       => 'glance',
     rabbit_password     => 'an_even_bigger_secret',
-    rabbit_host         => '127.0.0.1',
+    rabbit_host         => $::openstack_integration::config::rabbit_host,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     notification_driver => 'messagingv2',
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
