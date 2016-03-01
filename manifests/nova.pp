@@ -10,6 +10,15 @@ class openstack_integration::nova (
 ) {
 
   include ::openstack_integration::config
+  include ::openstack_integration::params
+
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'nova':
+      notify  => Service['httpd'],
+      require => Package['nova-common'],
+    }
+    Exec['update-ca-certificates'] ~> Service['httpd']
+  }
 
   rabbitmq_user { 'nova':
     admin    => true,
@@ -32,7 +41,13 @@ class openstack_integration::nova (
     password => 'nova',
   }
   class { '::nova::keystone::auth':
-    password => 'a_big_secret',
+    public_url      => "${::openstack_integration::config::proto}://127.0.0.1:8774/v2/%(tenant_id)s",
+    public_url_v3   => "${::openstack_integration::config::proto}://127.0.0.1:8774/v3/%(tenant_id)s",
+    internal_url    => "${::openstack_integration::config::proto}://127.0.0.1:8774/v2/%(tenant_id)s",
+    internal_url_v3 => "${::openstack_integration::config::proto}://127.0.0.1:8774/v3/%(tenant_id)s",
+    admin_url       => "${::openstack_integration::config::proto}://127.0.0.1:8774/v2/%(tenant_id)s",
+    admin_url_v3    => "${::openstack_integration::config::proto}://127.0.0.1:8774/v3/%(tenant_id)s",
+    password        => 'a_big_secret',
   }
   class { '::nova':
     database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
@@ -42,7 +57,7 @@ class openstack_integration::nova (
     rabbit_userid           => 'nova',
     rabbit_password         => 'an_even_bigger_secret',
     rabbit_use_ssl          => $::openstack_integration::config::ssl,
-    glance_api_servers      => 'http://127.0.0.1:9292',
+    glance_api_servers      => "${::openstack_integration::config::proto}://127.0.0.1:9292",
     verbose                 => true,
     debug                   => true,
     notification_driver     => 'messagingv2',
@@ -50,7 +65,8 @@ class openstack_integration::nova (
   }
   class { '::nova::api':
     admin_password                       => 'a_big_secret',
-    identity_uri                         => 'http://127.0.0.1:35357/',
+    auth_uri                             => $::openstack_integration::config::keystone_auth_uri,
+    identity_uri                         => $::openstack_integration::config::keystone_admin_uri,
     osapi_v3                             => true,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
     metadata_workers                     => 2,
@@ -60,8 +76,10 @@ class openstack_integration::nova (
   }
   include ::apache
   class { '::nova::wsgi::apache':
-    ssl     => false,
-    workers => '2',
+    ssl_key  => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_cert => $::openstack_integration::params::cert_path,
+    ssl      => $::openstack_integration::config::ssl,
+    workers  => '2',
   }
   class { '::nova::client': }
   class { '::nova::conductor': }
@@ -95,6 +113,7 @@ class openstack_integration::nova (
   class { '::nova::vncproxy': }
 
   class { '::nova::network::neutron':
+    neutron_auth_url => "${::openstack_integration::config::keystone_admin_uri}/v3",
     neutron_password => 'a_big_secret',
   }
 

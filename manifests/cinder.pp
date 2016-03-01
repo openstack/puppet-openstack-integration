@@ -43,7 +43,8 @@ class openstack_integration::cinder (
   }
   class { '::cinder::api':
     keystone_password   => 'a_big_secret',
-    identity_uri        => 'http://127.0.0.1:35357/',
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    identity_uri        => $::openstack_integration::config::keystone_admin_uri,
     default_volume_type => 'BACKEND_1',
     service_workers     => 2,
   }
@@ -55,7 +56,7 @@ class openstack_integration::cinder (
   }
   class { '::cinder::cron::db_purge': }
   class { '::cinder::glance':
-    glance_api_servers  => 'localhost:9292',
+    glance_api_servers  => "${::openstack_integration::config::proto}://127.0.0.1:9292",
   }
   case $backend {
     'iscsi': {

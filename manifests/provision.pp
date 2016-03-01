@@ -2,7 +2,9 @@
 
 class openstack_integration::provision {
 
-  $os_auth_options = '--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url http://127.0.0.1:5000/v2.0'
+  include ::openstack_integration::config
+
+  $os_auth_options = "--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url ${::openstack_integration::config::keystone_auth_uri}/v2.0"
 
   exec { 'manage_m1.nano_nova_flavor':
     path     => '/usr/bin:/bin:/usr/sbin:/sbin',

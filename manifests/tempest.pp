@@ -63,6 +63,9 @@ class openstack_integration::tempest (
   $trove      = false,
 ) {
 
+  include ::openstack_integration::config
+  include ::openstack_integration::params
+
   class { '::tempest':
     debug                  => true,
     use_stderr             => false,
@@ -74,8 +77,8 @@ class openstack_integration::tempest (
     tempest_config_file    => '/tmp/openstack/tempest/etc/tempest.conf',
     configure_images       => true,
     configure_networks     => true,
-    identity_uri           => 'http://127.0.0.1:5000/v2.0',
-    identity_uri_v3        => 'http://127.0.0.1:5000/v3',
+    identity_uri           => "${::openstack_integration::config::keystone_auth_uri}/v2.0",
+    identity_uri_v3        => "${::openstack_integration::config::keystone_auth_uri}/v3",
     admin_username         => 'admin',
     admin_tenant_name      => 'openstack',
     admin_password         => 'a_big_secret',
@@ -103,6 +106,7 @@ class openstack_integration::tempest (
     image_alt_ssh_user     => 'cirros',
     img_file               => 'cirros-0.3.4-x86_64-disk.img',
     compute_build_interval => 10,
+    ca_certificates_file   => $::openstack_integration::params::ca_bundle_cert_path,
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir              => '/home/jenkins/cache/files',
