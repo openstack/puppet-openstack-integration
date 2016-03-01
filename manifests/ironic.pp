@@ -1,18 +1,6 @@
-# Configure the Ironic service
-#
-# [*ssl*]
-#   (optional) Boolean to enable or not SSL.
-#   Defaults to false.
-#
-class openstack_integration::ironic (
-  $ssl = false,
-) {
+class openstack_integration::ironic {
 
-  if $ssl {
-    $rabbit_port = '5671'
-  } else {
-    $rabbit_port = '5672'
-  }
+  include ::openstack_integration::config
 
   rabbitmq_user { 'ironic':
     admin    => true,
@@ -32,8 +20,8 @@ class openstack_integration::ironic (
     rabbit_userid       => 'ironic',
     rabbit_password     => 'an_even_bigger_secret',
     rabbit_host         => '127.0.0.1',
-    rabbit_port         => $rabbit_port,
-    rabbit_use_ssl      => $ssl,
+    rabbit_port         => $::openstack_integration::config::rabbit_port,
+    rabbit_use_ssl      => $::openstack_integration::config::ssl,
     database_connection => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
     debug               => true,
     verbose             => true,

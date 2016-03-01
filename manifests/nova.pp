@@ -5,20 +5,11 @@
 #   to use Libvirt RBD backend.
 #   Defaults to false.
 #
-# [*ssl*]
-#   (optional) Boolean to enable or not SSL.
-#   Defaults to false.
-#
 class openstack_integration::nova (
   $libvirt_rbd = false,
-  $ssl         = false,
 ) {
 
-  if $ssl {
-    $rabbit_port = '5671'
-  } else {
-    $rabbit_port = '5672'
-  }
+  include ::openstack_integration::config
 
   rabbitmq_user { 'nova':
     admin    => true,
@@ -47,10 +38,10 @@ class openstack_integration::nova (
     database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
     rabbit_host             => '127.0.0.1',
-    rabbit_port             => $rabbit_port,
+    rabbit_port             => $::openstack_integration::config::rabbit_port,
     rabbit_userid           => 'nova',
     rabbit_password         => 'an_even_bigger_secret',
-    rabbit_use_ssl          => $ssl,
+    rabbit_use_ssl          => $::openstack_integration::config::ssl,
     glance_api_servers      => 'http://127.0.0.1:9292',
     verbose                 => true,
     debug                   => true,

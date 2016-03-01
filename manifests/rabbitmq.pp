@@ -1,14 +1,7 @@
-# Configure the RabbitMQ service
-#
-# [*ssl*]
-#   (optional) Boolean to enable or not SSL.
-#   Defaults to false.
-#
-class openstack_integration::rabbitmq (
-  $ssl = false,
-) {
+class openstack_integration::rabbitmq {
 
   include ::openstack_integration::params
+  include ::openstack_integration::config
 
   case $::osfamily {
     'Debian': {
@@ -22,7 +15,7 @@ class openstack_integration::rabbitmq (
     }
   }
 
-  if $ssl {
+  if $::openstack_integration::config::ssl {
     file { '/etc/rabbitmq/ssl/private':
       ensure                  => directory,
       owner                   => 'root',

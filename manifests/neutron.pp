@@ -1,18 +1,6 @@
-# Configure the Neutron services
-#
-# [*ssl*]
-#   (optional) Boolean to enable or not SSL.
-#   Defaults to false.
-#
-class openstack_integration::neutron (
-  $ssl = false,
-) {
+class openstack_integration::neutron {
 
-  if $ssl {
-    $rabbit_port = '5671'
-  } else {
-    $rabbit_port = '5672'
-  }
+  include ::openstack_integration::config
 
   rabbitmq_user { 'neutron':
     admin    => true,
@@ -38,8 +26,8 @@ class openstack_integration::neutron (
     rabbit_user           => 'neutron',
     rabbit_password       => 'an_even_bigger_secret',
     rabbit_host           => '127.0.0.1',
-    rabbit_port           => $rabbit_port,
-    rabbit_use_ssl        => $ssl,
+    rabbit_port           => $::openstack_integration::config::rabbit_port,
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
     allow_overlapping_ips => true,
     core_plugin           => 'ml2',
     service_plugins       => ['router', 'metering', 'firewall'],
