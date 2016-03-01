@@ -5,9 +5,20 @@
 #   Can be 'iscsi' or 'rbd'.
 #   Defaults to 'iscsi'.
 #
+# [*ssl*]
+#   (optional) Boolean to enable or not SSL.
+#   Defaults to false.
+#
 class openstack_integration::cinder (
   $backend = 'iscsi',
+  $ssl     = false,
 ) {
+
+  if $ssl {
+    $rabbit_port = '5671'
+  } else {
+    $rabbit_port = '5672'
+  }
 
   rabbitmq_user { 'cinder':
     admin    => true,
@@ -32,8 +43,10 @@ class openstack_integration::cinder (
   class { '::cinder':
     database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
     rabbit_host         => '127.0.0.1',
+    rabbit_port         => $rabbit_port,
     rabbit_userid       => 'cinder',
     rabbit_password     => 'an_even_bigger_secret',
+    rabbit_use_ssl      => $ssl,
     verbose             => true,
     debug               => true,
   }

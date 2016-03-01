@@ -5,9 +5,20 @@
 #   Can be 'file', 'swift' or 'rbd'.
 #   Defaults to 'file'.
 #
+# [*ssl*]
+#   (optional) Boolean to enable or not SSL.
+#   Defaults to false.
+#
 class openstack_integration::glance (
   $backend = 'file',
+  $ssl     = false,
 ) {
+
+  if $ssl {
+    $rabbit_port = '5671'
+  } else {
+    $rabbit_port = '5672'
+  }
 
   rabbitmq_user { 'glance':
     admin    => true,
@@ -79,7 +90,9 @@ class openstack_integration::glance (
     rabbit_userid       => 'glance',
     rabbit_password     => 'an_even_bigger_secret',
     rabbit_host         => '127.0.0.1',
+    rabbit_port         => $rabbit_port,
     notification_driver => 'messagingv2',
+    rabbit_use_ssl      => $ssl,
   }
 
 }

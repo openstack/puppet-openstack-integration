@@ -15,17 +15,29 @@
 #
 
 include ::openstack_integration
-include ::openstack_integration::rabbitmq
+include ::openstack_integration::cacert
+class { '::openstack_integration::rabbitmq':
+  ssl => true,
+}
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 class { '::openstack_integration::glance':
   backend => 'swift',
+  ssl     => true,
 }
-include ::openstack_integration::neutron
-include ::openstack_integration::nova
-include ::openstack_integration::cinder
+class { '::openstack_integration::neutron':
+  ssl => true,
+}
+class { '::openstack_integration::nova':
+  ssl => true,
+}
+class { '::openstack_integration::cinder':
+  ssl => true,
+}
 include ::openstack_integration::swift
-include ::openstack_integration::ironic
+class { '::openstack_integration::ironic':
+  ssl => true,
+}
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
