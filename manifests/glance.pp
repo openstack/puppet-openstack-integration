@@ -68,7 +68,8 @@ class openstack_integration::glance (
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
     keystone_password   => 'a_big_secret',
     workers             => 2,
-    known_stores        => $glance_stores,
+    stores              => $glance_stores,
+    default_store       => $backend,
   }
   class { '::glance::registry':
     debug               => true,
