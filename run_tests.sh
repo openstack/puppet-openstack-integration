@@ -38,6 +38,9 @@ if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
     /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
         git://git.openstack.org openstack/tempest
 else
+    # remove existed checkout before clone
+    $SUDO rm -rf /tmp/openstack/tempest
+
     # We're outside the gate, just do a regular git clone
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 fi
@@ -53,11 +56,21 @@ function run_puppet() {
 }
 
 if uses_debs; then
+    if dpkg -l puppetlabs-release >/dev/null 2>&1; then
+        $SUDO apt-get purge -y puppetlabs-release
+    fi
+    $SUDO rm -f /tmp/puppet.deb
+
     wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb -O /tmp/puppet.deb
     $SUDO dpkg -i /tmp/puppet.deb
     $SUDO apt-get update
     $SUDO apt-get install -y dstat puppet
 elif is_fedora; then
+    if rpm --quiet -q puppetlabs-release; then
+        $SUDO rpm -e puppetlabs-release
+    fi
+    $SUDO rm -f /tmp/puppet.rpm
+
     wget https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm -O /tmp/puppet.rpm
     $SUDO rpm -ivh /tmp/puppet.rpm
     $SUDO yum install -y dstat puppet
@@ -92,6 +105,10 @@ set -e
 if [ $RESULT -ne 0 ]; then
     exit 1
 fi
+
+mkdir -p /tmp/openstack/tempest
+
+$SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
 
 # TODO(emilien) later, we should use local image if present. That would be a next iteration.
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
