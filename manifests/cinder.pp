@@ -52,9 +52,14 @@ class openstack_integration::cinder (
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
     default_volume_type => 'BACKEND_1',
-    service_workers     => 2,
     public_endpoint     => "http://${::openstack_integration::config::ip_for_url}:8776",
-    bind_host           => $::openstack_integration::config::host,
+    service_name        => 'httpd',
+  }
+  include ::apache
+  class { '::cinder::wsgi::apache':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl       => false,
+    workers   => 2,
   }
   class { '::cinder::quota': }
   class { '::cinder::scheduler': }
@@ -82,7 +87,7 @@ class openstack_integration::cinder (
         rbd_secret_uuid => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
       }
       # make sure ceph pool exists before running Cinder API & Volume
-      Exec['create-cinder'] -> Service['cinder-api']
+      Exec['create-cinder'] -> Service['httpd']
       Exec['create-cinder'] -> Service['cinder-volume']
     }
     default: {
