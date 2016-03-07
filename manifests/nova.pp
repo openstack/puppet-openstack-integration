@@ -58,7 +58,6 @@ class openstack_integration::nova (
     default_floating_pool                => 'public',
     sync_db_api                          => true,
   }
-  class { '::nova::cert': }
   class { '::nova::client': }
   class { '::nova::conductor': }
   class { '::nova::consoleauth': }
