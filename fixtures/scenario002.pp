@@ -14,6 +14,24 @@
 # limitations under the License.
 #
 
+case $::osfamily {
+  'Debian': {
+    # ironic-conductor is broken for Ubuntu Trusty
+    # https://bugs.launchpad.net/cloud-archive/+bug/1530869
+    $ironic_enabled = false
+    # UCA needs to update glance-store to 0.13.0 because 0.12.0 is broken
+    # when using Swift backend
+    $glance_backend = 'file'
+  }
+  'RedHat': {
+    $ironic_enabled  = true
+    $glance_backend  = 'swift'
+  }
+  default: {
+    fail("Unsupported osfamily (${::osfamily})")
+  }
+}
+
 include ::openstack_integration
 class { '::openstack_integration::config':
   ssl  => true,
@@ -24,7 +42,7 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 class { '::openstack_integration::glance':
-  backend => 'swift',
+  backend => $glance_backend,
 }
 include ::openstack_integration::neutron
 include ::openstack_integration::nova
@@ -34,19 +52,6 @@ include ::openstack_integration::ironic
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
-case $::osfamily {
-  'Debian': {
-    # ironic-conductor is broken for Ubuntu Trusty
-    # https://bugs.launchpad.net/cloud-archive/+bug/1530869
-    $ironic_enabled = false
-  }
-  'RedHat': {
-    $ironic_enabled = true
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
 
 class { '::openstack_integration::tempest':
   cinder => true,
