@@ -53,10 +53,15 @@ class openstack_integration::nova (
     identity_uri                         => 'http://127.0.0.1:35357/',
     osapi_v3                             => true,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
-    osapi_compute_workers                => 2,
     metadata_workers                     => 2,
     default_floating_pool                => 'public',
     sync_db_api                          => true,
+    service_name                         => 'httpd',
+  }
+  include ::apache
+  class { '::nova::wsgi::apache':
+    ssl     => false,
+    workers => '2',
   }
   class { '::nova::client': }
   class { '::nova::conductor': }
