@@ -72,6 +72,10 @@ mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
   :ref => 'master'
 
+mod 'octavia',
+  :git => 'https://git.openstack.org/openstack/puppet-octavia',
+  :ref => 'master'
+
 mod 'openstack_integration',
   :git => 'https://git.openstack.org/openstack/puppet-openstack-integration',
   :ref => 'master'
@@ -82,6 +86,10 @@ mod 'openstack_extras',
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
+  :ref => 'master'
+
+mod 'oslo',
+  :git => 'https://git.openstack.org/openstack/puppet-oslo',
   :ref => 'master'
 
 mod 'sahara',
