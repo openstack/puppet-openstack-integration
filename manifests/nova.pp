@@ -91,6 +91,7 @@ class openstack_integration::nova (
     Exec['create-nova'] -> Service['nova-compute']
   }
   class { '::nova::scheduler': }
+  class { '::nova::scheduler::filter': }
   class { '::nova::vncproxy': }
 
   class { '::nova::network::neutron':
