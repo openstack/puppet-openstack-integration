@@ -57,6 +57,19 @@ class openstack_integration::provision {
 
   vs_bridge { 'br-ex':
     ensure => present,
+    notify => Exec['create_loop1_port'],
+  }
+
+  # create dummy loopback interface to exercise adding a port to a bridge
+  exec { 'create_loop1_port':
+    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+    provider    => shell,
+    command     => 'ip link add name loop1 type dummy; ip addr add 127.2.0.1/24 dev loop1',
+    refreshonly => true,
+  }->
+  vs_port { 'loop1':
+    ensure => present,
+    bridge => 'br-ex',
     notify => Exec['create_br-ex_vif'],
   }
 
