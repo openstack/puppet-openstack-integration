@@ -21,6 +21,7 @@ class openstack_integration::repos {
         # yum-plugin-priorities is already managed by ::ceph::repo
         manage_priorities => false,
         manage_rdo        => false,
+        manage_epel       => false,
         repo_hash         => {
           'mitaka-current' => {
             'baseurl'  => 'https://trunk.rdoproject.org/centos7/f1/32/f132dea0b534b75815439431dc2d9a927ade2030_c08cc25a/',
