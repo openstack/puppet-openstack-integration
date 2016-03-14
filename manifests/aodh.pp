@@ -14,6 +14,9 @@ class openstack_integration::aodh {
     require              => Class['::rabbitmq'],
   }
 
+  # https://bugs.launchpad.net/aodh/+bug/1557154
+  Rabbitmq_user_permissions['aodh@/'] -> Service<| tag == 'aodh-service' |>
+
   # gnocchi is not packaged in Ubuntu Cloud Archive
   # https://bugs.launchpad.net/cloud-archive/+bug/1535740
   if $::osfamily == 'RedHat' {
