@@ -19,13 +19,9 @@ case $::osfamily {
     # ironic-conductor is broken for Ubuntu Trusty
     # https://bugs.launchpad.net/cloud-archive/+bug/1530869
     $ironic_enabled = false
-    # UCA needs to update glance-store to 0.13.0 because 0.12.0 is broken
-    # when using Swift backend
-    $glance_backend = 'file'
   }
   'RedHat': {
-    $ironic_enabled  = true
-    $glance_backend  = 'swift'
+    $ironic_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -42,7 +38,7 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 class { '::openstack_integration::glance':
-  backend => $glance_backend,
+  backend => 'swift',
 }
 include ::openstack_integration::neutron
 include ::openstack_integration::nova
