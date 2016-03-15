@@ -115,11 +115,21 @@ wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp
 
 set +e
 # Select what to test:
-# - smoke suite
-# - dashboard (horizon)
-# - TelemetryAlarming (Aodh)
-# - api.baremetal (Ironic)
-cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 smoke dashboard TelemetryAlarming api.baremetal
+# Smoke suite
+TESTS="smoke"
+
+# Horizon
+TESTS="${TESTS} dashbboard"
+
+# Aodh
+TESTS="${TESTS} TelemetryAlarming"
+
+# Ironic
+# Note: running all Ironic tests under SSL is not working
+# https://bugs.launchpad.net/ironic/+bug/1554237
+TESTS="${TESTS} api.baremetal.admin.test_drivers"
+
+cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
 /tmp/openstack/tempest/.tox/all/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit

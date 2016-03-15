@@ -7,6 +7,9 @@
 define openstack_integration::ssl_key(
   $key_path = undef,
 ) {
+
+  include ::openstack_integration::config
+
   if $key_path == undef {
     $_key_path  = "/etc/${name}/ssl/private/${::fqdn}.pem"
   } else {
@@ -35,7 +38,7 @@ define openstack_integration::ssl_key(
   file { $_key_path:
     ensure                  => present,
     owner                   => $name,
-    source                  => 'puppet:///modules/openstack_integration/puppet_openstack.pem',
+    source                  => "puppet:///modules/openstack_integration/ipv${openstack_integration::config::ip_version}.key",
     selinux_ignore_defaults => true,
     mode                    => '0600',
   }

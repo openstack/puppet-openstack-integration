@@ -30,8 +30,7 @@ case $::osfamily {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl  => true,
-  ipv6 => true,
+  ssl => true,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq

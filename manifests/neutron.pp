@@ -41,6 +41,8 @@ class openstack_integration::neutron {
     sync_db             => true,
     api_workers         => 2,
     rpc_workers         => 2,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
   }
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan'],
@@ -54,9 +56,10 @@ class openstack_integration::neutron {
   }
   class { '::neutron::agents::metadata':
     debug            => true,
-    auth_password    => 'a_big_secret',
     shared_secret    => 'a_big_secret',
     metadata_workers => 2,
+    auth_url         => "${::openstack_integration::config::keystone_admin_uri}/v2.0",
+    auth_password    => 'a_big_secret',
   }
   class { '::neutron::agents::lbaas':
     debug => true,
@@ -71,6 +74,7 @@ class openstack_integration::neutron {
     debug => true,
   }
   class { '::neutron::server::notifications':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
   class { '::neutron::services::fwaas':

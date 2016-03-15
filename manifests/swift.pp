@@ -1,5 +1,7 @@
 class openstack_integration::swift {
 
+  include ::openstack_integration::config
+
   include ::memcached
   class { '::swift':
     swift_hash_suffix => 'secrete',
@@ -20,8 +22,8 @@ class openstack_integration::swift {
   include ::swift::proxy::tempurl
   include ::swift::proxy::ratelimit
   class { '::swift::proxy::authtoken':
-    auth_uri       => 'http://127.0.0.1:5000/v2.0',
-    identity_uri   => 'http://127.0.0.1:35357/',
+    auth_uri       => "${::openstack_integration::config::keystone_auth_uri}/v2.0",
+    identity_uri   => "${::openstack_integration::config::keystone_admin_uri}/",
     admin_password => 'a_big_secret',
   }
   class { '::swift::proxy::keystone':
