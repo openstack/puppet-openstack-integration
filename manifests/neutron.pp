@@ -58,8 +58,6 @@ class openstack_integration::neutron {
     debug            => true,
     shared_secret    => 'a_big_secret',
     metadata_workers => 2,
-    auth_url         => "${::openstack_integration::config::keystone_admin_uri}/v2.0",
-    auth_password    => 'a_big_secret',
   }
   class { '::neutron::agents::lbaas':
     debug => true,
