@@ -13,12 +13,25 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+export PUPPET_VERSION=${PUPPET_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
-source $SCRIPT_DIR/functions
+
+if [ $PUPPET_VERSION == 4 ]; then
+  export PATH=${PATH}:/opt/puppetlabs/bin
+  export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
+  export PUPPET_BASE_PATH=/etc/puppetlabs/code
+  export PUPPET_PKG=puppet-agent
+else
+  export PUPPET_RELEASE_FILE=puppetlabs-release
+  export PUPPET_BASE_PATH=/etc/puppet
+  export PUPPET_PKG=puppet
+fi
+
+source ${SCRIPT_DIR}/functions
 
 if [ ! -f fixtures/${SCENARIO}.pp ]; then
     echo "fixtures/${SCENARIO}.pp file does not exist. Please define a valid scenario."
@@ -56,24 +69,24 @@ function run_puppet() {
 }
 
 if uses_debs; then
-    if dpkg -l puppetlabs-release >/dev/null 2>&1; then
-        $SUDO apt-get purge -y puppetlabs-release
+    if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
+        $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
     fi
     $SUDO rm -f /tmp/puppet.deb
 
-    wget https://apt.puppetlabs.com/puppetlabs-release-trusty.deb -O /tmp/puppet.deb
+    wget http://apt.puppetlabs.com/${PUPPET_RELEASE_FILE}-trusty.deb -O /tmp/puppet.deb
     $SUDO dpkg -i /tmp/puppet.deb
     $SUDO apt-get update
-    $SUDO apt-get install -y dstat puppet
+    $SUDO apt-get install -y dstat ${PUPPET_PKG}
 elif is_fedora; then
-    if rpm --quiet -q puppetlabs-release; then
-        $SUDO rpm -e puppetlabs-release
+    if rpm --quiet -q $PUPPET_RELEASE_FILE; then
+        $SUDO rpm -e $PUPPET_RELEASE_FILE
     fi
     $SUDO rm -f /tmp/puppet.rpm
 
-    wget https://yum.puppetlabs.com/puppetlabs-release-el-7.noarch.rpm -O /tmp/puppet.rpm
+    wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
     $SUDO rpm -ivh /tmp/puppet.rpm
-    $SUDO yum install -y dstat puppet
+    $SUDO yum install -y dstat ${PUPPET_PKG}
 fi
 
 # use dstat to monitor system activity during integration testing
