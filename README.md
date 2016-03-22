@@ -38,7 +38,7 @@ scenario](#All-In-One).
 | keystone   |      X      |       X     |       X     |       X      |
 | glance     |     rbd     |     swift   |     file    |     file     |
 | nova       |     rbd     |       X     |       X     |       X      |
-| neutron    |      X      |       X     |       X     |       X      |
+| neutron    |     ovs     |      ovs    | linuxbridge |      ovs     |
 | cinder     |     rbd     |     iscsi   |             |    iscsi     |
 | ceilometer |      X      |             |             |              |
 | aodh       |      X      |             |             |              |

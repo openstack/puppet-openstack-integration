@@ -23,8 +23,10 @@ class openstack_integration::provision {
   Keystone_user_role['admin@openstack'] -> Exec['manage_m1.micro_nova_flavor']
 
   neutron_network { 'public':
-    tenant_name     => 'openstack',
-    router_external => true,
+    tenant_name               => 'openstack',
+    router_external           => true,
+    provider_physical_network => 'external',
+    provider_network_type     => 'flat',
   }
   Keystone_user_role['admin@openstack'] -> Neutron_network<||>
 
@@ -36,32 +38,6 @@ class openstack_integration::provision {
     enable_dhcp      => false,
     network_name     => 'public',
     tenant_name      => 'openstack',
-  }
-
-  vs_bridge { 'br-ex':
-    ensure => present,
-    notify => Exec['create_loop1_port'],
-  }
-
-  # create dummy loopback interface to exercise adding a port to a bridge
-  exec { 'create_loop1_port':
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
-    provider    => shell,
-    command     => 'ip link add name loop1 type dummy; ip addr add 127.2.0.1/24 dev loop1',
-    refreshonly => true,
-  }->
-  vs_port { 'loop1':
-    ensure => present,
-    bridge => 'br-ex',
-    notify => Exec['create_br-ex_vif'],
-  }
-
-  # creates br-ex virtual interface to reach floating-ip network
-  exec { 'create_br-ex_vif':
-    path        => '/usr/bin:/bin:/usr/sbin:/sbin',
-    provider    => shell,
-    command     => 'ip addr add 172.24.5.1/24 dev br-ex; ip link set br-ex up',
-    refreshonly => true,
   }
 
   glance_image { 'cirros':
