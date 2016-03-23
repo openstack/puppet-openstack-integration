@@ -7,7 +7,7 @@ if [ ! -z ${GEM_HOME} ]; then
 fi
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
-export PUPPETFILE_DIR=${PUPPETFILE_DIR:-/etc/puppet/modules}
+export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
 gem install r10k --no-ri --no-rdoc
