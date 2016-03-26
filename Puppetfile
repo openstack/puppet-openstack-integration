@@ -2,7 +2,7 @@
 
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'barbican',
   :git => 'https://git.openstack.org/openstack/puppet-barbican',
@@ -10,7 +10,7 @@ mod 'barbican',
 
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'ceph',
   :git => 'https://git.openstack.org/openstack/puppet-ceph',
@@ -18,43 +18,43 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'gnocchi',
   :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'heat',
   :git => 'https://git.openstack.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'horizon',
   :git => 'https://git.openstack.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'ironic',
   :git => 'https://git.openstack.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'mistral',
   :git => 'https://git.openstack.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
@@ -62,15 +62,15 @@ mod 'monasca',
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'octavia',
   :git => 'https://git.openstack.org/openstack/puppet-octavia',
@@ -78,15 +78,15 @@ mod 'octavia',
 
 mod 'openstack_integration',
   :git => 'https://git.openstack.org/openstack/puppet-openstack-integration',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'oslo',
   :git => 'https://git.openstack.org/openstack/puppet-oslo',
@@ -94,31 +94,27 @@ mod 'oslo',
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
-  :ref => 'master'
-
-mod 'tuskar',
-  :git => 'https://git.openstack.org/openstack/puppet-tuskar',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/mitaka'
 
 # External modules
 

@@ -4,8 +4,8 @@ class openstack_integration::repos {
     'Debian': {
       include ::apt
       class { '::openstack_extras::repo::debian::ubuntu':
-        repo            => 'proposed',
-        release         => 'mitaka', # drop this line when mitaka is stable released
+        repo            => 'proposed', # drop me when UCA is released
+        release         => 'mitaka',
         package_require => true,
       }
       # Ceph is both packaged on UCA & ceph.com
