@@ -13,6 +13,7 @@ class openstack_integration::provision {
     unless   => "nova ${os_auth_options} flavor-list | grep m1.nano",
   }
   Keystone_user_role['admin@openstack'] -> Exec['manage_m1.nano_nova_flavor']
+  Class['::nova::keystone::auth'] -> Exec['manage_m1.nano_nova_flavor']
 
   exec { 'manage_m1.micro_nova_flavor':
     path     => '/usr/bin:/bin:/usr/sbin:/sbin',
@@ -21,6 +22,7 @@ class openstack_integration::provision {
     unless   => "nova ${os_auth_options} flavor-list | grep m1.micro",
   }
   Keystone_user_role['admin@openstack'] -> Exec['manage_m1.micro_nova_flavor']
+  Class['::nova::keystone::auth'] -> Exec['manage_m1.micro_nova_flavor']
 
   neutron_network { 'public':
     tenant_name               => 'openstack',
