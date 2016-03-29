@@ -8,6 +8,7 @@ fi
 
 if [ "${PUPPET_VERSION}" = 4 ]; then
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
+  export PATH=${PATH}:/opt/puppetlabs/bin
 else
   export PUPPET_BASE_PATH=/etc/puppet
 fi
