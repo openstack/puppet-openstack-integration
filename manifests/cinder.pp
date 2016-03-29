@@ -29,11 +29,17 @@ class openstack_integration::cinder (
     password => 'cinder',
   }
   class { '::cinder::keystone::auth':
-    password => 'a_big_secret',
+    public_url      => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
+    internal_url    => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
+    admin_url       => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
+    public_url_v2   => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
+    internal_url_v2 => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
+    admin_url_v2    => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
+    password        => 'a_big_secret',
   }
   class { '::cinder':
     database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
-    rabbit_host         => $::openstack_integration::config::rabbit_host,
+    rabbit_host         => $::openstack_integration::config::ip_for_url,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     rabbit_userid       => 'cinder',
     rabbit_password     => 'an_even_bigger_secret',
@@ -47,6 +53,8 @@ class openstack_integration::cinder (
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
     default_volume_type => 'BACKEND_1',
     service_workers     => 2,
+    public_endpoint     => "http://${::openstack_integration::config::ip_for_url}:8776",
+    bind_host           => $::openstack_integration::config::host,
   }
   class { '::cinder::quota': }
   class { '::cinder::scheduler': }
@@ -56,7 +64,7 @@ class openstack_integration::cinder (
   }
   class { '::cinder::cron::db_purge': }
   class { '::cinder::glance':
-    glance_api_servers  => "${::openstack_integration::config::proto}://127.0.0.1:9292",
+    glance_api_servers  => "${::openstack_integration::config::base_url}:9292",
   }
   case $backend {
     'iscsi': {

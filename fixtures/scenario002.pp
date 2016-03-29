@@ -16,11 +16,13 @@
 
 case $::osfamily {
   'Debian': {
+    $ipv6           = false
     # ironic-conductor is broken for Ubuntu Trusty
     # https://bugs.launchpad.net/cloud-archive/+bug/1530869
     $ironic_enabled = false
   }
   'RedHat': {
+    $ipv6           = true
     $ironic_enabled = true
   }
   default: {
@@ -30,7 +32,8 @@ case $::osfamily {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl => true,
+  ssl  => true,
+  ipv6 => $ipv6,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq

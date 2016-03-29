@@ -42,13 +42,17 @@ class openstack_integration::keystone (
     default_domain      => $default_domain,
     using_domain_config => $using_domain_config,
     enable_ssl          => $::openstack_integration::config::ssl,
+    public_bind_host    => $::openstack_integration::config::host,
+    admin_bind_host     => $::openstack_integration::config::host,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
-    ssl      => $::openstack_integration::config::ssl,
-    ssl_key  => "/etc/keystone/ssl/private/${::fqdn}.pem",
-    ssl_cert => $::openstack_integration::params::cert_path,
-    workers  => 2,
+    bind_host       => $::openstack_integration::config::ip_for_url,
+    admin_bind_host => $::openstack_integration::config::ip_for_url,
+    ssl             => $::openstack_integration::config::ssl,
+    ssl_key         => "/etc/keystone/ssl/private/${::fqdn}.pem",
+    ssl_cert        => $::openstack_integration::params::cert_path,
+    workers         => 2,
   }
   class { '::keystone::roles::admin':
     email    => 'test@example.tld',

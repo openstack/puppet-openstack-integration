@@ -46,9 +46,9 @@ class openstack_integration::glance (
   include ::glance
   include ::glance::client
   class { '::glance::keystone::auth':
-    public_url   => "${::openstack_integration::config::proto}://127.0.0.1:9292",
-    internal_url => "${::openstack_integration::config::proto}://127.0.0.1:9292",
-    admin_url    => "${::openstack_integration::config::proto}://127.0.0.1:9292",
+    public_url   => "${::openstack_integration::config::base_url}:9292",
+    internal_url => "${::openstack_integration::config::base_url}:9292",
+    admin_url    => "${::openstack_integration::config::base_url}:9292",
     password     => 'a_big_secret',
   }
   case $backend {
@@ -72,7 +72,7 @@ class openstack_integration::glance (
         swift_store_user                    => 'services:glance',
         swift_store_key                     => 'a_big_secret',
         swift_store_create_container_on_put => 'True',
-        swift_store_auth_address            => "${::openstack_integration::config::proto}://127.0.0.1:5000/v2.0",
+        swift_store_auth_address            => "${::openstack_integration::config::base_url}:5000/v2.0",
       }
     }
     default: {
@@ -89,11 +89,13 @@ class openstack_integration::glance (
     workers                   => 2,
     stores                    => $glance_stores,
     default_store             => $backend,
+    bind_host                 => $::openstack_integration::config::host,
     auth_uri                  => $::openstack_integration::config::keystone_auth_uri,
     identity_uri              => $::openstack_integration::config::keystone_admin_uri,
     registry_client_protocol  => $::openstack_integration::config::proto,
     registry_client_cert_file => $crt_file,
     registry_client_key_file  => $key_file,
+    registry_host             => $::openstack_integration::config::host,
     cert_file                 => $crt_file,
     key_file                  => $key_file,
   }
@@ -102,6 +104,7 @@ class openstack_integration::glance (
     verbose             => true,
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
     keystone_password   => 'a_big_secret',
+    bind_host           => $::openstack_integration::config::host,
     workers             => 2,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
@@ -111,7 +114,7 @@ class openstack_integration::glance (
   class { '::glance::notify::rabbitmq':
     rabbit_userid       => 'glance',
     rabbit_password     => 'an_even_bigger_secret',
-    rabbit_host         => $::openstack_integration::config::rabbit_host,
+    rabbit_host         => $::openstack_integration::config::ip_for_url,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     notification_driver => 'messagingv2',
     rabbit_use_ssl      => $::openstack_integration::config::ssl,

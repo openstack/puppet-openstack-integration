@@ -28,7 +28,7 @@ class openstack_integration::ironic {
   class { '::ironic':
     rabbit_userid       => 'ironic',
     rabbit_password     => 'an_even_bigger_secret',
-    rabbit_host         => $::openstack_integration::config::rabbit_host,
+    rabbit_host         => $::openstack_integration::config::ip_for_url,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
     database_connection => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
@@ -40,25 +40,26 @@ class openstack_integration::ironic {
     password => 'ironic',
   }
   class { '::ironic::keystone::auth':
-    public_url   => "${::openstack_integration::config::proto}://127.0.0.1:6385",
-    internal_url => "${::openstack_integration::config::proto}://127.0.0.1:6385",
-    admin_url    => "${::openstack_integration::config::proto}://127.0.0.1:6385",
+    public_url   => "${::openstack_integration::config::base_url}:6385",
+    internal_url => "${::openstack_integration::config::base_url}:6385",
+    admin_url    => "${::openstack_integration::config::base_url}:6385",
     password     => 'a_big_secret',
   }
   class { '::ironic::client': }
   class { '::ironic::api':
     auth_uri       => $::openstack_integration::config::keystone_auth_uri,
     identity_uri   => $::openstack_integration::config::keystone_admin_uri,
-    neutron_url    => 'http://127.0.0.1:9696',
+    neutron_url    => "http://${::openstack_integration::config::ip_for_url}:9696",
     admin_password => 'a_big_secret',
     service_name   => 'httpd',
   }
   include ::apache
   class { '::ironic::wsgi::apache':
-    ssl      => $::openstack_integration::config::ssl,
-    ssl_key  => "/etc/ironic/ssl/private/${::fqdn}.pem",
-    ssl_cert => $::openstack_integration::params::cert_path,
-    workers  => 2,
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/ironic/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    workers   => 2,
   }
   class { '::ironic::conductor': }
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>

@@ -22,19 +22,23 @@ class openstack_integration::config (
   }
 
   if $ipv6 {
-    $rabbit_host = '[::1]'
-    $rabbit_env  = {
-      'RABBITMQ_NODE_IP_ADDRESS'   => '::1',
+    $host       = '::1'
+    $rabbit_env = {
+      'RABBITMQ_NODE_IP_ADDRESS'   => $host,
       'RABBITMQ_SERVER_START_ARGS' => '"-proto_dist inet6_tcp"',
     }
     $ip_version  = '6'
   } else {
-    $rabbit_host = '127.0.0.1'
+    $host        = '127.0.0.1'
     $rabbit_env  = {}
     $ip_version  = '4'
   }
 
-  $keystone_auth_uri  = "${proto}://127.0.0.1:5000"
-  $keystone_admin_uri = "${proto}://127.0.0.1:35357"
+  # in URL, brackets are needed
+  $ip_for_url = normalize_ip_for_uri($host)
+
+  $base_url           = "${proto}://${ip_for_url}"
+  $keystone_auth_uri  = "${base_url}:5000"
+  $keystone_admin_uri = "${base_url}:35357"
 
 }
