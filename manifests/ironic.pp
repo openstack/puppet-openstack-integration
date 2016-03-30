@@ -25,6 +25,9 @@ class openstack_integration::ironic {
     require              => Class['::rabbitmq'],
   }
 
+  # https://bugs.launchpad.net/ironic/+bug/1564075
+  Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
+
   class { '::ironic':
     rabbit_userid       => 'ironic',
     rabbit_password     => 'an_even_bigger_secret',
