@@ -4,8 +4,13 @@
 #   (optional) Path of SSL private key
 #   Defaults to undef.
 #
+# [*key_owner*]
+#   (optional) Owner of SSL private key
+#   Defaults to $name.
+#
 define openstack_integration::ssl_key(
-  $key_path = undef,
+  $key_path  = undef,
+  $key_owner = $name,
 ) {
 
   include ::openstack_integration::config
@@ -37,7 +42,7 @@ define openstack_integration::ssl_key(
 
   file { $_key_path:
     ensure                  => present,
-    owner                   => $name,
+    owner                   => $key_owner,
     source                  => "puppet:///modules/openstack_integration/ipv${openstack_integration::config::ip_version}.key",
     selinux_ignore_defaults => true,
     mode                    => '0600',
