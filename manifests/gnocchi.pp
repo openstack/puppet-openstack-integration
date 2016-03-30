@@ -1,8 +1,20 @@
 class openstack_integration::gnocchi {
 
+  include ::openstack_integration::config
+  include ::openstack_integration::params
+
   # gnocchi is not packaged in Ubuntu Cloud Archive
   # https://bugs.launchpad.net/cloud-archive/+bug/1535740
   if $::osfamily == 'RedHat' {
+
+    if $::openstack_integration::config::ssl {
+      openstack_integration::ssl_key { 'gnocchi':
+        notify  => Service['httpd'],
+        require => Package['gnocchi'],
+      }
+      Exec['update-ca-certificates'] ~> Service['httpd']
+    }
+
     class { '::gnocchi':
       verbose             => true,
       debug               => true,
@@ -12,19 +24,25 @@ class openstack_integration::gnocchi {
       password => 'gnocchi',
     }
     class { '::gnocchi::keystone::auth':
-      password => 'a_big_secret',
+      public_url   => "${::openstack_integration::config::base_url}:8041",
+      internal_url => "${::openstack_integration::config::base_url}:8041",
+      admin_url    => "${::openstack_integration::config::base_url}:8041",
+      password     => 'a_big_secret',
     }
     class { '::gnocchi::api':
       enabled               => true,
       keystone_password     => 'a_big_secret',
-      keystone_identity_uri => 'http://127.0.0.1:35357/',
-      keystone_auth_uri     => 'http://127.0.0.1:35357/',
+      keystone_identity_uri => $::openstack_integration::config::keystone_admin_uri,
+      keystone_auth_uri     => $::openstack_integration::config::keystone_admin_uri,
       service_name          => 'httpd',
     }
     include ::apache
     class { '::gnocchi::wsgi::apache':
-      workers => 2,
-      ssl     => false,
+      bind_host => $::openstack_integration::config::ip_for_url,
+      ssl       => $::openstack_integration::config::ssl,
+      ssl_key   => "/etc/gnocchi/ssl/private/${::fqdn}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      workers   => 2,
     }
     class { '::gnocchi::client': }
     class { '::gnocchi::db::sync': }
