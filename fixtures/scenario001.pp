@@ -14,9 +14,22 @@
 # limitations under the License.
 #
 
+case $::osfamily {
+  'Debian': {
+    $ipv6 = false
+  }
+  'RedHat': {
+    $ipv6 = true
+  }
+  default: {
+    fail("Unsupported osfamily (${::osfamily})")
+  }
+}
+
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl => true,
+  ssl  => true,
+  ipv6 => $ipv6,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq
