@@ -34,7 +34,7 @@ scenario](#All-In-One).
 |     -      | scenario001 | scenario002 | scenario003 | scenario-aio |
 |:----------:|:-----------:|:-----------:|:-----------:|:-------------:
 | ssl        |     yes     |      yes    |      no     |      no      |
-| ipv6       |     no      |      yes    |      no     |      no      |
+| ipv6       |   centos7   |    centos7  |      no     |      no      |
 | keystone   |      X      |       X     |       X     |       X      |
 | glance     |     rbd     |     swift   |     file    |     file     |
 | nova       |     rbd     |       X     |       X     |       X      |
