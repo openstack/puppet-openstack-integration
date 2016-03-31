@@ -58,16 +58,6 @@ else
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 fi
 
-PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
-
-function run_puppet() {
-    local manifest=$1
-    $SUDO puppet apply $PUPPET_ARGS fixtures/${manifest}.pp
-    local res=$?
-
-    return $res
-}
-
 if uses_debs; then
     if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
         $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
@@ -89,6 +79,19 @@ elif is_fedora; then
     $SUDO yum install -y dstat ${PUPPET_PKG}
 fi
 
+PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
+
+PUPPET_FULL_PATH=$(which puppet)
+
+function run_puppet() {
+    local manifest=$1
+    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS fixtures/${manifest}.pp
+    local res=$?
+
+    return $res
+}
+
+
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
   $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
@@ -101,7 +104,7 @@ fi
 # Run puppet and assert something changes.
 set +e
 if [ "${MANAGE_REPOS}" = true ]; then
-  $SUDO puppet apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
+  $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
 fi
 run_puppet $SCENARIO
 RESULT=$?
