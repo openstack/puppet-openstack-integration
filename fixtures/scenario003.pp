@@ -33,7 +33,9 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 include ::openstack_integration::glance
-include ::openstack_integration::neutron
+class { '::openstack_integration::neutron':
+  driver => 'linuxbridge',
+}
 include ::openstack_integration::nova
 include ::openstack_integration::trove
 include ::openstack_integration::horizon
