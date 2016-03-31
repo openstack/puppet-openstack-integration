@@ -135,7 +135,7 @@ set +e
 TESTS="smoke"
 
 # Horizon
-TESTS="${TESTS} dashbboard"
+TESTS="${TESTS} dashboard"
 
 # Aodh
 TESTS="${TESTS} TelemetryAlarming"
