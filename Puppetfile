@@ -1,5 +1,6 @@
-# OpenStack modules
+# Auto-generated Puppetfile for Puppet OpenStack project
 
+## OpenStack modules
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
   :ref => 'master'
@@ -108,10 +109,6 @@ mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
   :ref => 'master'
 
-mod 'tuskar',
-  :git => 'https://git.openstack.org/openstack/puppet-tuskar',
-  :ref => 'master'
-
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
   :ref => 'master'
@@ -120,88 +117,84 @@ mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
   :ref => 'master'
 
-# External modules
-
-mod 'apache',
-  :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :branch => '1.8.x'
-
-mod 'apt',
-  :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :branch => '2.2.x'
-
-mod 'concat',
-  :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :branch => '1.2.x'
-
-mod 'corosync',
-  :git => 'https://github.com/puppet-community/puppet-corosync',
-  :tag => '0.8.0'
-
-mod 'dns',
-  :git => 'https://github.com/theforeman/puppet-dns',
-  :tag => '3.1.0'
-
-mod 'firewall',
-  :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :branch => '1.7.x'
-
-mod 'inifile',
-  :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :branch => '1.4.x'
-
-mod 'memcached',
-  :git => 'https://github.com/saz/puppet-memcached',
-  :tag => 'v2.8.1'
-
-mod 'mongodb',
-  :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :branch => '0.12.0'
-
-mod 'mysql',
-  :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :branch => '3.6.x'
-
-mod 'postgresql',
-  :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :branch => '4.6.x'
-
+## External modules
 mod 'powerdns',
   :git => 'https://github.com/antonlindstrom/puppet-powerdns',
-  :tag => '0.0.5'
-
-mod 'python',
-  :git => 'https://github.com/stankevich/puppet-python',
-  :tag => '1.10.0'
-
-mod 'qpid',
-  :git => 'https://github.com/dprince/puppet-qpid',
-  :tag => '1.0.3'
-
-mod 'rabbitmq',
-  :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
-  :tag => '5.3.1'
-
-mod 'rsync',
-  :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
-  :tag => '0.4.0'
-
-mod 'staging',
-  :git => 'https://github.com/nanliu/puppet-staging',
-  :tag => '1.0.4'
-
-mod 'stdlib',
-  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :branch => '4.9.x'
+  :ref => '0.0.5'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
-  :tag => 'v0.0.11'
+  :ref => 'v0.0.11'
+
+mod 'staging',
+  :git => 'https://github.com/nanliu/puppet-staging',
+  :ref => '1.0.4'
+
+mod 'corosync',
+  :git => 'https://github.com/puppet-community/puppet-corosync',
+  :ref => '0.8.0'
+
+mod 'apache',
+  :git => 'https://github.com/puppetlabs/puppetlabs-apache',
+  :ref => '1.8.1'
+
+mod 'apt',
+  :git => 'https://github.com/puppetlabs/puppetlabs-apt',
+  :ref => '2.2.2'
+
+mod 'concat',
+  :git => 'https://github.com/puppetlabs/puppetlabs-concat',
+  :ref => '1.2.5'
+
+mod 'firewall',
+  :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
+  :ref => '1.8.0'
+
+mod 'inifile',
+  :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
+  :ref => '1.5.0'
+
+mod 'mongodb',
+  :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
+  :ref => '0.13.0'
+
+mod 'mysql',
+  :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
+  :ref => '3.7.0'
+
+mod 'postgresql',
+  :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
+  :ref => '4.7.1'
+
+mod 'rabbitmq',
+  :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
+  :ref => '5.3.1'
+
+mod 'rsync',
+  :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
+  :ref => '0.4.0'
+
+mod 'stdlib',
+  :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
+  :ref => '4.11.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :branch => '1.3.x'
+  :ref => '1.3.2'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
-  :tag => '1.5.0'
+  :ref => '1.5.0'
+
+mod 'memcached',
+  :git => 'https://github.com/saz/puppet-memcached',
+  :ref => 'v2.8.1'
+
+mod 'python',
+  :git => 'https://github.com/stankevich/puppet-python',
+  :ref => '1.12.0'
+
+mod 'dns',
+  :git => 'https://github.com/theforeman/puppet-dns',
+  :ref => '3.2.0'
+
