@@ -72,7 +72,8 @@ class openstack_integration::glance (
         swift_store_user                    => 'services:glance',
         swift_store_key                     => 'a_big_secret',
         swift_store_create_container_on_put => 'True',
-        swift_store_auth_address            => "${::openstack_integration::config::base_url}:5000/v2.0",
+        swift_store_auth_address            => "${::openstack_integration::config::keystone_auth_uri}/v3",
+        swift_store_auth_version            => '3',
       }
     }
     default: {
