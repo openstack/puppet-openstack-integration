@@ -60,6 +60,7 @@ class openstack_integration::neutron (
         manage_vswitch   => false,
       }
       $external_network_bridge = 'br-ex'
+      $firewall_driver         = 'neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver'
     }
     'linuxbridge': {
       exec { 'create_dummy_iface':
@@ -74,6 +75,7 @@ class openstack_integration::neutron (
         physical_interface_mappings => ['external:loop0'],
       }
       $external_network_bridge = ''
+      $firewall_driver         = 'neutron.agent.linux.iptables_firewall.IptablesFirewallDriver'
     }
     default: {
       fail("Unsupported neutron driver (${driver})")
@@ -116,6 +118,7 @@ class openstack_integration::neutron (
     type_drivers         => ['vxlan', 'flat'],
     tenant_network_types => ['vxlan', 'flat'],
     mechanism_drivers    => $driver,
+    firewall_driver      => $firewall_driver,
   }
   class { '::neutron::agents::metadata':
     debug            => true,
