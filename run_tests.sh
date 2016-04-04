@@ -129,6 +129,9 @@ $SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
 # TODO(emilien) later, we should use local image if present. That would be a next iteration.
 wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
+# Tempest plugin tests require tempest-lib to be installed
+$SUDO pip install tempest-lib
+
 set +e
 # Select what to test:
 # Smoke suite
@@ -145,8 +148,9 @@ TESTS="${TESTS} TelemetryAlarming"
 # https://bugs.launchpad.net/ironic/+bug/1554237
 TESTS="${TESTS} api.baremetal.admin.test_drivers"
 
-cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 $TESTS
+cd /tmp/openstack/tempest
+tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
-/tmp/openstack/tempest/.tox/all/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 exit $RESULT

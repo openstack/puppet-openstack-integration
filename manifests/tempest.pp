@@ -107,6 +107,7 @@ class openstack_integration::tempest (
     img_file               => 'cirros-0.3.4-x86_64-disk.img',
     compute_build_interval => 10,
     ca_certificates_file   => $::openstack_integration::params::ca_bundle_cert_path,
+    manage_tests_packages  => true,
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir              => '/home/jenkins/cache/files',
