@@ -99,7 +99,7 @@ class openstack_integration::tempest (
     swift_available        => $swift,
     ironic_available       => $ironic,
     public_network_name    => 'public',
-    dashboard_url          => "http://${::hostname}/",
+    dashboard_url          => $::openstack_integration::config::base_url,
     flavor_ref             => '42',
     flavor_ref_alt         => '84',
     image_ssh_user         => 'cirros',

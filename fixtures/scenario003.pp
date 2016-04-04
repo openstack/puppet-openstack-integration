@@ -29,6 +29,10 @@ case $::osfamily {
 }
 
 include ::openstack_integration
+class { '::openstack_integration::config':
+  ssl => true,
+}
+include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
