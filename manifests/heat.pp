@@ -59,6 +59,7 @@ class openstack_integration::heat {
   Keystone_user_role['heat_admin::heat@::heat'] -> File['/root/openrc']
   class { '::heat::client': }
   class { '::heat::api':
+    bind_host => $::openstack_integration::config::host,
     workers   => '2',
     use_ssl   => $::openstack_integration::config::ssl,
     cert_file => $crt_file,
@@ -71,12 +72,14 @@ class openstack_integration::heat {
     heat_watch_server_url         => "${::openstack_integration::config::base_url}:8003",
   }
   class { '::heat::api_cloudwatch':
+    bind_host => $::openstack_integration::config::host,
     workers   => '2',
     use_ssl   => $::openstack_integration::config::ssl,
     cert_file => $crt_file,
     key_file  => $key_file,
   }
   class { '::heat::api_cfn':
+    bind_host => $::openstack_integration::config::host,
     workers   => '2',
     use_ssl   => $::openstack_integration::config::ssl,
     cert_file => $crt_file,

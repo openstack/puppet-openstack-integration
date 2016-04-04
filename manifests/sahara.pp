@@ -29,6 +29,7 @@ class openstack_integration::sahara {
     password     => 'a_big_secret',
   }
   class { '::sahara':
+    host                => $::openstack_integration::config::host,
     database_connection => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
     rabbit_userid       => 'sahara',
     rabbit_password     => 'an_even_bigger_secret',
