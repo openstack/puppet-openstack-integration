@@ -30,7 +30,6 @@ class openstack_integration::horizon {
 
   class { '::horizon':
     secret_key       => 'big_secret',
-    servername       => $::openstack_integration::config::ip_for_url,
     allowed_hosts    => $::openstack_integration::config::ip_for_url,
     listen_ssl       => $::openstack_integration::config::ssl,
     ssl_redirect     => $::openstack_integration::config::ssl,

@@ -49,6 +49,7 @@ class openstack_integration::trove {
     admin_url    => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
   }
   class { '::trove::api':
+    bind_host         => $::openstack_integration::config::host,
     keystone_password => 'a_big_secret',
     auth_uri          => $::openstack_integration::config::keystone_auth_uri,
     identity_uri      => $::openstack_integration::config::keystone_admin_uri,

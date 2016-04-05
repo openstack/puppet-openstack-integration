@@ -16,11 +16,13 @@
 
 case $::osfamily {
   'Debian': {
+    $ipv6           = false
     # sahara is broken for Ubuntu Trusty and Debian
     # ConfigParser.NoSectionError: No section: 'alembic'
     $sahara_enabled = false
   }
   'RedHat': {
+    $ipv6           = true
     $sahara_enabled = true
   }
   default: {
@@ -30,7 +32,8 @@ case $::osfamily {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl => true,
+  ipv6 => $ipv6,
+  ssl  => true,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq
