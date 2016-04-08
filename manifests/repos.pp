@@ -24,14 +24,14 @@ class openstack_integration::repos {
         manage_epel       => false,
         repo_hash         => {
           'mitaka-current' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-mitaka/ac/bd/acbdb030430df2af7d0e884ea7a2851e99b42944_a4c7ab2d/',
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-mitaka/1c/82/1c829f367c2e67aa3a127342c59e0022266109c7_0e55db37/',
             'descr'    => 'Mitaka current',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
           'delorean-deps'  => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/',
-            'descr'    => 'Liberty delorean-deps',
+            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/',
+            'descr'    => 'Mitaka delorean-deps',
             'gpgcheck' => 'no',
             'priority' => 2,
           },
