@@ -153,4 +153,5 @@ tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+/tmp/openstack/tempest/.tox/all-plugin/bin/tempest list-plugins
 exit $RESULT
