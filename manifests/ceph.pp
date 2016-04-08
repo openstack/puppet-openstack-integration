@@ -1,9 +1,18 @@
 class openstack_integration::ceph {
 
+  include ::openstack_integration::config
+
+  if $::openstack_integration::config::ipv6 {
+    $ms_bind_ipv6 = true
+  } else {
+    $ms_bind_ipv6 = undef
+  }
+
   class { '::ceph::profile::params':
     fsid                      => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+    ms_bind_ipv6              => $ms_bind_ipv6,
     authentication_type       => 'cephx',
-    mon_host                  => '127.0.0.1',
+    mon_host                  => $::openstack_integration::config::ip_for_url,
     mon_initial_members       => $::hostname,
     osd_pool_default_size     => '1',
     osd_pool_default_min_size => '1',
