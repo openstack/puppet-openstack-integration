@@ -150,6 +150,10 @@ TESTS="${TESTS} api.baremetal.admin.test_drivers"
 
 # Zaqar
 TESTS="${TESTS} TestManageQueue"
+
+# Mistral
+TESTS="${TESTS} test_mistral_basic_v2.ExecutionTestsV2.test_get_list_executions"
+
 cd /tmp/openstack/tempest
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?

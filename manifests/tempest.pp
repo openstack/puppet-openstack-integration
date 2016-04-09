@@ -28,6 +28,10 @@
 #   (optional) Define if Ironic needs to be tested.
 #   Default to false.
 #
+# [*mistral*]
+#   (optional) Define if Mistral needs to be tested.
+#   Default to false.
+#
 # [*neutron*]
 #   (optional) Define if Neutron needs to be tested.
 #   Default to true.
@@ -60,6 +64,7 @@ class openstack_integration::tempest (
   $heat       = false,
   $horizon    = false,
   $ironic     = false,
+  $mistral    = false,
   $neutron    = true,
   $nova       = true,
   $sahara     = false,
@@ -104,6 +109,7 @@ class openstack_integration::tempest (
     swift_available        => $swift,
     ironic_available       => $ironic,
     zaqar_available        => $zaqar,
+    mistral_available      => $mistral,
     public_network_name    => 'public',
     dashboard_url          => $::openstack_integration::config::base_url,
     flavor_ref             => '42',

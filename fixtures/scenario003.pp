@@ -16,14 +16,17 @@
 
 case $::osfamily {
   'Debian': {
-    $ipv6           = false
+    $ipv6            = false
     # sahara is broken for Ubuntu Trusty and Debian
     # ConfigParser.NoSectionError: No section: 'alembic'
-    $sahara_enabled = false
+    $sahara_enabled  = false
+    # mistral is not packaged on Ubuntu Trusty
+    $mistral_enabled = false
   }
   'RedHat': {
-    $ipv6           = true
-    $sahara_enabled = true
+    $ipv6            = true
+    $sahara_enabled  = true
+    $mistral_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -47,6 +50,7 @@ include ::openstack_integration::nova
 include ::openstack_integration::trove
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
+include ::openstack_integration::mistral
 if $sahara_enabled {
   include ::openstack_integration::sahara
 }
@@ -55,6 +59,7 @@ include ::openstack_integration::provision
 class { '::openstack_integration::tempest':
   trove   => true,
   sahara  => $sahara_enabled,
+  mistral => $mistral_enabled,
   horizon => true,
   heat    => true,
 }
