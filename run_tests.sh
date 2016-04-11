@@ -79,7 +79,7 @@ elif is_fedora; then
     $SUDO yum install -y dstat ${PUPPET_PKG}
 fi
 
-PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
+PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 
 PUPPET_FULL_PATH=$(which puppet)
 
