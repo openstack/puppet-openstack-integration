@@ -58,7 +58,7 @@ else
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 fi
 
-PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
+PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 
 function run_puppet() {
     local manifest=$1
