@@ -78,6 +78,9 @@ elif is_fedora; then
     $SUDO rpm -ivh /tmp/puppet.rpm
     $SUDO yum install -y dstat ${PUPPET_PKG} setools setroubleshoot audit
     $SUDO service auditd start
+
+    # SElinux in permissive mode so later we can catch alerts
+    $SUDO setenforce 0
 fi
 
 PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --verbose --color=false --debug"
@@ -92,6 +95,18 @@ function run_puppet() {
     return $res
 }
 
+function catch_selinux_alerts() {
+    if is_fedora; then
+        $SUDO sealert -a /var/log/audit/audit.log
+        if $SUDO grep -i 'type=AVC' /var/log/audit/audit.log >/dev/null; then
+            echo "AVC detected in /var/log/audit/audit.log"
+            echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."
+            exit 1
+        else
+            echo 'No AVC detected in /var/log/audit/audit.log'
+        fi
+    fi
+}
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
@@ -111,6 +126,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 2 ]; then
+    catch_selinux_alerts
     exit 1
 fi
 
@@ -120,6 +136,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
+    catch_selinux_alerts
     exit 1
 fi
 
@@ -157,4 +174,7 @@ RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 /tmp/openstack/tempest/.tox/all-plugin/bin/tempest list-plugins
+
+catch_selinux_alerts
+
 exit $RESULT
