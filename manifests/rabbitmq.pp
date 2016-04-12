@@ -3,18 +3,6 @@ class openstack_integration::rabbitmq {
   include ::openstack_integration::params
   include ::openstack_integration::config
 
-  case $::osfamily {
-    'Debian': {
-      $package_provider = 'apt'
-    }
-    'RedHat': {
-      $package_provider = 'yum'
-    }
-    default: {
-      fail("Unsupported osfamily (${::osfamily})")
-    }
-  }
-
   if $::openstack_integration::config::ssl {
     file { '/etc/rabbitmq/ssl/private':
       ensure                  => directory,
@@ -29,8 +17,8 @@ class openstack_integration::rabbitmq {
       notify   => Service['rabbitmq-server'],
     }
     class { '::rabbitmq':
+      package_provider      => $::package_provider,
       delete_guest_user     => true,
-      package_provider      => $package_provider,
       ssl                   => true,
       ssl_only              => true,
       ssl_cacert            => $::openstack_integration::params::ca_bundle_cert_path,
@@ -40,8 +28,8 @@ class openstack_integration::rabbitmq {
     }
   } else {
     class { '::rabbitmq':
+      package_provider      => $::package_provider,
       delete_guest_user     => true,
-      package_provider      => $package_provider,
       environment_variables => $::openstack_integration::config::rabbit_env,
     }
   }
