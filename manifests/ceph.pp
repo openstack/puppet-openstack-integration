@@ -2,6 +2,7 @@ class openstack_integration::ceph {
 
   class { '::ceph::profile::params':
     fsid                      => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+    manage_repo               => false, # repo already managed in openstack_integration::repo
     authentication_type       => 'cephx',
     mon_host                  => '127.0.0.1',
     mon_initial_members       => $::hostname,
