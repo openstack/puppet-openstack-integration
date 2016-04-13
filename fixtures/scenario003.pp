@@ -38,7 +38,9 @@ class { '::openstack_integration::config':
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
-include ::openstack_integration::keystone
+class { '::openstack_integration::keystone':
+  token_provider => 'fernet',
+}
 include ::openstack_integration::glance
 class { '::openstack_integration::neutron':
   driver => 'linuxbridge',

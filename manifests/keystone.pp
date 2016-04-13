@@ -11,9 +11,14 @@
 #   and the associated configuration in keystone.conf is set up right.
 #   Defaults to false
 #
+# [*token_provider*]
+#   (optional) Define the token provider to use.
+#   Default to 'uuid'.
+#
 class openstack_integration::keystone (
   $default_domain      = undef,
   $using_domain_config = false,
+  $token_provider      = 'uuid',
 ) {
 
   include ::openstack_integration::config
@@ -25,6 +30,12 @@ class openstack_integration::keystone (
       require => Package['keystone'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
+  }
+
+  if $token_provider == 'fernet' {
+    $enable_fernet_setup = true
+  } else {
+    $enable_fernet_setup = false
   }
 
   class { '::keystone::client': }
@@ -45,6 +56,8 @@ class openstack_integration::keystone (
     public_bind_host    => $::openstack_integration::config::host,
     admin_bind_host     => $::openstack_integration::config::host,
     manage_policyrcd    => true,
+    token_provider      => $token_provider,
+    enable_fernet_setup => $enable_fernet_setup,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
