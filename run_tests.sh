@@ -69,6 +69,20 @@ if uses_debs; then
     $SUDO apt-get update
     $SUDO apt-get install -y dstat ${PUPPET_PKG}
 elif is_fedora; then
+    # TODO(emilien): this is a workaround until this patch is merged:
+    # https://review.openstack.org/#/c/304399/
+    # strip down to en_* locales
+    $SUDO yum reinstall -y glibc-common glibc
+    $SUDO localedef --delete-from-archive \
+          $(localedef --list-archive | grep -v -i '^en' | xargs)
+    # prepare template
+    $SUDO mv /usr/lib/locale/locale-archive /usr/lib/locale/locale-archive.tmpl
+    # rebuild archive
+    $SUDO /usr/sbin/build-locale-archive
+    # empty template
+    $SUDO mkdir -p /usr/locale
+    echo | $SUDO tee --append /usr/locale/locale-archive.tmpl
+
     if rpm --quiet -q $PUPPET_RELEASE_FILE; then
         $SUDO rpm -e $PUPPET_RELEASE_FILE
     fi
