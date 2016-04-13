@@ -26,7 +26,8 @@ case $::osfamily {
   'RedHat': {
     $ipv6            = true
     $sahara_enabled  = true
-    $mistral_enabled = true
+    # enable when we figure why mistral tempest tests are so unstable
+    $mistral_enabled = false
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -50,7 +51,8 @@ include ::openstack_integration::nova
 include ::openstack_integration::trove
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-include ::openstack_integration::mistral
+# enable when we figure why mistral tempest tests are so unstable
+# include ::openstack_integration::mistral
 if $sahara_enabled {
   include ::openstack_integration::sahara
 }

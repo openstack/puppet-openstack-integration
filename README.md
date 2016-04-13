@@ -50,7 +50,6 @@ scenario](#All-In-One).
 | horizon    |             |             |       X     |       X      |
 | ironic     |             |       X     |             |              |
 | zaqar      |             |       X     |             |              |
-| mistral    |             |             |       X     |              |
 | ceph       |      X      |             |             |              |
 | mongodb    |             |       X     |             |              |
 
