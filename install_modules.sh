@@ -17,11 +17,17 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
+print_header 'Start (install_modules.sh)'
+print_header 'Install r10k'
 gem install r10k --no-ri --no-rdoc
 
 # make sure there is no puppet module pre-installed
 rm -rf "${PUPPETFILE_DIR:?}/"*
 
+print_header 'Install Modules'
 install_modules
 
+print_header 'Module List'
 puppet module list
+
+print_header 'Done (install_modules.sh)'

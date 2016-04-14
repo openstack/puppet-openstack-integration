@@ -32,6 +32,7 @@ else
 fi
 
 source ${SCRIPT_DIR}/functions
+print_header 'Start (run_tests.sh)'
 
 if [ ! -f fixtures/${SCENARIO}.pp ]; then
     echo "fixtures/${SCENARIO}.pp file does not exist. Please define a valid scenario."
@@ -43,6 +44,7 @@ if [ $(id -u) != 0 ]; then
   SUDO='sudo -E'
 fi
 
+print_header 'Clone Tempest'
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
@@ -59,6 +61,7 @@ else
 fi
 
 if uses_debs; then
+    print_header 'Setup (Debian based)'
     if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
         $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
     fi
@@ -69,6 +72,7 @@ if uses_debs; then
     $SUDO apt-get update
     $SUDO apt-get install -y dstat ${PUPPET_PKG}
 elif is_fedora; then
+    print_header 'Setup (RedHat based)'
     # TODO(emilien): this is a workaround until this patch is merged:
     # https://review.openstack.org/#/c/304399/
     # strip down to en_* locales
@@ -128,7 +132,8 @@ function catch_selinux_alerts() {
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
-  $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
+    print_header 'Start dstat'
+    $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
 fi
 
 if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
@@ -138,26 +143,32 @@ fi
 # Run puppet and assert something changes.
 set +e
 if [ "${MANAGE_REPOS}" = true ]; then
-  $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
+    print_header 'Install repos'
+    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
 fi
+print_header "Running Puppet Scenario: ${SCENARIO} (1st time)"
 run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 2 ]; then
+    print_header 'SELinux Alerts (1st time)'
     catch_selinux_alerts
     exit 1
 fi
 
 # Run puppet a second time and assert nothing changes.
 set +e
+print_header "Running Puppet Scenario: ${SCENARIO} (2nd time)"
 run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
+    print_header 'SELinux Alerts (2nd time)'
     catch_selinux_alerts
     exit 1
 fi
 
+print_header 'Prepare Tempest'
 mkdir -p /tmp/openstack/tempest
 
 $SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
@@ -187,6 +198,7 @@ TESTS="${TESTS} api.baremetal.admin.test_drivers"
 # Zaqar
 TESTS="${TESTS} TestManageQueue"
 
+print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
@@ -194,6 +206,8 @@ set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 /tmp/openstack/tempest/.tox/all-plugin/bin/tempest list-plugins
 
+print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
 
+print_header 'Done (run_tests.sh)'
 exit $RESULT

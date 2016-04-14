@@ -47,18 +47,23 @@ export SCENARIO=scenario-aio
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
+print_header 'Start (all-in-one.sh)'
+
 if is_fedora; then
+    print_header 'Setup (RedHat based)'
     sudo yum -y remove facter puppet rdo-release
     sudo yum -y install libxml2-devel libxslt-devel ruby-devel rubygems wget
     sudo yum -y groupinstall "Development Tools"
     DASHBOARD="dashboard"
 elif uses_debs; then
+    print_header 'Setup (Debian based)'
     sudo apt-get remove -y --purge facter puppet puppet-common
     sudo apt-get update
     sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget
     DASHBOARD="horizon"
 fi
 
+print_header 'Install Bundler'
 mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
 gem install bundler --no-rdoc --no-ri --verbose
@@ -72,6 +77,7 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
+print_header 'Setup openrc'
 cat > ~/openrc <<EOF
 export OS_PROJECT_DOMAIN_ID=default
 export OS_USER_DOMAIN_ID=default
@@ -92,3 +98,4 @@ To use OpenStack through the CLI, run:
   source ~/openrc
 
 EOF
+print_header 'Done (all-in-one.sh)'
