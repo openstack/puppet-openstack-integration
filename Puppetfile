@@ -93,6 +93,10 @@ mod 'oslo',
   :git => 'https://git.openstack.org/openstack/puppet-oslo',
   :ref => 'master'
 
+mod 'ovn',
+  :git => 'https://git.openstack.org/openstack/puppet-ovn',
+  :ref => 'master'
+
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
   :ref => 'master'
