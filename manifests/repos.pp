@@ -16,22 +16,8 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        manage_rdo  => false,
+        release     => 'mitaka',
         manage_epel => false,
-        repo_hash   => {
-          'mitaka-current' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-mitaka/25/aa/25aae034738eda7c00fb3745aa85b96c6768c0f8_8ba4c30b/',
-            'descr'    => 'Mitaka Current',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'delorean-deps'  => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/',
-            'descr'    => 'Mitaka delorean-deps',
-            'gpgcheck' => 'no',
-            'priority' => 2,
-          },
-        }
       }
     }
     default: {
