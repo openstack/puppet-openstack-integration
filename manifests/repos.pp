@@ -4,8 +4,7 @@ class openstack_integration::repos {
     'Debian': {
       include ::apt
       class { '::openstack_extras::repo::debian::ubuntu':
-        repo            => 'proposed',
-        release         => 'mitaka', # drop this line when mitaka is stable released
+        release         => 'mitaka',
         package_require => true,
       }
       # Ceph is both packaged on UCA & ceph.com
@@ -21,9 +20,9 @@ class openstack_integration::repos {
         manage_rdo  => false,
         manage_epel => false,
         repo_hash   => {
-          'mitaka-current' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-mitaka/25/aa/25aae034738eda7c00fb3745aa85b96c6768c0f8_8ba4c30b/',
-            'descr'    => 'Mitaka current',
+          'newton-current' => {
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/ac/73/ac73adf839501ecdbb4aa3af8e1e624c0d3116b1_5c24f657/',
+            'descr'    => 'Newton current',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
