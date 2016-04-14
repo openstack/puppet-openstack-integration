@@ -14,20 +14,6 @@
 # limitations under the License.
 #
 
-case $::osfamily {
-  'Debian': {
-    # sahara is broken for Ubuntu Trusty and Debian
-    # ConfigParser.NoSectionError: No section: 'alembic'
-    $sahara_enabled = false
-  }
-  'RedHat': {
-    $sahara_enabled = true
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
 include ::openstack_integration
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
@@ -38,14 +24,12 @@ include ::openstack_integration::nova
 include ::openstack_integration::trove
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-if $sahara_enabled {
-  include ::openstack_integration::sahara
-}
+include ::openstack_integration::sahara
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   trove   => true,
-  sahara  => $sahara_enabled,
+  sahara  => true,
   horizon => true,
   heat    => true,
 }
