@@ -94,7 +94,8 @@ elif is_fedora; then
 
     wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
     $SUDO rpm -ivh /tmp/puppet.rpm
-    $SUDO yum install -y dstat ${PUPPET_PKG}
+    $SUDO yum install -y dstat ${PUPPET_PKG} setools setroubleshoot audit
+    $SUDO service auditd start
 fi
 
 PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
