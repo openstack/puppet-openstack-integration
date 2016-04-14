@@ -21,6 +21,7 @@ openstack-integration
 openstack_extras
 openstacklib
 oslo
+ovn
 sahara
 swift
 tempest
