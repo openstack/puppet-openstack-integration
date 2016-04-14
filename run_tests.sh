@@ -82,6 +82,10 @@ elif is_fedora; then
     if rpm --quiet -q $PUPPET_RELEASE_FILE; then
         $SUDO rpm -e $PUPPET_RELEASE_FILE
     fi
+    # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
+    if rpm --quiet -q epel-release; then
+        $SUDO rpm -e epel-release
+    fi
     $SUDO rm -f /tmp/puppet.rpm
 
     wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
