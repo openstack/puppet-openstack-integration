@@ -17,15 +17,11 @@
 case $::osfamily {
   'Debian': {
     $ipv6            = false
-    # sahara is broken for Ubuntu Trusty and Debian
-    # ConfigParser.NoSectionError: No section: 'alembic'
-    $sahara_enabled  = false
     # mistral is not packaged on Ubuntu Trusty
     $mistral_enabled = false
   }
   'RedHat': {
     $ipv6            = true
-    $sahara_enabled  = true
     # enable when we figure why mistral tempest tests are so unstable
     $mistral_enabled = false
   }
@@ -53,14 +49,12 @@ include ::openstack_integration::horizon
 include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
 # include ::openstack_integration::mistral
-if $sahara_enabled {
-  include ::openstack_integration::sahara
-}
+include ::openstack_integration::sahara
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   trove   => true,
-  sahara  => $sahara_enabled,
+  sahara  => true,
   mistral => $mistral_enabled,
   horizon => true,
   heat    => true,
