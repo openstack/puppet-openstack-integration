@@ -86,3 +86,16 @@ uses_debs() {
     type "apt-get" 2>/dev/null
 }
 
+print_header() {
+    if [ -n "$(set | grep xtrace)" ]; then
+      set +x
+      local enable_xtrace='yes'
+    fi
+    local msg=$1
+    printf '%.0s-' {1..80}; echo
+    printf '| %-76s |\n' "${msg}"
+    printf '%.0s-' {1..80}; echo
+    if [ -n "${enable_xtrace}" ]; then
+      set -x
+    fi
+}

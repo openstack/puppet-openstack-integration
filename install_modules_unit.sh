@@ -20,4 +20,9 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
+print_header 'Start (install_modules.sh)'
+
+print_header 'Install Modules'
 install_modules
+
+print_header 'Done (install_modules.sh)'
