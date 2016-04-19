@@ -51,21 +51,8 @@ include ::openstack_integration::gnocchi
 include ::openstack_integration::ceph
 include ::openstack_integration::provision
 
-case $::osfamily {
-  'Debian': {
-    # UCA is being updated and Ceilometer is currently broken
-    $telemetry_enabled = false
-  }
-  'RedHat': {
-    $telemetry_enabled = true
-  }
-  default: {
-    fail("Unsupported osfamily (${::osfamily})")
-  }
-}
-
 class { '::openstack_integration::tempest':
   cinder     => true,
-  ceilometer => $telemetry_enabled,
-  aodh       => $telemetry_enabled,
+  ceilometer => true,
+  aodh       => true,
 }
