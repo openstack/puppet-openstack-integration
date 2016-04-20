@@ -19,6 +19,7 @@ export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
+export DISTRO=$(lsb_release -c -s)
 
 if [ $PUPPET_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
@@ -62,13 +63,21 @@ fi
 
 if uses_debs; then
     print_header 'Setup (Debian based)'
-    if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
-        $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
+    # Puppetlabs packaging:
+    # - trusty: puppet3 and puppet4
+    # - xenial: puppet4 only
+    if [[ ${DISTRO} == "trusty" ]] || [[ ${DISTRO} == "xenial" && ${PUPPET_VERSION} == 4 ]]; then
+          if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
+              $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
+          fi
+          $SUDO rm -f /tmp/puppet.deb
+          wget http://apt.puppetlabs.com/${PUPPET_RELEASE_FILE}-${DISTRO}.deb -O /tmp/puppet.deb
+          $SUDO dpkg -i /tmp/puppet.deb
+          # TODO(emilien): figure what installed /etc/default/puppet on the xenial nodepool image
+          # We have no problem on Trusty but on Xenial we need to remove /etc/default/puppet before
+          # trying to deploy puppet-agent from puppetlabs.com.
+          $SUDO rm -rf /etc/default/puppet
     fi
-    $SUDO rm -f /tmp/puppet.deb
-
-    wget http://apt.puppetlabs.com/${PUPPET_RELEASE_FILE}-trusty.deb -O /tmp/puppet.deb
-    $SUDO dpkg -i /tmp/puppet.deb
     $SUDO apt-get update
     $SUDO apt-get install -y dstat ${PUPPET_PKG}
 elif is_fedora; then

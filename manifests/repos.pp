@@ -3,9 +3,12 @@ class openstack_integration::repos {
   case $::osfamily {
     'Debian': {
       include ::apt
-      class { '::openstack_extras::repo::debian::ubuntu':
-        release         => 'mitaka',
-        package_require => true,
+      # Mitaka is already packaged in 16.04, so we don't need UCA.
+      if ($::operatingsystem == 'Ubuntu') and ! (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
+        class { '::openstack_extras::repo::debian::ubuntu':
+          release         => 'mitaka',
+          package_require => true,
+        }
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure

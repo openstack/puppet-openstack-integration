@@ -160,7 +160,8 @@ mod 'mongodb',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => '3.7.0'
+  # until we got a release on puppetlabs-mysql
+  :ref => '5695cef4a66364d34ede90a08fe07e4b277ff8ba'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',

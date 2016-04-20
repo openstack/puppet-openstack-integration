@@ -30,10 +30,21 @@ case $::osfamily {
   }
 }
 
+# List of workarounds for Ubuntu Xenial:
+# - disable Horizon
+# - disable SSL
+if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
+  $ssl_enabled     = false
+  $horizon_enabled = false
+} else {
+  $ssl_enabled     = true
+  $horizon_enabled = true
+}
+
 include ::openstack_integration
 class { '::openstack_integration::config':
   ipv6 => $ipv6,
-  ssl  => true,
+  ssl  => $ssl_enabled,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::rabbitmq
@@ -47,7 +58,9 @@ class { '::openstack_integration::neutron':
 }
 include ::openstack_integration::nova
 include ::openstack_integration::trove
-include ::openstack_integration::horizon
+if $horizon_enabled {
+  include ::openstack_integration::horizon
+}
 include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
 # include ::openstack_integration::mistral
@@ -58,6 +71,6 @@ class { '::openstack_integration::tempest':
   trove   => true,
   sahara  => true,
   mistral => $mistral_enabled,
-  horizon => true,
+  horizon => $horizon_enabled,
   heat    => true,
 }
