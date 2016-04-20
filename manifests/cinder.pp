@@ -10,6 +10,7 @@ class openstack_integration::cinder (
 ) {
 
   include ::openstack_integration::config
+  include ::openstack_integration::params
 
   rabbitmq_user { 'cinder':
     admin    => true,
@@ -25,16 +26,23 @@ class openstack_integration::cinder (
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'cinder':
+      notify  => Service['httpd'],
+      require => Package['cinder'],
+    }
+    Exec['update-ca-certificates'] ~> Service['httpd']
+  }
   class { '::cinder::db::mysql':
     password => 'cinder',
   }
   class { '::cinder::keystone::auth':
-    public_url      => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
-    internal_url    => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
-    admin_url       => "http://${::openstack_integration::config::ip_for_url}:8776/v1/%(tenant_id)s",
-    public_url_v2   => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
-    internal_url_v2 => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
-    admin_url_v2    => "http://${::openstack_integration::config::ip_for_url}:8776/v2/%(tenant_id)s",
+    public_url      => "${::openstack_integration::config::base_url}:8776/v1/%(tenant_id)s",
+    internal_url    => "${::openstack_integration::config::base_url}:8776/v1/%(tenant_id)s",
+    admin_url       => "${::openstack_integration::config::base_url}:8776/v1/%(tenant_id)s",
+    public_url_v2   => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
+    internal_url_v2 => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
+    admin_url_v2    => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
     password        => 'a_big_secret',
   }
   class { '::cinder':
@@ -52,13 +60,15 @@ class openstack_integration::cinder (
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
     default_volume_type => 'BACKEND_1',
-    public_endpoint     => "http://${::openstack_integration::config::ip_for_url}:8776",
+    public_endpoint     => "${::openstack_integration::config::base_url}:8776",
     service_name        => 'httpd',
   }
   include ::apache
   class { '::cinder::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
-    ssl       => false,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/cinder/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
   class { '::cinder::quota': }
