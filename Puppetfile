@@ -134,10 +134,6 @@ mod 'staging',
   :git => 'https://github.com/nanliu/puppet-staging',
   :ref => '1.0.4'
 
-mod 'corosync',
-  :git => 'https://github.com/puppet-community/puppet-corosync',
-  :ref => '0.8.0'
-
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
   :ref => '1.8.1'
@@ -201,4 +197,8 @@ mod 'python',
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
   :ref => '3.2.0'
+
+mod 'corosync',
+  :git => 'https://github.com/voxpupuli/puppet-corosync',
+  :ref => '1.0.0-beta1'
 
