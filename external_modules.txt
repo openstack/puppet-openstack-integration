@@ -1,7 +1,6 @@
 antonlindstrom/puppet-powerdns
 duritong/puppet-sysctl
 nanliu/puppet-staging
-puppet-community/puppet-corosync
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
 puppetlabs/puppetlabs-concat,1.2.5
@@ -18,3 +17,4 @@ puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
 stankevich/puppet-python
 theforeman/puppet-dns
+voxpupuli/puppet-corosync
