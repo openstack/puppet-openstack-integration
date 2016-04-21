@@ -151,6 +151,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 2 ]; then
+    print_header 'First Puppet run contains errors in catalog.'
     print_header 'SELinux Alerts (1st time)'
     catch_selinux_alerts
     exit 1
@@ -163,6 +164,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
+    print_header 'Second Puppet run is not idempotent.'
     print_header 'SELinux Alerts (2nd time)'
     catch_selinux_alerts
     exit 1
