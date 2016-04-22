@@ -44,6 +44,7 @@ class openstack_integration::keystone (
     enable_ssl          => $::openstack_integration::config::ssl,
     public_bind_host    => $::openstack_integration::config::host,
     admin_bind_host     => $::openstack_integration::config::host,
+    manage_policyrcd    => true,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
