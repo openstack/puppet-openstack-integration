@@ -149,5 +149,5 @@ TESTS="${TESTS} api.baremetal.admin.test_drivers"
 cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
-/tmp/openstack/tempest/.tox/all/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+/tmp/openstack/tempest/.tox/tempest/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 exit $RESULT
