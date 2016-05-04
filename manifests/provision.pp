@@ -4,25 +4,21 @@ class openstack_integration::provision {
 
   include ::openstack_integration::config
 
-  $os_auth_options = "--os-username admin --os-password a_big_secret --os-tenant-name openstack --os-auth-url ${::openstack_integration::config::keystone_auth_uri}/v2.0"
-
-  exec { 'manage_m1.nano_nova_flavor':
-    path     => '/usr/bin:/bin:/usr/sbin:/sbin',
-    provider => shell,
-    command  => "nova ${os_auth_options} flavor-create m1.nano 42 128 0 1",
-    unless   => "nova ${os_auth_options} flavor-list | grep m1.nano",
+  nova_flavor { 'm1.nano':
+    ensure => present,
+    id     => '42',
+    ram    => '128',
+    disk   => '0',
+    vcpus  => '1',
   }
-  Keystone_user_role['admin@openstack'] -> Exec['manage_m1.nano_nova_flavor']
-  Class['::nova::keystone::auth'] -> Exec['manage_m1.nano_nova_flavor']
-
-  exec { 'manage_m1.micro_nova_flavor':
-    path     => '/usr/bin:/bin:/usr/sbin:/sbin',
-    provider => shell,
-    command  => "nova ${os_auth_options} flavor-create m1.micro 84 128 0 1",
-    unless   => "nova ${os_auth_options} flavor-list | grep m1.micro",
+  nova_flavor { 'm1.micro':
+    ensure => present,
+    id     => '84',
+    ram    => '128',
+    disk   => '0',
+    vcpus  => '1',
   }
-  Keystone_user_role['admin@openstack'] -> Exec['manage_m1.micro_nova_flavor']
-  Class['::nova::keystone::auth'] -> Exec['manage_m1.micro_nova_flavor']
+  Class['::nova::keystone::auth'] -> Nova_flavor<||>
 
   neutron_network { 'public':
     tenant_name               => 'openstack',
