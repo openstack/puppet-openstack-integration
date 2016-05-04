@@ -160,7 +160,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :branch => '4.6.x'
+  :ref => '4.7.1'
 
 mod 'powerdns',
   :git => 'https://github.com/antonlindstrom/puppet-powerdns',
