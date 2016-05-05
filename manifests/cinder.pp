@@ -43,6 +43,9 @@ class openstack_integration::cinder (
     public_url_v2   => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
     internal_url_v2 => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
     admin_url_v2    => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
+    public_url_v3   => "${::openstack_integration::config::base_url}:8776/v3/%(tenant_id)s",
+    internal_url_v3 => "${::openstack_integration::config::base_url}:8776/v3/%(tenant_id)s",
+    admin_url_v3    => "${::openstack_integration::config::base_url}:8776/v3/%(tenant_id)s",
     password        => 'a_big_secret',
   }
   class { '::cinder':
