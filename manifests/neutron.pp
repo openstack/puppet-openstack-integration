@@ -59,7 +59,6 @@ class openstack_integration::neutron (
         bridge_mappings  => ['external:br-ex'],
         manage_vswitch   => false,
       }
-      $external_network_bridge = 'br-ex'
       $firewall_driver         = 'neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver'
     }
     'linuxbridge': {
@@ -101,7 +100,6 @@ class openstack_integration::neutron (
     core_plugin           => 'ml2',
     service_plugins       => ['router', 'metering', 'firewall'],
     debug                 => true,
-    verbose               => true,
     bind_host             => $::openstack_integration::config::host,
   }
   class { '::neutron::client': }
