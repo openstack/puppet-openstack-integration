@@ -181,6 +181,10 @@ wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp
 # Tempest plugin tests require tempest-lib to be installed
 $SUDO pip install tempest-lib
 
+# Install Gabbi with pip until it's packaged in RDO:
+# https://bugzilla.redhat.com/show_bug.cgi?id=1252812
+$SUDO pip install gabbi
+
 set +e
 # Select what to test:
 # Smoke suite
