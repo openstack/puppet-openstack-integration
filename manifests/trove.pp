@@ -67,9 +67,9 @@ class openstack_integration::trove {
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
   class { '::trove::taskmanager':
-    debug    => true,
-    verbose  => true,
-    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    debug                   => true,
+    verbose                 => true,
+    auth_url                => $::openstack_integration::config::keystone_auth_uri,
+    use_guestagent_template => false,
   }
-
 }
