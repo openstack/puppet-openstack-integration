@@ -10,6 +10,15 @@ class openstack_integration::neutron (
 ) {
 
   include ::openstack_integration::config
+  include ::openstack_integration::params
+
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'neutron':
+      notify  => Service['neutron-server'],
+      require => Package['neutron'],
+    }
+    Exec['update-ca-certificates'] ~> Service['neutron-server']
+  }
 
   rabbitmq_user { 'neutron':
     admin    => true,
@@ -86,9 +95,9 @@ class openstack_integration::neutron (
     password => 'neutron',
   }
   class { '::neutron::keystone::auth':
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:9696",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:9696",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:9696",
+    public_url   => "${::openstack_integration::config::base_url}:9696",
+    internal_url => "${::openstack_integration::config::base_url}:9696",
+    admin_url    => "${::openstack_integration::config::base_url}:9696",
     password     => 'a_big_secret',
   }
   class { '::neutron':
@@ -102,6 +111,9 @@ class openstack_integration::neutron (
     service_plugins       => ['router', 'metering', 'firewall'],
     debug                 => true,
     bind_host             => $::openstack_integration::config::host,
+    use_ssl               => $::openstack_integration::config::ssl,
+    cert_file             => $::openstack_integration::params::cert_path,
+    key_file              => "/etc/neutron/ssl/private/${::fqdn}.pem",
   }
   class { '::neutron::client': }
   class { '::neutron::server':
