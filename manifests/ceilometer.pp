@@ -26,14 +26,14 @@ class openstack_integration::ceilometer {
   }
 
   class { '::ceilometer':
-    metering_secret => 'secrete',
-    rabbit_userid   => 'ceilometer',
-    rabbit_password => 'an_even_bigger_secret',
-    rabbit_host     => $::openstack_integration::config::ip_for_url,
-    rabbit_port     => $::openstack_integration::config::rabbit_port,
-    rabbit_use_ssl  => $::openstack_integration::config::ssl,
-    debug           => true,
-    verbose         => true,
+    telemetry_secret => 'secrete',
+    rabbit_userid    => 'ceilometer',
+    rabbit_password  => 'an_even_bigger_secret',
+    rabbit_host      => $::openstack_integration::config::ip_for_url,
+    rabbit_port      => $::openstack_integration::config::rabbit_port,
+    rabbit_use_ssl   => $::openstack_integration::config::ssl,
+    debug            => true,
+    verbose          => true,
   }
   class { '::ceilometer::db::mysql':
     password => 'ceilometer',
