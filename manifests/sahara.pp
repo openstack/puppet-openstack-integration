@@ -41,7 +41,6 @@ class openstack_integration::sahara {
     admin_user          => 'sahara',
     admin_tenant_name   => 'services',
     debug               => true,
-    verbose             => true,
     auth_uri            => "${::openstack_integration::config::keystone_admin_uri}/v2.0",
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
   }

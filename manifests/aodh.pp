@@ -40,7 +40,6 @@ class openstack_integration::aodh {
     rabbit_password     => 'an_even_bigger_secret',
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
-    verbose             => true,
     debug               => true,
     rabbit_host         => $::openstack_integration::config::ip_for_url,
     database_connection => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',

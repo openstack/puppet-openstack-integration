@@ -38,7 +38,6 @@ class openstack_integration::mistral {
       identity_uri        => $::openstack_integration::config::keystone_admin_uri,
       auth_uri            => "${::openstack_integration::config::keystone_auth_uri}/v3",
       debug               => true,
-      verbose             => true,
     }
     class { '::mistral::keystone::auth':
       public_url   => "${::openstack_integration::config::base_url}:8989/v2",

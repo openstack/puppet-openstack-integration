@@ -16,7 +16,6 @@ class openstack_integration::gnocchi {
     }
 
     class { '::gnocchi':
-      verbose             => true,
       debug               => true,
       database_connection => 'mysql+pymysql://gnocchi:gnocchi@127.0.0.1/gnocchi?charset=utf8',
     }

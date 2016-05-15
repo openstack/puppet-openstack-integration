@@ -36,7 +36,6 @@ class openstack_integration::ironic {
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
     database_connection => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
     debug               => true,
-    verbose             => true,
     enabled_drivers     => ['fake', 'pxe_ssh', 'pxe_ipmitool'],
   }
   class { '::ironic::db::mysql':

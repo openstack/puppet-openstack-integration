@@ -55,7 +55,6 @@ class openstack_integration::cinder (
     rabbit_userid       => 'cinder',
     rabbit_password     => 'an_even_bigger_secret',
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
-    verbose             => true,
     debug               => true,
   }
   class { '::cinder::api':

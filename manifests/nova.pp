@@ -56,7 +56,6 @@ class openstack_integration::nova (
     rabbit_use_ssl          => $::openstack_integration::config::ssl,
     use_ipv6                => $::openstack_integration::config::ipv6,
     glance_api_servers      => "${::openstack_integration::config::base_url}:9292",
-    verbose                 => true,
     debug                   => true,
     notification_driver     => 'messagingv2',
     notify_on_state_change  => 'vm_and_task_state',

@@ -41,7 +41,6 @@ class openstack_integration::heat {
     auth_uri            => $::openstack_integration::config::keystone_admin_uri,
     keystone_password   => 'a_big_secret',
     debug               => true,
-    verbose             => true,
   }
   class { '::heat::db::mysql':
     password => 'heat',

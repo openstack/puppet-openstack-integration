@@ -54,7 +54,6 @@ class openstack_integration::trove {
     auth_uri          => $::openstack_integration::config::keystone_auth_uri,
     identity_uri      => $::openstack_integration::config::keystone_admin_uri,
     debug             => true,
-    verbose           => true,
     workers           => 2,
     cert_file         => $crt_file,
     key_file          => $key_file,
