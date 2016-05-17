@@ -11,7 +11,8 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        release => 'liberty',
+        release           => 'liberty',
+        centos_mirror_url => $::nodepool_mirror_host,
       }
       package { 'openstack-selinux': ensure => 'latest' }
       $package_provider = 'yum'

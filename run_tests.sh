@@ -19,6 +19,16 @@ export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
+# NOTE(pabelanger): Setup facter to know about AFS mirror.
+if [ -f /etc/nodepool/provider ]; then
+    source /etc/nodepool/provider
+    NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
+    NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+else
+    NODEPOOL_MIRROR_HOST='mirror.centos.org'
+fi
+export FACTER_nodepool_mirror_host="http://${NODEPOOL_MIRROR_HOST}"
+
 if [ ! -f fixtures/${SCENARIO}.pp ]; then
     echo "fixtures/${SCENARIO}.pp file does not exist. Please define a valid scenario."
     exit 1
