@@ -17,8 +17,9 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        release     => 'mitaka',
-        manage_epel => false,
+        release           => 'mitaka',
+        manage_epel       => false,
+        centos_mirror_url => $::nodepool_mirror_host,
       }
     }
     default: {

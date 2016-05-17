@@ -20,6 +20,16 @@ export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 
+# NOTE(pabelanger): Setup facter to know about AFS mirror.
+if [ -f /etc/nodepool/provider ]; then
+    source /etc/nodepool/provider
+    NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
+    NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+else
+    NODEPOOL_MIRROR_HOST='mirror.centos.org'
+fi
+export FACTER_nodepool_mirror_host="http://${NODEPOOL_MIRROR_HOST}"
+
 if [ $PUPPET_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
