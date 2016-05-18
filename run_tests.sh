@@ -206,6 +206,11 @@ TESTS="${TESTS} TestManageQueue"
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
+
+# ceilometer plugin is broken because of:
+# https://github.com/openstack/tempest/commit/e4796f8de446aaaafa83902d1fb2d613331436cf
+git checkout 7732fb08d5ed524ee37935ef2b5b1fcd185c798f
+
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
