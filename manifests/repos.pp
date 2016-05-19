@@ -20,13 +20,19 @@ class openstack_integration::repos {
         manage_rdo  => false,
         manage_epel => false,
         repo_hash   => {
-          'newton-current' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/ac/73/ac73adf839501ecdbb4aa3af8e1e624c0d3116b1_5c24f657/',
+          'newton-current'       => {
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/df/47/df479520d42cdb40cc52e16ac67f5a55532a617a_eb829029/',
             'descr'    => 'Newton current',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'delorean-deps'  => {
+          'newton-delorean-deps' => {
+            'baseurl'  => 'http://cbs.centos.org/repos/cloud7-openstack-newton-testing/x86_64/os/',
+            'descr'    => 'Newton delorean-deps',
+            'gpgcheck' => 'no',
+            'priority' => 1,
+          },
+          'mitaka-delorean-deps' => {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/',
             'descr'    => 'Mitaka delorean-deps',
             'gpgcheck' => 'no',

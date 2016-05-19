@@ -16,10 +16,13 @@
 
 case $::osfamily {
   'Debian': {
-    $ipv6 = false
+    $ipv6               = false
+    # we need https://review.openstack.org/#/c/318503/ backported in Mitaka / UCA
+    $ceilometer_enabled = false
   }
   'RedHat': {
-    $ipv6 = true
+    $ipv6               = true
+    $ceilometer_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -45,14 +48,16 @@ class { '::openstack_integration::nova':
 class { '::openstack_integration::cinder':
   backend => 'rbd',
 }
-include ::openstack_integration::ceilometer
-include ::openstack_integration::aodh
-include ::openstack_integration::gnocchi
+if $ceilometer_enabled {
+  include ::openstack_integration::ceilometer
+  include ::openstack_integration::aodh
+  include ::openstack_integration::gnocchi
+}
 include ::openstack_integration::ceph
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   cinder     => true,
-  ceilometer => true,
-  aodh       => true,
+  ceilometer => $ceilometer_enabled,
+  aodh       => $ceilometer_enabled,
 }

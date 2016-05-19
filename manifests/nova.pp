@@ -41,13 +41,10 @@ class openstack_integration::nova (
     password => 'nova',
   }
   class { '::nova::keystone::auth':
-    public_url      => "${::openstack_integration::config::base_url}:8774/v2/%(tenant_id)s",
-    internal_url    => "${::openstack_integration::config::base_url}:8774/v2/%(tenant_id)s",
-    admin_url       => "${::openstack_integration::config::base_url}:8774/v2/%(tenant_id)s",
-    public_url_v3   => "${::openstack_integration::config::base_url}:8774/v3",
-    internal_url_v3 => "${::openstack_integration::config::base_url}:8774/v3",
-    admin_url_v3    => "${::openstack_integration::config::base_url}:8774/v3",
-    password        => 'a_big_secret',
+    public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
+    internal_url => "${::openstack_integration::config::base_url}:8774/v2.1",
+    admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
+    password     => 'a_big_secret',
   }
   class { '::nova':
     database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',

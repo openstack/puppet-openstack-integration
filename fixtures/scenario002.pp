@@ -22,7 +22,11 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6          = true
-    $zaqar_enabled = true
+    # Zaqar tempest tests are now broken
+    # It's because Falcon is too old in OpenStack requierements
+    # and therefore in RDO trunk.
+    # https://bugs.launchpad.net/zaqar/+bug/1583358
+    $zaqar_enabled = false
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -46,7 +50,8 @@ include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
-include ::openstack_integration::zaqar
+# Zaqar disabled, see above
+# include ::openstack_integration::zaqar
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
