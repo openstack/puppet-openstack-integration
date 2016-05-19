@@ -53,20 +53,9 @@ if [ $(id -u) != 0 ]; then
   SUDO='sudo -E'
 fi
 
-# TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
-# can clone tempest outside of the gate. Also, tempest should be sandboxed into
-# the local directory but works needs to be added into puppet to properly find
-# the path.
-if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
-    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-        git://git.openstack.org openstack/tempest
-else
-    # remove existed checkout before clone
-    $SUDO rm -rf /tmp/openstack/tempest
-
-    # We're outside the gate, just do a regular git clone
-    git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
-fi
+# Tempest 12.0.0 is the current stable that supports Mitaka
+# http://docs.openstack.org/releasenotes/tempest/v12.0.0.html
+git clone -b 12.0.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 
 PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 
