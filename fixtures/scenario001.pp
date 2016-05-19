@@ -19,10 +19,14 @@ case $::osfamily {
     $ipv6               = false
     # we need https://review.openstack.org/#/c/318503/ backported in Mitaka / UCA
     $ceilometer_enabled = false
+    # gnocchi is not packaged in Ubuntu Cloud Archive
+    # https://bugs.launchpad.net/cloud-archive/+bug/1535740
+    $gnocchi_enabled    = false
   }
   'RedHat': {
     $ipv6               = true
     $ceilometer_enabled = true
+    $gnocchi_enabled    = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -77,4 +81,5 @@ class { '::openstack_integration::tempest':
   cinder     => true,
   ceilometer => $ceilometer_enabled,
   aodh       => $ceilometer_enabled,
+  gnocchi    => $gnocchi_enabled,
 }
