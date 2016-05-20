@@ -38,7 +38,7 @@ class openstack_integration::heat {
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     database_connection => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
     identity_uri        => $::openstack_integration::config::keystone_auth_uri,
-    auth_uri            => $::openstack_integration::config::keystone_admin_uri,
+    auth_plugin         => 'password',
     keystone_password   => 'a_big_secret',
     debug               => true,
   }

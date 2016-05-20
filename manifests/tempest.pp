@@ -90,7 +90,7 @@ class openstack_integration::tempest (
     identity_uri           => "${::openstack_integration::config::keystone_auth_uri}/v2.0",
     identity_uri_v3        => "${::openstack_integration::config::keystone_auth_uri}/v3",
     admin_username         => 'admin',
-    admin_tenant_name      => 'openstack',
+    admin_project_name     => 'openstack',
     admin_password         => 'a_big_secret',
     admin_domain_name      => 'Default',
     auth_version           => 'v3',

@@ -27,7 +27,6 @@ class openstack_integration::ceilometer {
 
   class { '::ceilometer':
     telemetry_secret => 'secrete',
-    metering_secret  => 'secrete',
     rabbit_userid    => 'ceilometer',
     rabbit_password  => 'an_even_bigger_secret',
     rabbit_host      => $::openstack_integration::config::ip_for_url,
