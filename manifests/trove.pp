@@ -61,13 +61,11 @@ class openstack_integration::trove {
   class { '::trove::client': }
   class { '::trove::conductor':
     debug    => true,
-    verbose  => true,
     workers  => 2,
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
   class { '::trove::taskmanager':
     debug                   => true,
-    verbose                 => true,
     auth_url                => $::openstack_integration::config::keystone_auth_uri,
     use_guestagent_template => false,
   }

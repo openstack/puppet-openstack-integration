@@ -5,7 +5,7 @@ class openstack_integration::swift {
   # TODO(emilien): deploy memcached in IPv6
   include ::memcached
   class { '::swift':
-    swift_hash_suffix => 'secrete',
+    swift_hash_path_suffix => 'secrete',
   }
   class { '::swift::proxy':
     proxy_local_net_ip => $::openstack_integration::config::host,
