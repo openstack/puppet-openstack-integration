@@ -79,4 +79,8 @@ class openstack_integration::aodh {
   class { '::aodh::evaluator': }
   class { '::aodh::db::sync': }
 
+  # TODO: remove this workaround after this bug is solved
+  # https://bugs.launchpad.net/aodh/+bug/1585267
+  aodh_config { 'api/enable_combination_alarms': value => true; }
+
 }
