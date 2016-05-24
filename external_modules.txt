@@ -3,7 +3,7 @@ duritong/puppet-sysctl
 nanliu/puppet-staging
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
-puppetlabs/puppetlabs-concat,1.2.5
+puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mongodb
