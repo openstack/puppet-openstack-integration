@@ -156,7 +156,7 @@ mod 'inifile',
 
 mod 'mongodb',
   :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :ref => '0.13.0'
+  :ref => '0.14.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -200,5 +200,5 @@ mod 'dns',
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => '1.0.0-beta1'
+  :ref => 'v1.0.2'
 
