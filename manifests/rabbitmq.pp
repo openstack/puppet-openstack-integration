@@ -15,6 +15,7 @@ class openstack_integration::rabbitmq {
   class { '::rabbitmq':
     delete_guest_user => true,
     package_provider  => $package_provider,
+    repos_ensure      => false,
   }
   rabbitmq_vhost { '/':
     provider => 'rabbitmqctl',
