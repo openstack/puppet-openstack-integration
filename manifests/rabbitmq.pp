@@ -25,6 +25,7 @@ class openstack_integration::rabbitmq {
       ssl_cert              => $::openstack_integration::params::cert_path,
       ssl_key               => "/etc/rabbitmq/ssl/private/${::fqdn}.pem",
       environment_variables => $::openstack_integration::config::rabbit_env,
+      repos_ensure          => false,
     }
   } else {
     class { '::rabbitmq':
