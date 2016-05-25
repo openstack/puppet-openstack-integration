@@ -41,7 +41,9 @@ include ::openstack_integration::keystone
 class { '::openstack_integration::glance':
   backend => 'rbd',
 }
-include ::openstack_integration::neutron
+class { '::openstack_integration::neutron':
+  lbaasv2 => true
+}
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
 }
