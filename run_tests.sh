@@ -198,11 +198,6 @@ TESTS="${TESTS} TestManageQueue"
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
-
-# https://review.openstack.org/#/c/297511/ broke our gate
-# we pin Tempest until we sort this out.
-git checkout a3c7945a5fff6be018de7a56a3faa59acc29f6bc
-
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
