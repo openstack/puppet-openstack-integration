@@ -71,7 +71,7 @@ class openstack_integration::ceilometer {
   class { '::ceilometer::agent::polling': }
   class { '::ceilometer::agent::auth':
     auth_password => 'a_big_secret',
-    auth_url      => "${::openstack_integration::config::keystone_auth_uri}/v2.0",
+    auth_url      => $::openstack_integration::config::keystone_auth_uri,
   }
 
 }
