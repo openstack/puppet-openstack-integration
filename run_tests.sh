@@ -207,6 +207,11 @@ TESTS="${TESTS} TestManageQueue"
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
+
+# TODO(emilien): remove pin when https://review.openstack.org/322608
+# is merged and RDO bumped.
+git checkout b02fa114b8bf0bc5d7b477ad887cf570ea55c1bb
+
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
