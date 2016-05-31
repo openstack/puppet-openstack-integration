@@ -12,6 +12,7 @@ class openstack_integration::keystone {
     admin_token         => 'admin_token',
     enabled             => true,
     service_name        => 'httpd',
+    manage_policyrcd    => true,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
