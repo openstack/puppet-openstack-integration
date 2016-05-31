@@ -7,7 +7,7 @@ puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mongodb
-puppetlabs/puppetlabs-mysql,5695cef4a66364d34ede90a08fe07e4b277ff8ba
+puppetlabs/puppetlabs-mysql
 puppetlabs/puppetlabs-postgresql
 puppetlabs/puppetlabs-rabbitmq
 puppetlabs/puppetlabs-rsync
