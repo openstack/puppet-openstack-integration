@@ -184,7 +184,7 @@ mod 'vcsrepo',
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
-  :ref => '1.5.0'
+  :ref => '2.0.0'
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
@@ -196,7 +196,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '3.2.0'
+  :ref => '3.3.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
