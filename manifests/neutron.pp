@@ -24,6 +24,7 @@ class openstack_integration::neutron (
     provider             => 'rabbitmqctl',
     require              => Class['::rabbitmq'],
   }
+  Rabbitmq_user_permissions['neutron@/'] -> Service<| tag == 'neutron-service' |>
 
   case $driver {
     'openvswitch': {
