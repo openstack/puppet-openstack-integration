@@ -74,7 +74,7 @@ Development
 
 Developer documentation for the entire Puppet OpenStack project:
 
-* https://wiki.openstack.org/wiki/Puppet
+* http://docs.openstack.org/developer/puppet-openstack-guide/
 
 
 All-In-One
