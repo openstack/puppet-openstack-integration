@@ -213,6 +213,11 @@ TESTS="${TESTS} TestManageQueue"
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
+
+# see context:
+# https://review.openstack.org/#/c/325520/
+git checkout c9e37ae50f8f87bb39d64295bfd40c515b4edeba
+
 tox -eall-plugin -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
