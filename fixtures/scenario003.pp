@@ -19,11 +19,14 @@ case $::osfamily {
     $ipv6            = false
     # mistral is not packaged on Ubuntu Trusty
     $mistral_enabled = false
+    # murano package should be fixed on Ubuntu Xenial
+    $murano_enabled  = false
   }
   'RedHat': {
     $ipv6            = true
     # enable when we figure why mistral tempest tests are so unstable
     $mistral_enabled = false
+    $murano_enabled  = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -71,6 +74,9 @@ include ::openstack_integration::sahara
 if $designate_enabled {
   include ::openstack_integration::designate
 }
+if $murano_enabled {
+  include ::openstack_integration::murano
+}
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
@@ -79,5 +85,6 @@ class { '::openstack_integration::tempest':
   mistral   => $mistral_enabled,
   sahara    => true,
   horizon   => true,
+  murano    => $murano_enabled,
   heat      => true,
 }
