@@ -10,7 +10,7 @@ if [ -n "${GEM_HOME}" ]; then
     GEM_BIN_DIR=${GEM_HOME}/bin/
 fi
 
-if [ "${PUPPET_VERSION}" = 4 ]; then
+if [ "${PUPPET_MAJ_VERSION}" = 4 ]; then
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
 else
   export PUPPET_BASE_PATH=/etc/puppet
