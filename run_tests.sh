@@ -17,7 +17,7 @@ export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
-export PUPPET_ARGS=${PUPPET_ARGS:-}
+export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export DISTRO=$(lsb_release -c -s)
 
@@ -62,6 +62,8 @@ else
 fi
 
 install_puppet
+PUPPET_FULL_PATH=$(which puppet)
+
 if uses_debs; then
     $SUDO apt-get install -y dstat
 elif is_fedora; then
@@ -70,37 +72,6 @@ elif is_fedora; then
     # SElinux in permissive mode so later we can catch alerts
     $SUDO selinuxenabled && $SUDO setenforce 0
 fi
-
-PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
-
-PUPPET_FULL_PATH=$(which puppet)
-
-function run_puppet() {
-    local manifest=$1
-    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS fixtures/${manifest}.pp
-    local res=$?
-
-    return $res
-}
-
-function catch_selinux_alerts() {
-    if is_fedora; then
-        $SUDO sealert -a /var/log/audit/audit.log
-        if $SUDO grep -iq 'type=AVC' /var/log/audit/audit.log; then
-            echo "AVC detected in /var/log/audit/audit.log"
-            # TODO: figure why latest rabbitmq deployed with SSL tries to write in SSL pem file.
-            # https://bugzilla.redhat.com/show_bug.cgi?id=1341738
-            if $SUDO grep -iqE 'denied.*system_r:rabbitmq_t' /var/log/audit/audit.log; then
-                echo "non-critical RabbitMQ AVC, ignoring it now."
-            else
-                echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."
-                exit 1
-            fi
-        else
-            echo 'No AVC detected in /var/log/audit/audit.log'
-        fi
-    fi
-}
 
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
