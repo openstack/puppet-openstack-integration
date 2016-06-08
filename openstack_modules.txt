@@ -3,7 +3,9 @@ barbican
 ceilometer
 ceph
 cinder
+congress
 designate
+ec2api
 glance
 gnocchi
 heat
@@ -27,4 +29,5 @@ swift
 tempest
 trove
 vswitch
+watcher
 zaqar
