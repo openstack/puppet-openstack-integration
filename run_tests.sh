@@ -42,7 +42,7 @@ fi
 
 if [ $(id -u) != 0 ]; then
   # preserve environment so we can have ZUUL_* params
-  SUDO='sudo -E'
+  export SUDO='sudo -E'
 fi
 
 print_header 'Clone Tempest'
@@ -61,41 +61,12 @@ else
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 fi
 
+install_puppet
 if uses_debs; then
-    print_header 'Setup (Debian based)'
-    # Puppetlabs packaging:
-    # - trusty: puppet3 and puppet4
-    # - xenial: puppet4 only
-    if [[ ${DISTRO} == "trusty" ]] || [[ ${DISTRO} == "xenial" && ${PUPPET_MAJ_VERSION} == 4 ]]; then
-          if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
-              $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
-          fi
-          $SUDO rm -f /tmp/puppet.deb
-          wget http://apt.puppetlabs.com/${PUPPET_RELEASE_FILE}-${DISTRO}.deb -O /tmp/puppet.deb
-          $SUDO dpkg -i /tmp/puppet.deb
-          # TODO(emilien): figure what installed /etc/default/puppet on the xenial nodepool image
-          # We have no problem on Trusty but on Xenial we need to remove /etc/default/puppet before
-          # trying to deploy puppet-agent from puppetlabs.com.
-          $SUDO rm -rf /etc/default/puppet
-    fi
-    $SUDO apt-get update
-    $SUDO apt-get install -y dstat ${PUPPET_PKG}
+    $SUDO apt-get install -y dstat
 elif is_fedora; then
-    print_header 'Setup (RedHat based)'
-    if rpm --quiet -q $PUPPET_RELEASE_FILE; then
-        $SUDO rpm -e $PUPPET_RELEASE_FILE
-    fi
-    # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
-    if rpm --quiet -q epel-release; then
-        $SUDO rpm -e epel-release
-    fi
-    $SUDO rm -f /tmp/puppet.rpm
-
-    wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
-    $SUDO rpm -ivh /tmp/puppet.rpm
-    $SUDO yum install -y dstat ${PUPPET_PKG} setools setroubleshoot audit
+    $SUDO yum install -y dstat setools setroubleshoot audit
     $SUDO service auditd start
-
     # SElinux in permissive mode so later we can catch alerts
     $SUDO setenforce 0
 fi
