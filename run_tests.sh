@@ -13,7 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-export PUPPET_VERSION=${PUPPET_VERSION:-3}
+export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
@@ -21,7 +21,7 @@ export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export DISTRO=$(lsb_release -c -s)
 
-if [ $PUPPET_VERSION == 4 ]; then
+if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
@@ -66,7 +66,7 @@ if uses_debs; then
     # Puppetlabs packaging:
     # - trusty: puppet3 and puppet4
     # - xenial: puppet4 only
-    if [[ ${DISTRO} == "trusty" ]] || [[ ${DISTRO} == "xenial" && ${PUPPET_VERSION} == 4 ]]; then
+    if [[ ${DISTRO} == "trusty" ]] || [[ ${DISTRO} == "xenial" && ${PUPPET_MAJ_VERSION} == 4 ]]; then
           if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
               $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
           fi
