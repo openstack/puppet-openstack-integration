@@ -40,6 +40,9 @@ EOF
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268
   mv $PUPPETFILE_DIR/openstack-integration $PUPPETFILE_DIR/openstack_integration
+
+  # Workaround to checkout stable/hammer and not stable/mitaka for puppet-ceph
+  cd $PUPPETFILE_DIR/ceph; git checkout stable/hammer; popd || true
 }
 
 # Install all Puppet modules with r10k
