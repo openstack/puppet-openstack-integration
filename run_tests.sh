@@ -68,7 +68,7 @@ elif is_fedora; then
     $SUDO yum install -y dstat setools setroubleshoot audit
     $SUDO service auditd start
     # SElinux in permissive mode so later we can catch alerts
-    $SUDO setenforce 0
+    $SUDO selinuxenabled && $SUDO setenforce 0
 fi
 
 PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
