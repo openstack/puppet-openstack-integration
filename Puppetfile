@@ -21,8 +21,16 @@ mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
   :ref => 'master'
 
+mod 'congress',
+  :git => 'https://git.openstack.org/openstack/puppet-congress',
+  :ref => 'master'
+
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
+  :ref => 'master'
+
+mod 'ec2api',
+  :git => 'https://git.openstack.org/openstack/puppet-ec2api',
   :ref => 'master'
 
 mod 'glance',
@@ -115,6 +123,10 @@ mod 'trove',
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
+  :ref => 'master'
+
+mod 'watcher',
+  :git => 'https://git.openstack.org/openstack/puppet-watcher',
   :ref => 'master'
 
 mod 'zaqar',
