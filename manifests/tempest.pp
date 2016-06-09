@@ -76,6 +76,14 @@ class openstack_integration::tempest (
   include ::openstack_integration::config
   include ::openstack_integration::params
 
+  # Install missed dependency for neutron tests
+  # https://github.com/openstack/neutron/blob/master/test-requirements.txt#L20
+  if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
+    package { ['python-ddt', 'python-oslotest']:
+      ensure => present
+    }
+  }
+
   class { '::tempest':
     debug                  => true,
     use_stderr             => false,
