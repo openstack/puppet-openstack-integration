@@ -62,7 +62,9 @@ done
 if uses_debs; then
     sudo cp /var/log/kern.log $LOG_DIR/kern_log.txt
 fi
-sudo journalctl --no-pager > $LOG_DIR/syslog.txt
+if which journalctl &> /dev/null; then
+    sudo journalctl --no-pager > $LOG_DIR/syslog.txt
+fi
 
 # rabbitmq logs
 if [ -d /var/log/rabbitmq ]; then
