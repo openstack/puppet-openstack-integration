@@ -60,11 +60,9 @@ done
 
 # system logs
 if uses_debs; then
-    sudo cp /var/log/syslog $LOG_DIR/syslog.txt
     sudo cp /var/log/kern.log $LOG_DIR/kern_log.txt
-elif is_fedora; then
-    sudo journalctl --no-pager > $LOG_DIR/syslog.txt
 fi
+sudo journalctl --no-pager > $LOG_DIR/syslog.txt
 
 # rabbitmq logs
 if [ -d /var/log/rabbitmq ]; then
