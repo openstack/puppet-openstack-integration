@@ -4,6 +4,7 @@ set -ex
 
 if [ -n "${GEM_HOME}" ]; then
     GEM_BIN_DIR=${GEM_HOME}/bin/
+    export PATH=${PATH}:${GEM_BIN_DIR}
 fi
 
 if [ "${PUPPET_VERSION}" = 4 ]; then

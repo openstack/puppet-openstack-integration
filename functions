@@ -9,7 +9,7 @@
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
 install_external() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 ${GEM_BIN_DIR}r10k puppetfile install -v
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k puppetfile install -v
 }
 
 # Install Puppet OpenStack modules with zuul-cloner
