@@ -67,6 +67,19 @@ class openstack_integration::keystone (
     ssl_cert        => $::openstack_integration::params::cert_path,
     workers         => 2,
   }
+  # Workaround to purge Keystone vhost that is provided & activated by default with running
+  # Canonical packaging (called 'keystone').
+  if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
+    ensure_resource('file', '/etc/apache2/sites-available/keystone.conf', {
+      'ensure'  => 'absent',
+    })
+    ensure_resource('file', '/etc/apache2/sites-enabled/keystone.conf', {
+      'ensure'  => 'absent',
+    })
+
+    Package['keystone'] -> File['/etc/apache2/sites-available/keystone.conf']
+    -> File['/etc/apache2/sites-enabled/keystone.conf'] ~> Anchor['keystone::install::end']
+  }
   class { '::keystone::roles::admin':
     email    => 'test@example.tld',
     password => 'a_big_secret',

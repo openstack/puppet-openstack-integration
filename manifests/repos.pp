@@ -9,6 +9,12 @@ class openstack_integration::repos {
           release         => 'mitaka',
           package_require => true,
         }
+      } else {
+        class { '::openstack_extras::repo::debian::ubuntu':
+          release         => 'newton',
+          repo            => 'updates',
+          package_require => true,
+        }
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure
