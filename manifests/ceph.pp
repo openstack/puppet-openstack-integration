@@ -51,7 +51,11 @@ class openstack_integration::ceph {
 
   # Extra Ceph configuration to increase performances
   $ceph_extra_config = {
-    'client/rbd_default_features' => { value => '15' },
+    'client/rbd_default_features'         => { value => '15' },
+    'global/osd_journal_size'             => { value => '100' },
+    'global/osd_max_object_namespace_len' => { value => '64' },
+    'global/osd_max_object_name_len'      => { value => '256' },
+
   }
   class { '::ceph::conf':
     args => $ceph_extra_config,
