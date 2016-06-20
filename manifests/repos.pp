@@ -36,16 +36,10 @@ class openstack_integration::repos {
             'priority' => 1,
           },
           'newton-delorean-deps' => {
-            'baseurl'  => 'http://cbs.centos.org/repos/cloud7-openstack-newton-testing/x86_64/os/',
+            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-newton',
             'descr'    => 'Newton delorean-deps',
             'gpgcheck' => 'no',
             'priority' => 1,
-          },
-          'mitaka-delorean-deps' => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/',
-            'descr'    => 'Mitaka delorean-deps',
-            'gpgcheck' => 'no',
-            'priority' => 2,
           },
         }
       }
