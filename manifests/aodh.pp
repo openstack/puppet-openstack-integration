@@ -55,11 +55,11 @@ class openstack_integration::aodh {
     password     => 'a_big_secret',
   }
   class { '::aodh::api':
-    enabled               => true,
-    keystone_password     => 'a_big_secret',
-    keystone_identity_uri => $::openstack_integration::config::keystone_admin_uri,
-    keystone_auth_uri     => $::openstack_integration::config::keystone_admin_uri,
-    service_name          => 'httpd',
+    enabled           => true,
+    keystone_password => 'a_big_secret',
+    keystone_auth_url => $::openstack_integration::config::keystone_admin_uri,
+    keystone_auth_uri => $::openstack_integration::config::keystone_admin_uri,
+    service_name      => 'httpd',
   }
   include ::apache
   class { '::aodh::wsgi::apache':
