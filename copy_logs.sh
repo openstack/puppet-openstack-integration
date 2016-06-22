@@ -43,6 +43,10 @@ for project in /etc/puppet/modules/*; do
     fi
 done
 
+# start of log capture
+# some commands could fail if service failed to be installed during Puppet runs
+set +e
+
 # Archive the project config & logs
 mkdir $LOG_DIR/etc/
 for p in $PROJECTS; do
@@ -166,9 +170,14 @@ free -m > $LOG_DIR/free.txt
 cat /proc/cpuinfo > $LOG_DIR/cpuinfo.txt
 ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
 
-# Make sure jenkins can read all the logs and configs
+# end of log capture
+set -e
+
+# Set permissions to let jenkins compress and archive logs.
+# Also make sure zuul can rsync all the logs and configs
 sudo find $LOG_DIR -type d -execdir sudo chmod 755 '{}' \;
 sudo find $LOG_DIR -type f -execdir sudo chmod 644 '{}' \;
+sudo chown -R jenkins:jenkins $LOG_DIR
 
 # do not try to save symlinks because source files might not have
 # the right permissions to let jenkins user to upload them on log servers.
