@@ -177,7 +177,7 @@ set -e
 # Also make sure zuul can rsync all the logs and configs
 sudo find $LOG_DIR -type d -execdir sudo chmod 755 '{}' \;
 sudo find $LOG_DIR -type f -execdir sudo chmod 644 '{}' \;
-sudo chown -R jenkins:jenkins $LOG_DIR
+sudo chown -R "$(id -u):$(id -g)" $LOG_DIR
 
 # do not try to save symlinks because source files might not have
 # the right permissions to let jenkins user to upload them on log servers.
