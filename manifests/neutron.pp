@@ -5,8 +5,13 @@
 #   Can be: openvswitch or linuxbridge.
 #   Defaults to 'ml2_ovs'.
 #
+# [*lbaasv2*]
+#  (optional) Configure lbaas v2 instead of v1
+#  Defaults to false
+#
 class openstack_integration::neutron (
-  $driver = 'openvswitch',
+  $driver  = 'openvswitch',
+  $lbaasv2 = false,
 ) {
 
   include ::openstack_integration::config
@@ -124,7 +129,10 @@ class openstack_integration::neutron (
     rpc_workers         => 2,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
+                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver'],
   }
+  class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'flat'],
     tenant_network_types => ['vxlan', 'flat'],
@@ -136,9 +144,19 @@ class openstack_integration::neutron (
     shared_secret    => 'a_big_secret',
     metadata_workers => 2,
   }
+  if $lbaasv2 {
+    $lbaasv1       = false
+    $device_driver = 'neutron_lbaas.drivers.haproxy.namespace_driver.HaproxyNSDriver'
+  } else {
+    $lbaasv1       = true
+    $device_driver = 'neutron_lbaas.services.loadbalancer.drivers.haproxy.namespace_driver.HaproxyNSDriver'
+  }
   class { '::neutron::agents::lbaas':
     interface_driver => $driver,
+    enable_v1        => $lbaasv1,
+    enable_v2        => $lbaasv2,
     debug            => true,
+    device_driver    => $device_driver
   }
   class { '::neutron::agents::l3':
     interface_driver        => $driver,
