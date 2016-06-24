@@ -135,10 +135,6 @@ fi
 # Tempest plugin tests require tempest-lib to be installed
 $SUDO pip install tempest-lib
 
-# Install Gabbi with pip until it's packaged in RDO:
-# https://bugzilla.redhat.com/show_bug.cgi?id=1252812
-$SUDO pip install gabbi
-
 set +e
 # Select what to test:
 # Smoke suite
@@ -149,6 +145,9 @@ TESTS="${TESTS} dashboard"
 
 # Aodh
 TESTS="${TESTS} TelemetryAlarming"
+
+# Gnocchi
+TESTS="${TESTS} gnocchi.tempest"
 
 # Ironic
 # Note: running all Ironic tests under SSL is not working

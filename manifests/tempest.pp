@@ -16,6 +16,10 @@
 #   (optional) Define if Glance needs to be tested.
 #   Default to true.
 #
+# [*gnocchi*]
+#   (optional) Define if Gnocchi needs to be tested.
+#   Default to false.
+#
 # [*heat*]
 #   (optional) Define if Heat needs to be tested.
 #   Default to false.
@@ -61,6 +65,7 @@ class openstack_integration::tempest (
   $ceilometer = false,
   $cinder     = false,
   $glance     = true,
+  $gnocchi    = false,
   $heat       = false,
   $horizon    = false,
   $ironic     = false,
@@ -118,6 +123,7 @@ class openstack_integration::tempest (
     ironic_available       => $ironic,
     zaqar_available        => $zaqar,
     mistral_available      => $mistral,
+    gnocchi_available      => $gnocchi,
     public_network_name    => 'public',
     dashboard_url          => $::openstack_integration::config::base_url,
     flavor_ref             => '42',
