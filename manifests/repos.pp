@@ -6,6 +6,7 @@ class openstack_integration::repos {
       class { '::openstack_extras::repo::debian::ubuntu':
         release         => 'mitaka',
         package_require => true,
+        uca_location    => $::ubuntu_mirror_host,
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure
