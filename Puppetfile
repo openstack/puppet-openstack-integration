@@ -212,5 +212,5 @@ mod 'dns',
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => 'v1.2.1'
+  :ref => 'v2.0.0'
 
