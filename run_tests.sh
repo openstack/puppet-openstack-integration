@@ -164,8 +164,6 @@ if uses_debs; then
     # TODO: we need to find why tempest tests fail when running
     # latest Ubuntu Mitaka on Xenial and recent Tempest.
     git checkout c9e37ae50f8f87bb39d64295bfd40c515b4edeba
-else
-    git fetch https://git.openstack.org/openstack/tempest refs/changes/09/334209/4 && git checkout FETCH_HEAD
 fi
 
 tox -eall-plugin -- --concurrency=2 $TESTS
