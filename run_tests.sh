@@ -25,10 +25,11 @@ if [ -f /etc/nodepool/provider ]; then
     source /etc/nodepool/provider
     NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
     NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+    CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
 else
-    NODEPOOL_MIRROR_HOST='mirror.centos.org'
+    CENTOS_MIRROR_HOST='mirror.centos.org'
 fi
-export FACTER_nodepool_mirror_host="http://${NODEPOOL_MIRROR_HOST}"
+export FACTER_centos_mirror_host="http://${CENTOS_MIRROR_HOST}"
 
 if [ $PUPPET_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
