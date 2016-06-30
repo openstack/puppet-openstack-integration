@@ -41,7 +41,8 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
 } else {
   $ssl_enabled     = true
   $horizon_enabled = true
-  $trove_enabled   = true
+  # https://bugs.launchpad.net/trove/+bug/1597857
+  $trove_enabled   = false
 }
 
 include ::openstack_integration
