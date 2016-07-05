@@ -12,6 +12,10 @@
 #   (optional) Define if Cinder needs to be tested.
 #   Default to false.
 #
+# [*designate*]
+#   (optional) Define if Designate needs to be tested.
+#   Default to false.
+#
 # [*glance*]
 #   (optional) Define if Glance needs to be tested.
 #   Default to true.
@@ -68,6 +72,7 @@ class openstack_integration::tempest (
   $aodh                    = false,
   $ceilometer              = false,
   $cinder                  = false,
+  $designate               = false,
   $glance                  = true,
   $gnocchi                 = false,
   $heat                    = false,
@@ -116,6 +121,7 @@ class openstack_integration::tempest (
     image_name              => 'cirros',
     image_name_alt          => 'cirros_alt',
     cinder_available        => $cinder,
+    designate_available     => $designate,
     glance_available        => $glance,
     horizon_available       => $horizon,
     nova_available          => $nova,
