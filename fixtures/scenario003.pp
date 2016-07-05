@@ -70,12 +70,14 @@ include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
 # include ::openstack_integration::mistral
 include ::openstack_integration::sahara
+include ::openstack_integration::designate
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
-  trove   => $trove_enabled,
-  mistral => $mistral_enabled,
-  sahara  => true,
-  horizon => true,
-  heat    => true,
+  designate => true,
+  trove     => $trove_enabled,
+  mistral   => $mistral_enabled,
+  sahara    => true,
+  horizon   => true,
+  heat      => true,
 }
