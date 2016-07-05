@@ -206,6 +206,13 @@ if [ -f $LOG_DIR/rabbitmq ]; then
     done
 fi
 
+# stackviz
+if [ -d /opt/stackviz ]; then
+    cp -r /opt/stackviz/build /tmp/stackviz
+    sudo pip install -U /opt/stackviz
+    stackviz-export --env -f /tmp/openstack/tempest/testrepository.subunit /tmp/stackviz/data
+    mv /tmp/stackviz $LOG_DIR
+fi
 
 # Compress all text logs
 sudo find $LOG_DIR -iname '*.txt' -type f -execdir gzip -9 {} \+
