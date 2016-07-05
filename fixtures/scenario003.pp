@@ -31,16 +31,13 @@ case $::osfamily {
 }
 
 # List of workarounds for Ubuntu Xenial:
-# - disable Horizon
 # - disable SSL
 # - disable Trove (Taskmanager is failing)
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
   $ssl_enabled     = false
-  $horizon_enabled = false
   $trove_enabled   = false
 } else {
   $ssl_enabled     = true
-  $horizon_enabled = true
   # https://bugs.launchpad.net/trove/+bug/1597857
   $trove_enabled   = false
 }
@@ -64,9 +61,7 @@ include ::openstack_integration::nova
 if $trove_enabled {
   include ::openstack_integration::trove
 }
-if $horizon_enabled {
-  include ::openstack_integration::horizon
-}
+include ::openstack_integration::horizon
 include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
 # include ::openstack_integration::mistral
@@ -77,6 +72,6 @@ class { '::openstack_integration::tempest':
   trove   => $trove_enabled,
   sahara  => true,
   mistral => $mistral_enabled,
-  horizon => $horizon_enabled,
+  horizon => true,
   heat    => true,
 }
