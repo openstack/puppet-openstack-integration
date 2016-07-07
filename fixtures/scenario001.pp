@@ -34,18 +34,11 @@ case $::osfamily {
 }
 
 # List of workarounds for Ubuntu Xenial:
-# - disable ceph
 # - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled    = false
-  $glance_backend = 'file'
-  $cinder_backend = 'iscsi'
-  $libvirt_rbd    = false
+  $ssl_enabled = false
 } else {
-  $ssl_enabled    = true
-  $glance_backend = 'rbd'
-  $cinder_backend = 'rbd'
-  $libvirt_rbd    = true
+  $ssl_enabled = true
 }
 
 include ::openstack_integration
@@ -58,25 +51,23 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 class { '::openstack_integration::glance':
-  backend => $glance_backend,
+  backend => 'rbd',
 }
 class { '::openstack_integration::neutron':
   lbaasv2 => true
 }
 class { '::openstack_integration::nova':
-  libvirt_rbd => $libvirt_rbd,
+  libvirt_rbd => true,
 }
 class { '::openstack_integration::cinder':
-  backend => $cinder_backend,
+  backend => 'rbd',
 }
 if $ceilometer_enabled {
   include ::openstack_integration::ceilometer
   include ::openstack_integration::aodh
   include ::openstack_integration::gnocchi
 }
-if $libvirt_rbd {
-  include ::openstack_integration::ceph
-}
+include ::openstack_integration::ceph
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
