@@ -30,7 +30,7 @@ class openstack_integration::repos {
         manage_epel => false,
         repo_hash   => {
           'newton-current'       => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/32/0d/320dd398addb1d9dfff302632f56b91572afd1e3_07716550/',
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/5b/b1/5bb13005806597e38ee504bf5a3f42b437ec0890_af9bddfb/',
             'descr'    => 'Newton current',
             'gpgcheck' => 'no',
             'priority' => 1,
