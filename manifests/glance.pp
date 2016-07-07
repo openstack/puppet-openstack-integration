@@ -82,7 +82,6 @@ class openstack_integration::glance (
       Exec['create-glance'] -> Service['glance-api']
     }
     'swift': {
-      Service<| tag == 'swift-service' |> -> Service['glance-api']
       $backend_store = ['swift']
       class { '::glance::backend::swift':
         swift_store_user                    => 'services:glance',

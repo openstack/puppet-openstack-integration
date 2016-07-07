@@ -22,43 +22,43 @@ Infrastructure environment.
 Description
 -----------
 
-OpenStack Infrastructure is deploying three jobs per supported Operating System
-(Ubuntu and CentOS): scenario001, scenario002 and scenario003.
+OpenStack Infrastructure is deploying four jobs per supported Operating System
+(Ubuntu and CentOS): scenario001, scenario002, scenario003 and scenario004.
 
-OpenStack services are balanced between three scenarios because OpenStack
+OpenStack services are balanced between four scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running everything on
 the same node.
 One manifest (scenario-aio) is used for people who want to [run a simple All-In-One
 scenario](#all-in-one).
 
-|     -      | scenario001 | scenario002 | scenario003 | scenario-aio |
-|:----------:|:-----------:|:-----------:|:-----------:|:-------------:
-| ssl        |     yes     |      yes    |      yes    |      no      |
-| ipv6       |   centos7   |    centos7  |    centos7  |      no      |
-| keystone   |      X      |       X     |       X     |       X      |
-| tokens     |    uuid     |     uuid    |    fernet   |     uuid     |
-| glance     |     rbd     |     swift   |     file    |     file     |
-| nova       |     rbd     |       X     |       X     |       X      |
-| neutron    |     ovs     |      ovs    | linuxbridge |      ovs     |
-| lbaas      |     v2      |      v2     |     v2      |      v2      |
-| cinder     |     rbd     |     iscsi   |             |    iscsi     |
-| ceilometer |      X      |             |             |              |
-| aodh       |      X      |             |             |              |
-| designate  |             |             |     bind    |              |
-| backup     |             |    swift    |             |              |
-| gnocchi    |     rbd     |             |             |              |
-| ec2api     |             |       X     |             |              |
-| heat       |             |             |       X     |              |
-| swift      |             |       X     |             |              |
-| sahara     |             |             |       X     |              |
-| trove      |             |             |       X     |              |
-| horizon    |             |             |       X     |       X      |
-| ironic     |             |       X     |             |              |
-| zaqar      |             |       X     |             |              |
-| barbican   |             |       X     |             |              |
-| murano     |             |             |       X     |              |
-| ceph       |      X      |             |             |              |
-| mongodb    |             |       X     |             |              |
+|     -      | scenario001 | scenario002 | scenario003 | scenario004 | scenario-aio |
+|:----------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
+| ssl        |     yes     |      yes    |      yes    |     yes     |     no       |
+| ipv6       |   centos7   |    centos7  |    centos7  |      no     |     no       |
+| keystone   |      X      |       X     |       X     |      X      |      X       |
+| tokens     |    uuid     |     uuid    |    fernet   |   fernet    |    uuid      |
+| glance     |     rbd     |     swift   |     file    |  swift+rgw  |    file      |
+| nova       |     rbd     |       X     |       X     |     rbd     |      X       |
+| neutron    |     ovs     |      ovs    | linuxbridge |     ovs     |     ovs      |
+| lbaas      |     v2      |      v2     |     v2      |             |     v2       |
+| cinder     |     rbd     |     iscsi   |             |             |   iscsi      |
+| ceilometer |      X      |             |             |             |              |
+| aodh       |      X      |             |             |             |              |
+| designate  |             |             |     bind    |             |              |
+| backup     |             |    swift    |             |             |              |
+| gnocchi    |     rbd     |             |             |             |              |
+| ec2api     |             |       X     |             |             |              |
+| heat       |             |             |       X     |             |              |
+| swift      |             |       X     |             |             |              |
+| sahara     |             |             |       X     |             |              |
+| trove      |             |             |       X     |             |              |
+| horizon    |             |             |       X     |             |      X       |
+| ironic     |             |       X     |             |             |              |
+| zaqar      |             |       X     |             |             |              |
+| barbican   |             |       X     |             |             |              |
+| ceph       |      X      |             |             |      X      |              |
+| ceph rgw   |             |             |             |      X      |              |
+| mongodb    |             |       X     |             |             |              |
 
 When the Jenkins slave is created, the *run_tests.sh* script will executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
