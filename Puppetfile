@@ -206,11 +206,9 @@ mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
   :ref => '1.12.0'
 
-# Pinned because puppet-designate idempotency requires
-# a commit which has not been cut into a tag
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => 'bd8dc8edacc449c0e1b259246ba93c23c392b30c'
+  :ref => '3.3.1'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',

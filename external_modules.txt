@@ -16,5 +16,5 @@ puppetlabs/puppetlabs-vcsrepo
 puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
 stankevich/puppet-python
-theforeman/puppet-dns,bd8dc8edacc449c0e1b259246ba93c23c392b30c
+theforeman/puppet-dns
 voxpupuli/puppet-corosync
