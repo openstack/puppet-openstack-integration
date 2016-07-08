@@ -17,6 +17,7 @@ class openstack_integration::mistral {
     provider             => 'rabbitmqctl',
     require              => Class['rabbitmq'],
   }
+  Rabbitmq_user_permissions['mistral@/'] -> Service<| tag == 'mistral-service' |>
 
   if $::osfamily == 'RedHat' {
     if $::openstack_integration::config::ssl {

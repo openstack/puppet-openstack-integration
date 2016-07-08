@@ -24,8 +24,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6            = true
-    # enable when we figure why mistral tempest tests are so unstable
-    $mistral_enabled = false
+    $mistral_enabled = true
     $murano_enabled  = true
   }
   default: {
@@ -68,14 +67,15 @@ include ::openstack_integration::nova
 include ::openstack_integration::trove
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-# enable when we figure why mistral tempest tests are so unstable
-# include ::openstack_integration::mistral
 include ::openstack_integration::sahara
 if $designate_enabled {
   include ::openstack_integration::designate
 }
 if $murano_enabled {
   include ::openstack_integration::murano
+}
+if $mistral_enabled {
+  include ::openstack_integration::mistral
 }
 include ::openstack_integration::provision
 
