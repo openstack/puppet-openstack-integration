@@ -97,4 +97,19 @@ class openstack_integration::keystone (
     user_domain    => 'default',
     auth_url       => "${::openstack_integration::config::keystone_auth_uri}/v3/",
   }
+
+  # We need tempest users to have the creator role to be able to store
+  # secrets in barbican.  We do this by adding the creator role to the
+  # tempest_roles list in tempest.conf.
+  # We also need the Member role for some swift container tests.
+  # Ordinarily tempest code in dynamic_creds.py would create
+  # this role and assign users to it.  This code is not executed, however,
+  # when tempest_roles is defined.  Therefore we need to make sure this
+  # role is created here, and added to tempest_roles.
+  keystone_role { 'creator':
+    ensure => present,
+  }
+  keystone_role { 'Member':
+    ensure => present,
+  }
 }

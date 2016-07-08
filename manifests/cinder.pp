@@ -5,8 +5,13 @@
 #   Can be 'iscsi' or 'rbd'.
 #   Defaults to 'iscsi'.
 #
+# [*volume_encryption*]
+#   (optional) Boolean to configure or not volume encryption
+#   Defaults to false.
+#
 class openstack_integration::cinder (
-  $backend = 'iscsi',
+  $backend           = 'iscsi',
+  $volume_encryption = false,
 ) {
 
   include ::openstack_integration::config
@@ -57,13 +62,29 @@ class openstack_integration::cinder (
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
     debug               => true,
   }
-  class { '::cinder::api':
-    keystone_password   => 'a_big_secret',
+  if $volume_encryption {
+    $keymgr_api_class           = 'cinder.keymgr.barbican.BarbicanKeyManager'
+    $keymgr_encryption_api_url  = "${::openstack_integration::config::base_url}:9311/v1"
+    $keymgr_encryption_auth_url = "${::openstack_integration::config::keystone_auth_uri}/v3"
+  } else {
+    $keymgr_api_class           = undef
+    $keymgr_encryption_api_url  = undef
+    $keymgr_encryption_auth_url = undef
+  }
+  class { '::cinder::keystone::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    identity_uri        => $::openstack_integration::config::keystone_admin_uri,
-    default_volume_type => 'BACKEND_1',
-    public_endpoint     => "${::openstack_integration::config::base_url}:8776",
-    service_name        => 'httpd',
+  }
+  class { '::cinder::api':
+    default_volume_type        => 'BACKEND_1',
+    public_endpoint            => "${::openstack_integration::config::base_url}:8776",
+    service_name               => 'httpd',
+    keymgr_api_class           => $keymgr_api_class,
+    keymgr_encryption_api_url  => $keymgr_encryption_api_url,
+    keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
   include ::apache
   class { '::cinder::wsgi::apache':
@@ -81,7 +102,7 @@ class openstack_integration::cinder (
   }
   class { '::cinder::cron::db_purge': }
   class { '::cinder::glance':
-    glance_api_servers  => "${::openstack_integration::config::base_url}:9292",
+    glance_api_servers => "${::openstack_integration::config::base_url}:9292",
   }
   case $backend {
     'iscsi': {

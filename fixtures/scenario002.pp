@@ -16,13 +16,17 @@
 
 case $::osfamily {
   'Debian': {
-    $ipv6           = false
+    $ipv6             = false
     # zaqar is not packaged in Ubuntu Trusty
-    $zaqar_enabled  = false
+    $zaqar_enabled    = false
+    # we'll start testing barbican after Newton stable, Ubuntu packaging is not
+    # updated enough.
+    $barbican_enabled = false
   }
   'RedHat': {
-    $ipv6           = true
-    $zaqar_enabled  = true
+    $ipv6               = true
+    $zaqar_enabled      = true
+    $barbican_enabled   = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -49,18 +53,28 @@ class { '::openstack_integration::glance':
   backend => 'swift',
 }
 include ::openstack_integration::neutron
-include ::openstack_integration::nova
-include ::openstack_integration::cinder
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
 include ::openstack_integration::zaqar
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
+class { '::openstack_integration::nova':
+  volume_encryption => $barbican_enabled,
+}
+
+class { '::openstack_integration::cinder':
+  volume_encryption => $barbican_enabled,
+}
+
+if $barbican_enabled {
+  include ::openstack_integration::barbican
+}
 
 class { '::openstack_integration::tempest':
-  cinder => true,
-  swift  => true,
-  ironic => true,
-  zaqar  => $zaqar_enabled,
+  cinder                  => true,
+  swift                   => true,
+  ironic                  => true,
+  zaqar                   => $zaqar_enabled,
+  attach_encrypted_volume => $barbican_enabled,
 }
