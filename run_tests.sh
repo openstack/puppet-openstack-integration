@@ -21,6 +21,20 @@ export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --t
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export DISTRO=$(lsb_release -c -s)
 
+# NOTE(pabelanger): Setup facter to know about AFS mirror.
+if [ -f /etc/nodepool/provider ]; then
+    source /etc/nodepool/provider
+    NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
+    NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+    CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
+    UBUNTU_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
+else
+    CENTOS_MIRROR_HOST='mirror.centos.org'
+    UBUNTU_MIRROR_HOST='ubuntu-cloud.archive.canonical.com/ubuntu'
+fi
+export FACTER_centos_mirror_host="http://${CENTOS_MIRROR_HOST}"
+export FACTER_ubuntu_mirror_host="http://${UBUNTU_MIRROR_HOST}"
+
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1

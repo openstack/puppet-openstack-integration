@@ -14,6 +14,7 @@ class openstack_integration::repos {
           release         => 'newton',
           repo            => 'updates',
           package_require => true,
+          uca_location    => $::ubuntu_mirror_host,
         }
       }
       # Ceph is both packaged on UCA & ceph.com
