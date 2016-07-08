@@ -135,6 +135,9 @@ fi
 # Tempest plugin tests require tempest-lib to be installed
 $SUDO pip install tempest-lib
 
+# We need latest testrepository to run stackviz correctly
+$SUDO pip install -U testrepository
+
 set +e
 # Select what to test:
 # Smoke suite
