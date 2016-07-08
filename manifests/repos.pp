@@ -6,13 +6,14 @@ class openstack_integration::repos {
       class { '::openstack_extras::repo::debian::ubuntu':
         release         => 'liberty',
         package_require => true,
+        uca_location    => $::ubuntu_mirror_host,
       }
       $package_provider = 'apt'
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
         release           => 'liberty',
-        centos_mirror_url => $::nodepool_mirror_host,
+        centos_mirror_url => $::centos_mirror_host,
       }
       package { 'openstack-selinux': ensure => 'latest' }
       $package_provider = 'yum'
