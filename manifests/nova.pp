@@ -65,7 +65,6 @@ class openstack_integration::nova (
     auth_uri                             => $::openstack_integration::config::keystone_auth_uri,
     identity_uri                         => $::openstack_integration::config::keystone_admin_uri,
     api_bind_address                     => $::openstack_integration::config::host,
-    osapi_v3                             => true,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
     metadata_workers                     => 2,
     default_floating_pool                => 'public',
