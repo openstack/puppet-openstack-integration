@@ -19,11 +19,14 @@ case $::osfamily {
     $ipv6            = false
     # mistral is not packaged on Ubuntu Trusty
     $mistral_enabled = false
+    # We're investigating issues with Horizon setup on Ubuntu Xenial
+    $horizon_enabled = false
   }
   'RedHat': {
     $ipv6            = true
     # enable when we figure why mistral tempest tests are so unstable
     $mistral_enabled = false
+    $horizon_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -72,6 +75,6 @@ class { '::openstack_integration::tempest':
   trove   => $trove_enabled,
   sahara  => true,
   mistral => $mistral_enabled,
-  horizon => true,
+  horizon => $horizon_enabled,
   heat    => true,
 }

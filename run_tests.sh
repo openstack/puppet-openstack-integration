@@ -59,7 +59,7 @@ if [ $(id -u) != 0 ]; then
   export SUDO='sudo -E'
 fi
 
-print_header 'Clone Tempest'
+print_header 'Clone Tempest and plugins'
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
@@ -67,12 +67,16 @@ print_header 'Clone Tempest'
 if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
     /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
         git://git.openstack.org openstack/tempest
+    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
+        git://git.openstack.org openstack/tempest-horizon
 else
     # remove existed checkout before clone
     $SUDO rm -rf /tmp/openstack/tempest
+    $SUDO rm -rf /tmp/openstack/tempest-horizon
 
     # We're outside the gate, just do a regular git clone
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+    git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
 fi
 
 install_puppet
@@ -152,6 +156,9 @@ $SUDO pip install tempest-lib
 
 # We need latest testrepository to run stackviz correctly
 $SUDO pip install -U testrepository
+
+# TODO(emilien): install from source now until packaged
+cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
 
 set +e
 # Select what to test:
