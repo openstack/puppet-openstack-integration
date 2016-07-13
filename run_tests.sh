@@ -102,7 +102,8 @@ set +e
 if [ "${MANAGE_REPOS}" = true ]; then
     print_header 'Install repos'
     $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
-    if [ $? -ne 2 ]; then
+    RESULT=$?
+    if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
         print_header 'Puppet failed to install repositories.'
         exit 1
     fi
@@ -112,7 +113,7 @@ print_header "Running Puppet Scenario: ${SCENARIO} (1st time)"
 run_puppet $SCENARIO
 RESULT=$?
 set -e
-if [ $RESULT -ne 2 ]; then
+if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
     print_header 'First Puppet run contains errors in catalog.'
     print_header 'SELinux Alerts (1st time)'
     catch_selinux_alerts
