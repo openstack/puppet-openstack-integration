@@ -214,6 +214,11 @@ if [ -d /opt/stackviz ]; then
     mv /tmp/stackviz $LOG_DIR
 fi
 
+# hiera
+if [ -d $SCRIPT_DIR/hiera ]; then
+    mv $SCRIPT_DIR/hiera $LOG_DIR
+fi
+
 # Compress all text logs
 sudo find $LOG_DIR -iname '*.txt' -type f -execdir gzip -9 {} \+
 sudo find $LOG_DIR -iname '*.dat' -type f -execdir gzip -9 {} \+
