@@ -43,6 +43,7 @@ class openstack_integration::sahara {
     debug               => true,
     auth_uri            => "${::openstack_integration::config::keystone_admin_uri}/v2.0",
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::sahara::service::api':
     api_workers => 2,

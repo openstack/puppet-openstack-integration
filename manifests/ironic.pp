@@ -49,11 +49,12 @@ class openstack_integration::ironic {
   }
   class { '::ironic::client': }
   class { '::ironic::api':
-    auth_uri       => $::openstack_integration::config::keystone_auth_uri,
-    identity_uri   => $::openstack_integration::config::keystone_admin_uri,
-    neutron_url    => "http://${::openstack_integration::config::ip_for_url}:9696",
-    admin_password => 'a_big_secret',
-    service_name   => 'httpd',
+    auth_uri          => $::openstack_integration::config::keystone_auth_uri,
+    identity_uri      => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers => $::openstack_integration::config::memcached_servers,
+    neutron_url       => "http://${::openstack_integration::config::ip_for_url}:9696",
+    admin_password    => 'a_big_secret',
+    service_name      => 'httpd',
   }
   include ::apache
   class { '::ironic::wsgi::apache':

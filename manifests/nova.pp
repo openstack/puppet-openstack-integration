@@ -59,6 +59,7 @@ class openstack_integration::nova (
     rabbit_userid           => 'nova',
     rabbit_password         => 'an_even_bigger_secret',
     rabbit_use_ssl          => $::openstack_integration::config::ssl,
+    memcached_servers       => $::openstack_integration::config::memcached_servers,
     use_ipv6                => $::openstack_integration::config::ipv6,
     glance_api_servers      => "${::openstack_integration::config::base_url}:9292",
     debug                   => true,

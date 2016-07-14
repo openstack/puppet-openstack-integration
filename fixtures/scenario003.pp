@@ -48,6 +48,7 @@ class { '::openstack_integration::config':
   ssl  => $ssl_enabled,
 }
 include ::openstack_integration::cacert
+include ::openstack_integration::memcached
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 class { '::openstack_integration::keystone':

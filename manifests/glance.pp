@@ -92,6 +92,7 @@ class openstack_integration::glance (
     bind_host                 => $::openstack_integration::config::host,
     auth_uri                  => $::openstack_integration::config::keystone_auth_uri,
     identity_uri              => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers         => $::openstack_integration::config::memcached_servers,
     registry_client_protocol  => $::openstack_integration::config::proto,
     registry_client_cert_file => $crt_file,
     registry_client_key_file  => $key_file,
@@ -107,6 +108,7 @@ class openstack_integration::glance (
     workers             => 2,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     identity_uri        => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
     cert_file           => $crt_file,
     key_file            => $key_file,
   }

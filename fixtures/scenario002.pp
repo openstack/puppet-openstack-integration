@@ -46,6 +46,7 @@ class { '::openstack_integration::config':
   ipv6 => $ipv6,
 }
 include ::openstack_integration::cacert
+include ::openstack_integration::memcached
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
