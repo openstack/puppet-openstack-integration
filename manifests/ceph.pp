@@ -39,7 +39,7 @@ class openstack_integration::ceph {
       },
     },
     osds                      => {
-      '/srv/data' => {},
+      '/var/lib/ceph/data' => {},
     },
   }
 
