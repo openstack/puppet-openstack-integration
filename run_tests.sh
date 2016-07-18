@@ -17,8 +17,10 @@ export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
-export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
+export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
+export MANAGE_HIERA=${MANAGE_HIERA:-true}
+export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG}"
 export DISTRO=$(lsb_release -c -s)
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
@@ -81,6 +83,9 @@ fi
 
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)
+if [ "${MANAGE_HIERA}" = true ]; then
+  configure_hiera
+fi
 
 if uses_debs; then
     $SUDO apt-get install -y dstat
