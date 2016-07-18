@@ -36,7 +36,7 @@ class openstack_integration::horizon {
     horizon_cert     => $::openstack_integration::params::cert_path,
     horizon_key      => "/etc/openstack-dashboard/ssl/private/${::fqdn}.pem",
     horizon_ca       => $::openstack_integration::params::ca_bundle_cert_path,
-    keystone_url     => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    keystone_url     => $::openstack_integration::config::keystone_auth_uri,
     # need to disable offline compression due to
     # https://bugs.launchpad.net/ubuntu/+source/horizon/+bug/1424042
     compress_offline => false,
