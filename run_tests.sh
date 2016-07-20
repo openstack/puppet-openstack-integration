@@ -30,11 +30,11 @@ if [ -f /etc/nodepool/provider ]; then
     NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
     CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
     UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
-    CEPH_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
+    CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
 else
     CENTOS_MIRROR_HOST='mirror.centos.org'
     UCA_MIRROR_HOST='ubuntu-cloud.archive.canonical.com/ubuntu'
-    CEPH_MIRROR_HOST='download.ceph.com'
+    CEPH_MIRROR_HOST='download.ceph.com/debian-jewel'
 fi
 export FACTER_centos_mirror_host="http://${CENTOS_MIRROR_HOST}"
 export FACTER_uca_mirror_host="http://${UCA_MIRROR_HOST}"

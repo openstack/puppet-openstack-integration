@@ -55,17 +55,15 @@ class openstack_integration::repos {
   if $::operatingsystem == 'CentOS' {
     $enable_sig  = true
     $enable_epel = false
-    $ceph_mirror = "${::ceph_mirror_host}/debian-jewel"
   } else {
     $enable_sig  = false
     $enable_epel = true
-    $ceph_mirror = "${::ceph_mirror_host}/ceph-deb-jewel"
   }
 
   class { '::ceph::repo':
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
-    ceph_mirror => $ceph_mirror,
+    ceph_mirror => $::ceph_mirror_host,
   }
 
 }
