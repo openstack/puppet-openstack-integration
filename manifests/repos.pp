@@ -14,7 +14,7 @@ class openstack_integration::repos {
           release         => 'newton',
           repo            => 'updates',
           package_require => true,
-          uca_location    => $::ubuntu_mirror_host,
+          uca_location    => $::uca_mirror_host,
         }
       }
       # Ceph is both packaged on UCA & ceph.com
@@ -55,14 +55,17 @@ class openstack_integration::repos {
   if $::operatingsystem == 'CentOS' {
     $enable_sig  = true
     $enable_epel = false
+    $ceph_mirror = "${::ceph_mirror_host}/debian-jewel"
   } else {
     $enable_sig  = false
     $enable_epel = true
+    $ceph_mirror = "${::ceph_mirror_host}/ceph-deb-jewel"
   }
 
   class { '::ceph::repo':
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
+    ceph_mirror => $ceph_mirror,
   }
 
 }

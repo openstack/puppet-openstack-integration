@@ -29,13 +29,16 @@ if [ -f /etc/nodepool/provider ]; then
     NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
     NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
     CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
-    UBUNTU_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
+    UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
+    CEPH_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
 else
     CENTOS_MIRROR_HOST='mirror.centos.org'
-    UBUNTU_MIRROR_HOST='ubuntu-cloud.archive.canonical.com/ubuntu'
+    UCA_MIRROR_HOST='ubuntu-cloud.archive.canonical.com/ubuntu'
+    CEPH_MIRROR_HOST='download.ceph.com'
 fi
 export FACTER_centos_mirror_host="http://${CENTOS_MIRROR_HOST}"
-export FACTER_ubuntu_mirror_host="http://${UBUNTU_MIRROR_HOST}"
+export FACTER_uca_mirror_host="http://${UCA_MIRROR_HOST}"
+export FACTER_ceph_mirror_host="http://${CEPH_MIRROR_HOST}"
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
