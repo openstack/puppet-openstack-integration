@@ -19,16 +19,10 @@ case $::osfamily {
     $ipv6           = false
     # zaqar is not packaged in Ubuntu Trusty
     $zaqar_enabled  = false
-    # TODO(emilien): enable again when deploying Newton
-    # A recent patch in Tempest broke tests in Ironic Mitaka
-    # Fixed in master: https://review.openstack.org/322608 but
-    # not backported.
-    $ironic_enabled = false
   }
   'RedHat': {
     $ipv6           = true
     $zaqar_enabled  = true
-    $ironic_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -58,9 +52,7 @@ include ::openstack_integration::neutron
 include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::swift
-if $ironic_enabled {
-  include ::openstack_integration::ironic
-}
+include ::openstack_integration::ironic
 include ::openstack_integration::zaqar
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
@@ -69,6 +61,6 @@ include ::openstack_integration::provision
 class { '::openstack_integration::tempest':
   cinder => true,
   swift  => true,
-  ironic => $ironic_enabled,
+  ironic => true,
   zaqar  => $zaqar_enabled,
 }
