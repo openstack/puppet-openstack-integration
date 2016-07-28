@@ -1,4 +1,5 @@
 antonlindstrom/puppet-powerdns
+camptocamp/puppet-kmod
 duritong/puppet-sysctl
 nanliu/puppet-staging
 puppetlabs/puppetlabs-apache

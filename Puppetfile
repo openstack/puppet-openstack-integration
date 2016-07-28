@@ -214,3 +214,7 @@ mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
   :ref => 'v2.0.1'
 
+mod 'kmod',
+  :git => 'https://github.com/camptocamp/puppet-kmod',
+  :ref => '2.1.1'
+
