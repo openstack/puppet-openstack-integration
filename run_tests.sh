@@ -189,24 +189,24 @@ fi
 set +e
 # Select what to test:
 # Smoke suite
-TESTS="smoke"
+echo "smoke" > /tmp/openstack/tempest/test-whitelist.txt
 
 # Horizon
-TESTS="${TESTS} dashboard"
+echo "dashboard" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Aodh
-TESTS="${TESTS} TelemetryAlarming"
+echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Gnocchi
-TESTS="${TESTS} gnocchi.tempest"
+echo "gnocchi.tempest" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Ironic
 # Note: running all Ironic tests under SSL is not working
 # https://bugs.launchpad.net/ironic/+bug/1554237
-TESTS="${TESTS} api.baremetal.admin.test_drivers"
+echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Zaqar
-TESTS="${TESTS} v2.test_queues.TestManageQueue"
+echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Cinder encrypted volumes
 # TODO(emilien) re-enable it when those 2 patches are merged:
@@ -217,7 +217,8 @@ TESTS="${TESTS} v2.test_queues.TestManageQueue"
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
-tox -eall-plugin -- --concurrency=2 $TESTS
+tox -eall-plugin --notest
+/tmp/openstack/tempest/.tox/all-plugin/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
 RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
