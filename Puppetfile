@@ -138,6 +138,10 @@ mod 'powerdns',
   :git => 'https://github.com/antonlindstrom/puppet-powerdns',
   :ref => '0.0.5'
 
+mod 'kmod',
+  :git => 'https://github.com/camptocamp/puppet-kmod',
+  :ref => '2.1.1'
+
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
   :ref => 'v0.0.11'
@@ -213,8 +217,4 @@ mod 'dns',
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
   :ref => 'v2.0.1'
-
-mod 'kmod',
-  :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => '2.1.1'
 
