@@ -22,7 +22,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6           = true
-    $zaqar_enabled  = true
+    $zaqar_enabled  = false
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -53,7 +53,9 @@ include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::swift
 include ::openstack_integration::ironic
-include ::openstack_integration::zaqar
+if $zaqar_enabled {
+  include ::openstack_integration::zaqar
+}
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
