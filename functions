@@ -27,6 +27,16 @@ clonemap:
     dest: '$PUPPETFILE_DIR/\2'
 EOF
 
+  # Workaround for puppet-ceph, where we need to checkout
+  # OpenStack modules from stable/mitaka when working on stable/hammer.
+  # Ceph Hammer works with Mitaka and before.
+  # Ceph Jewel works with Newton and beyond.
+  if [ "$ZUUL_BRANCH" == "stable/hammer" ] || [ "$ZUUL_BRANCH" == "stable/mitaka" ]; then
+      PUPPET_CEPH_ZUUL_BRANCH='stable/hammer'
+  else
+      PUPPET_CEPH_ZUUL_BRANCH=$ZUUL_BRANCH
+  fi
+
   # Periodic jobs run without ref on master
   ZUUL_REF=${ZUUL_REF:-None}
   ZUUL_BRANCH=${ZUUL_BRANCH:-master}
@@ -36,6 +46,7 @@ EOF
   )
   /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
     --cache-dir /opt/git \
+    --project-branch openstack/puppet-ceph=$PUPPET_CEPH_ZUUL_BRANCH \
     --zuul-ref $ZUUL_REF \
     --zuul-branch $ZUUL_BRANCH \
     --zuul-url $ZUUL_URL \
