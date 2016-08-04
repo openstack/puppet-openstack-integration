@@ -31,9 +31,10 @@ EOF
   # OpenStack modules from stable/mitaka when working on stable/hammer.
   # Ceph Hammer works with Mitaka and before.
   # Ceph Jewel works with Newton and beyond.
-  if [[ "$ZUUL_BRANCH" == "stable/hammer" ]]; then
-      ZUUL_BRANCH='stable/mitaka'
+  if [ "$ZUUL_BRANCH" == "stable/hammer" ] || [ "$ZUUL_BRANCH" == "stable/mitaka" ]; then
       PUPPET_CEPH_ZUUL_BRANCH='stable/hammer'
+  else
+      PUPPET_CEPH_ZUUL_BRANCH=$ZUUL_BRANCH
   fi
 
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
@@ -41,27 +42,15 @@ EOF
   )
   /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
     --cache-dir /opt/git \
+    --project-branch openstack/puppet-ceph=$PUPPET_CEPH_ZUUL_BRANCH \
     --zuul-ref $ZUUL_REF \
     --zuul-branch $ZUUL_BRANCH \
     --zuul-url $ZUUL_URL \
     git://git.openstack.org $project_names
 
-  # Clone openstack/puppet-ceph using the real ZUUL_BRANCH.
-  if [ ! -z "$PUPPET_CEPH_ZUUL_BRANCH" ]; then
-      /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
-        --cache-dir /opt/git \
-        --zuul-ref $ZUUL_REF \
-        --zuul-branch $PUPPET_CEPH_ZUUL_BRANCH \
-        --zuul-url $ZUUL_URL \
-        git://git.openstack.org openstack/puppet-ceph
-  fi
-
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268
   mv $PUPPETFILE_DIR/openstack-integration $PUPPETFILE_DIR/openstack_integration
-
-  # Workaround to checkout stable/hammer and not stable/mitaka for puppet-ceph
-  cd $PUPPETFILE_DIR/ceph; git checkout stable/hammer; popd || true
 }
 
 # Install all Puppet modules with r10k
