@@ -190,6 +190,9 @@ TESTS="${TESTS} api.baremetal.admin.test_drivers"
 # Zaqar
 TESTS="${TESTS} TestManageQueue"
 
+# Cinder encrypted volumes
+TESTS="${TESTS} TestEncryptedCinderVolumes"
+
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 

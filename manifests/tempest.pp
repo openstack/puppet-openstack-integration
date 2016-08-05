@@ -60,22 +60,27 @@
 #   (optional) Define if Zaqar needs to be tested.
 #   Default to false.
 #
+# [*attach_encrypted_volume*]
+#   (optional) Define if Encrypted Volumes need to be tested.
+#   Default to false.
+#
 class openstack_integration::tempest (
-  $aodh       = false,
-  $ceilometer = false,
-  $cinder     = false,
-  $glance     = true,
-  $gnocchi    = false,
-  $heat       = false,
-  $horizon    = false,
-  $ironic     = false,
-  $mistral    = false,
-  $neutron    = true,
-  $nova       = true,
-  $sahara     = false,
-  $swift      = false,
-  $trove      = false,
-  $zaqar      = false,
+  $aodh                    = false,
+  $ceilometer              = false,
+  $cinder                  = false,
+  $glance                  = true,
+  $gnocchi                 = false,
+  $heat                    = false,
+  $horizon                 = false,
+  $ironic                  = false,
+  $mistral                 = false,
+  $neutron                 = true,
+  $nova                    = true,
+  $sahara                  = false,
+  $swift                   = false,
+  $trove                   = false,
+  $zaqar                   = false,
+  $attach_encrypted_volume = false,
 ) {
 
   include ::openstack_integration::config
@@ -107,6 +112,7 @@ class openstack_integration::tempest (
     admin_password          => 'a_big_secret',
     admin_domain_name       => 'Default',
     auth_version            => 'v3',
+    tempest_roles           => ['Member', 'creator'], # needed to use barbican.
     image_name              => 'cirros',
     image_name_alt          => 'cirros_alt',
     cinder_available        => $cinder,
@@ -136,6 +142,7 @@ class openstack_integration::tempest (
     compute_build_interval  => 10,
     ca_certificates_file    => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages   => true,
+    attach_encrypted_volume => $attach_encrypted_volume,
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir               => '/home/jenkins/cache/files',
