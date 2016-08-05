@@ -136,6 +136,7 @@ class openstack_integration::tempest (
     dashboard_url           => $::openstack_integration::config::base_url,
     flavor_ref              => '42',
     flavor_ref_alt          => '84',
+    db_flavor_ref           => '42',
     image_ssh_user          => 'cirros',
     image_alt_ssh_user      => 'cirros',
     img_file                => 'cirros-0.3.4-x86_64-disk.img',
