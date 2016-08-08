@@ -2,6 +2,36 @@ class openstack_integration::swift {
 
   include ::openstack_integration::config
 
+  # Setup logging to /var/log/swift
+  # TODO: Move rsyslog implementation to something more generic
+  package { 'rsyslog':
+    ensure => present,
+  }
+  service { 'rsyslog':
+    ensure  => running,
+    enable  => true,
+    require => Package['rsyslog'],
+  }
+
+  file { '/var/log/swift':
+    ensure => directory,
+    mode   => '0755',
+  }
+  file { '/etc/rsyslog.d/10-swift.conf':
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/rsyslog-swift.conf",
+    require => [Package['rsyslog'], File['/var/log/swift']],
+    notify  => Service['rsyslog'],
+  }
+
+  # Ubuntu/Debian requires particular permissions for rsyslog to work
+  if $::osfamily == 'Debian' {
+    File<| title == '/var/log/swift' |> {
+      owner => 'syslog',
+      group => 'adm'
+    }
+  }
+
   # TODO(emilien): deploy memcached in IPv6
   include ::memcached
   class { '::swift':
