@@ -32,8 +32,6 @@ class openstack_integration::swift {
     }
   }
 
-  # TODO(emilien): deploy memcached in IPv6
-  include ::memcached
   class { '::swift':
     swift_hash_path_suffix => 'secrete',
   }
@@ -49,8 +47,11 @@ class openstack_integration::swift {
   include ::swift::proxy::catch_errors
   include ::swift::proxy::healthcheck
   include ::swift::proxy::proxy_logging
-  # TODO(emilien): deploy ::swift::proxy::cache in IPv6
-  include ::swift::proxy::cache
+  # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
+  # different: https://bugs.launchpad.net/swift/+bug/1610064
+  class { '::swift::proxy::cache':
+    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+  }
   include ::swift::proxy::tempurl
   include ::swift::proxy::ratelimit
   class { '::swift::proxy::authtoken':

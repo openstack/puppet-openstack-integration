@@ -59,6 +59,7 @@ class openstack_integration::aodh {
     keystone_password => 'a_big_secret',
     keystone_auth_url => $::openstack_integration::config::keystone_admin_uri,
     keystone_auth_uri => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers => $::openstack_integration::config::memcached_servers,
     service_name      => 'httpd',
   }
   include ::apache

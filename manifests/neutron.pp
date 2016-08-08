@@ -129,6 +129,7 @@ class openstack_integration::neutron (
     rpc_workers         => 2,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
     service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
                             'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver'],
   }

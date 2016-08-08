@@ -77,6 +77,7 @@ class openstack_integration::cinder (
     project_domain_name => 'Default',
     auth_url            => $::openstack_integration::config::keystone_admin_uri,
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::cinder::api':
     default_volume_type        => 'BACKEND_1',
