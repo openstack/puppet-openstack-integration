@@ -68,11 +68,10 @@ class openstack_integration::neutron (
         refreshonly => true,
       }
       class { '::neutron::agents::ml2::ovs':
-        enable_tunneling => true,
-        local_ip         => '127.0.0.1',
-        tunnel_types     => ['vxlan'],
-        bridge_mappings  => ['external:br-ex'],
-        manage_vswitch   => false,
+        local_ip        => '127.0.0.1',
+        tunnel_types    => ['vxlan'],
+        bridge_mappings => ['external:br-ex'],
+        manage_vswitch  => false,
       }
       $firewall_driver         = 'neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver'
     }

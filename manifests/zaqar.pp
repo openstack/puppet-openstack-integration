@@ -14,11 +14,13 @@ class openstack_integration::zaqar {
     class {'::zaqar::messaging::mongodb':
       uri => $zaqar_mongodb_conn_string
     }
+    class {'::zaqar::keystone::authtoken':
+      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      auth_uri => $::openstack_integration::config::keystone_auth_uri,
+      password => 'a_big_secret',
+    }
     class {'::zaqar':
-      admin_password => 'a_big_secret',
-      unreliable     => true,
-      identity_uri   => $::openstack_integration::config::keystone_admin_uri,
-      auth_uri       => $::openstack_integration::config::keystone_auth_uri,
+      unreliable => true,
     }
     Mongodb_replset['openstack'] -> Package['zaqar-common']
     include ::zaqar::server
