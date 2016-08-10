@@ -72,8 +72,10 @@ print_header 'Clone Tempest and plugins'
 if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
     /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
         git://git.openstack.org openstack/tempest
-    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-        git://git.openstack.org openstack/tempest-horizon
+    if uses_debs; then
+        /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
+            git://git.openstack.org openstack/tempest-horizon
+    fi
 else
     # remove existed checkout before clone
     $SUDO rm -rf /tmp/openstack/tempest
@@ -81,7 +83,9 @@ else
 
     # We're outside the gate, just do a regular git clone
     git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
-    git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+    if uses_debs; then
+        git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+    fi
 fi
 
 install_puppet
@@ -165,8 +169,10 @@ $SUDO pip install tempest-lib
 # We need latest testrepository to run stackviz correctly
 $SUDO pip install -U testrepository
 
-# TODO(emilien): install from source now until packaged
-cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
+# install from source now on ubuntu until packaged
+if uses_debs; then
+    cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
+fi
 
 set +e
 # Select what to test:
