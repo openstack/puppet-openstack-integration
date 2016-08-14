@@ -26,7 +26,7 @@ case $::osfamily {
   'RedHat': {
     $ipv6               = true
     $zaqar_enabled      = true
-    $barbican_enabled   = true
+    $barbican_enabled   = false
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
