@@ -38,6 +38,7 @@ class openstack_integration::nova (
     provider             => 'rabbitmqctl',
     require              => Class['::rabbitmq'],
   }
+  Rabbitmq_user_permissions['nova@/'] -> Service<| tag == 'nova-service' |>
 
   class { '::nova::db::mysql':
     password => 'nova',
