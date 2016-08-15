@@ -34,7 +34,15 @@ mkdir $WORKSPACE/logs
 #
 # For right now, we populate our projects with a guess from those that
 # have puppet modules installed.  revisit this if needs change
-for project in /etc/puppet/modules/*; do
+if [ -d /etc/puppetlabs/code ]; then
+    # puppet4
+    PUPPET_MODULES_PATH='/etc/puppetlabs/code/modules'
+else
+    # puppet3
+    PUPPET_MODULES_PATH='/etc/puppet/modules'
+fi
+
+for project in $PUPPET_MODULES_PATH/*; do
     # find Puppet OpenStack modules
     if [ -f $project/metadata.json ]; then
         if egrep -q "github.com/(stackforge|openstack)/puppet" $project/metadata.json; then
