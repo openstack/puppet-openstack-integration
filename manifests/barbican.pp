@@ -44,6 +44,7 @@ class openstack_integration::barbican {
   class { '::barbican::api::logging':
     debug => true,
   }
+  # TODO(iurygregory): update configuration to authtoken schema
   class { '::barbican::api':
     host_href                   => "${::openstack_integration::config::base_url}:9311",
     auth_type                   => 'keystone',
