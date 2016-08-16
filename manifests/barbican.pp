@@ -44,24 +44,24 @@ class openstack_integration::barbican {
   class { '::barbican::api::logging':
     debug => true,
   }
-  # TODO(iurygregory): update configuration to authtoken schema
+  class { '::barbican::keystone::authtoken':
+    password            => 'a_big_secret',
+    auth_url            => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    auth_uri            => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+  }
   class { '::barbican::api':
     host_href                   => "${::openstack_integration::config::base_url}:9311",
-    auth_type                   => 'keystone',
-    keystone_password           => 'a_big_secret',
+    auth_strategy               => 'keystone',
     service_name                => 'httpd',
     enabled_certificate_plugins => ['simple_certificate'],
     db_auto_create              => false,
-    auth_url                    => "${::openstack_integration::config::keystone_admin_uri}/v3",
     rabbit_userid               => 'barbican',
     rabbit_password             => 'an_even_bigger_secret',
     rabbit_port                 => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl              => $::openstack_integration::config::ssl,
     rabbit_host                 => $::openstack_integration::config::ip_for_url,
-  }
-  # add me in puppet-barbican
-  barbican_config {
-    'keystone_authtoken/auth_uri': value => "${::openstack_integration::config::keystone_auth_uri}/v3";
   }
   include ::apache
   class { '::barbican::wsgi::apache':
