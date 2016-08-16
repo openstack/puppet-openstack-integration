@@ -18,7 +18,7 @@ class openstack_integration::provision {
     disk   => '0',
     vcpus  => '1',
   }
-  Class['::nova::keystone::auth'] -> Nova_flavor<||>
+  Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
 
   neutron_network { 'public':
     tenant_name               => 'openstack',
