@@ -33,8 +33,10 @@ EOF
   # Ceph Jewel works with Newton and beyond.
   if [ "$ZUUL_BRANCH" == "stable/hammer" ] || [ "$ZUUL_BRANCH" == "stable/mitaka" ]; then
       PUPPET_CEPH_ZUUL_BRANCH='stable/hammer'
+      ZUUL_BRANCH='stable/mitaka'
   else
       PUPPET_CEPH_ZUUL_BRANCH=$ZUUL_BRANCH
+      ZUUL_BRANCH=$ZUUL_BRANCH
   fi
 
   # Periodic jobs run without ref on master
