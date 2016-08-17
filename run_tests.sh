@@ -204,6 +204,12 @@ echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist
 # Zaqar
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# ec2api
+# Note: VPN tests require VPNaaS, which doesn't work yet in puppet-tempest. As
+# soon as enabling neutron_vpnaas_available works there, the VPN tests can be
+# included.
+echo "ec2api.tests.functional((?!_vpn_).)*$" >> /tmp/openstack/tempest/test-whitelist.txt
+
 # Cinder Backup
 echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
 

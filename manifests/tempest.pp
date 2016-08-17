@@ -20,6 +20,10 @@
 #   (optional) Define if Designate needs to be tested.
 #   Default to false.
 #
+# [*ec2api*]
+#   (optional) Define if EC2-API needs to be tested.
+#   Default to false.
+#
 # [*glance*]
 #   (optional) Define if Glance needs to be tested.
 #   Default to true.
@@ -78,6 +82,7 @@ class openstack_integration::tempest (
   $cinder                  = false,
   $cinder_backup           = false,
   $designate               = false,
+  $ec2api                  = false,
   $glance                  = true,
   $gnocchi                 = false,
   $heat                    = false,
@@ -144,6 +149,7 @@ class openstack_integration::tempest (
     zaqar_available         => $zaqar,
     mistral_available       => $mistral,
     gnocchi_available       => $gnocchi,
+    ec2api_available        => $ec2api,
     public_network_name     => 'public',
     dashboard_url           => $::openstack_integration::config::base_url,
     flavor_ref              => '42',

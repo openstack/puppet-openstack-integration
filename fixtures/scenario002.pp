@@ -22,11 +22,14 @@ case $::osfamily {
     # we'll start testing barbican after Newton stable, Ubuntu packaging is not
     # updated enough.
     $barbican_enabled = false
+    # ec2api is not packaged on Ubuntu Trusty
+    $ec2api_enabled   = false
   }
   'RedHat': {
     $ipv6               = true
     $zaqar_enabled      = true
     $barbican_enabled   = true
+    $ec2api_enabled     = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -73,6 +76,10 @@ if $barbican_enabled {
   include ::openstack_integration::barbican
 }
 
+if $ec2api_enabled {
+  include ::openstack_integration::ec2api
+}
+
 class { '::openstack_integration::tempest':
   cinder                  => true,
   cinder_backup           => true,
@@ -80,4 +87,5 @@ class { '::openstack_integration::tempest':
   ironic                  => true,
   zaqar                   => $zaqar_enabled,
   attach_encrypted_volume => $barbican_enabled,
+  ec2api                  => $ec2api_enabled,
 }
