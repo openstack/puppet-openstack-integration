@@ -5,12 +5,17 @@
 #   to use Libvirt RBD backend.
 #   Defaults to false.
 #
+# [*libvirt_virt_type*]
+#   (optional) Libvirt domain type. Options are: kvm, lxc, qemu, uml, xen
+#   Defaults to 'qemu'
+#
 # [*volume_encryption*]
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
 #
 class openstack_integration::nova (
   $libvirt_rbd       = false,
+  $libvirt_virt_type = 'qemu',
   $volume_encryption = false,
 ) {
 
@@ -108,7 +113,7 @@ class openstack_integration::nova (
     barbican_endpoint           => $barbican_endpoint,
   }
   class { '::nova::compute::libvirt':
-    libvirt_virt_type     => 'qemu',
+    libvirt_virt_type     => $libvirt_virt_type,
     migration_support     => true,
     vncserver_listen      => '0.0.0.0',
     # TODO: enable it again when puppet 4.5 will be idempotent
