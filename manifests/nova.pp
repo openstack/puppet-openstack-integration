@@ -5,8 +5,13 @@
 #   to use Libvirt RBD backend.
 #   Defaults to false.
 #
+# [*libvirt_virt_type*]
+#   (optional) Libvirt domain type. Options are: kvm, lxc, qemu, uml, xen
+#   Defaults to 'qemu'
+#
 class openstack_integration::nova (
-  $libvirt_rbd = false,
+  $libvirt_rbd       = false,
+  $libvirt_virt_type = 'qemu',
 ) {
 
   include ::openstack_integration::config
@@ -91,7 +96,7 @@ class openstack_integration::nova (
     instance_usage_audit_period => 'hour',
   }
   class { '::nova::compute::libvirt':
-    libvirt_virt_type => 'qemu',
+    libvirt_virt_type => $libvirt_virt_type,
     migration_support => true,
     vncserver_listen  => '0.0.0.0',
   }
