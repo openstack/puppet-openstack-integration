@@ -7,11 +7,11 @@
 #
 # [*lbaasv2*]
 #  (optional) Configure lbaas v2 instead of v1
-#  Defaults to false
+#  Defaults to true
 #
 class openstack_integration::neutron (
   $driver  = 'openvswitch',
-  $lbaasv2 = false,
+  $lbaasv2 = true,
 ) {
 
   include ::openstack_integration::config
