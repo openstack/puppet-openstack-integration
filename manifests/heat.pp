@@ -30,6 +30,14 @@ class openstack_integration::heat {
     $crt_file = undef
   }
 
+  class { '::heat::keystone::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
+  }
   class { '::heat':
     rabbit_userid       => 'heat',
     rabbit_password     => 'an_even_bigger_secret',
@@ -37,10 +45,6 @@ class openstack_integration::heat {
     rabbit_use_ssl      => $::openstack_integration::config::ssl,
     rabbit_port         => $::openstack_integration::config::rabbit_port,
     database_connection => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
-    identity_uri        => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
-    auth_plugin         => 'password',
-    keystone_password   => 'a_big_secret',
     debug               => true,
   }
   class { '::heat::db::mysql':
