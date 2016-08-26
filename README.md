@@ -6,7 +6,7 @@ puppet-openstack-integration
 1. [Overview - What is Puppet OpenStack Integration?](#overview)
 2. [Description - What does the project do?](#description)
 3. [Development - Guide for contributing](#development)
-4. [All-in-one - How to deploy a cloud with Puppet](#All-In-One)
+4. [All-in-one - How to deploy a cloud with Puppet](#all-in-one)
 5. [Contributors - Those with commits](#contributors)
 
 
@@ -29,7 +29,7 @@ OpenStack services are balanced between three scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running everything on
 the same node.
 One manifest (scenario-aio) is used for people who want to [run a simple All-In-One
-scenario](#All-In-One).
+scenario](#all-in-one).
 
 |     -      | scenario001 | scenario002 | scenario003 | scenario-aio |
 |:----------:|:-----------:|:-----------:|:-----------:|:-------------:
