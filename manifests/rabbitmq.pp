@@ -32,6 +32,7 @@ class openstack_integration::rabbitmq {
       package_provider      => $::package_provider,
       delete_guest_user     => true,
       environment_variables => $::openstack_integration::config::rabbit_env,
+      repos_ensure          => false,
     }
   }
   rabbitmq_vhost { '/':
