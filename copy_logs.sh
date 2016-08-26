@@ -164,12 +164,14 @@ if [ -d /etc/openstack-dashboard ]; then
     done
 fi
 
-# package status
+# package status and repository list
 if [ `command -v dpkg` ]; then
     dpkg -l> $LOG_DIR/dpkg-l.txt
+    apt-cache policy > $LOG_DIR/apt-cache-policy.txt
 fi
 if [ `command -v rpm` ]; then
     rpm -qa > $LOG_DIR/rpm-qa.txt
+    yum repolist -v > $LOG_DIR/repolist.txt
 fi
 
 # system status & informations
