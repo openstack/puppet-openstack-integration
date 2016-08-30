@@ -80,12 +80,13 @@ class openstack_integration::cinder (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::cinder::api':
-    default_volume_type        => 'BACKEND_1',
-    public_endpoint            => "${::openstack_integration::config::base_url}:8776",
-    service_name               => 'httpd',
-    keymgr_api_class           => $keymgr_api_class,
-    keymgr_encryption_api_url  => $keymgr_encryption_api_url,
-    keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
+    default_volume_type => 'BACKEND_1',
+    public_endpoint     => "${::openstack_integration::config::base_url}:8776",
+    service_name        => 'httpd',
+    # TODO(emilien) Re-enable later when things are stable again.
+    # keymgr_api_class           => $keymgr_api_class,
+    # keymgr_encryption_api_url  => $keymgr_encryption_api_url,
+    # keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
   include ::apache
   class { '::cinder::wsgi::apache':
