@@ -51,6 +51,22 @@ class openstack_integration::glance (
     admin_url    => "${::openstack_integration::config::base_url}:9292",
     password     => 'a_big_secret',
   }
+  class { '::glance::api::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
+  }
+  class { '::glance::registry::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
+  }
   case $backend {
     'file': {
       include ::glance::backend::file
@@ -85,14 +101,10 @@ class openstack_integration::glance (
   class { '::glance::api':
     debug                     => true,
     database_connection       => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
-    keystone_password         => 'a_big_secret',
     workers                   => 2,
     stores                    => $glance_stores,
     default_store             => $backend,
     bind_host                 => $::openstack_integration::config::host,
-    auth_uri                  => $::openstack_integration::config::keystone_auth_uri,
-    identity_uri              => $::openstack_integration::config::keystone_admin_uri,
-    memcached_servers         => $::openstack_integration::config::memcached_servers,
     registry_client_protocol  => $::openstack_integration::config::proto,
     registry_client_cert_file => $crt_file,
     registry_client_key_file  => $key_file,
@@ -103,12 +115,8 @@ class openstack_integration::glance (
   class { '::glance::registry':
     debug               => true,
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
-    keystone_password   => 'a_big_secret',
     bind_host           => $::openstack_integration::config::host,
     workers             => 2,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    identity_uri        => $::openstack_integration::config::keystone_admin_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
     cert_file           => $crt_file,
     key_file            => $key_file,
   }
