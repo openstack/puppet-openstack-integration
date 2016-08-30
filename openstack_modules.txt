@@ -24,6 +24,7 @@ openstack_extras
 openstacklib
 oslo
 ovn
+panko
 sahara
 swift
 tempest

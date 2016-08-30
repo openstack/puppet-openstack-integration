@@ -105,6 +105,10 @@ mod 'ovn',
   :git => 'https://git.openstack.org/openstack/puppet-ovn',
   :ref => 'master'
 
+mod 'panko',
+  :git => 'https://git.openstack.org/openstack/puppet-panko',
+  :ref => 'master'
+
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
   :ref => 'master'
