@@ -63,8 +63,8 @@ class openstack_integration::cinder (
     debug               => true,
   }
   if $volume_encryption {
-    $keymgr_api_class           = 'cinder.keymgr.barbican.BarbicanKeyManager'
-    $keymgr_encryption_api_url  = "${::openstack_integration::config::base_url}:9311/v1"
+    $keymgr_api_class           = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    $keymgr_encryption_api_url  = "${::openstack_integration::config::base_url}:9311"
     $keymgr_encryption_auth_url = "${::openstack_integration::config::keystone_auth_uri}/v3"
   } else {
     $keymgr_api_class           = undef
@@ -80,13 +80,12 @@ class openstack_integration::cinder (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::cinder::api':
-    default_volume_type => 'BACKEND_1',
-    public_endpoint     => "${::openstack_integration::config::base_url}:8776",
-    service_name        => 'httpd',
-    # TODO(emilien) Re-enable later when things are stable again.
-    # keymgr_api_class           => $keymgr_api_class,
-    # keymgr_encryption_api_url  => $keymgr_encryption_api_url,
-    # keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
+    default_volume_type        => 'BACKEND_1',
+    public_endpoint            => "${::openstack_integration::config::base_url}:8776",
+    service_name               => 'httpd',
+    keymgr_api_class           => $keymgr_api_class,
+    keymgr_encryption_api_url  => $keymgr_encryption_api_url,
+    keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
   include ::apache
   class { '::cinder::wsgi::apache':
