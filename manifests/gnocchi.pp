@@ -28,12 +28,17 @@ class openstack_integration::gnocchi {
       admin_url    => "${::openstack_integration::config::base_url}:8041",
       password     => 'a_big_secret',
     }
+    class { '::gnocchi::keystone::authtoken':
+      password            => 'a_big_secret',
+      user_domain_name    => 'Default',
+      project_domain_name => 'Default',
+      auth_url            => $::openstack_integration::config::keystone_admin_uri,
+      auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+      memcached_servers   => $::openstack_integration::config::memcached_servers,
+    }
     class { '::gnocchi::api':
-      enabled               => true,
-      keystone_password     => 'a_big_secret',
-      keystone_identity_uri => $::openstack_integration::config::keystone_admin_uri,
-      keystone_auth_uri     => $::openstack_integration::config::keystone_admin_uri,
-      service_name          => 'httpd',
+      enabled      => true,
+      service_name => 'httpd',
     }
     include ::apache
     class { '::gnocchi::wsgi::apache':

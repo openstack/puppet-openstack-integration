@@ -120,15 +120,19 @@ class openstack_integration::neutron (
     key_file              => "/etc/neutron/ssl/private/${::fqdn}.pem",
   }
   class { '::neutron::client': }
+  class { '::neutron::keystone::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
+  }
   class { '::neutron::server':
     database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
-    password            => 'a_big_secret',
     sync_db             => true,
     api_workers         => 2,
     rpc_workers         => 2,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
     service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
                             'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver'],
   }
