@@ -38,25 +38,34 @@ class openstack_integration::keystone (
     $enable_fernet_setup = false
   }
 
+  # Keystone credential setup is not packaged in UCA yet.
+  # It should be done when Newton is released.
+  if $::operatingsystem == 'CentOS' {
+    $enable_credential_setup = true
+  } else {
+    $enable_credential_setup = false
+  }
+
   class { '::keystone::client': }
   class { '::keystone::cron::token_flush': }
   class { '::keystone::db::mysql':
     password => 'keystone',
   }
   class { '::keystone':
-    debug               => true,
-    database_connection => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
-    admin_token         => 'a_big_secret',
-    enabled             => true,
-    service_name        => 'httpd',
-    default_domain      => $default_domain,
-    using_domain_config => $using_domain_config,
-    enable_ssl          => $::openstack_integration::config::ssl,
-    public_bind_host    => $::openstack_integration::config::host,
-    admin_bind_host     => $::openstack_integration::config::host,
-    manage_policyrcd    => true,
-    token_provider      => $token_provider,
-    enable_fernet_setup => $enable_fernet_setup,
+    debug                   => true,
+    database_connection     => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
+    admin_token             => 'a_big_secret',
+    enabled                 => true,
+    service_name            => 'httpd',
+    default_domain          => $default_domain,
+    using_domain_config     => $using_domain_config,
+    enable_ssl              => $::openstack_integration::config::ssl,
+    public_bind_host        => $::openstack_integration::config::host,
+    admin_bind_host         => $::openstack_integration::config::host,
+    manage_policyrcd        => true,
+    token_provider          => $token_provider,
+    enable_fernet_setup     => $enable_fernet_setup,
+    enable_credential_setup => $enable_credential_setup,
   }
   include ::apache
   class { '::keystone::wsgi::apache':
