@@ -194,7 +194,7 @@ TESTS="${TESTS} gnocchi.tempest"
 TESTS="${TESTS} api.baremetal.admin.test_drivers"
 
 # Zaqar
-TESTS="${TESTS} TestManageQueue"
+TESTS="${TESTS} v2.test_queues.TestManageQueue"
 
 # Cinder encrypted volumes
 # TODO(emilien) re-enable it when those 2 patches are merged:
