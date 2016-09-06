@@ -40,7 +40,7 @@ class openstack_integration::keystone (
 
   # Keystone credential setup is not packaged in UCA yet.
   # It should be done when Newton is released.
-  if $::operatingsystem == 'CentOS' {
+  if $::osfamily == 'RedHat' {
     $enable_credential_setup = true
   } else {
     $enable_credential_setup = false
