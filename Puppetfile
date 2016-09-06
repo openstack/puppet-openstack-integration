@@ -216,9 +216,9 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '3.3.1'
+  :ref => '3.4.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => 'v4.0.1'
+  :ref => '5.0.0-beta1'
 
