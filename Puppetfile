@@ -172,7 +172,7 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => '1.5.0'
+  :ref => '1.6.0'
 
 mod 'mongodb',
   :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
@@ -180,7 +180,7 @@ mod 'mongodb',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => '3.8.0'
+  :ref => '3.9.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
@@ -200,7 +200,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => '1.3.2'
+  :ref => '1.4.0'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
