@@ -62,8 +62,9 @@ scenario](#all-in-one).
 | ironic     |             |       X     |             |             |              |
 | zaqar      |             |       X     |             |             |              |
 | murano     |             |             |       X     |             |              |
+| magnum     |             |             |       X     |             |              |
 | mistral    |             |             |       X     |             |              |
-| barbican   |             |       X     |             |             |              |
+| barbican   |             |       X     |       X     |             |              |
 | ceph       |      X      |             |             |      X      |              |
 | ceph rgw   |             |             |             |      X      |              |
 | vitrage    |      X      |             |             |             |              |

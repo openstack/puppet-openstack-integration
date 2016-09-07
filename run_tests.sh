@@ -301,6 +301,16 @@ uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-wh
 # https://bugs.launchpad.net/ironic/+bug/1554237
 echo "ironic_tempest_plugin.tests.api.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# NOTE(tobasco): Disabled because magnum network access from inside instance to
+# deploy docker for example.
+# Magnum
+#echo "test_create_list_sign_delete_clusters" >> /tmp/openstack/tempest/test-whitelist.txt
+# Below is here just for testing in ci, would be removed soon, at least below version of werkzeug is required for magnum tls to work
+#if is_fedora; then
+#    $SUDO yum -y install http://cbs.centos.org/kojifiles/packages/python-werkzeug/0.11.6/1.el7/noarch/python-werkzeug-0.11.6-1.el7.noarch.rpm
+#    $SUDO systemctl restart openstack-magnum-*
+#fi
+
 # Zaqar
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 

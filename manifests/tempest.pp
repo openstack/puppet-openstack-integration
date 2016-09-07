@@ -64,6 +64,10 @@
 #   (optional) Define if Neutron Dynamic routing needs to be tested.
 #   Default to false.
 #
+# [*magnum*]
+#   (optional) Define if Magmum needs to be tested.
+#   Default to false.
+#
 # [*mistral*]
 #   (optional) Define if Mistral needs to be tested.
 #   Default to false.
@@ -130,6 +134,7 @@ class openstack_integration::tempest (
   $l2gw                    = false,
   $l2gw_switch             = undef,
   $dr                      = false,
+  $magnum                  = false,
   $mistral                 = false,
   $murano                  = false,
   $neutron                 = true,
@@ -272,4 +277,9 @@ class openstack_integration::tempest (
     ec2api_tester_roles              => ['member'],
   }
 
+  if $magnum {
+    class { 'tempest::magnum':
+      tempest_config_file => '/tmp/openstack/tempest/etc/tempest.conf',
+    }
+  }
 }

@@ -13,6 +13,7 @@ heat
 horizon
 ironic
 keystone
+magnum
 manila
 mistral
 monasca

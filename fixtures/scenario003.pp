@@ -128,6 +128,11 @@ if $mistral_enabled {
 }
 include openstack_integration::provision
 
+include openstack_integration::barbican
+class { 'openstack_integration::magnum':
+  cert_manager_type => 'barbican'
+}
+
 class { 'openstack_integration::tempest':
   designate => $designate_enabled,
   trove     => $trove_enabled,
@@ -136,4 +141,8 @@ class { 'openstack_integration::tempest':
   horizon   => true,
   murano    => $murano_enabled,
   heat      => true,
+  # NOTE(tobasco): We have tempest disabled because we cannot
+  # run it when instances does not have internet acces to
+  # deploy for example Docker.
+  magnum    => false,
 }
