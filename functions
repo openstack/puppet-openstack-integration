@@ -168,7 +168,14 @@ install_puppet() {
         fi
         $SUDO rm -f /tmp/puppet.rpm
 
-        wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
+        # https://tickets.puppetlabs.com/browse/CPR-378
+        if [ $PUPPET_RELEASE_FILE == "puppetlabs-release" ]; then
+            RELEASE_URL='http://yum.puppetlabs.com/el/7Server/products/x86_64/puppetlabs-release-7-12.noarch.rpm'
+        else
+            RELEASE_URL='https://yum.puppetlabs.com/el/7Server/PC1/x86_64/puppetlabs-release-pc1-1.0.0-2.el7.noarch.rpm'
+        fi
+
+        wget  $RELEASE_URL -O /tmp/puppet.rpm
         $SUDO rpm -ivh /tmp/puppet.rpm
         $SUDO yum install -y ${PUPPET_PKG}
     fi

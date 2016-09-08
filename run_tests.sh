@@ -17,6 +17,8 @@ export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
+export ADD_SWAP=${ADD_SWAP:-true}
+export SWAP_SIZE_GB=${SWAP_SIZE_GB:-2}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
@@ -64,6 +66,14 @@ if [ $(id -u) != 0 ]; then
   export SUDO='sudo -E'
 fi
 
+if [ "${ADD_SWAP}" = true ]; then
+    print_header "Create $SWAP_SIZE_GB GB swapfile"
+    $SUDO dd if=/dev/zero of=/swapfile count=${SWAP_SIZE_GB}k bs=1M
+    $SUDO chmod 0600 /swapfile
+    $SUDO mkswap /swapfile
+    $SUDO swapon /swapfile
+fi
+
 print_header 'Clone Tempest and plugins'
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
@@ -96,6 +106,8 @@ fi
 
 if uses_debs; then
     $SUDO apt-get install -y dstat
+    # https://bugs.launchpad.net/cloud-archive/+bug/1621651
+    $SUDO modprobe br_netfilter
 elif is_fedora; then
     $SUDO yum install -y dstat setools setroubleshoot audit
     $SUDO service auditd start
