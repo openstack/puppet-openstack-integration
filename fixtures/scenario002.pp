@@ -34,13 +34,10 @@ case $::osfamily {
 }
 
 # Disable SSL (workaround for Xenial)
-# Also disable Ironic. Newton latest packages in Ubuntu are broken.
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled    = false
-  $ironic_enabled = false
+  $ssl_enabled = false
 } else {
-  $ssl_enabled    = true
-  $ironic_enabled = true
+  $ssl_enabled = true
 }
 
 include ::openstack_integration
@@ -58,9 +55,7 @@ class { '::openstack_integration::glance':
 }
 include ::openstack_integration::neutron
 include ::openstack_integration::swift
-if $ironic_enabled {
-  include ::openstack_integration::ironic
-}
+include ::openstack_integration::ironic
 include ::openstack_integration::zaqar
 include ::openstack_integration::mongodb
 include ::openstack_integration::provision
@@ -80,7 +75,7 @@ if $barbican_enabled {
 class { '::openstack_integration::tempest':
   cinder                  => true,
   swift                   => true,
-  ironic                  => $ironic_enabled,
+  ironic                  => true,
   zaqar                   => $zaqar_enabled,
   attach_encrypted_volume => $barbican_enabled,
 }

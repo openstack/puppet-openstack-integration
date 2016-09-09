@@ -34,15 +34,12 @@ case $::osfamily {
 # - disable SSL
 # - disable Trove (Taskmanager is failing)
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled     = false
-  $trove_enabled   = false
-  # https://bugs.launchpad.net/cloud-archive/+bug/1621651
-  $neutron_driver  = 'openvswitch'
+  $ssl_enabled   = false
+  $trove_enabled = false
 } else {
-  $ssl_enabled     = true
+  $ssl_enabled   = true
   # https://bugs.launchpad.net/trove/+bug/1597857
-  $trove_enabled   = true
-  $neutron_driver  = 'linuxbridge'
+  $trove_enabled = true
 }
 
 include ::openstack_integration
@@ -59,7 +56,7 @@ class { '::openstack_integration::keystone':
 }
 include ::openstack_integration::glance
 class { '::openstack_integration::neutron':
-  driver => $neutron_driver,
+  driver => 'linuxbridge',
 }
 include ::openstack_integration::nova
 if $trove_enabled {
