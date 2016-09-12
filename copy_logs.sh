@@ -175,6 +175,7 @@ if [ `command -v rpm` ]; then
 fi
 
 # system status & informations
+sudo cp /root/openrc $LOG_DIR/openrc.txt
 df -h > $LOG_DIR/df.txt
 free -m > $LOG_DIR/free.txt
 lsmod > $LOG_DIR/lsmod.txt
