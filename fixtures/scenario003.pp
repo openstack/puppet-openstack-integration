@@ -34,12 +34,18 @@ case $::osfamily {
 # - disable SSL
 # - disable Trove (Taskmanager is failing)
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled   = false
-  $trove_enabled = false
+  $ssl_enabled    = false
+  $trove_enabled  = false
+  $sahara_enabled = true
+  # linuxbridge driver is not working with latest Ubuntu packaging.
+  $neutron_plugin = 'openvswitch'
 } else {
   $ssl_enabled   = true
   # https://bugs.launchpad.net/trove/+bug/1597857
-  $trove_enabled = true
+  $trove_enabled  = true
+  # https://bugzilla.redhat.com/show_bug.cgi?id=1318765
+  $sahara_enabled = false
+  $neutron_plugin = 'linuxbridge'
 }
 
 include ::openstack_integration
@@ -56,7 +62,7 @@ class { '::openstack_integration::keystone':
 }
 include ::openstack_integration::glance
 class { '::openstack_integration::neutron':
-  driver => 'linuxbridge',
+  driver => $neutron_plugin,
 }
 include ::openstack_integration::nova
 if $trove_enabled {
@@ -71,7 +77,7 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   trove   => $trove_enabled,
-  sahara  => true,
+  sahara  => $sahara_enabled,
   mistral => $mistral_enabled,
   horizon => true,
   heat    => true,
