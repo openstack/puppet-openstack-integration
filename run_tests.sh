@@ -217,12 +217,13 @@ echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.t
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
-tox -eall-plugin --notest
-/tmp/openstack/tempest/.tox/all-plugin/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
+virtualenv --system-site-packages run_tempest
+run_tempest/bin/pip install -U .
+run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
 RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-/tmp/openstack/tempest/.tox/all-plugin/bin/tempest list-plugins
+run_tempest/bin/tempest list-plugins
 
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
