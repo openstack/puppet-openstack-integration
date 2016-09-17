@@ -1,4 +1,4 @@
-# Configure the Cinder service
+# Configure the Nova service
 #
 # [*libvirt_rbd*]
 #   (optional) Boolean to configure or not Nova
