@@ -212,7 +212,7 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
-  :ref => '1.16.0'
+  :ref => '1.17.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
@@ -220,5 +220,5 @@ mod 'dns',
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => 'v5.0.0-beta2'
+  :ref => 'v5.0.0'
 
