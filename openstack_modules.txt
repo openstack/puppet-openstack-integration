@@ -19,7 +19,6 @@ murano
 neutron
 nova
 octavia
-openstack-integration
 openstack_extras
 openstacklib
 oslo
