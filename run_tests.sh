@@ -61,6 +61,16 @@ fi
 # http://docs.openstack.org/releasenotes/tempest/v12.0.0.html
 git clone -b 12.0.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 
+$SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
+# NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
+# exists.
+if [ -f ~/cache/files/cirros-0.3.4-x86_64-disk.img ]; then
+    # Create a symlink for tempest.
+    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img /tmp/openstack/tempest
+else
+    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
+fi
+
 PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
 
 function run_puppet() {
@@ -125,13 +135,6 @@ set -e
 if [ $RESULT -ne 0 ]; then
     exit 1
 fi
-
-mkdir -p /tmp/openstack/tempest
-
-$SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
-
-# TODO(emilien) later, we should use local image if present. That would be a next iteration.
-wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 
 set +e
 # Select what to test:

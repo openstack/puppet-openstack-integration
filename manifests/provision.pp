@@ -71,20 +71,14 @@ class openstack_integration::provision {
     container_format => 'bare',
     disk_format      => 'qcow2',
     is_public        => 'yes',
-    # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
-    # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
-    # source        => '/home/jenkins/cache/files/cirros-0.3.4-x86_64-disk.img',
-    source           => 'http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img',
+    source           => '/tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img'
   }
   glance_image { 'cirros_alt':
     ensure           => present,
     container_format => 'bare',
     disk_format      => 'qcow2',
     is_public        => 'yes',
-    # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
-    # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
-    # source        => '/home/jenkins/cache/files/cirros-0.3.4-x86_64-disk.img',
-    source           => 'http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img',
+    source           => '/tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img'
   }
   Keystone_user_role['admin@openstack'] -> Glance_image<||>
 }
