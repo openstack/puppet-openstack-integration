@@ -74,7 +74,7 @@ if [ "${ADD_SWAP}" = true ]; then
     $SUDO swapon /swapfile
 fi
 
-print_header 'Clone Tempest and plugins'
+print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
@@ -96,6 +96,15 @@ else
     if uses_debs; then
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
+fi
+
+# NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
+# exists.
+if [ -f ~/cache/files/cirros-0.3.4-x86_64-disk.img ]; then
+    # Create a symlink for tempest.
+    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img /tmp/openstack/tempest
+else
+    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 fi
 
 install_puppet
@@ -162,19 +171,6 @@ if [ $RESULT -ne 0 ]; then
 fi
 
 print_header 'Prepare Tempest'
-mkdir -p /tmp/openstack/tempest
-
-$SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
-
-# NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
-# exists.
-if [ -f ~/cache/files/cirros-0.3.4-x86_64-disk.img ]; then
-    # Create a symlink for tempest.
-    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img /tmp/openstack/tempest
-else
-    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
-fi
-
 # Tempest plugin tests require tempest-lib to be installed
 $SUDO pip install tempest-lib
 
