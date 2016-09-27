@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'barbican',
   :git => 'https://git.openstack.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'ceph',
   :git => 'https://git.openstack.org/openstack/puppet-ceph',
@@ -19,119 +19,119 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'congress',
   :git => 'https://git.openstack.org/openstack/puppet-congress',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'ec2api',
   :git => 'https://git.openstack.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'gnocchi',
   :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'heat',
   :git => 'https://git.openstack.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'horizon',
   :git => 'https://git.openstack.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'ironic',
   :git => 'https://git.openstack.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'mistral',
   :git => 'https://git.openstack.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'octavia',
   :git => 'https://git.openstack.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'oslo',
   :git => 'https://git.openstack.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'ovn',
   :git => 'https://git.openstack.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'watcher',
   :git => 'https://git.openstack.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/newton'
 
 ## External modules
 mod 'powerdns',
