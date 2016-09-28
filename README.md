@@ -78,6 +78,17 @@ Developer documentation for the entire Puppet OpenStack project:
 
 * http://docs.openstack.org/developer/puppet-openstack-guide/
 
+Note: SSL Certificates
+----------------------
+
+puppet-openstack-integration ships it's own SSL keys and certificates in order
+to be able to test implementations secured over SSL/TLS.
+
+It doesn't re-generate new ones every time for the sake of simplicity: we're
+not testing that we can generate certificates properly, we're testing services.
+
+The configuration as well as the commands used to generate these keys and
+certificates are stored in the contrib directory.
 
 All-In-One
 ----------
