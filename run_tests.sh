@@ -57,9 +57,9 @@ if [ $(id -u) != 0 ]; then
   SUDO='sudo -E'
 fi
 
-# Tempest 12.0.0 is the current stable that supports Mitaka
+# Tempest 12.2.0 is the latest releast that supports Mitaka.
 # http://docs.openstack.org/releasenotes/tempest/v12.0.0.html
-git clone -b 12.0.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+git clone -b 12.2.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 
 $SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
