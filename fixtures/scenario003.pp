@@ -32,16 +32,12 @@ case $::osfamily {
 
 # List of workarounds for Ubuntu Xenial:
 # - disable SSL
-# - disable Trove (Taskmanager is failing)
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
   $ssl_enabled    = false
-  $trove_enabled  = false
   # linuxbridge driver is not working with latest Ubuntu packaging.
   $neutron_plugin = 'openvswitch'
 } else {
   $ssl_enabled   = true
-  # https://bugs.launchpad.net/trove/+bug/1597857
-  $trove_enabled  = true
   $neutron_plugin = 'linuxbridge'
 }
 
@@ -62,9 +58,7 @@ class { '::openstack_integration::neutron':
   driver => $neutron_plugin,
 }
 include ::openstack_integration::nova
-if $trove_enabled {
-  include ::openstack_integration::trove
-}
+include ::openstack_integration::trove
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
@@ -75,7 +69,7 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   designate => true,
-  trove     => $trove_enabled,
+  trove     => true,
   mistral   => $mistral_enabled,
   sahara    => true,
   horizon   => true,
