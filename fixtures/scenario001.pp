@@ -33,13 +33,9 @@ case $::osfamily {
 # List of workarounds for Ubuntu Xenial:
 # - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled       = false
-  # Telemetry is broken on Ubuntu as usual.
-  # Aodh-API doesn't start, they're updating the package.
-  $telemetry_enabled = false
+  $ssl_enabled = false
 } else {
-  $ssl_enabled       = true
-  $telemetry_enabled = true
+  $ssl_enabled = true
 }
 
 include ::openstack_integration
@@ -62,11 +58,6 @@ class { '::openstack_integration::nova':
 class { '::openstack_integration::cinder':
   backend => 'rbd',
 }
-if $telemetry_enabled {
-  include ::openstack_integration::ceilometer
-  include ::openstack_integration::aodh
-  include ::openstack_integration::gnocchi
-}
 include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
 include ::openstack_integration::gnocchi
@@ -75,7 +66,7 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   cinder     => true,
-  gnocchi    => $telemetry_enabled,
-  ceilometer => $telemetry_enabled,
-  aodh       => $telemetry_enabled,
+  gnocchi    => $gnocchi_enabled,
+  ceilometer => true,
+  aodh       => true,
 }
