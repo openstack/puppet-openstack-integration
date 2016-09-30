@@ -205,10 +205,7 @@ echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Cinder encrypted volumes
-# TODO(emilien) re-enable it when those 2 patches are merged:
-# - https://review.openstack.org/#/c/358670/
-# - https://review.openstack.org/#/c/359391/
-# TESTS="${TESTS} TestEncryptedCinderVolumes"
+TESTS="${TESTS} TestEncryptedCinderVolumes"
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
