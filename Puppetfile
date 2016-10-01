@@ -23,7 +23,7 @@ mod 'cinder',
 
 mod 'congress',
   :git => 'https://git.openstack.org/openstack/puppet-congress',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
@@ -31,7 +31,7 @@ mod 'designate',
 
 mod 'ec2api',
   :git => 'https://git.openstack.org/openstack/puppet-ec2api',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
@@ -67,7 +67,7 @@ mod 'mistral',
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
@@ -83,7 +83,7 @@ mod 'nova',
 
 mod 'octavia',
   :git => 'https://git.openstack.org/openstack/puppet-octavia',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
@@ -103,7 +103,7 @@ mod 'ovn',
 
 mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
@@ -127,7 +127,7 @@ mod 'vswitch',
 
 mod 'watcher',
   :git => 'https://git.openstack.org/openstack/puppet-watcher',
-  :ref => 'stable/newton'
+  :ref => 'master'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
