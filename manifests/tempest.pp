@@ -12,6 +12,10 @@
 #   (optional) Define if Cinder needs to be tested.
 #   Default to false.
 #
+# [*cinder_backup*]
+#   (optional) Define if Cinder Backup needs to be tested.
+#   Default to false.
+#
 # [*designate*]
 #   (optional) Define if Designate needs to be tested.
 #   Default to false.
@@ -72,6 +76,7 @@ class openstack_integration::tempest (
   $aodh                    = false,
   $ceilometer              = false,
   $cinder                  = false,
+  $cinder_backup           = false,
   $designate               = false,
   $glance                  = true,
   $gnocchi                 = false,
@@ -121,6 +126,7 @@ class openstack_integration::tempest (
     image_name              => 'cirros',
     image_name_alt          => 'cirros_alt',
     cinder_available        => $cinder,
+    cinder_backup_available => $cinder_backup,
     designate_available     => $designate,
     glance_available        => $glance,
     horizon_available       => $horizon,

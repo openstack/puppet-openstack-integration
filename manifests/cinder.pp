@@ -9,9 +9,14 @@
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
 #
+# [*cinder_backup*]
+#   (optional) Set type of cinder backup
+#   Possible values: false, swift
+#   defaults to false.
 class openstack_integration::cinder (
   $backend           = 'iscsi',
   $volume_encryption = false,
+  $cinder_backup     = false,
 ) {
 
   include ::openstack_integration::config
@@ -134,6 +139,15 @@ class openstack_integration::cinder (
   cinder_type { 'BACKEND_1':
     ensure     => present,
     properties => ['volume_backend_name=BACKEND_1'],
+  }
+
+  if $cinder_backup == swift {
+    include ::cinder::backup
+    class { '::cinder::backup::swift':
+      backup_swift_user_domain    => 'Default',
+      backup_swift_project_domain => 'Default',
+      backup_swift_project        => 'Default',
+    }
   }
 
 }
