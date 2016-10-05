@@ -112,7 +112,7 @@ class openstack_integration::neutron (
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     allow_overlapping_ips => true,
     core_plugin           => 'ml2',
-    service_plugins       => ['router', 'metering', 'firewall'],
+    service_plugins       => ['router', 'metering', 'firewall', 'neutron_lbaas.services.loadbalancer.plugin.LoadBalancerPluginv2'],
     debug                 => true,
     bind_host             => $::openstack_integration::config::host,
     use_ssl               => $::openstack_integration::config::ssl,
@@ -134,7 +134,7 @@ class openstack_integration::neutron (
     api_workers         => 2,
     rpc_workers         => 2,
     service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver'],
+                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default'],
   }
   class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':

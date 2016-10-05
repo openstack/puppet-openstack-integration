@@ -33,12 +33,16 @@ case $::osfamily {
 # List of workarounds for Ubuntu Xenial:
 # - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled    = false
+  $ssl_enabled       = false
   # linuxbridge driver is not working with latest Ubuntu packaging.
-  $neutron_plugin = 'openvswitch'
+  $neutron_plugin    = 'openvswitch'
+  $designate_enabled = true
 } else {
-  $ssl_enabled   = true
-  $neutron_plugin = 'linuxbridge'
+  $ssl_enabled       = true
+  $neutron_plugin    = 'linuxbridge'
+  # Designate packaging in Ocata is missing monasca dependencies.
+  # Until it's fixed, let's disable it.
+  $designate_enabled = false
 }
 
 include ::openstack_integration
@@ -64,11 +68,13 @@ include ::openstack_integration::heat
 # enable when we figure why mistral tempest tests are so unstable
 # include ::openstack_integration::mistral
 include ::openstack_integration::sahara
-include ::openstack_integration::designate
+if $designate_enabled {
+  include ::openstack_integration::designate
+}
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
-  designate => true,
+  designate => $designate_enabled,
   trove     => true,
   mistral   => $mistral_enabled,
   sahara    => true,
