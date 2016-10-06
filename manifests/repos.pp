@@ -21,13 +21,13 @@ class openstack_integration::repos {
         manage_rdo  => false,
         manage_epel => false,
         repo_hash   => {
-          'newton-current'       => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/97/91/97916ebf850c46d6d809a1394e997a8c4ed2e410_5cc827bb/',
-            'descr'    => 'Ocata current',
+          'ocata-puppet-passed-ci' => {
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/',
+            'descr'    => 'Ocata puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'newton-delorean-deps' => {
+          'newton-delorean-deps'   => {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata',
             'descr'    => 'Ocata delorean-deps',
             'gpgcheck' => 'no',
