@@ -75,28 +75,10 @@ if [ "${ADD_SWAP}" = true ]; then
 fi
 
 print_header 'Clone Tempest, plugins & pre-cache CirrOS'
-# TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
-# can clone tempest outside of the gate. Also, tempest should be sandboxed into
-# the local directory but works needs to be added into puppet to properly find
-# the path.
-if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
-    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-        git://git.openstack.org openstack/tempest
-    if uses_debs; then
-        /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            git://git.openstack.org openstack/tempest-horizon
-    fi
-else
-    # remove existed checkout before clone
-    $SUDO rm -rf /tmp/openstack/tempest
-    $SUDO rm -rf /tmp/openstack/tempest-horizon
-
-    # We're outside the gate, just do a regular git clone
-    git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
-    if uses_debs; then
-        git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
-    fi
-fi
+# Tempest 13.0.0 is the latest releast that supports Newton.
+# http://docs.openstack.org/releasenotes/tempest/v13.0.0.html
+git clone -b 13.0.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.

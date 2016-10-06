@@ -18,22 +18,8 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        manage_rdo  => false,
-        manage_epel => false,
-        repo_hash   => {
-          'newton-current'       => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/9e/eb/9eebc6c1a8beaea8e7efc39f0668ee84a8172c47_7768d320/',
-            'descr'    => 'Newton current',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'newton-delorean-deps' => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-newton',
-            'descr'    => 'Newton delorean-deps',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-        }
+        release           => 'newton',
+        centos_mirror_url => $::centos_mirror_host,
       }
     }
     default: {
