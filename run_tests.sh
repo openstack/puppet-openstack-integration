@@ -205,7 +205,7 @@ echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Cinder encrypted volumes
-TESTS="${TESTS} TestEncryptedCinderVolumes"
+echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
