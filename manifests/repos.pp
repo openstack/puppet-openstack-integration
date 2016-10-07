@@ -27,7 +27,7 @@ class openstack_integration::repos {
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'newton-delorean-deps'   => {
+          'ocata-delorean-deps'    => {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata',
             'descr'    => 'Ocata delorean-deps',
             'gpgcheck' => 'no',
