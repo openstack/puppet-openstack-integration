@@ -89,6 +89,26 @@ install_modules() {
   fi
 }
 
+# Write out basic hiera configuration
+#
+# Uses the following variables:
+# - ``SCRIPT_DIR`` must be set to the dir that contains a /hiera folder to use
+# - ``HIERA_CONFIG`` must be set to the hiera config file location
+#
+configure_hiera() {
+  cat <<EOF >$HIERA_CONFIG
+---
+:backends:
+  - yaml
+:yaml:
+  :datadir: "${SCRIPT_DIR}/hiera"
+:hierarchy:
+  - "%{::operatingsystem}"
+  - "%{::osfamily}"
+  - common
+EOF
+}
+
 is_fedora() {
     if [ -f /etc/os-release ]; then
         source /etc/os-release

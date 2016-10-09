@@ -17,8 +17,10 @@ export PUPPET_VERSION=${PUPPET_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
-export PUPPET_ARGS=${PUPPET_ARGS:-}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
+export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
+export MANAGE_HIERA=${MANAGE_HIERA:-true}
+export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG}"
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -71,8 +73,6 @@ else
     wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
 fi
 
-PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace"
-
 function run_puppet() {
     local manifest=$1
     $SUDO puppet apply $PUPPET_ARGS fixtures/${manifest}.pp
@@ -104,6 +104,10 @@ elif is_fedora; then
     wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
     $SUDO rpm -ivh /tmp/puppet.rpm
     $SUDO yum install -y dstat ${PUPPET_PKG}
+fi
+
+if [ "${MANAGE_HIERA}" = true ]; then
+  configure_hiera
 fi
 
 # use dstat to monitor system activity during integration testing
