@@ -37,12 +37,17 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
   # linuxbridge driver is not working with latest Ubuntu packaging.
   $neutron_plugin    = 'openvswitch'
   $designate_enabled = true
+  $sahara_enabled    = true
 } else {
   $ssl_enabled       = true
   $neutron_plugin    = 'linuxbridge'
   # Designate packaging in Ocata is missing monasca dependencies.
   # Until it's fixed, let's disable it.
   $designate_enabled = false
+  # TODO(aschultz): Sahara disabled because it was broken by
+  # https://review.openstack.org/#/c/380082 and we probably need an updated
+  # package
+  $sahara_enabled    = false
 }
 
 include ::openstack_integration
@@ -77,7 +82,7 @@ class { '::openstack_integration::tempest':
   designate => $designate_enabled,
   trove     => true,
   mistral   => $mistral_enabled,
-  sahara    => true,
+  sahara    => $sahara_disabled,
   horizon   => true,
   heat      => true,
 }
