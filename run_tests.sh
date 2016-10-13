@@ -204,6 +204,9 @@ echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist
 # Zaqar
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# Cinder Backup
+echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
+
 # Cinder encrypted volumes
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 

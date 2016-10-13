@@ -66,6 +66,7 @@ class { '::openstack_integration::nova':
 
 class { '::openstack_integration::cinder':
   volume_encryption => $barbican_enabled,
+  cinder_backup     => 'swift',
 }
 
 if $barbican_enabled {
@@ -74,6 +75,7 @@ if $barbican_enabled {
 
 class { '::openstack_integration::tempest':
   cinder                  => true,
+  cinder_backup           => true,
   swift                   => true,
   ironic                  => true,
   zaqar                   => $zaqar_enabled,

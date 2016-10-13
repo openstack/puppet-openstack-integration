@@ -45,6 +45,7 @@ scenario](#all-in-one).
 | ceilometer |      X      |             |             |              |
 | aodh       |      X      |             |             |              |
 | designate  |             |             |     bind    |              |
+| backup     |             |    swift    |             |              |
 | gnocchi    |     rbd     |             |             |              |
 | heat       |             |             |       X     |              |
 | swift      |             |       X     |             |              |
