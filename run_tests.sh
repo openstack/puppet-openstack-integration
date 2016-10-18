@@ -208,7 +208,9 @@ echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.t
 # Note: VPN tests require VPNaaS, which doesn't work yet in puppet-tempest. As
 # soon as enabling neutron_vpnaas_available works there, the VPN tests can be
 # included.
-echo "ec2api.tests.functional((?!_vpn_).)*$" >> /tmp/openstack/tempest/test-whitelist.txt
+# test_assign_unassign_private_addresses_by_addresses seems to be flaky and is
+# also disabled for now.
+echo "ec2api.tests.functional((?!_vpn_|test_assign_unassign_private_addresses_by_addresses).)*$" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Cinder Backup
 echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
