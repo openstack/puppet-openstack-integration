@@ -3,6 +3,7 @@ barbican
 ceilometer
 ceph
 cinder
+cloudkitty
 congress
 designate
 ec2api
@@ -24,6 +25,7 @@ openstacklib
 oslo
 ovn
 panko
+qdr
 sahara
 swift
 tempest
