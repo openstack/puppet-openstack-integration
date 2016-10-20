@@ -21,6 +21,10 @@ mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
   :ref => 'master'
 
+mod 'cloudkitty',
+  :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
+  :ref => 'master'
+
 mod 'congress',
   :git => 'https://git.openstack.org/openstack/puppet-congress',
   :ref => 'master'
@@ -103,6 +107,10 @@ mod 'ovn',
 
 mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
+  :ref => 'master'
+
+mod 'qdr',
+  :git => 'https://git.openstack.org/openstack/puppet-qdr',
   :ref => 'master'
 
 mod 'sahara',
