@@ -221,6 +221,9 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
+# Until https://review.openstack.org/#/c/389848/ is merged
+git checkout 2866e9fdacbeac5fe98f9e1af78b239de753ce4e
+
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
 run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
