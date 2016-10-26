@@ -221,8 +221,10 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
-# Until https://review.openstack.org/#/c/389848/ is merged
-git checkout 2866e9fdacbeac5fe98f9e1af78b239de753ce4e
+# Until https://review.openstack.org/#/c/389848/ is packaged in UCA/Ocata
+if uses_debs; then
+    git checkout 2866e9fdacbeac5fe98f9e1af78b239de753ce4e
+fi
 
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
