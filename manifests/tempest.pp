@@ -60,6 +60,10 @@
 #   (optional) Define if Sahara needs to be tested.
 #   Default to false.
 #
+# [*murano*]
+#   (optional) Define if Murano needs to be tested.
+#   Default to false.
+#
 # [*swift*]
 #   (optional) Define if Swift needs to be tested.
 #   Default to false.
@@ -89,6 +93,7 @@ class openstack_integration::tempest (
   $horizon                 = false,
   $ironic                  = false,
   $mistral                 = false,
+  $murano                  = false,
   $neutron                 = true,
   $nova                    = true,
   $sahara                  = false,
@@ -162,6 +167,7 @@ class openstack_integration::tempest (
     ca_certificates_file    => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages   => true,
     attach_encrypted_volume => $attach_encrypted_volume,
+    murano_available        => $murano,
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir               => '/home/jenkins/cache/files',

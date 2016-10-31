@@ -56,6 +56,7 @@ scenario](#all-in-one).
 | ironic     |             |       X     |             |              |
 | zaqar      |             |       X     |             |              |
 | barbican   |             |       X     |             |              |
+| murano     |             |             |       X     |              |
 | ceph       |      X      |             |             |              |
 | mongodb    |             |       X     |             |              |
 
