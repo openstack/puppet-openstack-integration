@@ -55,6 +55,9 @@ done
 # some commands could fail if service failed to be installed during Puppet runs
 set +e
 
+# Copy puppet log
+cp ${WORKSPACE}/puppet*.log $LOG_DIR
+
 # Archive the project config & logs
 mkdir $LOG_DIR/etc/
 for p in $PROJECTS; do
