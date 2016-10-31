@@ -203,3 +203,11 @@ function catch_selinux_alerts() {
         fi
     fi
 }
+
+function timestamp_puppet_log() {
+    mv ${WORKSPACE}/puppet.log ${WORKSPACE}/puppet-$(date +%Y%m%d_%H%M%S).log
+}
+
+function catch_puppet_failures() {
+    grep -iE '(warning|error)' ${WORKSPACE}/puppet.log
+}

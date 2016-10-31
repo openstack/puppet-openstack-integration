@@ -22,7 +22,7 @@ export SWAP_SIZE_GB=${SWAP_SIZE_GB:-2}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
-export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG}"
+export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
 export DISTRO=$(lsb_release -c -s)
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
@@ -152,10 +152,12 @@ RESULT=$?
 set -e
 if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
     print_header 'First Puppet run contains errors in catalog.'
+    catch_puppet_failures
     print_header 'SELinux Alerts (1st time)'
     catch_selinux_alerts
     exit 1
 fi
+timestamp_puppet_log
 
 # Run puppet a second time and assert nothing changes.
 set +e
@@ -165,10 +167,12 @@ RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
     print_header 'Second Puppet run is not idempotent.'
+    catch_puppet_failures
     print_header 'SELinux Alerts (2nd time)'
     catch_selinux_alerts
     exit 1
 fi
+timestamp_puppet_log
 
 print_header 'Prepare Tempest'
 # Tempest plugin tests require tempest-lib to be installed
