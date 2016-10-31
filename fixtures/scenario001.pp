@@ -17,13 +17,9 @@
 case $::osfamily {
   'Debian': {
     $ipv6            = false
-    # gnocchi is not packaged in Ubuntu Cloud Archive
-    # https://bugs.launchpad.net/cloud-archive/+bug/1535740
-    $gnocchi_enabled = false
   }
   'RedHat': {
     $ipv6            = true
-    $gnocchi_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -66,7 +62,7 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   cinder     => true,
-  gnocchi    => $gnocchi_enabled,
+  gnocchi    => true,
   ceilometer => true,
   aodh       => true,
 }
