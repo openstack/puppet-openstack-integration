@@ -133,6 +133,10 @@ mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
   :ref => 'master'
 
+mod 'vitrage',
+    :git => 'https://git.openstack.org/openstack/puppet-vitrage',
+    :ref => 'master'
+
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
   :ref => 'master'

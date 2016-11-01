@@ -17,12 +17,14 @@
 case $::osfamily {
   'Debian': {
     $ipv6            = false
-    # panko is not packaged yet in debian/ubuntu
+    # panko and vitrage are not packaged yet in debian/ubuntu
     $enable_panko    = false
+    $enable_vitrage  = false
   }
   'RedHat': {
     $ipv6            = true
     $enable_panko    = true
+    $enable_vitrage  = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -59,6 +61,9 @@ class { '::openstack_integration::cinder':
 }
 include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
+if $enable_vitrage {
+  include ::openstack_integration::vitrage
+}
 include ::openstack_integration::gnocchi
 include ::openstack_integration::ceph
 include ::openstack_integration::provision
@@ -72,4 +77,5 @@ class { '::openstack_integration::tempest':
   ceilometer => true,
   aodh       => true,
   panko      => $enable_panko,
+  vitrage    => $enable_vitrage,
 }

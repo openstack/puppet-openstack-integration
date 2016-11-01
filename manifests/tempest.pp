@@ -76,6 +76,10 @@
 #   (optional) Define if Trove needs to be tested.
 #   Default to false.
 #
+# [*vitrage*]
+#   (optional) Define if Vitrage needs to be tested.
+#   Default to false.
+#
 # [*watcher*]
 #   (optional) Define if Watcher needs to be tested.
 #   Default to false.
@@ -109,6 +113,7 @@ class openstack_integration::tempest (
   $swift                   = false,
   $trove                   = false,
   $watcher                 = false,
+  $vitrage                 = false,
   $zaqar                   = false,
   $attach_encrypted_volume = false,
 ) {
@@ -165,6 +170,7 @@ class openstack_integration::tempest (
     ironic_available        => $ironic,
     zaqar_available         => $zaqar,
     mistral_available       => $mistral,
+    vitrage_available       => $vitrage,
     gnocchi_available       => $gnocchi,
     panko_available         => $panko,
     ec2api_available        => $ec2api,
