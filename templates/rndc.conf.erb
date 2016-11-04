@@ -1,6 +1,6 @@
 include "/etc/rndc.key";
 options {
         default-key "rndc-key";
-        default-server <%= scope.lookupvar("openstack_integration::config::host") %>;
+        default-server 127.0.0.1;
         default-port 953;
 };
