@@ -27,17 +27,20 @@ class openstack_integration::mistral {
       Exec['update-ca-certificates'] ~> Service['httpd']
     }
     class { '::mistral':
-      database_connection => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
-      keystone_password   => 'a_big_secret',
-      rabbit_userid       => 'mistral',
-      rabbit_password     => 'an_even_bigger_secret',
-      rabbit_port         => $::openstack_integration::config::rabbit_port,
-      rabbit_use_ssl      => $::openstack_integration::config::ssl,
-      rabbit_host         => $::openstack_integration::config::ip_for_url,
+      default_transport_url => os_transport_url({
+        'transport' => 'rabbit',
+        'host'      => $::openstack_integration::config::host,
+        'port'      => $::openstack_integration::config::rabbit_port,
+        'username'  => 'mistral',
+        'password'  => 'an_even_bigger_secret',
+      }),
+      database_connection   => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
+      keystone_password     => 'a_big_secret',
+      rabbit_use_ssl        => $::openstack_integration::config::ssl,
       # if it works, we might need to change the default in puppet-mistral
-      identity_uri        => $::openstack_integration::config::keystone_admin_uri,
-      auth_uri            => "${::openstack_integration::config::keystone_auth_uri}/v3",
-      debug               => true,
+      identity_uri          => $::openstack_integration::config::keystone_admin_uri,
+      auth_uri              => "${::openstack_integration::config::keystone_auth_uri}/v3",
+      debug                 => true,
     }
     class { '::mistral::keystone::auth':
       public_url   => "${::openstack_integration::config::base_url}:8989/v2",

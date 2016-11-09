@@ -120,12 +120,15 @@ class openstack_integration::glance (
     key_file            => $key_file,
   }
   class { '::glance::notify::rabbitmq':
-    rabbit_userid       => 'glance',
-    rabbit_password     => 'an_even_bigger_secret',
-    rabbit_host         => $::openstack_integration::config::ip_for_url,
-    rabbit_port         => $::openstack_integration::config::rabbit_port,
-    notification_driver => 'messagingv2',
-    rabbit_use_ssl      => $::openstack_integration::config::ssl,
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'glance',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    notification_driver   => 'messagingv2',
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
   }
 
 }

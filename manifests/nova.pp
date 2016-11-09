@@ -66,12 +66,15 @@ class openstack_integration::nova (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::nova':
+    default_transport_url   => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'nova',
+      'password'  => 'an_even_bigger_secret',
+    }),
     database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
-    rabbit_host             => $::openstack_integration::config::ip_for_url,
-    rabbit_port             => $::openstack_integration::config::rabbit_port,
-    rabbit_userid           => 'nova',
-    rabbit_password         => 'an_even_bigger_secret',
     rabbit_use_ssl          => $::openstack_integration::config::ssl,
     use_ipv6                => $::openstack_integration::config::ipv6,
     glance_api_servers      => "${::openstack_integration::config::base_url}:9292",

@@ -105,10 +105,13 @@ class openstack_integration::neutron (
     password     => 'a_big_secret',
   }
   class { '::neutron':
-    rabbit_user           => 'neutron',
-    rabbit_password       => 'an_even_bigger_secret',
-    rabbit_host           => $::openstack_integration::config::ip_for_url,
-    rabbit_port           => $::openstack_integration::config::rabbit_port,
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'neutron',
+      'password'  => 'an_even_bigger_secret',
+    }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     allow_overlapping_ips => true,
     core_plugin           => 'ml2',

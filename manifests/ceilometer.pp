@@ -26,14 +26,17 @@ class openstack_integration::ceilometer {
   }
 
   class { '::ceilometer':
-    telemetry_secret  => 'secrete',
-    rabbit_userid     => 'ceilometer',
-    rabbit_password   => 'an_even_bigger_secret',
-    rabbit_host       => $::openstack_integration::config::ip_for_url,
-    rabbit_port       => $::openstack_integration::config::rabbit_port,
-    rabbit_use_ssl    => $::openstack_integration::config::ssl,
-    memcached_servers => $::openstack_integration::config::memcached_servers,
-    debug             => true,
+    telemetry_secret      => 'secrete',
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'ceilometer',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    memcached_servers     => $::openstack_integration::config::memcached_servers,
+    debug                 => true,
   }
   class { '::ceilometer::db::mysql':
     password => 'ceilometer',

@@ -31,11 +31,14 @@ class openstack_integration::trove {
   }
 
   class { '::trove':
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'trove',
+      'password'  => 'an_even_bigger_secret',
+    }),
     database_connection   => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
-    rabbit_userid         => 'trove',
-    rabbit_password       => 'an_even_bigger_secret',
-    rabbit_host           => $::openstack_integration::config::ip_for_url,
-    rabbit_port           => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     nova_proxy_admin_pass => 'a_big_secret',
   }
