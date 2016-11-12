@@ -21,6 +21,9 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG}"
+# Tempest 12.2.0 is the latest releast that supports Mitaka.
+# http://docs.openstack.org/releasenotes/tempest/v12.0.0.html
+export TEMPEST_VERSION=${TEMPEST_VERSION:-12.2.0}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -59,9 +62,10 @@ if [ $(id -u) != 0 ]; then
   SUDO='sudo -E'
 fi
 
-# Tempest 12.2.0 is the latest releast that supports Mitaka.
-# http://docs.openstack.org/releasenotes/tempest/v12.0.0.html
-git clone -b 12.2.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+pushd /tmp/openstack/tempest
+git reset --hard $TEMPEST_VERSION
+popd
 
 $SUDO rm -f /tmp/openstack/tempest/cirros-0.3.4-x86_64-disk.img
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
