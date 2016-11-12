@@ -24,6 +24,7 @@ export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
 export DISTRO=$(lsb_release -c -s)
+export TEMPEST_VERSION=${TEMPEST_VERSION:-'origin/master'}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -97,6 +98,10 @@ else
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
 fi
+
+pushd /tmp/openstack/tempest
+git reset --hard $TEMPEST_VERSION
+popd
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.
