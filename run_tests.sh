@@ -24,6 +24,11 @@ export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
 export DISTRO=$(lsb_release -c -s)
+# Tempest 13.0.0 is the latest releast that supports Newton.
+# http://docs.openstack.org/releasenotes/tempest/v13.0.0.html
+# Ceilometer stable/newton is not compatible with v13.0.0 since https://review.openstack.org/#/c/395506/
+# We might eventually need to move the pin to something later than 13.0.0
+export TEMPEST_VERSION=${TEMPEST_VERSION:-13.0.0}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -75,10 +80,12 @@ if [ "${ADD_SWAP}" = true ]; then
 fi
 
 print_header 'Clone Tempest, plugins & pre-cache CirrOS'
-# Tempest 13.0.0 is the latest releast that supports Newton.
-# http://docs.openstack.org/releasenotes/tempest/v13.0.0.html
-git clone -b 13.0.0 git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+
+pushd /tmp/openstack/tempest
+git reset --hard $TEMPEST_VERSION
+popd
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.
