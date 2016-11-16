@@ -33,7 +33,13 @@ class openstack_integration::repos {
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-        }
+          'rdo-pending'            => {
+            'baseurl'  => 'http://cbs.centos.org/repos/cloud7-openstack-common-pending/x86_64/os/',
+            'descr'    => 'RDO pending LP1641312',
+            'gpgcheck' => 'no',
+            'priority' => '1',
+          },
+        },
       }
     }
     default: {

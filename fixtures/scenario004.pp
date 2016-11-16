@@ -17,14 +17,16 @@
 # Disable SSL (workaround for Xenial)
 if $::operatingsystem == 'Ubuntu' {
   $ssl_enabled = false
+  $ipv6        = false
 } else {
   $ssl_enabled = true
+  $ipv6        = false
 }
 
 include ::openstack_integration
 class { '::openstack_integration::config':
   ssl  => $ssl_enabled,
-  ipv6 => true,
+  ipv6 => $ipv6,
 }
 
 include ::openstack_integration::cacert
