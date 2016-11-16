@@ -20,7 +20,7 @@ if $::operatingsystem == 'Ubuntu' {
   $ipv6        = false
 } else {
   $ssl_enabled = true
-  $ipv6        = false
+  $ipv6        = true
 }
 
 include ::openstack_integration
