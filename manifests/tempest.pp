@@ -72,6 +72,10 @@
 #   (optional) Define if Trove needs to be tested.
 #   Default to false.
 #
+# [*watcher*]
+#   (optional) Define if Watcher needs to be tested.
+#   Default to false.
+#
 # [*zaqar*]
 #   (optional) Define if Zaqar needs to be tested.
 #   Default to false.
@@ -99,6 +103,7 @@ class openstack_integration::tempest (
   $sahara                  = false,
   $swift                   = false,
   $trove                   = false,
+  $watcher                 = false,
   $zaqar                   = false,
   $attach_encrypted_volume = false,
 ) {
@@ -155,6 +160,7 @@ class openstack_integration::tempest (
     mistral_available       => $mistral,
     gnocchi_available       => $gnocchi,
     ec2api_available        => $ec2api,
+    watcher_available       => $watcher,
     public_network_name     => 'public',
     dashboard_url           => $::openstack_integration::config::base_url,
     flavor_ref              => '42',
