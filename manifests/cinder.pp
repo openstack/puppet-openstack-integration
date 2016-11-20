@@ -116,14 +116,16 @@ class openstack_integration::cinder (
         size => '15G',
       }
       cinder::backend::iscsi { 'BACKEND_1':
-        iscsi_ip_address => '127.0.0.1',
+        iscsi_ip_address   => '127.0.0.1',
+        manage_volume_type => true,
       }
     }
     'rbd': {
       cinder::backend::rbd { 'BACKEND_1':
-        rbd_user        => 'openstack',
-        rbd_pool        => 'cinder',
-        rbd_secret_uuid => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+        rbd_user           => 'openstack',
+        rbd_pool           => 'cinder',
+        rbd_secret_uuid    => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
+        manage_volume_type => true,
       }
       # make sure ceph pool exists before running Cinder API & Volume
       Exec['create-cinder'] -> Service['httpd']
@@ -135,10 +137,6 @@ class openstack_integration::cinder (
   }
   class { '::cinder::backends':
     enabled_backends => ['BACKEND_1'],
-  }
-  cinder_type { 'BACKEND_1':
-    ensure     => present,
-    properties => ['volume_backend_name=BACKEND_1'],
   }
 
   if $cinder_backup == swift {
