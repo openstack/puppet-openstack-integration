@@ -44,6 +44,7 @@ scenario](#all-in-one).
 | cinder     |     rbd     |     iscsi   |             |             |   iscsi      |
 | ceilometer |      X      |             |             |             |              |
 | aodh       |      X      |             |             |             |              |
+| panko      |      X      |             |             |             |              |
 | designate  |             |             |     bind    |             |              |
 | backup     |             |    swift    |             |             |              |
 | gnocchi    |     rbd     |             |             |             |              |

@@ -67,8 +67,17 @@ class openstack_integration::ceilometer {
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => '2',
   }
+
+  # Panko is not yet packaged in ubuntu repos
+  if $::osfamily == 'RedHat' {
+    $event_dispatcher = 'panko'
+  } else {
+    $event_dispatcher = undef
+  }
+
   class { '::ceilometer::collector':
     collector_workers => '2',
+    event_dispatcher  => $event_dispatcher,
   }
   class { '::ceilometer::expirer': }
   class { '::ceilometer::agent::notification':

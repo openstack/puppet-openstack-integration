@@ -17,9 +17,12 @@
 case $::osfamily {
   'Debian': {
     $ipv6            = false
+    # panko is not packaged yet in debian/ubuntu
+    $enable_panko    = false
   }
   'RedHat': {
     $ipv6            = true
+    $enable_panko    = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -59,6 +62,9 @@ include ::openstack_integration::aodh
 include ::openstack_integration::gnocchi
 include ::openstack_integration::ceph
 include ::openstack_integration::provision
+if $enable_panko {
+  include ::openstack_integration::panko
+}
 
 class { '::openstack_integration::tempest':
   cinder     => true,
