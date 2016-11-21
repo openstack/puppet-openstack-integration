@@ -1,2 +1,3 @@
 ---
 apache::default_vhost: false
+mongodb::server::dbpath_fix: false
