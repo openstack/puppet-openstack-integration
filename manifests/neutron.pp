@@ -134,7 +134,8 @@ class openstack_integration::neutron (
     api_workers         => 2,
     rpc_workers         => 2,
     service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default'],
+                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
+                            'FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default'],
   }
   class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':
@@ -165,6 +166,7 @@ class openstack_integration::neutron (
   class { '::neutron::agents::l3':
     interface_driver        => $driver,
     debug                   => true,
+    extensions              => 'fwaas',
     # This parameter is deprecated but we need it for linuxbridge
     # It will be dropped in a future release.
     external_network_bridge => $external_network_bridge,
@@ -182,8 +184,10 @@ class openstack_integration::neutron (
     password => 'a_big_secret',
   }
   class { '::neutron::services::fwaas':
-    enabled => true,
-    driver  => 'neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver',
+    enabled       => true,
+    agent_version => 'v1',
+    driver        => 'neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver',
+
   }
 
 }
