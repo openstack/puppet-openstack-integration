@@ -17,9 +17,6 @@ class openstack_integration::aodh {
     require              => Class['::rabbitmq'],
   }
 
-  # https://bugs.launchpad.net/aodh/+bug/1557154
-  Rabbitmq_user_permissions['aodh@/'] -> Service<| tag == 'aodh-service' |>
-
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'aodh':
       notify  => Service['httpd'],
