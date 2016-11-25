@@ -133,6 +133,14 @@ if [ "${MANAGE_REPOS}" = true ]; then
         print_header 'Puppet failed to install repositories.'
         exit 1
     fi
+    if is_fedora; then
+        print_header 'Updating packages'
+        $SUDO yum update -y
+        if [ $? -ne 0 ]; then
+            print_header 'Error updating packages'
+            exit 1
+        fi
+    fi
 fi
 
 print_header "Running Puppet Scenario: ${SCENARIO} (1st time)"
