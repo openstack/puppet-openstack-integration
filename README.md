@@ -62,6 +62,7 @@ scenario](#all-in-one).
 | horizon    |             |             |       X     |             |      X       |
 | ironic     |             |       X     |             |             |              |
 | zaqar      |             |       X     |             |             |              |
+| murano     |             |             |       X     |             |              |
 | barbican   |             |       X     |             |             |              |
 | ceph       |      X      |             |             |      X      |              |
 | ceph rgw   |             |             |             |      X      |              |
