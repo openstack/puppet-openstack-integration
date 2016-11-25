@@ -225,9 +225,6 @@ echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
 # Cinder encrypted volumes
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 
-# Murano
-echo "application_catalog" >> /tmp/openstack/tempest/test-whitelist.txt
-
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
