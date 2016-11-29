@@ -124,6 +124,8 @@ class openstack_integration::ceph (
     if $swift_dropin {
       class { '::ceph::rgw::keystone::auth':
         password     => $password,
+        user         => $auth_name,
+        tenant       => $project,
         public_url   => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
         admin_url    => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
         internal_url => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
