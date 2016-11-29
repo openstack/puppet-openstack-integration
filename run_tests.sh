@@ -120,8 +120,6 @@ fi
 
 if uses_debs; then
     $SUDO apt-get install -y dstat ebtables
-    # https://bugs.launchpad.net/cloud-archive/+bug/1621651
-    $SUDO modprobe br_netfilter
 elif is_fedora; then
     $SUDO yum install -y dstat setools setroubleshoot audit
     $SUDO service auditd start
