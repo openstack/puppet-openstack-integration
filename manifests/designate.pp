@@ -57,7 +57,7 @@ class openstack_integration::designate {
   }
 
   class { '::designate::api':
-    api_host         => $::openstack_integration::config::host,
+    listen           => "${::openstack_integration::config::host}:9001",
     api_base_uri     => "http://${::openstack_integration::config::ip_for_url}:9001",
     auth_strategy    => 'keystone',
     enable_api_v2    => true,
@@ -66,8 +66,7 @@ class openstack_integration::designate {
 
   # IPv6 doesn't work for mdns ? https://bugs.launchpad.net/designate/+bug/1501396
   class { '::designate::mdns':
-    host => '127.0.0.1',
-    port => '5354',
+    listen => '127.0.0.1:5354'
   }
 
   class { '::designate::central':
