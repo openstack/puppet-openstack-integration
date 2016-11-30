@@ -16,11 +16,14 @@
 
 # Disable SSL (workaround for Xenial)
 if $::operatingsystem == 'Ubuntu' {
-  $ssl_enabled = false
-  $ipv6        = false
+  $ssl_enabled     = false
+  $ipv6            = false
+  # Watcher packages are not available in Ubuntu repository.
+  $watcher_enabled = false
 } else {
-  $ssl_enabled = true
-  $ipv6        = true
+  $ssl_enabled     = true
+  $ipv6            = true
+  $watcher_enabled = true
 }
 
 include ::openstack_integration
@@ -48,9 +51,14 @@ class { '::openstack_integration::ceph':
   deploy_rgw   => true,
   swift_dropin => true,
 }
+if $watcher_enabled {
+  include ::openstack_integration::watcher
+}
 
 include ::openstack_integration::provision
 
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
-include ::openstack_integration::tempest
+class { '::openstack_integration::tempest':
+  watcher => $watcher_enabled,
+}
