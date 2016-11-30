@@ -33,14 +33,17 @@ class openstack_integration::aodh {
     $gnocchi_url = undef
   }
   class { '::aodh':
-    rabbit_userid       => 'aodh',
-    rabbit_password     => 'an_even_bigger_secret',
-    rabbit_port         => $::openstack_integration::config::rabbit_port,
-    rabbit_use_ssl      => $::openstack_integration::config::ssl,
-    debug               => true,
-    rabbit_host         => $::openstack_integration::config::ip_for_url,
-    database_connection => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
-    gnocchi_url         => $gnocchi_url,
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'aodh',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    debug                 => true,
+    database_connection   => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
+    gnocchi_url           => $gnocchi_url,
   }
   class { '::aodh::db::mysql':
     password => 'aodh',

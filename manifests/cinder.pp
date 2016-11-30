@@ -59,13 +59,16 @@ class openstack_integration::cinder (
     password        => 'a_big_secret',
   }
   class { '::cinder':
-    database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
-    rabbit_host         => $::openstack_integration::config::ip_for_url,
-    rabbit_port         => $::openstack_integration::config::rabbit_port,
-    rabbit_userid       => 'cinder',
-    rabbit_password     => 'an_even_bigger_secret',
-    rabbit_use_ssl      => $::openstack_integration::config::ssl,
-    debug               => true,
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'cinder',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    database_connection   => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    debug                 => true,
   }
   if $volume_encryption {
     $keymgr_api_class           = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'

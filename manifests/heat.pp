@@ -39,13 +39,16 @@ class openstack_integration::heat {
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::heat':
-    rabbit_userid       => 'heat',
-    rabbit_password     => 'an_even_bigger_secret',
-    rabbit_host         => $::openstack_integration::config::ip_for_url,
-    rabbit_use_ssl      => $::openstack_integration::config::ssl,
-    rabbit_port         => $::openstack_integration::config::rabbit_port,
-    database_connection => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
-    debug               => true,
+    default_transport_url => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'heat',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    database_connection   => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
+    debug                 => true,
   }
   class { '::heat::db::mysql':
     password => 'heat',

@@ -52,16 +52,19 @@ class openstack_integration::barbican {
     project_domain_name => 'Default',
   }
   class { '::barbican::api':
+    default_transport_url       => os_transport_url({
+      'transport' => 'rabbit',
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::rabbit_port,
+      'username'  => 'barbican',
+      'password'  => 'an_even_bigger_secret',
+    }),
     host_href                   => "${::openstack_integration::config::base_url}:9311",
     auth_strategy               => 'keystone',
     service_name                => 'httpd',
     enabled_certificate_plugins => ['simple_certificate'],
     db_auto_create              => false,
-    rabbit_userid               => 'barbican',
-    rabbit_password             => 'an_even_bigger_secret',
-    rabbit_port                 => $::openstack_integration::config::rabbit_port,
     rabbit_use_ssl              => $::openstack_integration::config::ssl,
-    rabbit_host                 => $::openstack_integration::config::ip_for_url,
   }
   include ::apache
   class { '::barbican::wsgi::apache':
