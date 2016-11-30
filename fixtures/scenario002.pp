@@ -17,8 +17,6 @@
 case $::osfamily {
   'Debian': {
     $ipv6             = false
-    # zaqar is not packaged in Ubuntu Trusty
-    $zaqar_enabled    = false
     # we'll start testing barbican after Newton stable, Ubuntu packaging is not
     # updated enough.
     $barbican_enabled = false
@@ -27,7 +25,6 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6               = true
-    $zaqar_enabled      = true
     $barbican_enabled   = true
     $ec2api_enabled     = true
   }
@@ -85,7 +82,7 @@ class { '::openstack_integration::tempest':
   cinder_backup           => true,
   swift                   => true,
   ironic                  => true,
-  zaqar                   => $zaqar_enabled,
+  zaqar                   => true,
   attach_encrypted_volume => $barbican_enabled,
   ec2api                  => $ec2api_enabled,
 }
