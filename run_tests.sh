@@ -225,19 +225,16 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 
 if uses_debs; then
   # TODO(aschultz): check this after ocata-m2 is published for UCA
-  # this will disable the lbaas listeners tests for ubuntu only due to flakey
+  # 1) this will disable the lbaas listeners tests for ubuntu only due to flakey
   # failures
-  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$).*"
+  # 2) this will disable ceilometer's test_check_glance_v1_notifications until
+  # https://review.openstack.org/#/c/389848/ is packaged in UCA/Ocata
+  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v1_notifications.*$).*"
 else
   EXCLUDES=""
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
-
-# Until https://review.openstack.org/#/c/389848/ is packaged in UCA/Ocata
-if uses_debs; then
-    git checkout 2866e9fdacbeac5fe98f9e1af78b239de753ce4e
-fi
 
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
