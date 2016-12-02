@@ -63,6 +63,12 @@ class openstack_integration::nova (
     admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
     password     => 'a_big_secret',
   }
+  class { '::nova::keystone::auth_placement':
+    public_url   => "${::openstack_integration::config::base_url}:8778/placement",
+    internal_url => "${::openstack_integration::config::base_url}:8778/placement",
+    admin_url    => "${::openstack_integration::config::base_url}:8778/placement",
+    password     => 'a_big_secret',
+  }
   class { '::nova::keystone::authtoken':
     password            => 'a_big_secret',
     user_domain_name    => 'Default',
@@ -100,6 +106,20 @@ class openstack_integration::nova (
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
+  }
+  if $::osfamily == 'RedHat' {
+    class { '::nova::wsgi::apache_placement':
+      bind_host => $::openstack_integration::config::ip_for_url,
+      api_port  => '8778',
+      ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      ssl       => $::openstack_integration::config::ssl,
+      workers   => '2',
+    }
+    class { '::nova::placement':
+      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      password => 'a_big_secret',
+    }
   }
   class { '::nova::client': }
   class { '::nova::conductor': }
