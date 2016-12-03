@@ -205,7 +205,7 @@ function catch_selinux_alerts() {
 }
 
 function timestamp_puppet_log() {
-    mv ${WORKSPACE}/puppet.log ${WORKSPACE}/puppet-$(date +%Y%m%d_%H%M%S).log
+    $SUDO mv ${WORKSPACE}/puppet.log ${WORKSPACE}/puppet-$(date +%Y%m%d_%H%M%S).log
 }
 
 function catch_puppet_failures() {
