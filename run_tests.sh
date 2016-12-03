@@ -223,6 +223,14 @@ echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
 # Cinder encrypted volumes
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 
+if uses_debs; then
+  # TODO(aschultz): check this after ocata-m2 is published for UCA
+  # this will disable the lbaas listeners tests for ubuntu only due to flakey
+  # failures
+  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$).*"
+else
+  EXCLUDES=""
+fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
@@ -233,7 +241,7 @@ fi
 
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
-run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
+run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
 RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
