@@ -26,7 +26,7 @@ source $SCRIPT_DIR/functions
 print_header 'Copy logs into workspace'
 
 LOG_DIR=$WORKSPACE/logs
-mkdir $WORKSPACE/logs
+[[ ! -d "${WORKSPACE}/logs" ]] && mkdir -p ${WORKSPACE}/logs
 
 # PROJECTS
 #  - for each entry, we will probe /etc/${project} and /var/log/${project}
