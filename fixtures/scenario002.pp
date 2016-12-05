@@ -17,15 +17,11 @@
 case $::osfamily {
   'Debian': {
     $ipv6             = false
-    # we'll start testing barbican after Newton stable, Ubuntu packaging is not
-    # updated enough.
-    $barbican_enabled = false
-    # ec2api is not packaged on Ubuntu Trusty
+    # ec2api is not packaged on UCA
     $ec2api_enabled   = false
   }
   'RedHat': {
     $ipv6               = true
-    $barbican_enabled   = true
     $ec2api_enabled     = true
   }
   default: {
@@ -61,17 +57,15 @@ include ::openstack_integration::mongodb
 include ::openstack_integration::provision
 
 class { '::openstack_integration::nova':
-  volume_encryption => $barbican_enabled,
+  volume_encryption => true,
 }
 
 class { '::openstack_integration::cinder':
-  volume_encryption => $barbican_enabled,
+  volume_encryption => true,
   cinder_backup     => 'swift',
 }
 
-if $barbican_enabled {
-  include ::openstack_integration::barbican
-}
+include ::openstack_integration::barbican
 
 if $ec2api_enabled {
   include ::openstack_integration::ec2api
@@ -83,6 +77,6 @@ class { '::openstack_integration::tempest':
   swift                   => true,
   ironic                  => true,
   zaqar                   => true,
-  attach_encrypted_volume => $barbican_enabled,
+  attach_encrypted_volume => true,
   ec2api                  => $ec2api_enabled,
 }
