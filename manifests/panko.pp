@@ -49,6 +49,7 @@ class openstack_integration::panko {
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::panko::api':
+    sync_db      => true,
     enabled      => true,
     service_name => 'httpd',
   }
@@ -60,6 +61,5 @@ class openstack_integration::panko {
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::panko::db::sync': }
 
 }
