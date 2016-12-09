@@ -4,8 +4,7 @@ class openstack_integration {
 
   if $::osfamily == 'RedHat' {
     package { 'openstack-selinux':
-      # TODO(aschultz): remove this when openstack-selinux is updated BZ#1402926
-      ensure => '0.7.4-2.el7'
+        ensure => 'latest'
     }
     # Some packages provided by RDO are virtual
     # allow_virtual is false in Puppet 3 and will be true
