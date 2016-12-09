@@ -4,8 +4,7 @@ class openstack_integration {
 
   if $::osfamily == 'RedHat' {
     package { 'openstack-selinux':
-      # TODO(aschultz): remove this when openstack-selinux is updated BZ#1402926
-      ensure => '0.7.4-2.el7'
+        ensure => 'latest'
     }
     package { 'qemu-kvm-ev':
       # TODO(zhongshengping): remove this when the dependency problem of qemu-kvm-ev is resolved
