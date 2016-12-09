@@ -39,6 +39,7 @@ class openstack_integration::gnocchi {
     class { '::gnocchi::api':
       enabled      => true,
       service_name => 'httpd',
+      sync_db      => true,
     }
     include ::apache
     class { '::gnocchi::wsgi::apache':
@@ -49,7 +50,6 @@ class openstack_integration::gnocchi {
       workers   => 2,
     }
     class { '::gnocchi::client': }
-    class { '::gnocchi::db::sync': }
     class { '::gnocchi::metricd': }
     class { '::gnocchi::storage': }
     class { '::gnocchi::storage::ceph':
