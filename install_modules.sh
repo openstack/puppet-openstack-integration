@@ -22,6 +22,8 @@ source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
+# fast_gettext 1.2.0+ requires ruby 2.1.0
+gem install fast_gettext -v '< 1.2.0'
 gem install r10k --no-ri --no-rdoc
 
 # make sure there is no puppet module pre-installed
