@@ -4,6 +4,7 @@ group :development, :test, :system_tests do
   gem 'puppet-openstack_spec_helper',
       :git     => 'https://git.openstack.org/openstack/puppet-openstack_spec_helper',
       :require => false
+  gem 'fast_gettext', ['< 1.2.0']
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']

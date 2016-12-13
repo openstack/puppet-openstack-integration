@@ -9,6 +9,11 @@
 #   (optional) Libvirt domain type. Options are: kvm, lxc, qemu, uml, xen
 #   Defaults to 'qemu'
 #
+# [*libvirt_cpu_mode*]
+#   (optional) The libvirt CPU mode to configure.
+#   Possible values include custom, host-model, none, host-passthrough.
+#   Defaults to 'none'
+#
 # [*volume_encryption*]
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
@@ -16,6 +21,7 @@
 class openstack_integration::nova (
   $libvirt_rbd       = false,
   $libvirt_virt_type = 'qemu',
+  $libvirt_cpu_mode  = 'none',
   $volume_encryption = false,
 ) {
 
@@ -121,6 +127,7 @@ class openstack_integration::nova (
   }
   class { '::nova::compute::libvirt':
     libvirt_virt_type     => $libvirt_virt_type,
+    libvirt_cpu_mode      => $libvirt_cpu_mode,
     migration_support     => true,
     vncserver_listen      => '0.0.0.0',
     # TODO: enable it again when puppet 4.5 will be idempotent
