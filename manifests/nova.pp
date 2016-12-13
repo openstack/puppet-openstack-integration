@@ -36,6 +36,14 @@ class openstack_integration::nova (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  $transport_url = os_transport_url({
+    'transport' => 'rabbit',
+    'host'      => $::openstack_integration::config::host,
+    'port'      => $::openstack_integration::config::rabbit_port,
+    'username'  => 'nova',
+    'password'  => 'an_even_bigger_secret',
+  })
+
   rabbitmq_user { 'nova':
     admin    => true,
     password => 'an_even_bigger_secret',
@@ -55,7 +63,12 @@ class openstack_integration::nova (
     password => 'nova',
   }
   class { '::nova::db::mysql_api':
-    password => 'nova',
+    password    => 'nova',
+    #TODO(aschultz): remove this once it becomes default
+    setup_cell0 => true,
+  }
+  class { '::nova::db::sync_cell_v2':
+    transport_url => $transport_url,
   }
   class { '::nova::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
@@ -72,13 +85,7 @@ class openstack_integration::nova (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::nova':
-    default_transport_url   => os_transport_url({
-      'transport' => 'rabbit',
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
-      'username'  => 'nova',
-      'password'  => 'an_even_bigger_secret',
-    }),
+    default_transport_url   => $transport_url,
     database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
     rabbit_use_ssl          => $::openstack_integration::config::ssl,
