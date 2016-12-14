@@ -56,7 +56,11 @@ class openstack_integration::gnocchi {
     cleanup_delay => 10,
   }
   class { '::gnocchi::storage':
-    coordination_url => $::openstack_integration::config::tooz_url,
+    # NOTE(sileht): Since we set the pipeline interval to 1 minutes instead
+    # of 10, we must compute metrics more often too, otherwise Aodh alarms will
+    # always missed data just because they are 'not yet' computed.
+    metric_processing_delay => 5,
+    coordination_url        => $::openstack_integration::config::tooz_url,
   }
   class { '::gnocchi::storage::ceph':
     ceph_username => 'openstack',

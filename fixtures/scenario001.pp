@@ -49,7 +49,11 @@ include ::openstack_integration::cacert
 include ::openstack_integration::memcached
 include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
-include ::openstack_integration::keystone
+class { '::openstack_integration::keystone':
+  # NOTE(sileht):zTelemetry autoscaling tempest tests can't renew token, so we
+  # use a long one
+  token_expiration => '2400',
+}
 class { '::openstack_integration::glance':
   backend => 'rbd',
 }
@@ -68,6 +72,7 @@ if $enable_vitrage {
   include ::openstack_integration::vitrage
 }
 include ::openstack_integration::ceph
+include ::openstack_integration::heat
 include ::openstack_integration::provision
 if ! $enable_legacy_telemetry {
   include ::openstack_integration::redis
@@ -80,6 +85,7 @@ class { '::openstack_integration::tempest':
   gnocchi    => ! $enable_legacy_telemetry,
   ceilometer => true,
   aodh       => true,
+  heat       => true,
   panko      => ! $enable_legacy_telemetry,
   vitrage    => $enable_vitrage,
 }

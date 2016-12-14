@@ -15,10 +15,16 @@
 #   (optional) Define the token provider to use.
 #   Default to 'uuid'.
 #
+# [*token_expiration*]
+#   (optional) Define the token expiration to use.
+#   Default to '600'.
+#
+
 class openstack_integration::keystone (
   $default_domain      = undef,
   $using_domain_config = false,
   $token_provider      = 'uuid',
+  $token_expiration    = '600',
 ) {
 
   include ::openstack_integration::config
@@ -72,7 +78,7 @@ class openstack_integration::keystone (
     enable_fernet_setup     => $enable_fernet_setup,
     enable_credential_setup => $enable_credential_setup,
     fernet_max_active_keys  => '4',
-    token_expiration        => '600',
+    token_expiration        => $token_expiration,
   }
   include ::apache
   class { '::keystone::wsgi::apache':

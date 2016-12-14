@@ -86,6 +86,7 @@ class openstack_integration::ceilometer (
 
     class { '::ceilometer::expirer': }
 
+    # Gnocchi and Panko are not avialable on Ubuntu
     $sample_pipeline_publishers = ['database://']
     $event_pipeline_publishers = ['database://']
   } else {
@@ -99,16 +100,24 @@ class openstack_integration::ceilometer (
     Class['ceilometer::keystone::auth'] -> Exec['ceilometer-upgrade']
     Class['gnocchi::keystone::auth'] -> Exec['ceilometer-upgrade']
 
+    # The default pipeline doesn't have Panko
     $sample_pipeline_publishers = ['gnocchi://']
     $event_pipeline_publishers = ['gnocchi://', 'panko://']
   }
 
   class { '::ceilometer::agent::notification':
     notification_workers      => '2',
+    manage_pipeline           => true,
     pipeline_publishers       => $sample_pipeline_publishers,
+    manage_event_pipeline     => true,
     event_pipeline_publishers => $event_pipeline_publishers,
   }
-  class { '::ceilometer::agent::polling': }
+  class { '::ceilometer::agent::polling':
+    manage_polling   => true,
+    # NOTE(sileht): Use 1 minute instead 10 otherwise the telemetry tempest
+    # tests are too long to pass in less than 1 hour.
+    polling_interval => 60,
+  }
   class { '::ceilometer::agent::auth':
     auth_password => 'a_big_secret',
     auth_url      => $::openstack_integration::config::keystone_auth_uri,

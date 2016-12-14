@@ -281,6 +281,9 @@ echo "gnocchi.tempest" >> /tmp/openstack/tempest/test-whitelist.txt
 # Vitrage
 echo "TestEvents" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# Test Autoscaling with Telemetry (need panko, ubuntu doesn't ship it)
+uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-whitelist.txt
+
 # Ironic
 # Note: running all Ironic tests under SSL is not working
 # https://bugs.launchpad.net/ironic/+bug/1554237
@@ -314,7 +317,7 @@ if uses_debs; then
   # 1) fwaas tests from ubuntu are still out of date LP#1667736
   EXCLUDES="--regex=^(?!neutron_fwaas.tests.tempest_plugin.tests.api.test_fwaas_extensions.*$)(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 else
-  EXCLUDES="--regex=^(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
+  EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest

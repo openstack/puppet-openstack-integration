@@ -82,6 +82,8 @@ class openstack_integration::aodh {
   class { '::aodh::client': }
   class { '::aodh::notifier': }
   class { '::aodh::listener': }
-  class { '::aodh::evaluator': }
+  class { '::aodh::evaluator':
+    evaluation_interval => 10,
+  }
 
 }
