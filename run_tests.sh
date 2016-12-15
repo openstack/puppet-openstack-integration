@@ -127,6 +127,12 @@ fi
 set +e
 if [ "${MANAGE_REPOS}" = true ]; then
   $SUDO puppet apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
+  if is_fedora; then
+    $SUDO yum update -y
+    if [ $? -ne 0 ]; then
+        exit 1
+    fi
+  fi
 fi
 run_puppet $SCENARIO
 RESULT=$?

@@ -99,6 +99,9 @@ class openstack_integration::nova (
     libvirt_virt_type => $libvirt_virt_type,
     migration_support => true,
     vncserver_listen  => '0.0.0.0',
+    # We can remove it after https://review.openstack.org/#/c/411437/
+    # but we need to get p-o-i unblocked to merge it.
+    libvirt_cpu_mode  => 'none',
   }
   if $libvirt_rbd {
     class { '::nova::compute::rbd':
