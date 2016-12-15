@@ -34,7 +34,6 @@ class openstack_integration::repos {
             'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata',
             'descr'    => 'Ocata delorean-deps',
             'gpgcheck' => 'no',
-            'priority' => 2,
           },
         },
       }
