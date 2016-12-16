@@ -6,10 +6,6 @@ class openstack_integration {
     package { 'openstack-selinux':
         ensure => 'latest'
     }
-    package { 'qemu-kvm-ev':
-      # TODO(zhongshengping): remove this when the dependency problem of qemu-kvm-ev is resolved
-      ensure => '2.3.0-31.0.el7_2.21.1'
-    }
     # Some packages provided by RDO are virtual
     # allow_virtual is false in Puppet 3 and will be true
     # in Puppet 4. So let's set it to True.
