@@ -42,19 +42,5 @@ class openstack_integration::repos {
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
   }
-  if $::osfamily == 'RedHat' {
-    # Hack to unblock mitaka gate
-    # once unblock this will be in puppet-ceph
-    # https://review.openstack.org/#/c/410823
-    ini_setting { 'ceph priority':
-      ensure  => present,
-      path    => '/etc/yum.repos.d/CentOS-Ceph-Hammer.repo',
-      section => 'centos-ceph-hammer',
-      setting => 'priority',
-      value   => 1,
-    }
-    Exec['installing_centos-release-ceph'] -> Ini_setting['ceph priority']
-    Ini_setting['ceph priority'] -> Package<| tag == 'ceph' |>
-  }
 
 }
