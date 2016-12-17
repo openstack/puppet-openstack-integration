@@ -204,7 +204,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => '1.4.0'
+  :ref => '1.5.0'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
