@@ -244,6 +244,12 @@ fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
+# openstack/tempest/master interface breaks Trove and more services.
+# There is an attempt to fix it here:
+# https://review.openstack.org/#/c/412511/
+# Let's pin Tempest until the fix works and is merged.
+git checkout 382a2065f3364a36c110bfcc6275a0f8f6894773
+
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
 run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
