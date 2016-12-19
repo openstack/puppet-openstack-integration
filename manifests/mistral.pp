@@ -65,7 +65,6 @@ class openstack_integration::mistral {
     class { '::mistral::client': }
     class { '::mistral::engine': }
     class { '::mistral::executor': }
-    class { '::mistral::db::sync': }
   }
 
 }
