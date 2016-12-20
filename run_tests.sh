@@ -24,6 +24,7 @@ export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
 export DISTRO=$(lsb_release -c -s)
+# Tempest pin due to issue described in https://review.openstack.org/#/c/412511/
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
@@ -87,6 +88,14 @@ if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
         /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
             git://git.openstack.org openstack/tempest-horizon
     fi
+
+    # Pin Tempest to TEMPEST_VERSION unless we're running inside the
+    # openstack/tempest gate.
+    if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
+        pushd /tmp/openstack/tempest
+        git reset --hard $TEMPEST_VERSION
+        popd
+    fi
 else
     # remove existed checkout before clone
     $SUDO rm -rf /tmp/openstack/tempest
@@ -97,19 +106,10 @@ else
     if uses_debs; then
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
-fi
-
-pushd /tmp/openstack/tempest
-# we don't pin Tempest in Tempest gate, so we can actually run
-# real tests in order to fix Tempest.
-if [ "$ZUUL_PROJECT" != "openstack/tempest" ] && [ ! -z ${ZUUL_PROJECT+x} ]; then
-    # openstack/tempest/master interface breaks Trove and more services.
-    # There is an attempt to fix it here:
-    # https://review.openstack.org/#/c/412511/
-    # Let's pin Tempest until the fix works and is merged.
+    pushd /tmp/openstack/tempest
     git reset --hard $TEMPEST_VERSION
+    popd
 fi
-popd
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.
