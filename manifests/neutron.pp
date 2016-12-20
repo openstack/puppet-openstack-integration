@@ -3,15 +3,10 @@
 # [*driver*]
 #   (optional) Neutron Driver to test
 #   Can be: openvswitch or linuxbridge.
-#   Defaults to 'ml2_ovs'.
-#
-# [*lbaasv2*]
-#  (optional) Configure lbaas v2 instead of v1
-#  Defaults to true
+#   Defaults to 'openvswitch'.
 #
 class openstack_integration::neutron (
-  $driver  = 'openvswitch',
-  $lbaasv2 = true,
+  $driver = 'openvswitch',
 ) {
 
   include ::openstack_integration::config
@@ -73,7 +68,7 @@ class openstack_integration::neutron (
         bridge_mappings => ['external:br-ex'],
         manage_vswitch  => false,
       }
-      $firewall_driver         = 'neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver'
+      $firewall_driver  = 'iptables_hybrid'
     }
     'linuxbridge': {
       exec { 'create_dummy_iface':
@@ -88,7 +83,7 @@ class openstack_integration::neutron (
         physical_interface_mappings => ['external:loop0'],
       }
       $external_network_bridge = ''
-      $firewall_driver         = 'neutron.agent.linux.iptables_firewall.IptablesFirewallDriver'
+      $firewall_driver         = 'iptables'
     }
     default: {
       fail("Unsupported neutron driver (${driver})")
@@ -152,19 +147,9 @@ class openstack_integration::neutron (
     shared_secret    => 'a_big_secret',
     metadata_workers => 2,
   }
-  if $lbaasv2 {
-    $lbaasv1       = false
-    $device_driver = 'neutron_lbaas.drivers.haproxy.namespace_driver.HaproxyNSDriver'
-  } else {
-    $lbaasv1       = true
-    $device_driver = 'neutron_lbaas.services.loadbalancer.drivers.haproxy.namespace_driver.HaproxyNSDriver'
-  }
   class { '::neutron::agents::lbaas':
     interface_driver => $driver,
-    enable_v1        => $lbaasv1,
-    enable_v2        => $lbaasv2,
     debug            => true,
-    device_driver    => $device_driver
   }
   class { '::neutron::agents::l3':
     interface_driver        => $driver,
