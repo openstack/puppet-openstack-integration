@@ -133,14 +133,10 @@ class openstack_integration::nova (
     barbican_endpoint           => $barbican_endpoint,
   }
   class { '::nova::compute::libvirt':
-    libvirt_virt_type     => $libvirt_virt_type,
-    libvirt_cpu_mode      => $libvirt_cpu_mode,
-    migration_support     => true,
-    vncserver_listen      => '0.0.0.0',
-    # TODO: enable it again when puppet 4.5 will be idempotent
-    # https://tickets.puppetlabs.com/browse/PUP-6370
-    virtlock_service_name => false,
-    virtlog_service_name  => false,
+    libvirt_virt_type => $libvirt_virt_type,
+    libvirt_cpu_mode  => $libvirt_cpu_mode,
+    migration_support => true,
+    vncserver_listen  => '0.0.0.0',
   }
   if $libvirt_rbd {
     class { '::nova::compute::rbd':
