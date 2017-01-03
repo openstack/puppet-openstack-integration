@@ -76,7 +76,7 @@ class openstack_integration::aodh {
     workers   => 2,
   }
   class { '::aodh::auth':
-    auth_url      => "${::openstack_integration::config::keystone_auth_uri}/v2.0",
+    auth_url      => $::openstack_integration::config::keystone_auth_uri,
     auth_password => 'a_big_secret',
   }
   class { '::aodh::client': }
