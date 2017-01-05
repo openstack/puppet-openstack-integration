@@ -57,6 +57,9 @@ class openstack_integration::nova (
   class { '::nova::db::mysql_api':
     password => 'nova',
   }
+  class { '::nova::db::mysql_placement':
+    password => 'nova',
+  }
   class { '::nova::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
     internal_url => "${::openstack_integration::config::base_url}:8774/v2.1",
@@ -78,18 +81,19 @@ class openstack_integration::nova (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::nova':
-    database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
-    api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
-    rabbit_host             => $::openstack_integration::config::ip_for_url,
-    rabbit_port             => $::openstack_integration::config::rabbit_port,
-    rabbit_userid           => 'nova',
-    rabbit_password         => 'an_even_bigger_secret',
-    rabbit_use_ssl          => $::openstack_integration::config::ssl,
-    use_ipv6                => $::openstack_integration::config::ipv6,
-    glance_api_servers      => "${::openstack_integration::config::base_url}:9292",
-    debug                   => true,
-    notification_driver     => 'messagingv2',
-    notify_on_state_change  => 'vm_and_task_state',
+    database_connection           => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
+    api_database_connection       => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
+    placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
+    rabbit_host                   => $::openstack_integration::config::ip_for_url,
+    rabbit_port                   => $::openstack_integration::config::rabbit_port,
+    rabbit_userid                 => 'nova',
+    rabbit_password               => 'an_even_bigger_secret',
+    rabbit_use_ssl                => $::openstack_integration::config::ssl,
+    use_ipv6                      => $::openstack_integration::config::ipv6,
+    glance_api_servers            => "${::openstack_integration::config::base_url}:9292",
+    debug                         => true,
+    notification_driver           => 'messagingv2',
+    notify_on_state_change        => 'vm_and_task_state',
   }
   class { '::nova::api':
     api_bind_address                     => $::openstack_integration::config::host,
