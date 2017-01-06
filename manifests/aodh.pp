@@ -17,6 +17,14 @@ class openstack_integration::aodh {
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'aodh':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'aodh':
       notify  => Service['httpd'],
@@ -33,17 +41,25 @@ class openstack_integration::aodh {
     $gnocchi_url = undef
   }
   class { '::aodh':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'aodh',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    debug                 => true,
-    database_connection   => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
-    gnocchi_url           => $gnocchi_url,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'aodh',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    debug                      => true,
+    database_connection        => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
+    gnocchi_url                => $gnocchi_url,
   }
   class { '::aodh::db::mysql':
     password => 'aodh',

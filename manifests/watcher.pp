@@ -17,6 +17,14 @@ class openstack_integration::watcher {
     require              => Class['rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'watcher':
+      password => 'my_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'watcher':
       require => Package['watcher'],
@@ -48,14 +56,22 @@ class openstack_integration::watcher {
     debug => true,
   }
   class { '::watcher':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'watcher',
       'password'  => 'my_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'watcher',
+      'password'  => 'my_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { '::watcher::api':
     watcher_api_bind_host   => $::openstack_integration::config::host,

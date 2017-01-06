@@ -17,6 +17,14 @@ class openstack_integration::trove {
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'trove':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'trove':
       require => Package['trove'],
@@ -31,16 +39,24 @@ class openstack_integration::trove {
   }
 
   class { '::trove':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'trove',
       'password'  => 'an_even_bigger_secret',
     }),
-    database_connection   => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    nova_proxy_admin_pass => 'a_big_secret',
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'trove',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    database_connection        => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    nova_proxy_admin_pass      => 'a_big_secret',
   }
   class { '::trove::db::mysql':
     password => 'trove',

@@ -17,6 +17,14 @@ class openstack_integration::sahara {
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'sahara':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   class { '::sahara::db::mysql':
     password => 'sahara',
   }
@@ -32,13 +40,14 @@ class openstack_integration::sahara {
     host                  => $::openstack_integration::config::host,
     database_connection   => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
     default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'sahara',
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms  => 'PLAIN',
     debug                 => true,
   }
   class { '::sahara::keystone::authtoken':

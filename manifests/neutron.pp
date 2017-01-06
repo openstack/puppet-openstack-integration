@@ -46,6 +46,14 @@ class openstack_integration::neutron (
   }
   Rabbitmq_user_permissions['neutron@/'] -> Service<| tag == 'neutron-service' |>
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'neutron':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   case $driver {
     'openvswitch': {
       include ::vswitch::ovs
@@ -132,22 +140,30 @@ class openstack_integration::neutron (
   $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', $bgpvpn_plugin, $l2gw_plugin])
 
   class { '::neutron':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'neutron',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    allow_overlapping_ips => true,
-    core_plugin           => 'ml2',
-    service_plugins       => $plugins_list,
-    debug                 => true,
-    bind_host             => $::openstack_integration::config::host,
-    use_ssl               => $::openstack_integration::config::ssl,
-    cert_file             => $::openstack_integration::params::cert_path,
-    key_file              => "/etc/neutron/ssl/private/${::fqdn}.pem",
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'neutron',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    allow_overlapping_ips      => true,
+    core_plugin                => 'ml2',
+    service_plugins            => $plugins_list,
+    debug                      => true,
+    bind_host                  => $::openstack_integration::config::host,
+    use_ssl                    => $::openstack_integration::config::ssl,
+    cert_file                  => $::openstack_integration::params::cert_path,
+    key_file                   => "/etc/neutron/ssl/private/${::fqdn}.pem",
   }
   class { '::neutron::client': }
   class { '::neutron::keystone::authtoken':

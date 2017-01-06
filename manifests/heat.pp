@@ -18,6 +18,14 @@ class openstack_integration::heat {
   }
   Rabbitmq_user_permissions['heat@/'] -> Service<| tag == 'heat-service' |>
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'heat':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'heat':
       require => Package['heat-common'],
@@ -40,16 +48,24 @@ class openstack_integration::heat {
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::heat':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'heat',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    database_connection   => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
-    debug                 => true,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'heat',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    database_connection        => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
+    debug                      => true,
   }
   class { '::heat::db::mysql':
     password => 'heat',

@@ -19,6 +19,14 @@ class openstack_integration::mistral {
   }
   Rabbitmq_user_permissions['mistral@/'] -> Service<| tag == 'mistral-service' |>
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'mistral':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::osfamily == 'RedHat' {
     if $::openstack_integration::config::ssl {
       openstack_integration::ssl_key { 'mistral':
@@ -29,9 +37,9 @@ class openstack_integration::mistral {
     }
     class { '::mistral':
       default_transport_url => os_transport_url({
-        'transport' => 'rabbit',
+        'transport' => $::openstack_integration::config::messaging_default_proto,
         'host'      => $::openstack_integration::config::host,
-        'port'      => $::openstack_integration::config::rabbit_port,
+        'port'      => $::openstack_integration::config::messaging_default_port,
         'username'  => 'mistral',
         'password'  => 'an_even_bigger_secret',
       }),
