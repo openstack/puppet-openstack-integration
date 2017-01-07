@@ -241,6 +241,11 @@ echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
 # Cinder encrypted volumes
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# Mistral
+# We have to ignore a smoke test because of:
+# https://bugs.launchpad.net/mistral/+bug/1654555
+echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-whitelist.txt
+
 if uses_debs; then
   # TODO(aschultz): check this after ocata-m2 is published for UCA
   # 1) this will disable the lbaas listeners tests for ubuntu only due to flakey
@@ -249,7 +254,7 @@ if uses_debs; then
   # https://review.openstack.org/#/c/389848/ is packaged in UCA/Ocata
   EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v1_notifications.*$).*"
 else
-  EXCLUDES=""
+  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$).*"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest

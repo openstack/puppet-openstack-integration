@@ -64,6 +64,7 @@ scenario](#all-in-one).
 | ironic     |             |       X     |             |             |              |
 | zaqar      |             |       X     |             |             |              |
 | murano     |             |             |       X     |             |              |
+| mistral    |             |             |       X     |             |              |
 | barbican   |             |       X     |             |             |              |
 | ceph       |      X      |             |             |      X      |              |
 | ceph rgw   |             |             |             |      X      |              |
