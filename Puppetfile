@@ -180,7 +180,7 @@ mod 'inifile',
 
 mod 'mongodb',
   :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :ref => '0.16.0'
+  :ref => '0.17.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -212,7 +212,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v2.8.1'
+  :ref => 'v3.0.1'
 
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
