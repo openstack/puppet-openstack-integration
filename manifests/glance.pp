@@ -14,13 +14,12 @@ class openstack_integration::glance (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'glance':
-      notify => [Service['glance-api'], Service['glance-registry']],
+      notify => Service['glance-api'],
     }
     Package<| tag == 'glance-package' |> -> File['/etc/glance/ssl']
     $key_file  = "/etc/glance/ssl/private/${::fqdn}.pem"
     $crt_file = $::openstack_integration::params::cert_path
     Exec['update-ca-certificates'] ~> Service['glance-api']
-    Exec['update-ca-certificates'] ~> Service['glance-registry']
   } else {
     $key_file = undef
     $crt_file  = undef
@@ -59,14 +58,6 @@ class openstack_integration::glance (
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
-  class { '::glance::registry::authtoken':
-    password            => 'a_big_secret',
-    user_domain_name    => 'Default',
-    project_domain_name => 'Default',
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
-  }
   case $backend {
     'file': {
       include ::glance::backend::file
@@ -98,26 +89,16 @@ class openstack_integration::glance (
   $http_store = ['http']
   $glance_stores = concat($http_store, $backend_store)
   class { '::glance::api':
-    debug                     => true,
-    database_connection       => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
-    workers                   => 2,
-    stores                    => $glance_stores,
-    default_store             => $backend,
-    bind_host                 => $::openstack_integration::config::host,
-    registry_client_protocol  => $::openstack_integration::config::proto,
-    registry_client_cert_file => $crt_file,
-    registry_client_key_file  => $key_file,
-    registry_host             => $::openstack_integration::config::host,
-    cert_file                 => $crt_file,
-    key_file                  => $key_file,
-  }
-  class { '::glance::registry':
     debug               => true,
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
-    bind_host           => $::openstack_integration::config::host,
     workers             => 2,
+    stores              => $glance_stores,
+    default_store       => $backend,
+    bind_host           => $::openstack_integration::config::host,
     cert_file           => $crt_file,
     key_file            => $key_file,
+    enable_v1_api       => false,
+    enable_v2_api       => true,
   }
   class { '::glance::notify::rabbitmq':
     default_transport_url => os_transport_url({
