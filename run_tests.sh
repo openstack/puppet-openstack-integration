@@ -306,7 +306,7 @@ if uses_debs; then
   # 1) fwaas tests from ubuntu are still out of date LP#1667736
   EXCLUDES="--regex=^(?!neutron_fwaas.tests.tempest_plugin.tests.api.test_fwaas_extensions.*$)(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 else
-  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
+  EXCLUDES="--regex=^(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest

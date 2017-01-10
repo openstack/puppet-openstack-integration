@@ -62,6 +62,7 @@ class openstack_integration::mistral {
       ssl_key   => "/etc/mistral/ssl/private/${::fqdn}.pem",
       ssl_cert  => $::openstack_integration::params::cert_path,
       workers   => 2,
+      threads   => 1,
     }
     class { '::mistral::client': }
     class { '::mistral::engine': }
