@@ -1,6 +1,7 @@
 antonlindstrom/puppet-powerdns
 camptocamp/puppet-kmod
 duritong/puppet-sysctl
+joshuabaird/puppet-ipaclient
 nanliu/puppet-staging
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt

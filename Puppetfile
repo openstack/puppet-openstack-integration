@@ -154,6 +154,10 @@ mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
   :ref => 'v0.0.11'
 
+mod 'ipaclient',
+  :git => 'https://github.com/joshuabaird/puppet-ipaclient',
+  :ref => '2.5.1'
+
 mod 'staging',
   :git => 'https://github.com/nanliu/puppet-staging',
   :ref => '1.0.4'
