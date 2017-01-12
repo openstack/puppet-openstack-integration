@@ -13,6 +13,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+export WORKSPACE=${WORKSPACE:-/tmp}
 export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
