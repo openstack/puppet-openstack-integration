@@ -43,6 +43,7 @@ class openstack_integration::ceph {
     osds                         => {
       '/var/lib/ceph/data' => {},
     },
+    rbd_default_features         => '15',
   }
 
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
