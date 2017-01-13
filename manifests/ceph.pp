@@ -63,6 +63,7 @@ class openstack_integration::ceph (
     frontend_type                => 'civetweb',
     rgw_frontends                => "civetweb port=${::openstack_integration::config::ip_for_url}:8080",
     rgw_user                     => 'ceph',
+    rbd_default_features         => '15',
   }
 
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
