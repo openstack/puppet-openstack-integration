@@ -173,7 +173,7 @@ if [ `command -v dpkg` ]; then
     apt-cache policy > $LOG_DIR/apt-cache-policy.txt
 fi
 if [ `command -v rpm` ]; then
-    rpm -qa > $LOG_DIR/rpm-qa.txt
+    rpm -qa |sort > $LOG_DIR/rpm-qa.txt
     yum repolist -v > $LOG_DIR/repolist.txt
 fi
 
