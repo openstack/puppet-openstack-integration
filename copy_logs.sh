@@ -179,12 +179,20 @@ fi
 
 # system status & informations
 sudo cp /root/openrc $LOG_DIR/openrc.txt
+sudo chmod 777 $LOG_DIR/openrc.txt
 df -h > $LOG_DIR/df.txt
 free -m > $LOG_DIR/free.txt
 lsmod > $LOG_DIR/lsmod.txt
 cat /proc/cpuinfo > $LOG_DIR/cpuinfo.txt
 ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
 netstat -tulpn > $LOG_DIR/netstat.txt
+
+# keystone resources
+source $LOG_DIR/openrc.txt
+openstack endpoint list >> $LOG_DIR/keystone-resources.txt
+openstack service list >> $LOG_DIR/keystone-resources.txt
+openstack project list >> $LOG_DIR/keystone-resources.txt
+openstack user list >> $LOG_DIR/keystone-resources.txt
 
 # end of log capture
 set -e
