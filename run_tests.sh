@@ -248,13 +248,10 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-whitelist.txt
 
 if uses_debs; then
-  # TODO(aschultz): check this after ocata-m2 is published for UCA
+  # TODO(aschultz): check this after ocata-m3 is published for UCA
   # 1) this will disable the lbaas listeners tests for ubuntu only due to flakey
   # failures
-  # 2) this will disable ceilometer's notifications tests until
-  # https://review.openstack.org/#/c/389848/ is packaged in UCA/Ocata
-  # because these tests were using Glance API v1 but now use v2.
-  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.*$).*"
+  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$).*"
 else
   EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$).*"
 fi
