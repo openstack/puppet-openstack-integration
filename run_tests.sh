@@ -85,6 +85,24 @@ function run_puppet() {
     return $res
 }
 
+function catch_selinux_alerts() {
+    if is_fedora; then
+        $SUDO sealert -a /var/log/audit/audit.log
+        if $SUDO grep -iq 'type=AVC' /var/log/audit/audit.log; then
+            echo "AVC detected in /var/log/audit/audit.log"
+            # TODO: figure why latest rabbitmq deployed with SSL tries to write in SSL pem file.
+            # https://bugzilla.redhat.com/show_bug.cgi?id=1341738
+            if $SUDO grep -iqE 'denied.*system_r:rabbitmq_t' /var/log/audit/audit.log; then
+                echo "non-critical RabbitMQ AVC, ignoring it now."
+            else
+                echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."
+            fi
+        else
+            echo 'No AVC detected in /var/log/audit/audit.log'
+        fi
+    fi
+}
+
 if uses_debs; then
     if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
         $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
@@ -107,7 +125,11 @@ elif is_fedora; then
 
     wget  http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
     $SUDO rpm -ivh /tmp/puppet.rpm
-    $SUDO yum install -y dstat ${PUPPET_PKG}
+    $SUDO yum install -y dstat ${PUPPET_PKG} setools setroubleshoot audit
+    $SUDO service auditd start
+
+    # SElinux in permissive mode so later we can catch alerts
+    $SUDO setenforce 0
 fi
 
 if [ "${MANAGE_HIERA}" = true ]; then
@@ -138,6 +160,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 2 ]; then
+    catch_selinux_alerts
     exit 1
 fi
 
@@ -147,6 +170,7 @@ run_puppet $SCENARIO
 RESULT=$?
 set -e
 if [ $RESULT -ne 0 ]; then
+    catch_selinux_alerts
     exit 1
 fi
 
@@ -170,4 +194,5 @@ cd /tmp/openstack/tempest; tox -eall -- --concurrency=2 $TESTS
 RESULT=$?
 set -e
 /tmp/openstack/tempest/.tox/tempest/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+catch_selinux_alerts
 exit $RESULT
