@@ -82,7 +82,6 @@ class openstack_integration::neutron (
         tunnel_types                => ['vxlan'],
         physical_interface_mappings => ['external:loop0'],
       }
-      $external_network_bridge = ''
       $firewall_driver         = 'iptables'
     }
     default: {
@@ -152,12 +151,9 @@ class openstack_integration::neutron (
     debug            => true,
   }
   class { '::neutron::agents::l3':
-    interface_driver        => $driver,
-    debug                   => true,
-    extensions              => 'fwaas',
-    # This parameter is deprecated but we need it for linuxbridge
-    # It will be dropped in a future release.
-    external_network_bridge => $external_network_bridge,
+    interface_driver => $driver,
+    debug            => true,
+    extensions       => 'fwaas',
   }
   class { '::neutron::agents::dhcp':
     interface_driver => $driver,
