@@ -38,7 +38,9 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
   $ssl_enabled       = false
   # linuxbridge driver is not working with latest Ubuntu packaging.
   $neutron_plugin    = 'openvswitch'
-  $designate_enabled = true
+  # TODO(aschultz): does not work with ocata-m2 right now, check it out when
+  # we get m3
+  $designate_enabled = false
 } else {
   $ssl_enabled       = true
   $neutron_plugin    = 'linuxbridge'
