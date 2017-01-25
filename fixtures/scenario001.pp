@@ -71,4 +71,5 @@ class { '::openstack_integration::tempest':
   gnocchi    => true,
   ceilometer => true,
   aodh       => true,
+  panko      => $enable_panko,
 }
