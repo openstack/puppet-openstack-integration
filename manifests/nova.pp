@@ -64,15 +64,11 @@ class openstack_integration::nova (
   }
   class { '::nova::db::mysql_api':
     password    => 'nova',
-    #TODO(aschultz): remove this once it becomes default
-    #TODO(emilien): enable it again when it's fixed upstream in nova
-    # https://bugs.launchpad.net/tripleo/+bug/1649341
-    setup_cell0 => false,
   }
-  #TODO(emilien): enable it again when it's fixed upstream in nova
-  #class { '::nova::db::sync_cell_v2':
-  #  transport_url => $transport_url,
-  #}
+  # TODO(aschultz): when Ubuntu supports cells (ocata-m3) enable this
+  if $::osfamily == 'RedHat' {
+    include ::nova::cell_v2::simple_setup
+  }
   class { '::nova::db::mysql_placement':
     password => 'nova',
   }
