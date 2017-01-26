@@ -25,7 +25,7 @@ class openstack_integration::repos {
         manage_epel => false,
         repo_hash   => {
           'ocata-puppet-passed-ci' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/',
+            'baseurl'  => 'https://trunk.rdoproject.org/centos7-ocata/puppet-passed-ci/',
             'descr'    => 'Ocata puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
