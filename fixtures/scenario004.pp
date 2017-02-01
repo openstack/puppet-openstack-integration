@@ -23,9 +23,7 @@ if $::operatingsystem == 'Ubuntu' {
 } else {
   $ssl_enabled     = true
   $ipv6            = true
-  # Re-enable Watcher when monascaclient is packaged in RDO and
-  # added to Watcher dependencies.
-  $watcher_enabled = false
+  $watcher_enabled = true
 }
 
 include ::openstack_integration
