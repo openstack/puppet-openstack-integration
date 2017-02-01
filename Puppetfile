@@ -184,7 +184,7 @@ mod 'staging',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :branch => '4.9.x'
+  :branch => '4.12.0'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
