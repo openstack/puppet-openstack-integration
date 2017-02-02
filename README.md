@@ -115,11 +115,6 @@ git clone git://git.openstack.org/openstack/puppet-openstack-integration
 cd puppet-openstack-integration
 ./all-in-one.sh
 ```
-or
-
-```bash
-curl -sL http://git.openstack.org/cgit/openstack/puppet-openstack-integration/plain/all-in-one.sh | bash
-```
 
 Look at [Description](#description) to see which services it will install
 (scenario-aio).

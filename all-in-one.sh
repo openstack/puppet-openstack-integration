@@ -27,21 +27,12 @@
 # $ cd puppet-openstack-integration
 # $ ./all-in-one.sh
 #
-# or
-#
-# $ curl -sL http://git.openstack.org/cgit/openstack/puppet-openstack-integration/plain/all-in-one.sh | bash
-#
 
 set -e
 
 if [ -n "$DEBUG" ]; then
   set -x
 fi
-
-# Prepare puppet-openstack-integration repository
-rm -rf /tmp/puppet-openstack-integration
-git clone git://git.openstack.org/openstack/puppet-openstack-integration /tmp/puppet-openstack-integration
-cd /tmp/puppet-openstack-integration
 
 export SCENARIO=scenario-aio
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
