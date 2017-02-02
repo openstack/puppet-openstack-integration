@@ -28,6 +28,7 @@ panko
 qdr
 sahara
 swift
+tacker
 tempest
 trove
 vswitch

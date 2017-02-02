@@ -121,6 +121,10 @@ mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
   :ref => 'master'
 
+mod 'tacker',
+  :git => 'https://git.openstack.org/openstack/puppet-tacker',
+  :ref => 'master'
+
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
   :ref => 'master'
