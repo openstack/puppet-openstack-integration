@@ -9,9 +9,9 @@ class openstack_integration::bind {
   # Need some particular options that aren't default in ::dns when using
   # designate with bind9 backend. Set them up.
   $controls = {
-    "${::openstack_integration::config::host}" => {
+    '127.0.0.1' => {
       'port'              => 953,
-      'allowed_addresses' => [ $::openstack_integration::config::host ],
+      'allowed_addresses' => [ '127.0.0.1' ],
       'keys'              => [ 'rndc-key' ]
     },
   }

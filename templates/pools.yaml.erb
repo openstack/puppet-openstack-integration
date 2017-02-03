@@ -8,7 +8,7 @@
       priority: 1
 
   nameservers:
-    - host: <%= scope.lookupvar("openstack_integration::config::host") %>
+    - host: 127.0.0.1
       port: 5322
 
   targets:
@@ -21,9 +21,9 @@
           port: 5354
 
       options:
-        host: <%= scope.lookupvar("openstack_integration::config::host") %>
+        host: 127.0.0.1
         port: 5322
-        rndc_host: <%= scope.lookupvar("openstack_integration::config::host") %>
+        rndc_host: 127.0.0.1
         rndc_port: 953
         rndc_config_file: /etc/rndc.conf
         rndc_key_file: /etc/rndc.key

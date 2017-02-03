@@ -44,9 +44,7 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
 } else {
   $ssl_enabled       = true
   $neutron_plugin    = 'linuxbridge'
-  # Designate packaging in Ocata is missing monasca dependencies.
-  # Until it's fixed, let's disable it.
-  $designate_enabled = false
+  $designate_enabled = true
 }
 
 include ::openstack_integration

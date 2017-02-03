@@ -66,7 +66,7 @@ class openstack_integration::designate {
   }
 
   class { '::designate::api':
-    listen           => "${::openstack_integration::config::host}:9001",
+    listen           => "${::openstack_integration::config::ip_for_url}:9001",
     api_base_uri     => "http://${::openstack_integration::config::ip_for_url}:9001",
     auth_strategy    => 'keystone',
     enable_api_v2    => true,
@@ -91,7 +91,7 @@ class openstack_integration::designate {
   }
 
   class { '::designate::backend::bind9':
-    rndc_host        => $::openstack_integration::config::host,
+    rndc_host        => '127.0.0.1',
     rndc_config_file => '/etc/rndc.conf',
     rndc_key_file    => $::dns::params::rndckeypath,
   }
