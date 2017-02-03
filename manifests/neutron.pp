@@ -141,10 +141,23 @@ class openstack_integration::neutron (
     mechanism_drivers    => $driver,
     firewall_driver      => $firewall_driver,
   }
+  if $::openstack_integration::config::ssl {
+    $metadata_protocol    = 'https'
+    $nova_client_cert     = $::openstack_integration::params::cert_path
+    $nova_client_priv_key = "/etc/neutron/ssl/private/${::fqdn}.pem"
+  } else {
+    $metadata_protocol    = $::os_service_default
+    $nova_client_cert     = $::os_service_default
+    $nova_client_priv_key = $::os_service_default
+  }
   class { '::neutron::agents::metadata':
-    debug            => true,
-    shared_secret    => 'a_big_secret',
-    metadata_workers => 2,
+    debug                => true,
+    shared_secret        => 'a_big_secret',
+    metadata_workers     => 2,
+    metadata_protocol    => $metadata_protocol,
+    metadata_insecure    => true,
+    nova_client_cert     => $nova_client_cert,
+    nova_client_priv_key => $nova_client_priv_key,
   }
   class { '::neutron::agents::lbaas':
     interface_driver => $driver,
