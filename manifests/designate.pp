@@ -100,7 +100,7 @@ class openstack_integration::designate {
   file { '/etc/designate/pools.yaml':
     ensure  => present,
     content => template("${module_name}/pools.yaml.erb"),
-    require => Package['designate-common'],
+    require => Service['designate-central'],
   }
 
   # Validate that designate-central is ready for pool update
@@ -110,7 +110,6 @@ class openstack_integration::designate {
     command     => $command,
     timeout     => '15',
     refreshonly => true,
-    require     => Service['designate-central']
   }
 
   exec { 'Update designate pools':
@@ -119,6 +118,6 @@ class openstack_integration::designate {
     refreshonly => true,
     logoutput   => 'on_failure',
     subscribe   => File['/etc/designate/pools.yaml'],
-    require     => Openstacklib::Service_validation['designate-central']
+    require     => Anchor['create designate-central anchor'],
   }
 }

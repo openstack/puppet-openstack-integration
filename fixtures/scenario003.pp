@@ -21,11 +21,14 @@ case $::osfamily {
     $mistral_enabled = false
     # murano package should be fixed on Ubuntu Xenial
     $murano_enabled  = false
+    # trove package contains broken Tempest tests
+    $trove           = false
   }
   'RedHat': {
     $ipv6            = true
     $mistral_enabled = true
     $murano_enabled  = true
+    $trove           = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -64,7 +67,9 @@ class { '::openstack_integration::neutron':
   driver => $neutron_plugin,
 }
 include ::openstack_integration::nova
-include ::openstack_integration::trove
+if $trove_enabled {
+  include ::openstack_integration::trove
+}
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
 include ::openstack_integration::sahara
@@ -81,7 +86,7 @@ include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
   designate => $designate_enabled,
-  trove     => true,
+  trove     => $trove_enabled,
   mistral   => $mistral_enabled,
   sahara    => true,
   horizon   => true,
