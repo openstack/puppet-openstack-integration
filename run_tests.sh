@@ -29,6 +29,10 @@ export DISTRO=$(lsb_release -c -s)
 # by using the following line:
 # export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'origin/master'}
+# For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
+export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+# Cirros Image directory
+export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -84,7 +88,8 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
 # the local directory but works needs to be added into puppet to properly find
 # the path.
-if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+
+if [ -e /usr/zuul-env/bin/zuul-cloner ] && [ "${TEMPEST_FROM_SOURCE}" = true ] ; then
     /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
         git://git.openstack.org openstack/tempest
     if uses_debs; then
@@ -99,7 +104,7 @@ if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
         git reset --hard $TEMPEST_VERSION
         popd
     fi
-else
+elif [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     # remove existed checkout before clone
     $SUDO rm -rf /tmp/openstack/tempest
     $SUDO rm -rf /tmp/openstack/tempest-horizon
@@ -116,11 +121,16 @@ fi
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.
+
+if [[ ! -e $IMG_DIR ]]; then
+    mkdir -p $IMG_DIR
+fi
+
 if [ -f ~/cache/files/cirros-0.3.4-x86_64-disk.img ]; then
     # Create a symlink for tempest.
-    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img /tmp/openstack/tempest
+    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img $IMG_DIR
 else
-    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P /tmp/openstack/tempest
+    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P $IMG_DIR
 fi
 
 install_puppet
@@ -146,6 +156,11 @@ fi
 
 if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
     $SUDO ./install_modules.sh
+fi
+
+# Added tempest specific values to common.yaml
+if [ "${TEMPEST_FROM_SOURCE}" = false ]; then
+    echo "tempest::install_from_source: false" >> ${SCRIPT_DIR}/hiera/common.yaml
 fi
 
 # Run puppet and assert something changes.
@@ -197,11 +212,19 @@ fi
 timestamp_puppet_log
 
 print_header 'Prepare Tempest'
-# Tempest plugin tests require tempest-lib to be installed
-$SUDO pip install tempest-lib
+if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+    # Tempest plugin tests require tempest-lib to be installed
+    $SUDO pip install tempest-lib
 
-# We need latest testrepository to run stackviz correctly
-$SUDO pip install -U testrepository
+    # We need latest testrepository to run stackviz correctly
+    $SUDO pip install -U testrepository
+else
+    # FIXME: Since tempest create tempest workspace which is owned by root user.
+    # We need to fix it in puppet-tempest, as a workaround we are changing the mode
+    # of tempest workspace and run tempest command using root.
+    $SUDO touch /tmp/openstack/tempest/test-whitelist.txt
+    $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/test-whitelist.txt
+fi
 
 # install from source now on ubuntu until packaged
 if uses_debs; then
@@ -258,13 +281,21 @@ fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
-virtualenv --system-site-packages run_tempest
-run_tempest/bin/pip install -U .
-run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
-RESULT=$?
-set -e
-testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-run_tempest/bin/tempest list-plugins
+if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+    virtualenv --system-site-packages run_tempest
+    run_tempest/bin/pip install -U .
+    run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
+    RESULT=$?
+    set -e
+    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+    run_tempest/bin/tempest list-plugins
+else
+    /usr/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
+    RESULT=$?
+    set -e
+    /usr/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+    /usr/bin/tempest list-plugins
+fi
 
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
