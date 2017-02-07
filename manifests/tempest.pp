@@ -182,10 +182,11 @@ class openstack_integration::tempest (
     manage_tests_packages   => true,
     attach_encrypted_volume => $attach_encrypted_volume,
     murano_available        => $murano,
+    tempest_workspace       => '/tmp/openstack/tempest',
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir               => '/home/jenkins/cache/files',
-    img_dir                 => '/tmp/openstack/tempest',
+    img_dir                 => '/tmp/openstack/image',
   }
 
 }
