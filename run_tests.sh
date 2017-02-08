@@ -28,7 +28,8 @@ export DISTRO=$(lsb_release -c -s)
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 # export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
-export TEMPEST_VERSION=${TEMPEST_VERSION:-'origin/master'}
+# TODO(aschultz): switch to a tag when they release ocata
+export TEMPEST_VERSION=${TEMPEST_VERSION:-'0c6dc8e70c305b43a0b72f8bcd9bb6bc2250711e'}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
