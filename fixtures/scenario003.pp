@@ -26,7 +26,8 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6            = true
-    $mistral_enabled = true
+    # https://bugs.launchpad.net/mistral/+bug/1663368
+    $mistral_enabled = false
     $murano_enabled  = true
     $trove           = true
   }
