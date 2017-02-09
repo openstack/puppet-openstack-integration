@@ -189,4 +189,6 @@ class openstack_integration::nova (
     neutron_password => 'a_big_secret',
   }
 
+  Keystone_endpoint <||> -> Service['nova-compute']
+  Keystone_service <||> -> Service['nova-compute']
 }
