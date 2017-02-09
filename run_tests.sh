@@ -213,9 +213,6 @@ timestamp_puppet_log
 
 print_header 'Prepare Tempest'
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-    # Tempest plugin tests require tempest-lib to be installed
-    $SUDO pip install tempest-lib
-
     # We need latest testrepository to run stackviz correctly
     $SUDO pip install -U testrepository
 else
