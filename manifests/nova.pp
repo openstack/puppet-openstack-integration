@@ -69,10 +69,7 @@ class openstack_integration::nova (
   class { '::nova::db::mysql_api':
     password    => 'nova',
   }
-  # TODO(aschultz): when Ubuntu supports cells (ocata-m3) enable this
-  if $::osfamily == 'RedHat' {
-    include ::nova::cell_v2::simple_setup
-  }
+  include ::nova::cell_v2::simple_setup
   class { '::nova::db::mysql_placement':
     password => 'nova',
   }
@@ -120,19 +117,17 @@ class openstack_integration::nova (
     sync_db_api                          => true,
 
   }
-  if $::osfamily == 'RedHat' {
-    class { '::nova::wsgi::apache_placement':
-      bind_host => $::openstack_integration::config::ip_for_url,
-      api_port  => '8778',
-      ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
-      ssl_cert  => $::openstack_integration::params::cert_path,
-      ssl       => $::openstack_integration::config::ssl,
-      workers   => '2',
-    }
-    class { '::nova::placement':
-      auth_url => $::openstack_integration::config::keystone_admin_uri,
-      password => 'a_big_secret',
-    }
+  class { '::nova::wsgi::apache_placement':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    api_port  => '8778',
+    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl       => $::openstack_integration::config::ssl,
+    workers   => '2',
+  }
+  class { '::nova::placement':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
   }
   class { '::nova::client': }
   class { '::nova::conductor': }
