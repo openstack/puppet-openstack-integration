@@ -27,7 +27,13 @@ class openstack_integration::zaqar {
     unreliable => true,
   }
   Mongodb_replset['openstack'] -> Package['zaqar-common']
-  include ::zaqar::server
+  class {'::zaqar::server':
+    service_name => 'httpd',
+  }
+  include ::apache
+  class { '::zaqar::wsgi::apache':
+    ssl => false,
+  }
   # run a second instance using websockets, the Debian system does
   # not support the use of services to run a second instance.
   if $::osfamily == 'RedHat' {
