@@ -24,16 +24,10 @@ class openstack_integration::repos {
         manage_rdo  => false,
         manage_epel => false,
         repo_hash   => {
-          'ocata-puppet-passed-ci' => {
-            'baseurl'  => 'https://trunk.rdoproject.org/centos7-ocata/puppet-passed-ci/',
-            'descr'    => 'Ocata puppet-passed-ci',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'ocata-delorean-deps'    => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata',
-            'descr'    => 'Ocata delorean-deps',
-            'gpgcheck' => 'no',
+          'ocata-testing' => {
+            'baseurl'  => 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata/',
+            'descr'    => 'ocata-testing',
+            'gpgcheck' => 'no'
           },
         },
       }
