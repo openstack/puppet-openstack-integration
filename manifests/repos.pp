@@ -20,16 +20,10 @@ class openstack_integration::repos {
       }
     }
     'RedHat': {
+      # Uncomment centos_mirror_url when openstack-infra picks up the new repo
       class { '::openstack_extras::repo::redhat::redhat':
-        manage_rdo  => false,
-        manage_epel => false,
-        repo_hash   => {
-          'ocata-testing' => {
-            'baseurl'  => 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata/',
-            'descr'    => 'ocata-testing',
-            'gpgcheck' => 'no'
-          },
-        },
+        release           => 'ocata',
+      #  centos_mirror_url => $::centos_mirror_host,
       }
     }
     default: {
