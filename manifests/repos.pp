@@ -24,7 +24,7 @@ class openstack_integration::repos {
         manage_rdo  => false,
         manage_epel => false,
         repo_hash   => {
-          'pîke-puppet-passed-ci' => {
+          'pike-puppet-passed-ci' => {
             'baseurl'  => 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/',
             'descr'    => 'Pike puppet-passed-ci',
             'gpgcheck' => 'no',
