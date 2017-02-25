@@ -5,11 +5,8 @@ class openstack_integration::repos {
       include ::apt
       class { '::openstack_extras::repo::debian::ubuntu':
         release         => 'ocata',
-        repo            => 'proposed',
         package_require => true,
-        # use the mirror again when this patch is merged:
-        # https://review.openstack.org/404759
-        # uca_location    => $::uca_mirror_host,
+        uca_location    => $::uca_mirror_host,
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure
