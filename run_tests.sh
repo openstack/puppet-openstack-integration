@@ -24,11 +24,12 @@ export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
 export DISTRO=$(lsb_release -c -s)
-# Tempest 13.0.0 is the latest releast that supports Newton.
-# http://docs.openstack.org/releasenotes/tempest/v13.0.0.html
-# Ceilometer stable/newton is not compatible with v13.0.0 since https://review.openstack.org/#/c/395506/
-# We might eventually need to move the pin to something later than 13.0.0
-export TEMPEST_VERSION=${TEMPEST_VERSION:-13.0.0}
+# RDO requires tempest 14.0.0 after last stable update of ceilometer in stable/newton
+# Ceilometer has not been updated in Ubuntu so it requires 13.0.0
+# Tempest version for any distro can be overriden by seting common env variable TEMPEST_VERSION to
+# keep compatibility with previous version.
+export TEMPEST_VERSION_UCA=${TEMPEST_VERSION:-13.0.0}
+export TEMPEST_VERSION_RDO=${TEMPEST_VERSION:-14.0.0}
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
@@ -84,7 +85,11 @@ git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
 
 pushd /tmp/openstack/tempest
-git reset --hard $TEMPEST_VERSION
+if is_fedora;then
+    git reset --hard $TEMPEST_VERSION_RDO
+elif uses_debs; then
+    git reset --hard $TEMPEST_VERSION_UCA
+fi
 popd
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
