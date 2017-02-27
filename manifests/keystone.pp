@@ -98,6 +98,7 @@ class openstack_integration::keystone (
     default_domain => $default_domain,
     public_url     => $::openstack_integration::config::keystone_auth_uri,
     admin_url      => $::openstack_integration::config::keystone_admin_uri,
+    version        => '',
   }
   class { '::keystone::disable_admin_token_auth': }
 
