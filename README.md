@@ -68,7 +68,6 @@ scenario](#all-in-one).
 | barbican   |             |       X     |             |             |              |
 | ceph       |      X      |             |             |      X      |              |
 | ceph rgw   |             |             |             |      X      |              |
-| mongodb    |             |       X     |             |             |              |
 | vitrage    |      X      |             |             |             |              |
 | watcher    |             |             |             |      X      |              |
 
