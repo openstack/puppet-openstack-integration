@@ -21,6 +21,8 @@ class openstack_integration::designate {
     require              => Class['::rabbitmq'],
   }
 
+  Rabbitmq_user_permissions['designate@/'] -> Service<| tag == 'designate-service' |>
+
   class { '::designate::db::mysql':
     password => 'designate',
   }

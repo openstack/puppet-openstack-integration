@@ -275,7 +275,7 @@ if uses_debs; then
   # TODO(aschultz): check this after ocata-m3 is published for UCA
   # 1) this will disable the lbaas listeners tests for ubuntu only due to flakey
   # failures
-  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
+  EXCLUDES="--regex=^(?!neutron_lbaas.tests.tempest.v2.api.test_listeners_.*admin.ListenersTestJSON.*$)(?!neutron_fwaas.tests.tempest_plugin.tests.api.test_fwaas_extensions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 else
   EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 fi
