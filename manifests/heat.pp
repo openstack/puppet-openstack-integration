@@ -16,6 +16,7 @@ class openstack_integration::heat {
     provider             => 'rabbitmqctl',
     require              => Class['::rabbitmq'],
   }
+  Rabbitmq_user_permissions['heat@/'] -> Service<| tag == 'heat-service' |>
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'heat':
