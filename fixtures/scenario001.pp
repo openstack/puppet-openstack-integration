@@ -24,8 +24,7 @@ case $::osfamily {
   'RedHat': {
     $ipv6            = true
     $enable_panko    = true
-    # TODO(EmilienM) enable vitrage again when it's stable
-    $enable_vitrage  = false
+    $enable_vitrage  = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
