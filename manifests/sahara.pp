@@ -40,13 +40,15 @@ class openstack_integration::sahara {
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     rpc_backend           => 'rabbit',
-    admin_password        => 'a_big_secret',
-    admin_user            => 'sahara',
-    admin_tenant_name     => 'services',
     debug                 => true,
-    auth_uri              => "${::openstack_integration::config::keystone_admin_uri}/v2.0",
-    identity_uri          => $::openstack_integration::config::keystone_admin_uri,
-    memcached_servers     => $::openstack_integration::config::memcached_servers,
+  }
+  class { '::sahara::keystone::authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::sahara::service::api':
     api_workers => 2,
