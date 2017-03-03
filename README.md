@@ -72,7 +72,7 @@ scenario](#all-in-one).
 | vitrage    |      X      |             |             |             |              |
 | watcher    |             |             |             |      X      |              |
 
-When the Jenkins slave is created, the *run_tests.sh* script will executed.
+When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
 with all Puppet modules dependencies.
 
