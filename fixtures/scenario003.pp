@@ -41,7 +41,9 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
   $ssl_enabled       = false
   # linuxbridge driver is not working with latest Ubuntu packaging.
   $neutron_plugin    = 'openvswitch'
-  $designate_enabled = true
+  # Disable Designate MDS on Ubuntu until we find why Puppet run is not
+  # idempotent sometimes.
+  $designate_enabled = false
 } else {
   $ssl_enabled       = true
   $neutron_plugin    = 'linuxbridge'
