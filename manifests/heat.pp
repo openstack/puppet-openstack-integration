@@ -66,11 +66,15 @@ class openstack_integration::heat {
   Keystone_user_role['heat_admin::heat@::heat'] -> File['/root/openrc']
   class { '::heat::client': }
   class { '::heat::api':
+    service_name => 'httpd',
+  }
+  include ::apache
+  class { '::heat::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
-    workers   => '2',
-    use_ssl   => $::openstack_integration::config::ssl,
-    cert_file => $crt_file,
-    key_file  => $key_file,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_cert  => $crt_file,
+    ssl_key   => $key_file,
+    workers   => 2,
   }
   class { '::heat::engine':
     auth_encryption_key           => '1234567890AZERTYUIOPMLKJHGFDSQ12',
@@ -79,18 +83,24 @@ class openstack_integration::heat {
     heat_watch_server_url         => "${::openstack_integration::config::base_url}:8003",
   }
   class { '::heat::api_cloudwatch':
+    service_name => 'httpd',
+  }
+  class { '::heat::wsgi::apache_api_cloudwatch':
     bind_host => $::openstack_integration::config::host,
-    workers   => '2',
-    use_ssl   => $::openstack_integration::config::ssl,
-    cert_file => $crt_file,
-    key_file  => $key_file,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_cert  => $crt_file,
+    ssl_key   => $key_file,
+    workers   => 2,
   }
   class { '::heat::api_cfn':
+    service_name => 'httpd',
+  }
+  class { '::heat::wsgi::apache_api_cfn':
     bind_host => $::openstack_integration::config::host,
-    workers   => '2',
-    use_ssl   => $::openstack_integration::config::ssl,
-    cert_file => $crt_file,
-    key_file  => $key_file,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_cert  => $crt_file,
+    ssl_key   => $key_file,
+    workers   => 2,
   }
 
 }
