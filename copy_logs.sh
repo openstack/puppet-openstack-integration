@@ -114,6 +114,16 @@ if [ -f /var/log/dstat.log ] ; then
     sudo cp /var/log/dstat.log $LOG_DIR/
 fi
 
+# iostat logs
+if [ -f /var/log/iostat.log ] ; then
+    sudo cp /var/log/iostat.log $LOG_DIR/
+fi
+
+# iotop logs
+if [ -f /var/log/iotop.log ] ; then
+    sudo cp /var/log/iotop.log $LOG_DIR/
+fi
+
 # libvirt
 if [ -d /var/log/libvirt ] ; then
     sudo cp -r /var/log/libvirt $LOG_DIR/
