@@ -43,6 +43,7 @@ class openstack_integration::swift {
   'authtoken', 'keystone', 'formpost', 'staticweb', 'container_quotas',
   'account_quotas', 'proxy-logging', 'proxy-server'
     ],
+    node_timeout       => 30,
   }
   include ::swift::proxy::catch_errors
   include ::swift::proxy::healthcheck
