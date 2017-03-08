@@ -209,5 +209,5 @@ function timestamp_puppet_log() {
 }
 
 function catch_puppet_failures() {
-    grep -iE '(warning|error)' ${WORKSPACE}/puppet.log
+    grep -wiE '(Error|\(err\))' ${WORKSPACE}/puppet.log
 }
