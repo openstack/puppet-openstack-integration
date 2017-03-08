@@ -98,13 +98,6 @@ class openstack_integration::designate {
     rndc_key_file    => $::dns::params::rndckeypath,
   }
 
-  # TODO: Implement pools.yaml management in puppet-designate
-  file { '/etc/designate/pools.yaml':
-    ensure  => present,
-    content => template("${module_name}/pools.yaml.erb"),
-    require => Service['designate-central'],
-  }
-
   # Validate that designate-central is ready for pool update
   $command = "openstack --os-auth-url ${::openstack_integration::config::keystone_auth_uri} \
 --os-project-name services --os-username designate --os-password a_big_secret zone list"
@@ -112,6 +105,14 @@ class openstack_integration::designate {
     command     => $command,
     timeout     => '15',
     refreshonly => true,
+    subscribe   => Anchor['designate::service::end'],
+  }
+
+  # TODO: Implement pools.yaml management in puppet-designate
+  file { '/etc/designate/pools.yaml':
+    ensure  => present,
+    content => template("${module_name}/pools.yaml.erb"),
+    require => Service['designate-central'],
   }
 
   exec { 'Update designate pools':
@@ -120,6 +121,6 @@ class openstack_integration::designate {
     refreshonly => true,
     logoutput   => 'on_failure',
     subscribe   => File['/etc/designate/pools.yaml'],
-    require     => Anchor['create designate-central anchor'],
+    require     => Openstacklib::Service_validation['designate-central'],
   }
 }
