@@ -70,6 +70,17 @@ class openstack_integration::nova (
     password    => 'nova',
   }
   include ::nova::cell_v2::simple_setup
+
+  # NOTE(aschultz): workaround for race condition for discover_hosts being run
+  # prior to the compute being registered
+  exec { 'wait-for-compute-registration':
+    path        => ['/bin', '/usr/bin'],
+    command     => 'sleep 10',
+    refreshonly => true,
+    notify      => Class['nova::cell_v2::discover_hosts'],
+    subscribe   => Anchor['nova::service::end'],
+  }
+
   class { '::nova::db::mysql_placement':
     password => 'nova',
   }
