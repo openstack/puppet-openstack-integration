@@ -88,6 +88,11 @@
 #   (optional) Define if Encrypted Volumes need to be tested.
 #   Default to false.
 #
+# [*neutron_api_extensions*]
+#   (optional) Define list of neutron API extensions to test.
+#   The list is known to work with the repo; this reflects extensions enabled
+#   in neutron gate, for the most part (minus features not configured like
+#   trunk, dns-integration, qos, or port_security support)
 class openstack_integration::tempest (
   $aodh                    = false,
   $ceilometer              = false,
@@ -111,6 +116,45 @@ class openstack_integration::tempest (
   $watcher                 = false,
   $zaqar                   = false,
   $attach_encrypted_volume = false,
+  $neutron_api_extensions  = [
+    'address-scope',
+    'agent',
+    'allowed-address-pairs',
+    'auto-allocated-topology',
+    'availability_zone',
+    'binding',
+    'default-subnetpools',
+    'dhcp_agent_scheduler',
+    'dvr',
+    'ext-gw-mode,external-net',
+    'extra_dhcp_opt',
+    'extraroute',
+    'flavors',
+    'l3-flavors',
+    'l3-ha',
+    'l3_agent_scheduler',
+    'metering',
+    'multi-provider',
+    'net-mtu',
+    'network-ip-availability',
+    'network_availability_zone',
+    'pagination',
+    'project-id',
+    'provider',
+    'quotas',
+    'rbac-policies',
+    'router',
+    'router_availability_zone',
+    'security-group',
+    'service-type',
+    'sorting',
+    'standard-attr-description',
+    'standard-attr-revisions',
+    'standard-attr-timestamp',
+    'subnet_allocation',
+    'tag',
+    'tag-ext',
+  ],
 ) {
 
   include ::openstack_integration::config
@@ -170,6 +214,7 @@ class openstack_integration::tempest (
     ec2api_available        => $ec2api,
     watcher_available       => $watcher,
     public_network_name     => 'public',
+    neutron_api_extensions  => join(any2array($neutron_api_extensions), ','),
     dashboard_url           => $::openstack_integration::config::base_url,
     flavor_ref              => '42',
     flavor_ref_alt          => '84',
