@@ -140,9 +140,9 @@ if [ "${MANAGE_HIERA}" = true ]; then
 fi
 
 if uses_debs; then
-    $SUDO apt-get install -y dstat ebtables
+    $SUDO apt-get install -y dstat ebtables iotop sysstat
 elif is_fedora; then
-    $SUDO yum install -y dstat setools setroubleshoot audit
+    $SUDO yum install -y dstat setools setroubleshoot audit iotop sysstat
     $SUDO service auditd start
     # SElinux in permissive mode so later we can catch alerts
     $SUDO selinuxenabled && $SUDO setenforce 0
@@ -152,6 +152,16 @@ fi
 if type "dstat" 2>/dev/null; then
     print_header 'Start dstat'
     $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
+fi
+
+if type "iostat" 2>/dev/null; then
+    print_header 'Start iostat'
+    $SUDO iostat -x -k -d -t 4 | $SUDO tee --append /var/log/iostat.log > /dev/null &
+fi
+
+if [ -f "/usr/sbin/iotop" ]; then
+    print_header 'Start iotop'
+    $SUDO /usr/sbin/iotop --kilobytes --only --batch --time --delay=2 --processes --quiet | $SUDO tee --append /var/log/iotop.log > /dev/null &
 fi
 
 if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
