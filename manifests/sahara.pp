@@ -55,9 +55,7 @@ class openstack_integration::sahara {
   }
   class { '::sahara::service::engine': }
   class { '::sahara::client': }
-  class { '::sahara::notify':
-    enable_notifications => true,
-  }
+  class { '::sahara::notify': }
 
   # for ubuntu we need saharaclient >= 0.15.0
   if $::osfamily == 'RedHat' {
