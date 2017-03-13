@@ -23,7 +23,7 @@ mod 'cinder',
 
 mod 'cloudkitty',
   :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
-  :ref => 'stable/ocata'
+  :ref => 'master'
 
 mod 'congress',
   :git => 'https://git.openstack.org/openstack/puppet-congress',
@@ -71,7 +71,7 @@ mod 'mistral',
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
-  :ref => 'stable/ocata'
+  :ref => 'master'
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
@@ -111,7 +111,7 @@ mod 'panko',
 
 mod 'qdr',
   :git => 'https://git.openstack.org/openstack/puppet-qdr',
-  :ref => 'stable/ocata'
+  :ref => 'master'
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
