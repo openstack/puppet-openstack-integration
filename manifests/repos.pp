@@ -4,7 +4,7 @@ class openstack_integration::repos {
     'Debian': {
       include ::apt
       class { '::openstack_extras::repo::debian::ubuntu':
-        release         => 'ocata',
+        release         => 'pike',
         package_require => true,
         uca_location    => $::uca_mirror_host,
       }
