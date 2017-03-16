@@ -28,7 +28,7 @@ class openstack_integration::repos {
             'priority' => 1,
           },
           'pike-delorean-deps'    => {
-            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-ocata',
+            'baseurl'  => 'http://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike',
             'descr'    => 'Pike delorean-deps',
             'gpgcheck' => 'no',
           },
