@@ -138,6 +138,7 @@ class openstack_integration::neutron (
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'flat'],
     tenant_network_types => ['vxlan', 'flat'],
+    extension_drivers    => 'port_security',
     mechanism_drivers    => $driver,
     firewall_driver      => $firewall_driver,
   }
