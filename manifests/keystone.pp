@@ -34,6 +34,10 @@ class openstack_integration::keystone (
 
   if $token_provider == 'fernet' {
     $enable_fernet_setup = true
+    class { '::keystone::cron::fernet_rotate':
+      hour   => '*',
+      minute => '*/5',
+    }
   } else {
     $enable_fernet_setup = false
   }
@@ -67,6 +71,8 @@ class openstack_integration::keystone (
     token_provider          => $token_provider,
     enable_fernet_setup     => $enable_fernet_setup,
     enable_credential_setup => $enable_credential_setup,
+    fernet_max_active_keys  => '4',
+    token_expiration        => '600',
   }
   include ::apache
   class { '::keystone::wsgi::apache':
