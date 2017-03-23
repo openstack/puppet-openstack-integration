@@ -39,7 +39,6 @@ class openstack_integration::ironic {
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     database_connection   => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
     debug                 => true,
-    enabled_drivers       => ['fake', 'pxe_ssh', 'pxe_ipmitool'],
   }
   class { '::ironic::db::mysql':
     password => 'ironic',
@@ -60,7 +59,6 @@ class openstack_integration::ironic {
   }
   class { '::ironic::client': }
   class { '::ironic::api':
-    neutron_url  => "http://${::openstack_integration::config::ip_for_url}:9696",
     service_name => 'httpd',
   }
   include ::apache
@@ -71,7 +69,9 @@ class openstack_integration::ironic {
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::ironic::conductor': }
+  class { '::ironic::conductor':
+    enabled_drivers       => ['fake', 'pxe_ipmitool'],
+  }
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
 
 }
