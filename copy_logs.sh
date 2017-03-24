@@ -160,6 +160,10 @@ if [ `command -v rpm` ]; then
     rpm -qa > $LOG_DIR/rpm-qa.txt
 fi
 
+if [ `command -v gem` ]; then
+    gem list |sort > $LOG_DIR/gem-list.txt
+fi
+
 # system status & informations
 df -h > $LOG_DIR/df.txt
 free -m > $LOG_DIR/free.txt
