@@ -39,14 +39,11 @@ case $::osfamily {
 # - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
   $ssl_enabled       = false
-  # linuxbridge driver is not working with latest Ubuntu packaging.
-  $neutron_plugin    = 'openvswitch'
   # Disable Designate MDS on Ubuntu until we find why Puppet run is not
   # idempotent sometimes.
   $designate_enabled = false
 } else {
   $ssl_enabled       = true
-  $neutron_plugin    = 'linuxbridge'
   $designate_enabled = true
 }
 
@@ -64,7 +61,7 @@ class { '::openstack_integration::keystone':
 }
 include ::openstack_integration::glance
 class { '::openstack_integration::neutron':
-  driver => $neutron_plugin,
+  driver => 'linuxbridge',
 }
 include ::openstack_integration::nova
 if $trove_enabled {
