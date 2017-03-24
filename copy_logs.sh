@@ -187,6 +187,10 @@ if [ `command -v rpm` ]; then
     yum repolist -v > $LOG_DIR/repolist.txt
 fi
 
+if [ `command -v gem` ]; then
+    gem list |sort > $LOG_DIR/gem-list.txt
+fi
+
 # system status & informations
 sudo cp /root/openrc $LOG_DIR/openrc.txt
 sudo chmod 777 $LOG_DIR/openrc.txt
