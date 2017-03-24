@@ -36,6 +36,8 @@ class openstack_integration::vitrage {
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     debug                 => true,
+    snapshots_interval    => 120,
+    types                 => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor'
   } ->
 
   # Make sure tempest can read the configuration files

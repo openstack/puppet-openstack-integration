@@ -253,8 +253,7 @@ echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "gnocchi.tempest" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Vitrage
-# until I fix the tempest tests (they only work in the gate)
-echo "TestTopology.test_compare_api_and_cli" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "TestEvents" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Ironic
 # Note: running all Ironic tests under SSL is not working
