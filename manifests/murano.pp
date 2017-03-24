@@ -53,7 +53,7 @@ class openstack_integration::murano {
     rabbit_own_user       => 'murano_private',
     rabbit_own_password   => 'an_even_bigger_secret',
     rabbit_own_vhost      => '/murano',
-    rabbit_own_host       => $::openstack_integration::config::ip_for_url,
+    rabbit_own_host       => $::openstack_integration::config::host,
     rabbit_own_port       => $::openstack_integration::config::rabbit_port,
     rabbit_own_use_ssl    => $::openstack_integration::config::ssl,
     database_connection   => 'mysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
