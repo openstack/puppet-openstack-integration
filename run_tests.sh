@@ -13,13 +13,16 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
+source ${SCRIPT_DIR}/functions
+
+export WORKSPACE=${WORKSPACE:-/tmp}
 export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export ADD_SWAP=${ADD_SWAP:-true}
 export SWAP_SIZE_GB=${SWAP_SIZE_GB:-2}
-export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
@@ -35,18 +38,27 @@ export TEMPEST_VERSION_RDO=${TEMPEST_VERSION:-14.0.0}
 if [ -f /etc/nodepool/provider ]; then
     source /etc/nodepool/provider
     NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
-    NODEPOOL_MIRROR_HOST=$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')
+    # OpenStack Infra AFS mirrors don't support HTTPS yet.
+    NODEPOOL_MIRROR_HOST="http://$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')"
     CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
     UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
-    CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
+    if uses_debs; then
+        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
+    else
+        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
+    fi
 else
-    CENTOS_MIRROR_HOST='mirror.centos.org'
-    UCA_MIRROR_HOST='ubuntu-cloud.archive.canonical.com/ubuntu'
-    CEPH_MIRROR_HOST='download.ceph.com/debian-jewel'
+    CENTOS_MIRROR_HOST='http://mirror.centos.org'
+    UCA_MIRROR_HOST='http://ubuntu-cloud.archive.canonical.com/ubuntu'
+    if uses_debs; then
+        CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
+    else
+        CEPH_MIRROR_HOST='http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'
+    fi
 fi
-export FACTER_centos_mirror_host="http://${CENTOS_MIRROR_HOST}"
-export FACTER_uca_mirror_host="http://${UCA_MIRROR_HOST}"
-export FACTER_ceph_mirror_host="http://${CEPH_MIRROR_HOST}"
+export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
+export FACTER_uca_mirror_host=$UCA_MIRROR_HOST
+export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
@@ -59,7 +71,6 @@ else
   export PUPPET_PKG=puppet
 fi
 
-source ${SCRIPT_DIR}/functions
 print_header 'Start (run_tests.sh)'
 
 if [ ! -f fixtures/${SCENARIO}.pp ]; then
