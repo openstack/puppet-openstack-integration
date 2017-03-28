@@ -22,8 +22,6 @@ class openstack_integration::watcher {
       require => Package['watcher'],
     }
   }
-  # TODO(aschultz): remove this once the packaging has been fixed
-  include ::gnocchi::client
   class { '::watcher::db::mysql':
     password => 'watcher',
   }
