@@ -18,9 +18,10 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        manage_rdo  => false,
-        manage_epel => false,
-        repo_hash   => {
+        manage_rdo        => false,
+        manage_epel       => false,
+        centos_mirror_url => $::centos_mirror_host,
+        repo_hash         => {
           'pike-puppet-passed-ci' => {
             'baseurl'  => $::rdo_mirror_host,
             'descr'    => 'Pike puppet-passed-ci',
