@@ -36,6 +36,8 @@ export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 
+RDO_MIRROR_HOST=`curl --silent https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/delorean.repo | grep baseurl | cut -d= -f2`
+
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
 if [ -f /etc/nodepool/provider ]; then
     source /etc/nodepool/provider
@@ -44,6 +46,7 @@ if [ -f /etc/nodepool/provider ]; then
     NODEPOOL_MIRROR_HOST="http://$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')"
     CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
     UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
+    RDO_MIRROR_HOST=${RDO_MIRROR_HOST/https:\/\/trunk.rdoproject.org/$NODEPOOL_MIRROR_HOST:8080/rdo}
     if uses_debs; then
         CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
     else
@@ -61,6 +64,7 @@ fi
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
 export FACTER_uca_mirror_host=$UCA_MIRROR_HOST
 export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
+export FACTER_rdo_mirror_host=$RDO_MIRROR_HOST
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
