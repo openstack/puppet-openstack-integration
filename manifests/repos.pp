@@ -6,7 +6,7 @@ class openstack_integration::repos {
       class { '::openstack_extras::repo::debian::ubuntu':
         release         => 'pike',
         package_require => true,
-        uca_location    => $::uca_mirror_host,
+        uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure
@@ -23,7 +23,7 @@ class openstack_integration::repos {
         centos_mirror_url => $::centos_mirror_host,
         repo_hash         => {
           'pike-puppet-passed-ci' => {
-            'baseurl'  => $::rdo_mirror_host,
+            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
             'descr'    => 'Pike puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
@@ -54,7 +54,7 @@ class openstack_integration::repos {
   class { '::ceph::repo':
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
-    ceph_mirror => $::ceph_mirror_host,
+    ceph_mirror => pick($::ceph_mirror_host, 'http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'),
   }
 
 }
