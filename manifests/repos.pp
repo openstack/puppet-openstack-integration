@@ -15,6 +15,9 @@ class openstack_integration::repos {
         priority => 1001,
         origin   => 'download.ceph.com',
       }
+      $enable_sig  = false
+      $enable_epel = false
+      $ceph_mirror = pick($::ceph_mirror_host, 'http://download.ceph.com/debian-jewel/')
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
@@ -35,26 +38,26 @@ class openstack_integration::repos {
           },
         },
       }
+      $ceph_mirror = pick($::ceph_mirror_host, 'http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/')
+      # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
+      # https://wiki.centos.org/SpecialInterestGroup/Storage/
+      if $::operatingsystem == 'CentOS' {
+        $enable_sig  = true
+        $enable_epel = false
+      } else {
+        $enable_sig  = false
+        $enable_epel = true
+      }
     }
     default: {
       fail("Unsupported osfamily (${::osfamily})")
     }
   }
 
-  # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
-  # https://wiki.centos.org/SpecialInterestGroup/Storage/
-  if $::operatingsystem == 'CentOS' {
-    $enable_sig  = true
-    $enable_epel = false
-  } else {
-    $enable_sig  = false
-    $enable_epel = true
-  }
-
   class { '::ceph::repo':
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
-    ceph_mirror => pick($::ceph_mirror_host, 'http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'),
+    ceph_mirror => $ceph_mirror,
   }
 
 }
