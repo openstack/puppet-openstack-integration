@@ -227,12 +227,18 @@ echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.t
 # - https://review.openstack.org/#/c/359391/
 # TESTS="${TESTS} TestEncryptedCinderVolumes"
 
+if uses_debs; then
+    EXCLUDES="--regex=^(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v1_notifications.*$).*"
+else
+    EXCLUDES=''
+fi
+
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
 virtualenv --system-site-packages run_tempest
 run_tempest/bin/pip install -U .
-run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2
+run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
 RESULT=$?
 set -e
 testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
