@@ -28,7 +28,7 @@ case $::osfamily {
     $ipv6            = true
     $mistral_enabled = true
     $murano_enabled  = true
-    $trove           = true
+    $trove_enabled   = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
