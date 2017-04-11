@@ -70,6 +70,7 @@ scenario](#all-in-one).
 | ceph rgw   |             |             |             |      X      |              |
 | vitrage    |      X      |             |             |             |              |
 | watcher    |             |             |             |      X      |              |
+| bgpvpn-api |             |             |             |      X      |              |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules

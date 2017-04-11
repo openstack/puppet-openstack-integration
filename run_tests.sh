@@ -301,6 +301,9 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
 # https://bugs.launchpad.net/mistral/+bug/1654555
 echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-whitelist.txt
 
+# BGPVPN
+echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-whitelist.txt
+
 if uses_debs; then
   # TODO(aschultz): check this after pike-m1
   # 1) fwaas tests from ubuntu are still out of date LP#1667736

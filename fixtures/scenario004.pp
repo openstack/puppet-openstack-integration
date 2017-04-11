@@ -20,10 +20,13 @@ if $::operatingsystem == 'Ubuntu' {
   $ipv6            = false
   # Watcher packages are not available in Ubuntu repository.
   $watcher_enabled = false
+  # TODO(rnoriega) Enable testing for BGPVPN when UCA releases pike-m1
+  $bgpvpn_enabled = false
 } else {
   $ssl_enabled     = true
   $ipv6            = true
   $watcher_enabled = true
+  $bgpvpn_enabled = true
 }
 
 include ::openstack_integration
@@ -42,7 +45,9 @@ class { '::openstack_integration::keystone':
 class { '::openstack_integration::glance':
   backend => 'swift',
 }
-include ::openstack_integration::neutron
+class { '::openstack_integration::neutron':
+  bgpvpn_enabled => $bgpvpn_enabled
+}
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
 }
@@ -61,4 +66,5 @@ include ::openstack_integration::provision
 # Glance, nova, neutron are true by default.
 class { '::openstack_integration::tempest':
   watcher => $watcher_enabled,
+  bgpvpn  => $bgpvpn_enabled,
 }

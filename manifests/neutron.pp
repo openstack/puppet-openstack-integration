@@ -5,8 +5,14 @@
 #   Can be: openvswitch or linuxbridge.
 #   Defaults to 'openvswitch'.
 #
+# [*bgpvpn_enabled*]
+#   (optional) Flag to enable BGPVPN
+#   API extensions.
+#   Defaults to false.
+#
 class openstack_integration::neutron (
-  $driver = 'openvswitch',
+  $driver         = 'openvswitch',
+  $bgpvpn_enabled = false,
 ) {
 
   include ::openstack_integration::config
@@ -98,6 +104,10 @@ class openstack_integration::neutron (
     admin_url    => "${::openstack_integration::config::base_url}:9696",
     password     => 'a_big_secret',
   }
+  $plugins_list = $bgpvpn_enabled ? {
+    true => ['router', 'metering', 'firewall', 'lbaasv2', 'bgpvpn'],
+    default => ['router', 'metering', 'firewall', 'lbaasv2'],
+  }
   class { '::neutron':
     default_transport_url => os_transport_url({
       'transport' => 'rabbit',
@@ -109,7 +119,7 @@ class openstack_integration::neutron (
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     allow_overlapping_ips => true,
     core_plugin           => 'ml2',
-    service_plugins       => ['router', 'metering', 'firewall', 'lbaasv2'],
+    service_plugins       => $plugins_list,
     debug                 => true,
     bind_host             => $::openstack_integration::config::host,
     use_ssl               => $::openstack_integration::config::ssl,
@@ -187,5 +197,9 @@ class openstack_integration::neutron (
     driver        => 'neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas.IptablesFwaasDriver',
 
   }
-
+  if $bgpvpn_enabled {
+    class {'::neutron::services::bgpvpn':
+      service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
+    }
+  }
 }
