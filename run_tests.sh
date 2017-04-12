@@ -91,6 +91,13 @@ fi
 
 if [ "${ADD_SWAP}" = true ]; then
     print_header "Create $SWAP_SIZE_GB GB swapfile"
+    set +e
+    $SUDO swapon -s |grep -q '/swapfile'
+    RESULT=$?
+    set -e
+    if [ $RESULT -eq 0 ]; then
+        swapoff /swapfile && rm -f /swapfile
+    fi
     $SUDO dd if=/dev/zero of=/swapfile count=${SWAP_SIZE_GB}k bs=1M
     $SUDO chmod 0600 /swapfile
     $SUDO mkswap /swapfile
