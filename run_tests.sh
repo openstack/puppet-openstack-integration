@@ -67,7 +67,7 @@ export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
 export FACTER_rdo_mirror_host=$RDO_MIRROR_HOST
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
-  export PATH=${PATH}:/opt/puppetlabs/bin
+  export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
   export PUPPET_PKG=puppet-agent

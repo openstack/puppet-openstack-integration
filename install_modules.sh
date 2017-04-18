@@ -14,7 +14,7 @@ if [ "${PUPPET_MAJ_VERSION}" = 3 ]; then
   export PUPPET_BASE_PATH=/etc/puppet
 else
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
-  export PATH=${PATH}:/opt/puppetlabs/bin
+  export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
   # Workaround to deploy puppet for beaker jobs
   sudo -E ln -sfn /opt/puppetlabs/bin/puppet /usr/sbin/puppet
 fi
