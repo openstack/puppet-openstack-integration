@@ -26,7 +26,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6            = true
-    $mistral_enabled = true
+    $mistral_enabled = false
     $murano_enabled  = true
     $trove_enabled   = true
   }
