@@ -10,9 +10,14 @@
 #   API extensions.
 #   Defaults to false.
 #
+# [*l2gw_enabled*]
+#   (optional) Flag to enable L2GW.
+#   Defaults to false.
+#
 class openstack_integration::neutron (
   $driver         = 'openvswitch',
   $bgpvpn_enabled = false,
+  $l2gw_enabled = false,
 ) {
 
   include ::openstack_integration::config
@@ -104,10 +109,28 @@ class openstack_integration::neutron (
     admin_url    => "${::openstack_integration::config::base_url}:9696",
     password     => 'a_big_secret',
   }
-  $plugins_list = $bgpvpn_enabled ? {
-    true => ['router', 'metering', 'firewall', 'lbaasv2', 'bgpvpn'],
-    default => ['router', 'metering', 'firewall', 'lbaasv2'],
+  $bgpvpn_plugin = $bgpvpn_enabled ? {
+    true => 'bgpvpn',
+    default => undef,
   }
+  if $l2gw_enabled {
+    if ($::operatingsystem == 'Ubuntu') {
+      class {'::neutron::services::l2gw': }
+      $l2gw_provider = 'L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default'
+    }
+    elsif ($::operatingsystem != 'Ubuntu') {
+      class {'::neutron::services::l2gw':
+        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+      }
+      $l2gw_provider = undef
+    }
+  }
+  $l2gw_plugin = $l2gw_enabled ? {
+    true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
+    default => undef,
+  }
+  $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', $bgpvpn_plugin, $l2gw_plugin])
+
   class { '::neutron':
     default_transport_url => os_transport_url({
       'transport' => 'rabbit',
@@ -135,14 +158,16 @@ class openstack_integration::neutron (
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
+  $providers_list = delete_undef_values(['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
+                                        'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
+                                        'FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default',
+                                        $l2gw_provider])
   class { '::neutron::server':
     database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
     sync_db             => true,
     api_workers         => 2,
     rpc_workers         => 2,
-    service_providers   => ['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                            'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                            'FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default'],
+    service_providers   => $providers_list,
   }
   class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':

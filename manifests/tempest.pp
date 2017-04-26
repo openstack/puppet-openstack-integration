@@ -52,6 +52,14 @@
 #   (optional) Define if Ironic needs to be tested.
 #   Default to false.
 #
+# [*l2gw*]
+#   (optional) Define if L2GW needs to be tested.
+#   Default to false.
+#
+# [*l2gw_switch*]
+#   (optional) Define a switch name for testing.
+#   Default to undef.
+#
 # [*mistral*]
 #   (optional) Define if Mistral needs to be tested.
 #   Default to false.
@@ -115,6 +123,8 @@ class openstack_integration::tempest (
   $heat                    = false,
   $horizon                 = false,
   $ironic                  = false,
+  $l2gw                    = false,
+  $l2gw_switch             = undef,
   $mistral                 = false,
   $murano                  = false,
   $neutron                 = true,
@@ -164,6 +174,8 @@ class openstack_integration::tempest (
     'subnet_allocation',
     'tag',
     'tag-ext',
+    'l2-gateway',
+    'l2-gateway-connection',
   ],
 ) {
 
@@ -210,6 +222,7 @@ class openstack_integration::tempest (
     neutron_available        => $neutron,
     neutron_bgpvpn_available => $bgpvpn,
     neutron_lbaas_available  => true,
+    neutron_l2gw_available   => $l2gw,
     neutron_fwaas_available  => true,
     ceilometer_available     => $ceilometer,
     aodh_available           => $aodh,
@@ -241,6 +254,7 @@ class openstack_integration::tempest (
     murano_available         => $murano,
     tempest_workspace        => '/tmp/openstack/tempest',
     run_ssh                  => true,
+    l2gw_switch              => $l2gw_switch,
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir               => '/home/jenkins/cache/files',
