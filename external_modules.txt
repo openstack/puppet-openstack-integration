@@ -5,7 +5,7 @@ joshuabaird/puppet-ipaclient
 nanliu/puppet-staging
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
-puppetlabs/puppetlabs-concat
+puppetlabs/puppetlabs-concat,3.0.0
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mongodb
