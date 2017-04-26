@@ -53,6 +53,7 @@ class openstack_integration::zaqar {
     ssl_key   => $key_file,
     workers   => 2,
   }
+  include ::zaqar::db::sync
   # run a second instance using websockets, the Debian system does
   # not support the use of services to run a second instance.
   if $::osfamily == 'RedHat' {
