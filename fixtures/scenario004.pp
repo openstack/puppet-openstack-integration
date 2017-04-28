@@ -25,9 +25,7 @@ if $::operatingsystem == 'Ubuntu' {
 } else {
   $ssl_enabled     = true
   $ipv6            = true
-  # TODO(aschultz): enable once https://review.rdoproject.org/r/#/c/6491/ is
-  # promoted
-  $watcher_enabled = false
+  $watcher_enabled = true
   $bgpvpn_enabled = true
 }
 
