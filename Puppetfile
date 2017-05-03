@@ -238,3 +238,7 @@ mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
   :ref => 'v5.0.0'
 
+mod 'redis',
+  :git => 'https://github.com/arioch/puppet-redis',
+  :ref => '1.2.4'
+

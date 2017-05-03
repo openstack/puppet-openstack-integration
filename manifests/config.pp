@@ -32,12 +32,14 @@ class openstack_integration::config (
     # different: https://bugs.launchpad.net/swift/+bug/1610064
     $memcached_servers  = ["inet6:[${host}]:11211"]
     $swift_memcached_servers = ["[${host}]:11211"]
+    $tooz_url = "redis://[${host}]:6379"
   } else {
     $host        = '127.0.0.1'
     $rabbit_env  = {}
     $ip_version  = '4'
     $memcached_servers  = ["${host}:11211"]
     $swift_memcached_servers = $memcached_servers
+    $tooz_url = "redis://${host}:6379"
   }
 
   # in URL, brackets are needed

@@ -51,7 +51,9 @@ class openstack_integration::gnocchi {
     }
     class { '::gnocchi::client': }
     class { '::gnocchi::metricd': }
-    class { '::gnocchi::storage': }
+    class { '::gnocchi::storage':
+      coordination_url => $::openstack_integration::config::tooz_url,
+    }
     class { '::gnocchi::storage::ceph':
       ceph_username => 'openstack',
       ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',

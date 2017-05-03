@@ -20,3 +20,4 @@ saz/puppet-memcached
 stankevich/puppet-python
 theforeman/puppet-dns
 voxpupuli/puppet-corosync
+arioch/puppet-redis

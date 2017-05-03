@@ -20,11 +20,13 @@ case $::osfamily {
     # panko and vitrage are not packaged yet in debian/ubuntu
     $enable_panko    = false
     $enable_vitrage  = false
+    $enable_redis    = false
   }
   'RedHat': {
     $ipv6            = true
     $enable_panko    = true
     $enable_vitrage  = true
+    $enable_redis    = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -63,6 +65,9 @@ include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
 if $enable_vitrage {
   include ::openstack_integration::vitrage
+}
+if $enable_redis {
+  include ::openstack_integration::redis
 }
 include ::openstack_integration::gnocchi
 include ::openstack_integration::ceph
