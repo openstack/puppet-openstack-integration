@@ -30,13 +30,9 @@ class openstack_integration::nova (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'nova':
-      notify  => [
-        Service['nova-api'],
-        Service['httpd'],
-      ],
+      notify  => Service['httpd'],
       require => Package['nova-common'],
     }
-    Exec['update-ca-certificates'] ~> Service['nova-api']
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
@@ -115,18 +111,22 @@ class openstack_integration::nova (
     debug                         => true,
     notification_driver           => 'messagingv2',
     notify_on_state_change        => 'vm_and_task_state',
-    use_ssl                       => $::openstack_integration::config::ssl,
-    key_file                      => "/etc/nova/ssl/private/${::fqdn}.pem",
-    cert_file                     => $::openstack_integration::params::cert_path,
   }
   class { '::nova::api':
     api_bind_address                     => $::openstack_integration::config::host,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
     metadata_workers                     => 2,
-    osapi_compute_workers                => 2,
     default_floating_pool                => 'public',
     sync_db_api                          => true,
-
+    service_name                         => 'httpd',
+  }
+  include ::apache
+  class { '::nova::wsgi::apache_api':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl       => $::openstack_integration::config::ssl,
+    workers   => '2',
   }
   class { '::nova::wsgi::apache_placement':
     bind_host => $::openstack_integration::config::ip_for_url,

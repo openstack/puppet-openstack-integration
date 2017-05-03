@@ -28,6 +28,7 @@ class openstack_integration::provision {
   }
   Keystone_user_role <||>-> Nova_flavor<||>
   Keystone_endpoint <||>-> Nova_flavor<||>
+  Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
 
   neutron_network { 'public':
     tenant_name               => 'openstack',
@@ -35,8 +36,7 @@ class openstack_integration::provision {
     provider_physical_network => 'external',
     provider_network_type     => 'flat',
   }
-  Keystone_user_role <||>-> Neutron_network<||>
-  Keystone_endpoint <||>-> Neutron_network<||>
+  Keystone_user_role['admin@openstack'] -> Neutron_network<||>
 
   neutron_subnet { 'public-subnet':
     cidr             => '172.24.5.0/24',
@@ -62,6 +62,5 @@ class openstack_integration::provision {
     is_public        => 'yes',
     source           => '/tmp/openstack/image/cirros-0.3.4-x86_64-disk.img'
   }
-  Keystone_user_role <||>-> Glance_image<||>
-  Keystone_endpoint <||>-> Glance_image<||>
+  Keystone_user_role['admin@openstack'] -> Glance_image<||>
 }
