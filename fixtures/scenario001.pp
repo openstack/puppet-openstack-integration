@@ -16,17 +16,16 @@
 
 case $::osfamily {
   'Debian': {
-    $ipv6            = false
-    # panko and vitrage are not packaged yet in debian/ubuntu
-    $enable_panko    = false
-    $enable_vitrage  = false
-    $enable_redis    = false
+    $ipv6                    = false
+    # panko, gnocchi and vitrage are not packaged yet in debian/ubuntu
+    # https://bugs.launchpad.net/cloud-archive/+bug/1535740
+    $enable_vitrage          = false
+    $enable_legacy_telemetry = true
   }
   'RedHat': {
-    $ipv6            = true
-    $enable_panko    = true
-    $enable_vitrage  = true
-    $enable_redis    = true
+    $ipv6                    = true
+    $enable_vitrage          = true
+    $enable_legacy_telemetry = false
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -61,26 +60,26 @@ class { '::openstack_integration::nova':
 class { '::openstack_integration::cinder':
   backend => 'rbd',
 }
-include ::openstack_integration::ceilometer
+class { '::openstack_integration::ceilometer':
+  enable_legacy_telemetry =>  $enable_legacy_telemetry
+}
 include ::openstack_integration::aodh
 if $enable_vitrage {
   include ::openstack_integration::vitrage
 }
-if $enable_redis {
-  include ::openstack_integration::redis
-}
-include ::openstack_integration::gnocchi
 include ::openstack_integration::ceph
 include ::openstack_integration::provision
-if $enable_panko {
+if ! $enable_legacy_telemetry {
+  include ::openstack_integration::redis
+  include ::openstack_integration::gnocchi
   include ::openstack_integration::panko
 }
 
 class { '::openstack_integration::tempest':
   cinder     => true,
-  gnocchi    => true,
+  gnocchi    => ! $enable_legacy_telemetry,
   ceilometer => true,
   aodh       => true,
-  panko      => $enable_panko,
+  panko      => ! $enable_legacy_telemetry,
   vitrage    => $enable_vitrage,
 }
