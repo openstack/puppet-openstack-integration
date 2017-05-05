@@ -18,6 +18,14 @@ class openstack_integration::provision {
     disk   => '0',
     vcpus  => '1',
   }
+  # NOTE(ykarel): "m1.small" flavor is required by murano scenario tests
+  nova_flavor { 'm1.small':
+    ensure => present,
+    id     => '2',
+    ram    => '128',
+    disk   => '0',
+    vcpus  => '1',
+  }
   Keystone_user_role <||>-> Nova_flavor<||>
   Keystone_endpoint <||>-> Nova_flavor<||>
 
