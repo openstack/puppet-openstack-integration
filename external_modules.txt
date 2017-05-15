@@ -4,8 +4,8 @@ duritong/puppet-sysctl
 joshuabaird/puppet-ipaclient
 nanliu/puppet-staging
 puppetlabs/puppetlabs-apache
-puppetlabs/puppetlabs-apt,3.0.0
-puppetlabs/puppetlabs-concat,3.0.0
+puppetlabs/puppetlabs-apt,2.4.0
+puppetlabs/puppetlabs-concat,2.2.1
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mongodb
