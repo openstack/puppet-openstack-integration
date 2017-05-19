@@ -240,5 +240,5 @@ mod 'corosync',
 
 mod 'redis',
   :git => 'https://github.com/arioch/puppet-redis',
-  :ref => '1.2.4'
+  :ref => 'v3.1.0'
 
