@@ -141,6 +141,7 @@ sudo cp /etc/sudoers $LOG_DIR/sudoers.txt
 # apache logs; including wsgi stuff like horizon, keystone, etc.
 if uses_debs; then
     apache_logs=/var/log/apache2
+    redis_logs=/var/log/redis/redis-server.log
     if [ -d /etc/apache2/sites-enabled ]; then
         mkdir $LOG_DIR/apache_config
         sudo cp /etc/apache2/sites-enabled/* $LOG_DIR/apache_config
@@ -150,6 +151,7 @@ if uses_debs; then
     fi
 elif is_fedora; then
     apache_logs=/var/log/httpd
+    redis_logs=/var/log/redis/redis.log
     if [ -d /etc/httpd/conf.d ]; then
         mkdir $LOG_DIR/apache_config
         sudo cp /etc/httpd/conf.d/* $LOG_DIR/apache_config
@@ -160,6 +162,10 @@ elif is_fedora; then
 fi
 if [ -d ${apache_logs} ]; then
     sudo cp -r ${apache_logs} $LOG_DIR/apache
+fi
+
+if [ -f ${redis_logs} ]; then
+    sudo cp ${redis_logs} $LOG_DIR/redis.log.txt
 fi
 
 if [ -f /var/log/audit/audit.log ]; then
