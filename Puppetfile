@@ -184,7 +184,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => '1.8.2'
+  :ref => '1.9.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -240,5 +240,5 @@ mod 'corosync',
 
 mod 'redis',
   :git => 'https://github.com/arioch/puppet-redis',
-  :ref => 'v3.1.0'
+  :ref => 'v3.1.1'
 
