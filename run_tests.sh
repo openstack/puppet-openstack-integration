@@ -22,7 +22,7 @@ export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
 export ADD_SWAP=${ADD_SWAP:-true}
-export SWAP_SIZE_GB=${SWAP_SIZE_GB:-2}
+export SWAP_SIZE_GB=${SWAP_SIZE_GB:-4}
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
