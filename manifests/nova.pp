@@ -165,7 +165,6 @@ class openstack_integration::nova (
     libvirt_virt_type     => $libvirt_virt_type,
     libvirt_cpu_mode      => $libvirt_cpu_mode,
     migration_support     => true,
-    vncserver_listen      => '0.0.0.0',
     # virtlock and virtlog services resources are not idempotent
     # on Ubuntu, let's disable it for now.
     # https://tickets.puppetlabs.com/browse/PUP-6370
