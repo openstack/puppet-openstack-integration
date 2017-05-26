@@ -17,7 +17,7 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source ${SCRIPT_DIR}/functions
 
 export WORKSPACE=${WORKSPACE:-/tmp}
-export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-3}
+export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-4}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
@@ -71,10 +71,6 @@ if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
   export PUPPET_PKG=puppet-agent
-else
-  export PUPPET_RELEASE_FILE=puppetlabs-release
-  export PUPPET_BASE_PATH=/etc/puppet
-  export PUPPET_PKG=puppet
 fi
 
 print_header 'Start (run_tests.sh)'
