@@ -24,6 +24,12 @@ export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules.sh)'
+
+print_header 'Workaround to remove certifi requests and urllib3 deployed by pip'
+sudo -E pip uninstall certifi -y || true
+sudo -E pip uninstall urllib3 -y || true
+sudo -E pip uninstall requests -y || true
+
 print_header 'Install r10k'
 # fast_gettext 1.2.0+ requires ruby 2.1.0
 gem install fast_gettext -v '< 1.2.0'
