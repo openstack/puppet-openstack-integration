@@ -10,14 +10,10 @@ fi
 # NOTE(aschultz): since puppet 3 is now EOL, and beaker-puppet_install_helper
 # version 0.6.0 has made the agent version the default, we need to symlink
 # puppet to the /opt/puppetlabs version when specifically not version 3.
-if [ "${PUPPET_MAJ_VERSION}" = 3 ]; then
-  export PUPPET_BASE_PATH=/etc/puppet
-else
-  export PUPPET_BASE_PATH=/etc/puppetlabs/code
-  export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-  # Workaround to deploy puppet for beaker jobs
-  sudo -E ln -sfn /opt/puppetlabs/bin/puppet /usr/sbin/puppet
-fi
+export PUPPET_BASE_PATH=/etc/puppetlabs/code
+export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
+# Workaround to deploy puppet for beaker jobs
+sudo -E ln -sfn /opt/puppetlabs/bin/puppet /usr/sbin/puppet
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
