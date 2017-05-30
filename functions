@@ -163,9 +163,10 @@ install_puppet() {
             $SUDO rpm -e epel-release
         fi
 
-        $SUDO rpm --import files/GPG-KEY-puppetlabs
-        $SUDO rpm --import files/GPG-KEY-puppet
-        $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
+        if [ "${MANAGE_REPOS}" == "true" ] ; then
+            $SUDO rpm --import files/GPG-KEY-puppetlabs
+            $SUDO rpm --import files/GPG-KEY-puppet
+            $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El 7 - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/el/7/PC1/x86_64/
@@ -174,6 +175,7 @@ gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
 enabled=1
 gpgcheck=1
 EOF"
+        fi
         $SUDO yum install -y ${PUPPET_PKG}
     fi
 }
