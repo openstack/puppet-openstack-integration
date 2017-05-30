@@ -70,7 +70,7 @@ if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
   export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
   export PUPPET_BASE_PATH=/etc/puppetlabs/code
-  export PUPPET_PKG=puppet-agent
+  export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
 fi
 
 print_header 'Start (run_tests.sh)'
