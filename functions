@@ -170,7 +170,7 @@ install_puppet() {
         $SUDO rm -f /tmp/puppet.rpm
 
         if [ "${MANAGE_REPOS}" == "true" ] ; then
-            wget http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
+            wget http://yum.puppetlabs.com/${PUPPET_URL_SUFFIX}${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
             $SUDO rpm -ivh /tmp/puppet.rpm
         fi
         $SUDO yum install -y ${PUPPET_PKG}
