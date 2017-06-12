@@ -22,8 +22,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6               = true
-    # TODO (amoralej) - enable when https://bugs.launchpad.net/ec2-api/+bug/1691484 is fixed
-    $ec2api_enabled     = false
+    $ec2api_enabled     = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
