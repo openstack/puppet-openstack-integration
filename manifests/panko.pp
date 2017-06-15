@@ -35,9 +35,9 @@ class openstack_integration::panko {
     password => 'panko',
   }
   class { '::panko::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8779",
-    internal_url => "${::openstack_integration::config::base_url}:8779",
-    admin_url    => "${::openstack_integration::config::base_url}:8779",
+    public_url   => "${::openstack_integration::config::base_url}:8977",
+    internal_url => "${::openstack_integration::config::base_url}:8977",
+    admin_url    => "${::openstack_integration::config::base_url}:8977",
     password     => 'a_big_secret',
   }
   class { '::panko::keystone::authtoken':
