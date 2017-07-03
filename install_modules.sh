@@ -27,6 +27,9 @@ print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
 # fast_gettext 1.2.0+ requires ruby 2.1.0
 gem install fast_gettext -v '< 1.2.0'
+# puppet_forge 2.2.7 has a dependency on semantic_puppet ~> 1.0
+# which is not compatible with dependency of latest r10k on semantic_puppet ~> 0.1.0
+gem install puppet_forge -v '= 2.2.6'
 gem install r10k --no-ri --no-rdoc
 
 # make sure there is no puppet module pre-installed
