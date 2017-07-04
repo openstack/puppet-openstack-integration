@@ -46,7 +46,15 @@ class openstack_integration::gnocchi {
     workers   => 2,
   }
   class { '::gnocchi::client': }
-  class { '::gnocchi::metricd': }
+  class { '::gnocchi::metricd':
+    workers       => 2,
+    # because we configure Keystone to expire tokens after 600s, we don't
+    # want to rely on default value in Gnocchi which is 300s to cleanup old data.
+    # Indeed, Gnocchi might use an old token that expired to clean up and then it would
+    # fail. It happens when running Tempest tests in the gate with low resources.
+    # Production value (300) shouldn't be changed by default.
+    cleanup_delay => 10,
+  }
   class { '::gnocchi::storage':
     coordination_url => $::openstack_integration::config::tooz_url,
   }
