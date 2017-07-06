@@ -116,7 +116,6 @@ class openstack_integration::nova (
     api_bind_address                     => $::openstack_integration::config::host,
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
     metadata_workers                     => 2,
-    default_floating_pool                => 'public',
     sync_db_api                          => true,
     service_name                         => 'httpd',
   }
@@ -189,9 +188,10 @@ class openstack_integration::nova (
   class { '::nova::vncproxy': }
 
   class { '::nova::network::neutron':
-    neutron_auth_url => "${::openstack_integration::config::keystone_admin_uri}/v3",
-    neutron_url      => "${::openstack_integration::config::base_url}:9696",
-    neutron_password => 'a_big_secret',
+    neutron_auth_url      => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    neutron_url           => "${::openstack_integration::config::base_url}:9696",
+    neutron_password      => 'a_big_secret',
+    default_floating_pool => 'public',
   }
 
   Keystone_endpoint <||> -> Service['nova-compute']
