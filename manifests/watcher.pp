@@ -60,7 +60,6 @@ class openstack_integration::watcher {
   class { '::watcher::api':
     watcher_api_bind_host   => $::openstack_integration::config::host,
     watcher_client_password => 'a_big_secret',
-    create_db_schema        => true,
     upgrade_db              => true,
   }
   class { '::watcher::applier':
