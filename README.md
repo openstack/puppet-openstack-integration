@@ -83,7 +83,7 @@ verify there is no change in the catalog and make sure the Puppet run is
 idempotent.
 
 If Puppet runs are successful, the script will run
-[Tempest](http://docs.openstack.org/developer/tempest/overview.html) Smoke
+[Tempest](https://docs.openstack.org/tempest/latest/overview.html) Smoke
 tests, that will execute some scenarios & API tests. It covers what we want to
 validate, and does not take too much time.
 
@@ -93,7 +93,7 @@ Development
 
 Developer documentation for the entire Puppet OpenStack project:
 
-* http://docs.openstack.org/developer/puppet-openstack-guide/
+* https://docs.openstack.org/puppet-openstack-guide/latest
 
 Note: SSL Certificates
 ----------------------
