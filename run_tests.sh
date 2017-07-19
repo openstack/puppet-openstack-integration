@@ -255,10 +255,10 @@ print_header 'Prepare Tempest'
 $SUDO touch /tmp/openstack/tempest/test-whitelist.txt
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/test-whitelist.txt
 
-
 # install from source now on ubuntu until packaged
 if uses_debs; then
     cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
+    $SUDO pip install -U testrepository os-testr
 fi
 
 set +e
@@ -321,24 +321,17 @@ if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
     export tempest_binary="run_tempest/bin/tempest"
-    export testr_binary="run_tempest/bin/testr"
 else
     export tempest_binary="/usr/bin/tempest"
-    export testr_binary="/usr/bin/testr"
 fi
 
 # Run tempest commands
 $tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
 RESULT=$?
 set -e
-if uses_debs; then
-    $SUDO pip install -U testrepository
-    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-elif is_fedora; then
-    $testr_binary last --subunit > /tmp/openstack/tempest/testrepository.subunit
-fi
 $tempest_binary list-plugins
-
+testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
 
