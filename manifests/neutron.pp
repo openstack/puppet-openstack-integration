@@ -55,8 +55,8 @@ class openstack_integration::neutron (
         provider    => shell,
         command     => 'ip link add name loop1 type dummy && ip addr add 127.2.0.1/24 dev loop1',
         refreshonly => true,
-      } ->
-      vs_port { 'loop1':
+      }
+      -> vs_port { 'loop1':
         ensure => present,
         bridge => 'br-ex',
         notify => Exec['create_br-ex_vif'],
