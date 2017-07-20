@@ -29,7 +29,8 @@ case $::osfamily {
   'RedHat': {
     $ipv6            = true
     $mistral_enabled = true
-    $murano_enabled  = true
+    # re-enable next time we have RDO promotion
+    $murano_enabled  = false
     $sahara_enabled  = true
     $trove_enabled   = true
   }
