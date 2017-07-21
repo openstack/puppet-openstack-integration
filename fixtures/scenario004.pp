@@ -48,7 +48,8 @@ class { '::openstack_integration::glance':
   backend => 'swift',
 }
 class { '::openstack_integration::neutron':
-  bgpvpn_enabled => $bgpvpn_enabled
+  bgpvpn_enabled => $bgpvpn_enabled,
+  l2gw_enabled   => true,
 }
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
@@ -67,6 +68,8 @@ include ::openstack_integration::provision
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
 class { '::openstack_integration::tempest':
-  watcher => $watcher_enabled,
-  bgpvpn  => $bgpvpn_enabled,
+  watcher     => $watcher_enabled,
+  bgpvpn      => $bgpvpn_enabled,
+  l2gw        => true,
+  l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
 }
