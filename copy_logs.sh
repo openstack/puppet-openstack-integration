@@ -106,7 +106,11 @@ fi
 
 # Tempest subunit results
 if [ -f /tmp/openstack/tempest/testrepository.subunit ] ; then
-    sudo cp /tmp/openstack/tempest/testrepository.subunit $LOG_DIR/testrepository.subunit
+    for f in testrepository.subunit testr_results.html;
+    do
+        sudo cp /tmp/openstack/tempest/$f $LOG_DIR/$f
+        sudo gzip -9 $LOG_DIR/$f
+    done
 fi
 
 # dstat logs
