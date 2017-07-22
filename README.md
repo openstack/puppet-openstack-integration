@@ -56,7 +56,7 @@ scenario](#all-in-one).
 | backup     |             |    swift    |             |             |              |
 | gnocchi    |     rbd     |             |             |             |              |
 | ec2api     |             |       X     |             |             |              |
-| heat       |             |             |       X     |             |              |
+| heat       |      X      |             |       X     |             |              |
 | swift      |             |       X     |             |             |              |
 | sahara     |             |             |       X     |             |              |
 | trove      |             |             |       X     |             |              |
