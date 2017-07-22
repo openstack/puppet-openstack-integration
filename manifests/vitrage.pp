@@ -38,19 +38,19 @@ class openstack_integration::vitrage {
     debug                 => true,
     snapshots_interval    => 120,
     types                 => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor'
-  } ->
+  }
 
   # Make sure tempest can read the configuration files
   # default installation has a 640 premission
-  file { '/etc/vitrage':
+  -> file { '/etc/vitrage':
     ensure  => directory,
     recurse => true,
     mode    => '0644',
-  } ->
+  }
 
   # Make sure tempest can write to the log directory
   # default installation has a 755 premission
-  file { '/var/log/vitrage':
+  -> file { '/var/log/vitrage':
     ensure => directory,
     mode   => '0766',
   }

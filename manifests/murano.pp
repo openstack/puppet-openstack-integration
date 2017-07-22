@@ -77,7 +77,6 @@ class openstack_integration::murano {
     public_url   => "${::openstack_integration::config::base_url}:8082",
     internal_url => "${::openstack_integration::config::base_url}:8082",
     admin_url    => "${::openstack_integration::config::base_url}:8082",
-  } ->
-
-  murano::application { 'io.murano': }
+  }
+  -> murano::application { 'io.murano': }
 }
