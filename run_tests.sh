@@ -248,16 +248,13 @@ fi
 timestamp_puppet_log
 
 print_header 'Prepare Tempest'
-if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-    # We need latest testrepository to run stackviz correctly
-    $SUDO pip install -U testrepository
-else
-    # FIXME: Since tempest create tempest workspace which is owned by root user.
-    # We need to fix it in puppet-tempest, as a workaround we are changing the mode
-    # of tempest workspace and run tempest command using root.
-    $SUDO touch /tmp/openstack/tempest/test-whitelist.txt
-    $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/test-whitelist.txt
-fi
+
+# FIXME: Since tempest create tempest workspace which is owned by root user.
+# We need to fix it in puppet-tempest, as a workaround we are changing the mode
+# of tempest workspace and run tempest command using root.
+$SUDO touch /tmp/openstack/tempest/test-whitelist.txt
+$SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/test-whitelist.txt
+
 
 # install from source now on ubuntu until packaged
 if uses_debs; then
@@ -329,18 +326,24 @@ if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
     run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
-    run_tempest/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
-    RESULT=$?
-    set -e
-    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-    run_tempest/bin/tempest list-plugins
+    export tempest_binary="run_tempest/bin/tempest"
+    export testr_binary="run_tempest/bin/testr"
 else
-    /usr/bin/tempest run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
-    RESULT=$?
-    set -e
-    /usr/bin/testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-    /usr/bin/tempest list-plugins
+    export tempest_binary="/usr/bin/tempest"
+    export testr_binary="/usr/bin/testr"
 fi
+
+# Run tempest commands
+$tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
+RESULT=$?
+set -e
+if uses_debs; then
+    $SUDO pip install -U testrepository
+    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+elif is_fedora; then
+    $testr_binary last --subunit > /tmp/openstack/tempest/testrepository.subunit
+fi
+$tempest_binary list-plugins
 
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
