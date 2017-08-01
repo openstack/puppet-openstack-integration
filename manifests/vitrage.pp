@@ -87,7 +87,6 @@ class openstack_integration::vitrage {
   }
   class { '::vitrage::graph': }
   class { '::vitrage::notifier': }
-  class { '::vitrage::collector': }
   class { '::vitrage::client': }
 
 }
