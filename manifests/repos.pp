@@ -32,7 +32,7 @@ class openstack_integration::repos {
             'priority' => 1,
           },
           'pike-delorean-deps'    => {
-            'baseurl'  => 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike',
+            'baseurl'  => pick($::buildlogs_mirror_host, 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike'),
             'descr'    => 'Pike delorean-deps',
             'gpgcheck' => 'no',
           },
