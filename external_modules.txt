@@ -13,7 +13,7 @@ puppetlabs/puppetlabs-mysql
 puppetlabs/puppetlabs-postgresql
 puppetlabs/puppetlabs-rabbitmq
 puppetlabs/puppetlabs-rsync
-puppetlabs/puppetlabs-stdlib
+puppetlabs/puppetlabs-stdlib,4.16.0
 puppetlabs/puppetlabs-vcsrepo
 puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
