@@ -40,22 +40,17 @@ export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 RDO_MIRROR_HOST=`curl --silent https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/delorean.repo | grep baseurl | cut -d= -f2`
 
 # NOTE(pabelanger): Setup facter to know about AFS mirror.
-if [ -f /etc/nodepool/provider ]; then
-    source /etc/nodepool/provider
-    NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
-    # OpenStack Infra AFS mirrors don't support HTTPS yet.
-    NODEPOOL_MIRROR_HOST="http://$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')"
-    CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
-    UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
+if [ -f /etc/ci/mirror_info.sh ]; then
+    source /etc/ci/mirror_info.sh
+    CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
     RDO_MIRROR_HOST=${RDO_MIRROR_HOST/https:\/\/trunk.rdoproject.org/$NODEPOOL_MIRROR_HOST:8080/rdo}
     if uses_debs; then
-        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-jewel"
     else
-        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    UCA_MIRROR_HOST='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
         CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
     else
@@ -63,9 +58,9 @@ else
     fi
 fi
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
-export FACTER_uca_mirror_host=$UCA_MIRROR_HOST
+export FACTER_uca_mirror_host=$NODEPOOL_UCA_MIRROR
 export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
-export FACTER_rdo_mirror_host=$RDO_MIRROR_HOST
+export FACTER_rdo_mirror_host="http://${RDO_MIRROR_HOST}"
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
