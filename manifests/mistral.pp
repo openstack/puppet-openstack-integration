@@ -35,6 +35,11 @@ class openstack_integration::mistral {
       }
       Exec['update-ca-certificates'] ~> Service['httpd']
     }
+    class { '::mistral::keystone::authtoken':
+      password => 'a_big_secret',
+      auth_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
+      auth_url => $::openstack_integration::config::keystone_auth_uri,
+    }
     class { '::mistral':
       default_transport_url => os_transport_url({
         'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -44,11 +49,8 @@ class openstack_integration::mistral {
         'password'  => 'an_even_bigger_secret',
       }),
       database_connection   => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
-      keystone_password     => 'a_big_secret',
       rabbit_use_ssl        => $::openstack_integration::config::ssl,
       # if it works, we might need to change the default in puppet-mistral
-      identity_uri          => $::openstack_integration::config::keystone_admin_uri,
-      auth_uri              => "${::openstack_integration::config::keystone_auth_uri}/v3",
       debug                 => true,
     }
     class { '::mistral::keystone::auth':
