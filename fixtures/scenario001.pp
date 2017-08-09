@@ -24,7 +24,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6                    = true
-    $enable_vitrage          = false
+    $enable_vitrage          = true
     $enable_legacy_telemetry = false
   }
   default: {
