@@ -39,7 +39,6 @@ class openstack_integration::sahara {
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    rpc_backend           => 'rabbit',
     debug                 => true,
   }
   class { '::sahara::keystone::authtoken':
