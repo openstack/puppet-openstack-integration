@@ -91,6 +91,12 @@ if [ "${ADD_SWAP}" = true ]; then
     $SUDO swapon /swapfile
 fi
 
+# We install some gems as root so to take benefit of
+# OpenStack Infra mirrors.
+if [ -f ~/.gemrc ]; then
+    cat ~/.gemrc | $SUDO tee /root/.gemrc
+fi
+
 print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
 git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
