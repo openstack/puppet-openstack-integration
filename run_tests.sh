@@ -34,31 +34,10 @@ export DISTRO=$(lsb_release -c -s)
 export TEMPEST_VERSION_UCA=${TEMPEST_VERSION:-13.0.0}
 export TEMPEST_VERSION_RDO=${TEMPEST_VERSION:-14.0.0}
 
-# NOTE(pabelanger): Setup facter to know about AFS mirror.
-if [ -f /etc/nodepool/provider ]; then
-    source /etc/nodepool/provider
-    NODEPOOL_MIRROR_HOST=${NODEPOOL_MIRROR_HOST:-mirror.$NODEPOOL_REGION.$NODEPOOL_CLOUD.openstack.org}
-    # OpenStack Infra AFS mirrors don't support HTTPS yet.
-    NODEPOOL_MIRROR_HOST="http://$(echo $NODEPOOL_MIRROR_HOST|tr '[:upper:]' '[:lower:]')"
-    CENTOS_MIRROR_HOST=${NODEPOOL_MIRROR_HOST}
-    UCA_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ubuntu-cloud-archive"
-    if uses_debs; then
-        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/ceph-deb-jewel"
-    else
-        CEPH_MIRROR_HOST="${NODEPOOL_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
-    fi
-else
-    CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    UCA_MIRROR_HOST='http://ubuntu-cloud.archive.canonical.com/ubuntu'
-    if uses_debs; then
-        CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
-    else
-        CEPH_MIRROR_HOST='http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'
-    fi
-fi
-export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
-export FACTER_uca_mirror_host=$UCA_MIRROR_HOST
-export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
+# if we're running the tests we don't need to write out the facts to facter
+# so we can disable it.
+export WRITE_FACTS=false
+source ${SCRIPT_DIR}/configure_facts.sh
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin
