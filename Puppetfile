@@ -3,23 +3,23 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'barbican',
   :git => 'https://git.openstack.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'ceph',
   :git => 'https://git.openstack.org/openstack/puppet-ceph',
-  :ref => 'master'
+  :ref => 'stable/jewel'
 
 mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'cloudkitty',
   :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
@@ -31,31 +31,31 @@ mod 'congress',
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'ec2api',
   :git => 'https://git.openstack.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'gnocchi',
   :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'heat',
   :git => 'https://git.openstack.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'horizon',
   :git => 'https://git.openstack.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'ironic',
   :git => 'https://git.openstack.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
@@ -63,11 +63,11 @@ mod 'keystone',
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'mistral',
   :git => 'https://git.openstack.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
@@ -75,39 +75,39 @@ mod 'monasca',
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'octavia',
   :git => 'https://git.openstack.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'oslo',
   :git => 'https://git.openstack.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'ovn',
   :git => 'https://git.openstack.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'qdr',
   :git => 'https://git.openstack.org/openstack/puppet-qdr',
@@ -115,27 +115,27 @@ mod 'qdr',
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'tacker',
   :git => 'https://git.openstack.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'vitrage',
   :git => 'https://git.openstack.org/openstack/puppet-vitrage',
@@ -143,11 +143,11 @@ mod 'vitrage',
 
 mod 'watcher',
   :git => 'https://git.openstack.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 ## External modules
 mod 'powerdns',
