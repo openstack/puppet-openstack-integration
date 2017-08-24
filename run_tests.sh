@@ -37,33 +37,12 @@ export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 
-RDO_MIRROR_HOST=`curl --silent https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/delorean.repo | grep baseurl | cut -d= -f2`
 
-# NOTE(pabelanger): Setup facter to know about AFS mirror.
-if [ -f /etc/ci/mirror_info.sh ]; then
-    source /etc/ci/mirror_info.sh
-    CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
-    BUILDLOGS_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/cloud/x86_64/openstack-pike"
-    RDO_MIRROR_HOST=${RDO_MIRROR_HOST/https:\/\/trunk.rdoproject.org/$NODEPOOL_MIRROR_HOST:8080/rdo}
-    if uses_debs; then
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-jewel"
-    else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
-    fi
-else
-    CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    BUILDLOGS_MIRROR_HOST='https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike'
-    if uses_debs; then
-        CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
-    else
-        CEPH_MIRROR_HOST='http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'
-    fi
-fi
-export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
-export FACTER_uca_mirror_host=$NODEPOOL_UCA_MIRROR
-export FACTER_buildlogs_mirror_host=$BUILDLOGS_MIRROR_HOST
-export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
-export FACTER_rdo_mirror_host="http://${RDO_MIRROR_HOST}"
+# if we're running the tests we don't need to write out the facts to facter
+# so we can disable it.
+export WRITE_FACTS=false
+source ${SCRIPT_DIR}/configure_facts.sh
+
 
 if [ $PUPPET_MAJ_VERSION == 4 ]; then
   export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
