@@ -21,22 +21,8 @@ class openstack_integration::repos {
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
-        manage_rdo        => false,
-        manage_epel       => false,
+        release           => 'pike',
         centos_mirror_url => $::centos_mirror_host,
-        repo_hash         => {
-          'pike-puppet-passed-ci' => {
-            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
-            'descr'    => 'Pike puppet-passed-ci',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'pike-delorean-deps'    => {
-            'baseurl'  => pick($::buildlogs_mirror_host, 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike'),
-            'descr'    => 'Pike delorean-deps',
-            'gpgcheck' => 'no',
-          },
-        },
       }
       $ceph_mirror = pick($::ceph_mirror_host, 'http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/')
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
