@@ -33,6 +33,7 @@ class openstack_integration::ceph (
     osd_pool_default_size        => '1',
     osd_pool_default_min_size    => '1',
     mon_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
+    mgr_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
     osd_max_object_name_len      => 256,
     osd_max_object_namespace_len => 64,
     client_keys                  => {
@@ -68,6 +69,13 @@ class openstack_integration::ceph (
 
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
   ceph::pool { $ceph_pools: }
+
+  # NOTE(mnaser): At the moment, the storage SIG packages do not ship 12.X
+  #               however UCA is shipping it at the moment.  This conditional
+  #               should be dropped once we switch CentOS to 12.X
+  if $::osfamily != 'RedHat' {
+    class { '::ceph::profile::mgr': }
+  }
 
   class { '::ceph::profile::mon': }
   class { '::ceph::profile::osd': }
