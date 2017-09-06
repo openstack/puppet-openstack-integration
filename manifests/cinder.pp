@@ -36,6 +36,14 @@ class openstack_integration::cinder (
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'cinder':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'cinder':
       notify  => Service['httpd'],
@@ -60,15 +68,25 @@ class openstack_integration::cinder (
   }
   class { '::cinder':
     default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
     database_connection   => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms  => 'PLAIN',
     debug                 => true,
+  }
+  class { '::cinder::ceilometer':
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'cinder',
+      'password'  => 'an_even_bigger_secret',
+    }),
   }
   if $volume_encryption {
     $keymgr_api_class           = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'

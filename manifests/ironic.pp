@@ -28,15 +28,24 @@ class openstack_integration::ironic {
   # https://bugs.launchpad.net/ironic/+bug/1564075
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'ironic':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   class { '::ironic':
     default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'ironic',
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms  => 'PLAIN',
     database_connection   => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
     debug                 => true,
   }

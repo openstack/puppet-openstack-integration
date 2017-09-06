@@ -17,6 +17,14 @@ class openstack_integration::vitrage {
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'vitrage':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'vitrage':
       notify  => Service['httpd'],
@@ -27,17 +35,26 @@ class openstack_integration::vitrage {
 
 
   class { '::vitrage':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    # TODO(ansmith): separate transports when bug/1711716 closed
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
       'username'  => 'vitrage',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    debug                 => true,
-    snapshots_interval    => 120,
-    types                 => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor'
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'vitrage',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    debug                      => true,
+    snapshots_interval         => 120,
+    types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor'
   }
 
   # Make sure tempest can read the configuration files

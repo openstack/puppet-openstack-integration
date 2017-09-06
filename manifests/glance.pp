@@ -39,6 +39,14 @@ class openstack_integration::glance (
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'glance':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   class { '::glance::db::mysql':
     password => 'glance',
   }
@@ -101,15 +109,22 @@ class openstack_integration::glance (
     enable_v2_api       => true,
   }
   class { '::glance::notify::rabbitmq':
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'glance',
       'password'  => 'an_even_bigger_secret',
     }),
-    notification_driver   => 'messagingv2',
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'glance',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    notification_driver        => 'messagingv2',
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
   }
 
 }

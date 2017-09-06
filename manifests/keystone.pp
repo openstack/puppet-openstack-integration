@@ -30,6 +30,29 @@ class openstack_integration::keystone (
   include ::openstack_integration::config
   include ::openstack_integration::params
 
+  rabbitmq_user { 'keystone':
+    admin    => true,
+    password => 'an_even_bigger_secret',
+    provider => 'rabbitmqctl',
+    require  => Class['::rabbitmq'],
+  }
+  rabbitmq_user_permissions { 'keystone@/':
+    configure_permission => '.*',
+    write_permission     => '.*',
+    read_permission      => '.*',
+    provider             => 'rabbitmqctl',
+    require              => Class['::rabbitmq'],
+  }
+  Rabbitmq_user_permissions['keystone@/'] -> Service<| tag == 'keystone-service' |>
+
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'keystone':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'keystone':
       notify  => Service['httpd'],
@@ -62,23 +85,41 @@ class openstack_integration::keystone (
     password => 'keystone',
   }
   class { '::keystone':
-    debug                   => true,
-    database_connection     => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
-    admin_token             => 'a_big_token',
-    admin_password          => 'a_big_secret',
-    enabled                 => true,
-    service_name            => 'httpd',
-    default_domain          => $default_domain,
-    using_domain_config     => $using_domain_config,
-    enable_ssl              => $::openstack_integration::config::ssl,
-    public_bind_host        => $::openstack_integration::config::host,
-    admin_bind_host         => $::openstack_integration::config::host,
-    manage_policyrcd        => true,
-    token_provider          => $token_provider,
-    enable_fernet_setup     => $enable_fernet_setup,
-    enable_credential_setup => $enable_credential_setup,
-    fernet_max_active_keys  => '4',
-    token_expiration        => $token_expiration,
+    debug                      => true,
+    database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
+    admin_token                => 'a_big_token',
+    admin_password             => 'a_big_secret',
+    enabled                    => true,
+    service_name               => 'httpd',
+    default_domain             => $default_domain,
+    using_domain_config        => $using_domain_config,
+    enable_ssl                 => $::openstack_integration::config::ssl,
+    public_bind_host           => $::openstack_integration::config::host,
+    admin_bind_host            => $::openstack_integration::config::host,
+    manage_policyrcd           => true,
+    token_provider             => $token_provider,
+    enable_fernet_setup        => $enable_fernet_setup,
+    enable_credential_setup    => $enable_credential_setup,
+    fernet_max_active_keys     => '4',
+    token_expiration           => $token_expiration,
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_default_port,
+      'username'  => 'keystone',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'keystone',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+  }
+  class { '::keystone::messaging::amqp':
+    amqp_sasl_mechanisms => 'PLAIN',
   }
   include ::apache
   class { '::keystone::wsgi::apache':

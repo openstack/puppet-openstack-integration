@@ -23,6 +23,14 @@ class openstack_integration::murano {
     require              => [ Class['::rabbitmq'], Rabbitmq_vhost['/murano'] ],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'murano':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'murano':
       require => Package['murano-common'],
@@ -43,9 +51,9 @@ class openstack_integration::murano {
   class { '::murano':
     admin_password        => 'a_big_secret',
     default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'murano',
       'password'  => 'an_even_bigger_secret',
     }),

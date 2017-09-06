@@ -172,6 +172,14 @@ if [ -f ${redis_logs} ]; then
     sudo cp ${redis_logs} $LOG_DIR/redis.log.txt
 fi
 
+if [ -f /var/log/qdrouterd/qdrouterd.log ]; then
+    sudo cp /var/log/qdrouterd/qdrouterd.log $LOG_DIR/qdrouterd.log.txt
+    if [ -f /etc/qpid-dispatch/qdrouterd.conf ]; then
+        mkdir $LOG_DIR/qdrouterd_config
+        sudo cp /etc/qpid-dispatch/qdrouterd.conf $LOG_DIR/qdrouterd_config/qdrouterd.conf.txt
+    fi
+fi
+
 if [ -f /var/log/audit/audit.log ]; then
     sudo cp /var/log/audit/audit.log $LOG_DIR/audit.log.txt
 fi

@@ -36,10 +36,18 @@ class openstack_integration::nova (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  $transport_url = os_transport_url({
-    'transport' => 'rabbit',
+  $default_transport_url = os_transport_url({
+    'transport' => $::openstack_integration::config::messaging_default_proto,
     'host'      => $::openstack_integration::config::host,
-    'port'      => $::openstack_integration::config::rabbit_port,
+    'port'      => $::openstack_integration::config::messaging_default_port,
+    'username'  => 'nova',
+    'password'  => 'an_even_bigger_secret',
+  })
+
+  $notification_transport_url = os_transport_url({
+    'transport' => $::openstack_integration::config::messaging_notify_proto,
+    'host'      => $::openstack_integration::config::host,
+    'port'      => $::openstack_integration::config::messaging_notify_port,
     'username'  => 'nova',
     'password'  => 'an_even_bigger_secret',
   })
@@ -58,6 +66,14 @@ class openstack_integration::nova (
     require              => Class['::rabbitmq'],
   }
   Rabbitmq_user_permissions['nova@/'] -> Service<| tag == 'nova-service' |>
+
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'nova':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
 
   class { '::nova::db::mysql':
     password => 'nova',
@@ -101,11 +117,13 @@ class openstack_integration::nova (
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
   class { '::nova':
-    default_transport_url         => $transport_url,
+    default_transport_url         => $default_transport_url,
+    notification_transport_url    => $notification_transport_url,
     database_connection           => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     api_database_connection       => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
     placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
     rabbit_use_ssl                => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms          => 'PLAIN',
     use_ipv6                      => $::openstack_integration::config::ipv6,
     glance_api_servers            => "${::openstack_integration::config::base_url}:9292",
     debug                         => true,

@@ -21,11 +21,15 @@ case $::osfamily {
     # https://bugs.launchpad.net/cloud-archive/+bug/1535740
     $enable_vitrage          = false
     $enable_legacy_telemetry = true
+    $om_rpc                  = 'rabbit'
+    $om_notify               = 'rabbit'
   }
   'RedHat': {
     $ipv6                    = true
     $enable_vitrage          = true
     $enable_legacy_telemetry = false
+    $om_rpc                  = 'amqp'
+    $om_notify               = 'rabbit'
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -42,12 +46,17 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
 
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl  => $ssl_enabled,
-  ipv6 => $ipv6,
+  ssl            => $ssl_enabled,
+  ipv6           => $ipv6,
+  rpc_backend    => $om_rpc,
+  notify_backend => $om_notify,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::memcached
 include ::openstack_integration::rabbitmq
+if ($om_rpc == 'amqp') {
+  include ::openstack_integration::qdr
+}
 include ::openstack_integration::mysql
 class { '::openstack_integration::keystone':
   # NOTE(sileht):zTelemetry autoscaling tempest tests can't renew token, so we

@@ -18,6 +18,14 @@ class openstack_integration::barbican {
   }
   Rabbitmq_user_permissions['barbican@/'] -> Service<| tag == 'barbican-service' |>
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'barbican':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'barbican':
       notify  => Service['httpd'],
@@ -53,9 +61,16 @@ class openstack_integration::barbican {
   }
   class { '::barbican::api':
     default_transport_url       => os_transport_url({
-      'transport' => 'rabbit',
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
+      'username'  => 'barbican',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    notification_transport_url  => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
       'username'  => 'barbican',
       'password'  => 'an_even_bigger_secret',
     }),

@@ -26,6 +26,14 @@ class openstack_integration::ceilometer (
     require              => Class['::rabbitmq'],
   }
 
+  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
+    qdr_user { 'ceilometer':
+      password => 'an_even_bigger_secret',
+      provider => 'sasl',
+      require  => Class['::qdr'],
+    }
+  }
+
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'ceilometer':
       notify  => Service['httpd'],
@@ -35,17 +43,25 @@ class openstack_integration::ceilometer (
   }
 
   class { '::ceilometer':
-    telemetry_secret      => 'secrete',
-    default_transport_url => os_transport_url({
-      'transport' => 'rabbit',
+    telemetry_secret           => 'secrete',
+    default_transport_url      => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::rabbit_port,
+      'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'ceilometer',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    memcached_servers     => $::openstack_integration::config::memcached_servers,
-    debug                 => true,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'ceilometer',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    memcached_servers          => $::openstack_integration::config::memcached_servers,
+    debug                      => true,
   }
 
   class { '::ceilometer::keystone::auth':
