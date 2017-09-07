@@ -19,5 +19,6 @@ puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
 stankevich/puppet-python
 theforeman/puppet-dns
+voxpupuli/puppet-archive
 voxpupuli/puppet-corosync,v5.0.0
 arioch/puppet-redis
