@@ -3,20 +3,6 @@ class openstack_integration::panko {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'panko':
-    admin    => true,
-    password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'panko@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'panko':
       notify  => Service['httpd'],
