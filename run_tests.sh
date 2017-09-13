@@ -296,9 +296,7 @@ echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-whitelist.txt
 
 if uses_debs; then
-  # TODO(aschultz): check this after pike-m1
-  # 1) fwaas tests from ubuntu are still out of date LP#1667736
-  EXCLUDES="--regex=^(?!neutron_fwaas.tests.tempest_plugin.tests.api.test_fwaas_extensions.*$)(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
+  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
 else
   EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 fi
