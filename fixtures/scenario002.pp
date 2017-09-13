@@ -29,16 +29,9 @@ case $::osfamily {
   }
 }
 
-# Disable SSL (workaround for Xenial)
-if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled = false
-} else {
-  $ssl_enabled = true
-}
-
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl  => $ssl_enabled,
+  ssl  => true,
   ipv6 => $ipv6,
 }
 include ::openstack_integration::cacert

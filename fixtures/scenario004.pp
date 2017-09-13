@@ -16,14 +16,12 @@
 
 # Disable SSL (workaround for Xenial)
 if $::operatingsystem == 'Ubuntu' {
-  $ssl_enabled     = false
   $ipv6            = false
   # Watcher packages are not available in Ubuntu repository.
   $watcher_enabled = false
   # TODO(rnoriega) Enable testing for BGPVPN when UCA releases pike-m1
   $bgpvpn_enabled = false
 } else {
-  $ssl_enabled     = true
   $ipv6            = true
   $watcher_enabled = true
   $bgpvpn_enabled = true
@@ -31,7 +29,6 @@ if $::operatingsystem == 'Ubuntu' {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl  => $ssl_enabled,
   ipv6 => $ipv6,
 }
 

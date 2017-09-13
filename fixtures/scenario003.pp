@@ -41,19 +41,16 @@ case $::osfamily {
 # List of workarounds for Ubuntu Xenial:
 # - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled       = false
   # Disable Designate MDS on Ubuntu until we find why Puppet run is not
   # idempotent sometimes.
   $designate_enabled = false
 } else {
-  $ssl_enabled       = true
   $designate_enabled = true
 }
 
 include ::openstack_integration
 class { '::openstack_integration::config':
   ipv6 => $ipv6,
-  ssl  => $ssl_enabled,
 }
 include ::openstack_integration::cacert
 include ::openstack_integration::memcached

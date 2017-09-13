@@ -36,17 +36,8 @@ case $::osfamily {
   }
 }
 
-# List of workarounds for Ubuntu Xenial:
-# - disable SSL
-if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  $ssl_enabled = false
-} else {
-  $ssl_enabled = true
-}
-
 include ::openstack_integration
 class { '::openstack_integration::config':
-  ssl            => $ssl_enabled,
   ipv6           => $ipv6,
   rpc_backend    => $om_rpc,
   notify_backend => $om_notify,
