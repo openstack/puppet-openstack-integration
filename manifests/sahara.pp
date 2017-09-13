@@ -65,32 +65,29 @@ class openstack_integration::sahara {
   class { '::sahara::client': }
   class { '::sahara::notify': }
 
-  # for ubuntu we need saharaclient >= 0.15.0
-  if $::osfamily == 'RedHat' {
-    # create simple sahara templates
-    sahara_node_group_template { 'master':
-      ensure         => present,
-      plugin         => 'vanilla',
-      plugin_version => '2.7.1',
-      flavor         => 'm1.micro',
-      node_processes => [ 'namenode', 'resourcemanager' ],
-    }
-
-    sahara_node_group_template { 'worker':
-      ensure         => present,
-      plugin         => 'vanilla',
-      plugin_version => '2.7.1',
-      flavor         => 'm1.micro',
-      node_processes => [ 'datanode', 'nodemanager' ],
-    }
-
-    sahara_cluster_template { 'cluster':
-      ensure      => present,
-      node_groups => [ 'master:1', 'worker:2' ]
-    }
-
-    Nova_flavor<||> -> Sahara_node_group_template<||>
-    Class['::sahara::keystone::auth'] -> Sahara_node_group_template<||>
-    Class['::openstack_extras::auth_file'] -> Sahara_node_group_template<||>
+  # create simple sahara templates
+  sahara_node_group_template { 'master':
+    ensure         => present,
+    plugin         => 'vanilla',
+    plugin_version => '2.7.1',
+    flavor         => 'm1.micro',
+    node_processes => [ 'namenode', 'resourcemanager' ],
   }
+
+  sahara_node_group_template { 'worker':
+    ensure         => present,
+    plugin         => 'vanilla',
+    plugin_version => '2.7.1',
+    flavor         => 'm1.micro',
+    node_processes => [ 'datanode', 'nodemanager' ],
+  }
+
+  sahara_cluster_template { 'cluster':
+    ensure      => present,
+    node_groups => [ 'master:1', 'worker:2' ]
+  }
+
+  Nova_flavor<||> -> Sahara_node_group_template<||>
+  Class['::sahara::keystone::auth'] -> Sahara_node_group_template<||>
+  Class['::openstack_extras::auth_file'] -> Sahara_node_group_template<||>
 }
