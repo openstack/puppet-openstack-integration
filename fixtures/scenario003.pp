@@ -21,8 +21,6 @@ case $::osfamily {
     $mistral_enabled = false
     # murano package should be fixed on Ubuntu Xenial
     $murano_enabled  = false
-    # TODO(aschultz): sahara is currently missing from xenial pike
-    $sahara_enabled  = false
     # trove package contains broken Tempest tests
     $trove           = false
   }
@@ -30,7 +28,6 @@ case $::osfamily {
     $ipv6            = true
     $mistral_enabled = true
     $murano_enabled  = true
-    $sahara_enabled  = true
     $trove_enabled   = true
   }
   default: {
@@ -72,9 +69,7 @@ if $trove_enabled {
 }
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-if $sahara_enabled {
-  include ::openstack_integration::sahara
-}
+include ::openstack_integration::sahara
 if $designate_enabled {
   include ::openstack_integration::designate
 }
