@@ -27,8 +27,10 @@ class openstack_integration::watcher {
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'watcher':
+      notify  => Service['httpd'],
       require => Package['watcher'],
     }
+    Exec['update-ca-certificates'] ~> Service['httpd']
   }
   class { '::watcher::db::mysql':
     password => 'watcher',
@@ -39,9 +41,9 @@ class openstack_integration::watcher {
   # TODO: Support SSL
   class { '::watcher::keystone::auth':
     password     => 'a_big_secret',
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:9322",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:9322",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:9322",
+    public_url   => "https://${::openstack_integration::config::ip_for_url}:9322",
+    admin_url    => "https://${::openstack_integration::config::ip_for_url}:9322",
+    internal_url => "https://${::openstack_integration::config::ip_for_url}:9322",
   }
   class {'::watcher::keystone::authtoken':
     password            => 'a_big_secret',
@@ -77,6 +79,15 @@ class openstack_integration::watcher {
     watcher_api_bind_host   => $::openstack_integration::config::host,
     watcher_client_password => 'a_big_secret',
     upgrade_db              => true,
+    service_name            => 'httpd',
+  }
+  include ::apache
+  class { '::watcher::wsgi::apache':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/watcher/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    workers   => 2,
   }
   class { '::watcher::applier':
     applier_workers => '2',
