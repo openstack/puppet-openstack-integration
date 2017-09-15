@@ -71,14 +71,6 @@ class openstack_integration::keystone (
     $enable_fernet_setup = false
   }
 
-  # Keystone credential setup is not packaged in UCA yet.
-  # It should be done when Newton is released.
-  if $::osfamily == 'RedHat' {
-    $enable_credential_setup = true
-  } else {
-    $enable_credential_setup = false
-  }
-
   class { '::keystone::client': }
   class { '::keystone::cron::token_flush': }
   class { '::keystone::db::mysql':
@@ -99,7 +91,6 @@ class openstack_integration::keystone (
     manage_policyrcd           => true,
     token_provider             => $token_provider,
     enable_fernet_setup        => $enable_fernet_setup,
-    enable_credential_setup    => $enable_credential_setup,
     fernet_max_active_keys     => '4',
     token_expiration           => $token_expiration,
     default_transport_url      => os_transport_url({
