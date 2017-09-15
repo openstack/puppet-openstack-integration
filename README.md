@@ -43,7 +43,6 @@ scenario](#all-in-one).
 | ssl        |     yes     |      yes    |      yes    |     yes     |     no       |
 | ipv6       |   centos7   |    centos7  |    centos7  |   centos7   |     no       |
 | keystone   |      X      |       X     |       X     |      X      |      X       |
-| tokens     |    uuid     |     uuid    |    fernet   |   fernet    |    uuid      |
 | glance     |     rbd     |     swift   |     file    |  swift+rgw  |    file      |
 | nova       |     rbd     |       X     |       X     |     rbd     |      X       |
 | neutron    |     ovs     |      ovs    | linuxbridge |     ovs     |     ovs      |
