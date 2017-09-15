@@ -3,26 +3,9 @@ class openstack_integration::aodh {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'aodh':
-    admin    => true,
+  openstack_integration::mq_user { 'aodh':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'aodh@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'aodh':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['aodh::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {

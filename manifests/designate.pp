@@ -7,21 +7,10 @@ class openstack_integration::designate {
   include ::openstack_integration::params
   include ::openstack_integration::bind
 
-  rabbitmq_user { 'designate':
-    admin    => true,
+  openstack_integration::mq_user { 'designate':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
+    before   => Anchor['designate::service::begin'],
   }
-  rabbitmq_user_permissions { 'designate@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  Rabbitmq_user_permissions['designate@/'] -> Service<| tag == 'designate-service' |>
 
   class { '::designate::db::mysql':
     password => 'designate',

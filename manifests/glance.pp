@@ -25,26 +25,9 @@ class openstack_integration::glance (
     $crt_file  = undef
   }
 
-  rabbitmq_user { 'glance':
-    admin    => true,
+  openstack_integration::mq_user { 'glance':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'glance@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'glance':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['glance::service::begin'],
   }
 
   class { '::glance::db::mysql':

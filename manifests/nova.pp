@@ -52,27 +52,9 @@ class openstack_integration::nova (
     'password'  => 'an_even_bigger_secret',
   })
 
-  rabbitmq_user { 'nova':
-    admin    => true,
+  openstack_integration::mq_user { 'nova':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'nova@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-  Rabbitmq_user_permissions['nova@/'] -> Service<| tag == 'nova-service' |>
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'nova':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['nova::service::begin'],
   }
 
   class { '::nova::db::mysql':

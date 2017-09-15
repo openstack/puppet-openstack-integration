@@ -11,29 +11,9 @@ class openstack_integration::ironic {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  rabbitmq_user { 'ironic':
-    admin    => true,
+  openstack_integration::mq_user { 'ironic':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'ironic@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  # https://bugs.launchpad.net/ironic/+bug/1564075
-  Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'ironic':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['ironic::service::begin'],
   }
 
   class { '::ironic':

@@ -3,26 +3,9 @@ class openstack_integration::vitrage {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'vitrage':
-    admin    => true,
+  openstack_integration::mq_user { 'vitrage':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'vitrage@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'vitrage':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['vitrage::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {

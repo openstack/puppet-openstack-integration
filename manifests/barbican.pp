@@ -3,27 +3,9 @@ class openstack_integration::barbican {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'barbican':
-    admin    => true,
+  openstack_integration::mq_user { 'barbican':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'barbican@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-  Rabbitmq_user_permissions['barbican@/'] -> Service<| tag == 'barbican-service' |>
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'barbican':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['barbican::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {

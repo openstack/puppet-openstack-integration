@@ -3,26 +3,9 @@ class openstack_integration::watcher {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'watcher':
-    admin    => true,
+  openstack_integration::mq_user { 'watcher':
     password => 'my_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'watcher@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'watcher':
-      password => 'my_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['watcher::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {

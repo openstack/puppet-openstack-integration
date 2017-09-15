@@ -31,27 +31,9 @@ class openstack_integration::neutron (
     Exec['update-ca-certificates'] ~> Service['neutron-server']
   }
 
-  rabbitmq_user { 'neutron':
-    admin    => true,
+  openstack_integration::mq_user { 'neutron':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'neutron@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-  Rabbitmq_user_permissions['neutron@/'] -> Service<| tag == 'neutron-service' |>
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'neutron':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['neutron::service::begin'],
   }
 
   case $driver {

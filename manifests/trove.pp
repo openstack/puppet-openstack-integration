@@ -3,26 +3,9 @@ class openstack_integration::trove {
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'trove':
-    admin    => true,
+  openstack_integration::mq_user { 'trove':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'trove@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'trove':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['trove::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {

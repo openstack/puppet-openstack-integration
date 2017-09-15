@@ -12,26 +12,9 @@ class openstack_integration::ceilometer (
   include ::openstack_integration::config
   include ::openstack_integration::params
 
-  rabbitmq_user { 'ceilometer':
-    admin    => true,
+  openstack_integration::mq_user { 'ceilometer':
     password => 'an_even_bigger_secret',
-    provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
-  }
-  rabbitmq_user_permissions { 'ceilometer@/':
-    configure_permission => '.*',
-    write_permission     => '.*',
-    read_permission      => '.*',
-    provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
-  }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'ceilometer':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['::qdr'],
-    }
+    before   => Anchor['ceilometer::service::begin'],
   }
 
   if $::openstack_integration::config::ssl {
