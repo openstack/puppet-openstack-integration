@@ -2,7 +2,7 @@
 #
 # [*ssl*]
 #   (optional) Boolean to enable or not SSL.
-#   Defaults to true.
+#   Defaults to false.
 #
 # [*ipv6*]
 #   (optional) Boolean to enable or not IPv6.
@@ -18,7 +18,7 @@
 #   Defaults to 'rabbit'.
 #
 class openstack_integration::config (
-  $ssl            = true,
+  $ssl            = false,
   $ipv6           = false,
   $rpc_backend    = 'rabbit',
   $notify_backend = 'rabbit',

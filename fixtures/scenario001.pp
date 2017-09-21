@@ -38,6 +38,7 @@ case $::osfamily {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
+  ssl            => true,
   ipv6           => $ipv6,
   rpc_backend    => $om_rpc,
   notify_backend => $om_notify,

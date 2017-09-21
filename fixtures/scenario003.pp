@@ -47,6 +47,7 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
 
 include ::openstack_integration
 class { '::openstack_integration::config':
+  ssl  => true,
   ipv6 => $ipv6,
 }
 include ::openstack_integration::cacert

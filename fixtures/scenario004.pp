@@ -29,6 +29,7 @@ if $::operatingsystem == 'Ubuntu' {
 
 include ::openstack_integration
 class { '::openstack_integration::config':
+  ssl  => true,
   ipv6 => $ipv6,
 }
 
