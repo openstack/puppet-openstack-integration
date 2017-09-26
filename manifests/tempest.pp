@@ -145,6 +145,8 @@ class openstack_integration::tempest (
     'binding',
     'default-subnetpools',
     'dhcp_agent_scheduler',
+    'dns-domain-ports',
+    'dns-integration',
     'dvr',
     'ext-gw-mode,external-net',
     'extra_dhcp_opt',
