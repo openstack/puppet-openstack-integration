@@ -70,13 +70,7 @@ class openstack_integration::ceph (
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
   ceph::pool { $ceph_pools: }
 
-  # NOTE(mnaser): At the moment, the storage SIG packages do not ship 12.X
-  #               however UCA is shipping it at the moment.  This conditional
-  #               should be dropped once we switch CentOS to 12.X
-  if $::osfamily != 'RedHat' {
-    class { '::ceph::profile::mgr': }
-  }
-
+  class { '::ceph::profile::mgr': }
   class { '::ceph::profile::mon': }
   class { '::ceph::profile::osd': }
 

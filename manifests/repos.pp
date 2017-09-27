@@ -38,7 +38,7 @@ class openstack_integration::repos {
           },
         },
       }
-      $ceph_mirror = pick($::ceph_mirror_host, 'http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/')
+      $ceph_mirror = pick($::ceph_mirror_host, 'https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-luminous/')
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
       # https://wiki.centos.org/SpecialInterestGroup/Storage/
       if $::operatingsystem == 'CentOS' {

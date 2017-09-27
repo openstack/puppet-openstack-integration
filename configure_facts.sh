@@ -26,7 +26,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     if uses_debs; then
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-jewel"
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
+        CEPH_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/storage/x86_64/ceph-luminous/"
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
@@ -36,7 +36,7 @@ else
     if uses_debs; then
         CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
     else
-        CEPH_MIRROR_HOST='http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'
+        CEPH_MIRROR_HOST='https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-luminous/'
     fi
 fi
 
