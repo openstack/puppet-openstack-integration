@@ -31,7 +31,7 @@ export DISTRO=$(lsb_release -c -s)
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 # export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
-export TEMPEST_VERSION=${TEMPEST_VERSION:-'origin/master'}
+export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
 # For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
 export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
 # Cirros Image directory
@@ -124,7 +124,7 @@ elif [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     pushd /tmp/openstack/tempest
-    git reset --hard $TEMPEST_VERSION
+    git reset --hard origin/$TEMPEST_VERSION
     popd
 fi
 

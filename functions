@@ -17,9 +17,7 @@ install_external() {
 #
 # - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
-# - ``ZUUL_REF`` must be set to Zuul ref. Fallback to 'None'.
 # - ``ZUUL_BRANCH`` must be set to Zuul branch. Fallback to 'master'.
-# - ``ZUUL_URL`` must be set to Zuul URL
 install_openstack() {
   cat > clonemap.yaml <<EOF
 clonemap:
@@ -28,7 +26,6 @@ clonemap:
 EOF
 
   # Periodic jobs run without ref on master
-  ZUUL_REF=${ZUUL_REF:-None}
   ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
@@ -37,9 +34,7 @@ EOF
   project_names="${project_names} openstack/puppet-openstack-integration"
   /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
     --cache-dir /opt/git \
-    --zuul-ref $ZUUL_REF \
     --zuul-branch $ZUUL_BRANCH \
-    --zuul-url $ZUUL_URL \
     git://git.openstack.org $project_names
 
   # Because openstack-integration can't be a class name.
@@ -64,9 +59,7 @@ install_all() {
 #
 # - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
-# - ``ZUUL_REF`` must be set to Zuul ref
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
-# - ``ZUUL_URL`` must be set to Zuul URL
 install_modules() {
   # If zuul-cloner is there, have it install modules using zuul refs
   if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
