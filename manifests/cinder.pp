@@ -112,6 +112,7 @@ class openstack_integration::cinder (
   class { '::cinder::volume':
     volume_clear => 'none',
   }
+  class { '::cinder::backup': }
   class { '::cinder::cron::db_purge': }
   class { '::cinder::glance':
     glance_api_servers => "${::openstack_integration::config::base_url}:9292",
@@ -146,7 +147,6 @@ class openstack_integration::cinder (
   }
 
   if $cinder_backup == swift {
-    include ::cinder::backup
     class { '::cinder::backup::swift':
       backup_swift_user_domain    => 'Default',
       backup_swift_project_domain => 'Default',
