@@ -1,0 +1,40 @@
+- hosts: all
+  tasks:
+    - name: Ensure legacy workspace directory
+      file:
+        path: "{{ ansible_user_dir }}/workspace"
+        state: directory
+
+    - name: Clean-up system state (RedHat)
+      yum:
+        name: "{{ item }}"
+        state: absent
+      become: true
+      when: ansible_os_family == 'RedHat'
+      with_items:
+        - rdo-release
+        - centos-release-openstack-*
+        - centos-release-ceph-*
+
+    - name: Install Ruby dependencies (RedHat)
+      yum:
+        name: "{{ item }}"
+      become: true
+      when: ansible_os_family == 'RedHat'
+      with_items:
+        - "@Development tools"
+        - libxml2-devel
+        - libxslt-devel
+        - ruby-devel
+        - zlib-devel
+
+    - name: Install Ruby dependencies (Debian)
+      apt:
+        name: "{{ item }}"
+      become: true
+      when: ansible_os_family == 'Debian'
+      with_items:
+        - libxml2-dev
+        - libxslt-dev
+        - ruby-dev
+        - zlib1g-dev

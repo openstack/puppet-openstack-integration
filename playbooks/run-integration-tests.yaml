@@ -1,0 +1,13 @@
+- hosts: all
+  tasks:
+    - shell:
+        cmd: |
+          set -ex
+          trap "./copy_logs.sh" EXIT
+          export PUPPET_MAJ_VERSION={{ puppet }}
+          export SCENARIO={{ scenario }}
+          export GEM_HOME=`pwd`/.bundled_gems
+          ./run_tests.sh
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace/puppet-openstack-integration'
+      environment: '{{ zuul | zuul_legacy_vars }}'
