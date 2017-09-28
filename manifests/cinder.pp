@@ -34,6 +34,7 @@ class openstack_integration::cinder (
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
+  include ::cinder::client
   class { '::cinder::db::mysql':
     password => 'cinder',
   }
