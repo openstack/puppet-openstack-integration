@@ -123,7 +123,7 @@ elif [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     pushd /tmp/openstack/tempest
-    git reset --hard $TEMPEST_VERSION
+    git reset --hard origin/$TEMPEST_VERSION
     popd
 fi
 
