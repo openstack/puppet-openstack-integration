@@ -305,10 +305,7 @@ cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
-    # TODO (amoralej) we need to pin cliff to 2.8.0 until all packages with tempest plugin have fixed the eggs-info (https://review.openstack.org/#/c/507450)
-    wget https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt
-    sed -i 's/^cliff.*/cliff===2.8.0/' upper-constraints.txt
-    run_tempest/bin/pip install -c upper-constraints.txt -U -r requirements.txt
+    run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
     export tempest_binary="run_tempest/bin/tempest"
 else
