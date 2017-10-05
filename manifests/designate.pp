@@ -83,7 +83,8 @@ class openstack_integration::designate {
 
   # Validate that designate-central is ready for pool update
   $command = "openstack --os-auth-url ${::openstack_integration::config::keystone_auth_uri} \
---os-project-name services --os-username designate --os-password a_big_secret zone list"
+--os-project-name services --os-username designate --os-password a_big_secret \
+--os-project-domain-name Default --os-user-domain-name Default zone list"
   openstacklib::service_validation { 'designate-central':
     command     => $command,
     timeout     => '15',
