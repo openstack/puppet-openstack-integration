@@ -27,7 +27,9 @@ case $::osfamily {
   'RedHat': {
     $ipv6            = true
     $mistral_enabled = true
-    $murano_enabled  = true
+    # NOTE(mnaser): We need to figure out why Murano won't accept credentials
+    #               and how to get it to work with Keystone V3.
+    $murano_enabled  = false
     $trove_enabled   = true
   }
   default: {
