@@ -33,7 +33,7 @@ export DISTRO=$(lsb_release -c -s)
 # export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
 # For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
-export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 
@@ -98,34 +98,43 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # the local directory but works needs to be added into puppet to properly find
 # the path.
 
-if [ -e /usr/zuul-env/bin/zuul-cloner ] && [ "${TEMPEST_FROM_SOURCE}" = true ] ; then
-    /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-        git://git.openstack.org openstack/tempest
+# If it's running in tempest gate, we need to deploy it from source to test the
+# patch.
+if [[ "${ZUUL_PROJECT}" = "openstack/tempest" ]]; then
+    TEMPEST_FROM_SOURCE=true
+fi
+
+
+if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+    # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
             git://git.openstack.org openstack/tempest-horizon
     fi
-
-    # Pin Tempest to TEMPEST_VERSION unless we're running inside the
-    # openstack/tempest gate.
-    if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
-        pushd /tmp/openstack/tempest
-        git reset --hard $TEMPEST_VERSION
-        popd
+    if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+        /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
+            git://git.openstack.org openstack/tempest
+        # Pin Tempest to TEMPEST_VERSION unless we're running inside the
+        # openstack/tempest gate.
+        if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
+            pushd /tmp/openstack/tempest
+            git reset --hard $TEMPEST_VERSION
+            popd
+        fi
     fi
-elif [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-    # remove existed checkout before clone
-    $SUDO rm -rf /tmp/openstack/tempest
-    $SUDO rm -rf /tmp/openstack/tempest-horizon
-
-    # We're outside the gate, just do a regular git clone
-    git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+else
+    # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
+        $SUDO rm -rf /tmp/openstack/tempest-horizon
         git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
-    pushd /tmp/openstack/tempest
-    git reset --hard origin/$TEMPEST_VERSION
-    popd
+    if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+        $SUDO rm -rf /tmp/openstack/tempest
+        git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+        pushd /tmp/openstack/tempest
+        git reset --hard origin/$TEMPEST_VERSION
+        popd
+    fi
 fi
 
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
@@ -236,7 +245,7 @@ print_header 'Prepare Tempest'
 # We need to fix it in puppet-tempest, as a workaround we are changing the mode
 # of tempest workspace and run tempest command using root.
 $SUDO touch /tmp/openstack/tempest/test-whitelist.txt
-$SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/test-whitelist.txt
+$SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
 # install from source now on ubuntu until packaged
 if uses_debs; then
@@ -296,7 +305,8 @@ echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-whitelist.txt
 
 if uses_debs; then
-  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$).*"
+  # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
+  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$).*"
 else
   EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 fi
