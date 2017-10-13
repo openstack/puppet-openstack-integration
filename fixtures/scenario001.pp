@@ -24,9 +24,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6                    = true
-    # TODO(mnaser): Vitrage is broken in stable/pike, will restore once we
-    #               release puppet-vitrage 1.0.0
-    $enable_vitrage          = false
+    $enable_vitrage          = true
     $enable_legacy_telemetry = false
   }
   default: {
