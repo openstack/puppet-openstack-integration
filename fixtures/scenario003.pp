@@ -30,10 +30,7 @@ case $::osfamily {
     # NOTE(mnaser): We need to figure out why Murano won't accept credentials
     #               and how to get it to work with Keystone V3.
     $murano_enabled  = false
-    # TODO (amoralej): trove doesn't work fine with keystone V3. Until it's
-    # fixed in https://review.openstack.org/#/c/507087/, let's disable it
-    # so that it doesn't block promotion.
-    $trove_enabled   = false
+    $trove_enabled   = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
