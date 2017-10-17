@@ -1,6 +1,8 @@
 - job:
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common.yaml
+    vars:
+        use_puppetlabs: False
 
 - job:
     name: puppet-openstack-integration-base
@@ -307,11 +309,27 @@
     name: puppet-openstack-lint
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
 
 - job:
     name: puppet-openstack-syntax
     parent: puppet-openstack-module-base
     run: playbooks/run-syntax-tests.yaml
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
 
 - job:
     name: puppet-openstack-syntax-3-legacy
@@ -331,6 +349,8 @@
     parent: puppet-openstack-module-base
     run: playbooks/run-build-tests.yaml
     files: ^metadata.json$
+    vars:
+      use_puppetlabs: True
 
 - project-template:
     name: puppet-openstack-check-jobs
