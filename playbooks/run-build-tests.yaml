@@ -1,29 +1,5 @@
 - hosts: all
   tasks:
-    - shell:
-        cmd: |
-          set -e
-          set -x
-          if [ -f /usr/bin/yum ]; then
-              sudo yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-              sudo yum install -y puppet-agent
-          elif [ -f /usr/bin/apt-get ]; then
-              wget https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb -O /tmp/puppet.deb
-              sudo dpkg -i /tmp/puppet.deb
-              sudo apt-get update
-              sudo apt-get install puppet-agent
-              rm -rf /tmp/puppet.deb
-          fi
-        executable: /bin/bash
-        chdir: '{{ ansible_user_dir }}/workspace'
-      environment: '{{ zuul | zuul_legacy_vars }}'
-
-    - shell:
-        cmd: |
-          set -e
-          set -x
-          cd $ZUUL_PROJECT
-          puppet module build .
-        executable: /bin/bash
-        chdir: '{{ ansible_user_dir }}/workspace'
-      environment: '{{ zuul | zuul_legacy_vars }}'
+    - shell: /opt/puppetlabs/bin/puppet module build .
+      args:
+        chdir: '{{ zuul.project.src_dir }}'
