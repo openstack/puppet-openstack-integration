@@ -38,3 +38,25 @@
         - libxslt-dev
         - ruby-dev
         - zlib1g-dev
+
+    - name: Install puppetlabs puppet-agent
+      shell:
+        cmd: |
+          set -e
+          set -x
+          if [ -f /usr/bin/yum ]; then
+              yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+              yum install -y puppet-agent
+          elif [ -f /usr/bin/apt-get ]; then
+              wget https://apt.puppetlabs.com/puppetlabs-release-pc1-xenial.deb -O /tmp/puppet.deb
+              dpkg -i /tmp/puppet.deb
+              apt-get update
+              apt-get install puppet-agent
+              rm -rf /tmp/puppet.deb
+          fi
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace'
+      environment: '{{ zuul | zuul_legacy_vars }}'
+      become: true
+      when:
+        - use_puppetlabs
