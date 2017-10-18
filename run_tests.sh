@@ -78,7 +78,7 @@ if [ "${ADD_SWAP}" = true ]; then
     RESULT=$?
     set -e
     if [ $RESULT -eq 0 ]; then
-        swapoff /swapfile && rm -f /swapfile
+        $SUDO swapoff /swapfile && $SUDO rm -f /swapfile
     fi
     $SUDO dd if=/dev/zero of=/swapfile count=${SWAP_SIZE_GB}k bs=1M
     $SUDO chmod 0600 /swapfile
