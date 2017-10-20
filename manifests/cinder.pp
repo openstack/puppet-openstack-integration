@@ -73,13 +73,13 @@ class openstack_integration::cinder (
     }),
   }
   if $volume_encryption {
-    $keymgr_api_class           = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    $keymgr_backend             = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
     $keymgr_encryption_api_url  = "${::openstack_integration::config::base_url}:9311"
     $keymgr_encryption_auth_url = "${::openstack_integration::config::keystone_auth_uri}/v3"
   } else {
     # (TODO) amoralej - we need to define api_class until fix https://review.openstack.org/#/c/468252 in
     # cinder is merged to unblock puppet promotion
-    $keymgr_api_class           = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    $keymgr_backend             = 'cinder.keymgr.conf_key_mgr.ConfKeyManager'
     $keymgr_encryption_api_url  = undef
     $keymgr_encryption_auth_url = undef
   }
@@ -95,7 +95,7 @@ class openstack_integration::cinder (
     default_volume_type        => 'BACKEND_1',
     public_endpoint            => "${::openstack_integration::config::base_url}:8776",
     service_name               => 'httpd',
-    keymgr_api_class           => $keymgr_api_class,
+    keymgr_backend             => $keymgr_backend,
     keymgr_encryption_api_url  => $keymgr_encryption_api_url,
     keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
