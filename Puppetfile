@@ -192,7 +192,7 @@ mod 'inifile',
 
 mod 'mongodb',
   :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :ref => '1.0.0'
+  :ref => 'v1.1.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -204,7 +204,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
-  :ref => 'v7.1.0'
+  :ref => 'v8.0.0'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -232,7 +232,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '5.0.0'
+  :ref => '5.0.1'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
