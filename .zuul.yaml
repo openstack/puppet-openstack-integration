@@ -229,10 +229,6 @@
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
         - puppet-openstack-integration-4-scenario004-tempest-centos-7
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-centos-7
@@ -252,7 +248,6 @@
         - puppet-openstack-integration-4-scenario001-tempest-centos-7
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
         - puppet-openstack-integration-4-scenario001-tempest-centos-7
     experimental:
       jobs:
@@ -267,7 +262,6 @@
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
     experimental:
       jobs:
@@ -282,7 +276,6 @@
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
     experimental:
       jobs:
@@ -297,7 +290,6 @@
         - puppet-openstack-integration-4-scenario004-tempest-centos-7
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
         - puppet-openstack-integration-4-scenario004-tempest-centos-7
     experimental:
       jobs:
