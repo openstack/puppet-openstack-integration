@@ -2,7 +2,7 @@
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common
     vars:
-        use_puppetlabs: False
+      use_puppetlabs: False
 
 - job:
     name: puppet-openstack-integration-base

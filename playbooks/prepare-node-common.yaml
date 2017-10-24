@@ -59,4 +59,5 @@
       environment: '{{ zuul | zuul_legacy_vars }}'
       become: true
       when:
-        - use_puppetlabs
+        - use_puppetlabs is defined
+        - use_puppetlabs|bool
