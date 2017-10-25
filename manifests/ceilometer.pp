@@ -5,8 +5,13 @@
 #   of Gnocchi and Panko
 #   Default to false.
 #
+# [*compute_namespace*]
+#   (optional) Enable polling for the compute namespace
+#   Default to true.
+#
 class openstack_integration::ceilometer (
-  $enable_legacy_telemetry = false
+  $enable_legacy_telemetry = false,
+  $compute_namespace       = true,
 ){
 
   include ::openstack_integration::config
@@ -112,10 +117,11 @@ class openstack_integration::ceilometer (
     event_pipeline_publishers => $event_pipeline_publishers,
   }
   class { '::ceilometer::agent::polling':
-    manage_polling   => true,
+    manage_polling    => true,
+    compute_namespace => $compute_namespace,
     # NOTE(sileht): Use 1 minute instead 10 otherwise the telemetry tempest
     # tests are too long to pass in less than 1 hour.
-    polling_interval => 60,
+    polling_interval  => 60,
   }
   class { '::ceilometer::agent::auth':
     auth_password => 'a_big_secret',
