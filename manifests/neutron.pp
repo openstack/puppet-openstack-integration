@@ -119,7 +119,7 @@ class openstack_integration::neutron (
     true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
     default => undef,
   }
-  $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', $bgpvpn_plugin, $l2gw_plugin])
+  $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin])
 
   class { '::neutron':
     default_transport_url      => os_transport_url({
@@ -171,7 +171,7 @@ class openstack_integration::neutron (
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'vlan', 'flat'],
     tenant_network_types => ['vxlan', 'vlan', 'flat'],
-    extension_drivers    => 'port_security',
+    extension_drivers    => 'port_security,qos',
     mechanism_drivers    => $driver,
     firewall_driver      => $firewall_driver,
   }
