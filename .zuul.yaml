@@ -1,13 +1,13 @@
 - job:
     name: puppet-openstack-base
-    pre-run: playbooks/prepare-node-common
+    pre-run: playbooks/prepare-node-common.yaml
 
 - job:
     name: puppet-openstack-integration-base
     parent: puppet-openstack-base
-    pre-run: playbooks/prepare-node-integration
-    run: playbooks/run-integration-tests
-    post-run: playbooks/upload-logs
+    pre-run: playbooks/prepare-node-integration.yaml
+    run: playbooks/run-integration-tests.yaml
+    post-run: playbooks/upload-logs.yaml
     timeout: 5400
     required-projects:
       - openstack/openstack
@@ -301,17 +301,17 @@
 - job:
     name: puppet-openstack-module-base
     parent: puppet-openstack-base
-    pre-run: playbooks/prepare-node-unit
+    pre-run: playbooks/prepare-node-unit.yaml
 
 - job:
     name: puppet-openstack-lint
     parent: puppet-openstack-module-base
-    run: playbooks/run-lint-tests
+    run: playbooks/run-lint-tests.yaml
 
 - job:
     name: puppet-openstack-syntax
     parent: puppet-openstack-module-base
-    run: playbooks/run-syntax-tests
+    run: playbooks/run-syntax-tests.yaml
 
 - job:
     name: puppet-openstack-syntax-3-legacy
@@ -329,7 +329,7 @@
 - job:
     name: puppet-openstack-module-build
     parent: puppet-openstack-module-base
-    run: playbooks/run-build-tests
+    run: playbooks/run-build-tests.yaml
     files: ^metadata.json$
 
 - project-template:
