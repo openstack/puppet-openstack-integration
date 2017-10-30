@@ -47,6 +47,7 @@
       - openstack/puppet-tacker
       - openstack/puppet-tempest
       - openstack/puppet-trove
+      - openstack/puppet-vitrage
       - openstack/puppet-vswitch
       - openstack/puppet-watcher
       - openstack/puppet-zaqar
