@@ -180,8 +180,8 @@ if [ -f /var/log/qdrouterd/qdrouterd.log ]; then
     fi
 fi
 
-if [ -f /var/log/audit/audit.log ]; then
-    sudo cp /var/log/audit/audit.log $LOG_DIR/audit.log.txt
+if [ -d /var/log/audit/ ]; then
+    sudo cp /var/log/audit/audit.log $LOG_DIR/audit.log.txt || true
 fi
 
 if [ -d /tmp/openstack/tempest ]; then
