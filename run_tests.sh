@@ -144,11 +144,11 @@ if [[ ! -e $IMG_DIR ]]; then
     mkdir -p $IMG_DIR
 fi
 
-if [ -f ~/cache/files/cirros-0.3.4-x86_64-disk.img ]; then
+if [ -f ~/cache/files/cirros-0.3.5-x86_64-disk.img ]; then
     # Create a symlink for tempest.
-    ln -s ~/cache/files/cirros-0.3.4-x86_64-disk.img $IMG_DIR
+    ln -s ~/cache/files/cirros-0.3.5-x86_64-disk.img $IMG_DIR
 else
-    wget http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img -P $IMG_DIR
+    wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img -P $IMG_DIR
 fi
 
 install_puppet
