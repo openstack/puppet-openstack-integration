@@ -249,3 +249,4 @@ mod 'ssh_keygen',
 mod 'redis',
   :git => 'https://github.com/arioch/puppet-redis',
   :ref => 'v3.2.0'
+
