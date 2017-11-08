@@ -81,6 +81,15 @@ class openstack_integration::swift {
     group   => 'swift',
     require => Package['swift'],
   }
+  # Create 3 directories under /srv/node for 3 devices
+  [1, 2, 3].each | $device | {
+    file { "/srv/node/${device}":
+      ensure  => directory,
+      owner   => 'swift',
+      group   => 'swift',
+      require => File['/srv/node'],
+    }
+  }
   include ::swift::ringbuilder
   class { '::swift::storage::all':
     storage_local_net_ip => $::openstack_integration::config::host,
