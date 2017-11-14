@@ -409,15 +409,11 @@
     name: puppet-openstack-check-jobs
     check:
       jobs:
-        - build-openstack-puppet-tarball:
-            files: ^metadata.json$
         - puppet-openstack-lint
         - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
     gate:
       jobs:
-        - build-openstack-puppet-tarball:
-            files: ^metadata.json$
         - puppet-openstack-lint
         - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
