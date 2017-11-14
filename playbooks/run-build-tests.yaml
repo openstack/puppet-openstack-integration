@@ -1,5 +1,0 @@
-- hosts: all
-  tasks:
-    - shell: /opt/puppetlabs/bin/puppet module build .
-      args:
-        chdir: '{{ zuul.project.src_dir }}'
