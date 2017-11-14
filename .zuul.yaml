@@ -344,14 +344,6 @@
     vars:
       puppet: 4
 
-- job:
-    name: puppet-openstack-module-build
-    parent: puppet-openstack-module-base
-    run: playbooks/run-build-tests.yaml
-    files: ^metadata.json$
-    vars:
-      use_puppetlabs: true
-
 - project-template:
     name: puppet-openstack-check-jobs
     check:
@@ -359,13 +351,11 @@
         - puppet-openstack-lint
         - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
-        - puppet-openstack-module-build
     gate:
       jobs:
         - puppet-openstack-lint
         - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
-        - puppet-openstack-module-build
 
 - project:
     name: openstack/puppet-openstack-integration
