@@ -16,6 +16,13 @@ class openstack_integration::vitrage {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  class { '::vitrage::db::mysql':
+    password => 'vitrage',
+  }
+
+  class { '::vitrage::db':
+    database_connection => 'mysql+pymysql://vitrage:vitrage@127.0.0.1/vitrage?charset=utf8'
+  }
 
   class { '::vitrage':
     # TODO(ansmith): separate transports when bug/1711716 closed
