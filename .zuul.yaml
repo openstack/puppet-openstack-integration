@@ -7,10 +7,6 @@
 - job:
     name: puppet-openstack-integration-base
     parent: puppet-openstack-base
-    pre-run: playbooks/prepare-node-integration.yaml
-    run: playbooks/run-integration-tests.yaml
-    post-run: playbooks/upload-logs.yaml
-    timeout: 5400
     required-projects:
       - openstack/openstack
       - openstack/puppet-aodh
@@ -53,6 +49,14 @@
       - openstack/puppet-zaqar
       - openstack/tempest
       - openstack/tempest-horizon
+
+- job:
+    name: puppet-openstack-integration-run-base
+    parent: puppet-openstack-integration-base
+    pre-run: playbooks/prepare-node-integration.yaml
+    run: playbooks/run-integration-tests.yaml
+    post-run: playbooks/upload-logs.yaml
+    timeout: 5400
     irrelevant-files:
       - ^.*\.md$
       - ^metadata.json$
@@ -64,7 +68,7 @@
 
 - job:
     name: puppet-openstack-integration-4
-    parent: puppet-openstack-integration-base
+    parent: puppet-openstack-integration-run-base
     vars:
       puppet: 4
 
@@ -136,7 +140,7 @@
 
 - job:
     name: puppet-openstack-integration-5
-    parent: puppet-openstack-integration-base
+    parent: puppet-openstack-integration-run-base
     voting: false
     vars:
       puppet: 5
@@ -343,6 +347,67 @@
     parent: puppet-openstack-syntax
     vars:
       puppet: 4
+
+- job:
+    name: puppet-openstack-unit-base
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-unit-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+
+- job:
+    name: puppet-openstack-unit-3.6-centos-7
+    parent: puppet-openstack-unit-base
+    nodeset: centos-7
+    branches: ^(stable/(newton|ocata)).*$
+    vars:
+      puppet_gem_version: 3.6
+
+- job:
+    name: puppet-openstack-unit-3.8-centos-7
+    parent: puppet-openstack-unit-base
+    nodeset: centos-7
+    branches: ^(stable/(newton|ocata)).*$
+    vars:
+      puppet_gem_version: 3.8
+
+- job:
+    name: puppet-openstack-unit-4.8-centos-7
+    parent: puppet-openstack-unit-base
+    nodeset: centos-7
+    vars:
+      puppet_gem_version: 4.8
+
+- job:
+    name: puppet-openstack-unit-latest-centos-7
+    parent: puppet-openstack-unit-base
+    nodeset: centos-7
+    branches: ^master
+    voting: false
+    vars:
+      puppet_gem_version: latest
+
+- project-template:
+    name: puppet-openstack-module-unit-jobs
+    check:
+      jobs:
+        - puppet-openstack-unit-3.6-centos-7
+        - puppet-openstack-unit-3.8-centos-7
+        - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-latest-centos-7
+    gate:
+      jobs:
+        - puppet-openstack-unit-3.6-centos-7
+        - puppet-openstack-unit-3.8-centos-7
+        - puppet-openstack-unit-4.8-centos-7
 
 - project-template:
     name: puppet-openstack-check-jobs
