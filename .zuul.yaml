@@ -336,13 +336,6 @@
       - ^test-requirements.txt$
 
 - job:
-    name: puppet-openstack-syntax-3-legacy
-    parent: puppet-openstack-syntax
-    branches: ^(stable/(newton|ocata)).*$
-    vars:
-      puppet: 3
-
-- job:
     name: puppet-openstack-syntax-4
     parent: puppet-openstack-syntax
     vars:
@@ -364,22 +357,6 @@
       - ^test-requirements.txt$
 
 - job:
-    name: puppet-openstack-unit-3.6-centos-7
-    parent: puppet-openstack-unit-base
-    nodeset: centos-7
-    branches: ^(stable/(newton|ocata)).*$
-    vars:
-      puppet_gem_version: 3.6
-
-- job:
-    name: puppet-openstack-unit-3.8-centos-7
-    parent: puppet-openstack-unit-base
-    nodeset: centos-7
-    branches: ^(stable/(newton|ocata)).*$
-    vars:
-      puppet_gem_version: 3.8
-
-- job:
     name: puppet-openstack-unit-4.8-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
@@ -399,14 +376,10 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-3.6-centos-7
-        - puppet-openstack-unit-3.8-centos-7
         - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-latest-centos-7
     gate:
       jobs:
-        - puppet-openstack-unit-3.6-centos-7
-        - puppet-openstack-unit-3.8-centos-7
         - puppet-openstack-unit-4.8-centos-7
 
 - project-template:
@@ -414,12 +387,10 @@
     check:
       jobs:
         - puppet-openstack-lint
-        - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
     gate:
       jobs:
         - puppet-openstack-lint
-        - puppet-openstack-syntax-3-legacy
         - puppet-openstack-syntax-4
 
 - project:
