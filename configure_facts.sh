@@ -24,7 +24,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
     BUILDLOGS_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/cloud/x86_64/openstack-pike"
     if uses_debs; then
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-jewel"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-luminous"
     else
         CEPH_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/storage/x86_64/ceph-luminous/"
     fi
@@ -34,7 +34,7 @@ else
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
-        CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
+        CEPH_MIRROR_HOST='https://download.ceph.com/debian-luminous'
     else
         CEPH_MIRROR_HOST='https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-luminous/'
     fi

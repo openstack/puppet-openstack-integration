@@ -17,7 +17,7 @@ class openstack_integration::repos {
       }
       $enable_sig  = false
       $enable_epel = false
-      $ceph_mirror = pick($::ceph_mirror_host, 'http://download.ceph.com/debian-jewel/')
+      $ceph_mirror = pick($::ceph_mirror_host, 'http://download.ceph.com/debian-luminous/')
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
