@@ -250,7 +250,7 @@ $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 # install from source now on ubuntu until packaged
 if uses_debs; then
     cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
-    $SUDO pip install -U testrepository os-testr
+    $SUDO pip install -U stestr os-testr
 fi
 
 set +e
@@ -327,7 +327,11 @@ $tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt -
 RESULT=$?
 set -e
 $tempest_binary list-plugins
-testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+if [ -d .testrepository ]; then
+    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+elif [ -d .stestr ]; then
+    stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+fi
 subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
