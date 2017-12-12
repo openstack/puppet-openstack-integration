@@ -250,7 +250,7 @@ $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 # install from source now on ubuntu until packaged
 if uses_debs; then
     cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
-    $SUDO pip install -U testrepository os-testr
+    $SUDO pip install -U stestr os-testr
 fi
 
 set +e
@@ -308,7 +308,13 @@ if uses_debs; then
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
   EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$).*"
 else
-  EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
+  # https://review.openstack.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
+  # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
+  # we need to remove this regex option and implement https://review.openstack.org/#/c/547278 when ready.
+  # Note these tests were disabled in https://review.openstack.org/#/c/461969/ and hopefully it's more stable now and allows
+  # us to run it until we can implement --blacklist-file in a stable way.
+  #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
+  EXCLUDES=""
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
@@ -327,7 +333,11 @@ $tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt -
 RESULT=$?
 set -e
 $tempest_binary list-plugins
-testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+if [ -d .testrepository ]; then
+    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+elif [ -d .stestr ]; then
+    stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+fi
 subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
 catch_selinux_alerts
