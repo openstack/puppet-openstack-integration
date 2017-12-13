@@ -1,54 +1,96 @@
 - job:
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common.yaml
+    branches: ^stable/(jewel|pike).*$
     vars:
       use_puppetlabs: false
 
 - job:
     name: puppet-openstack-integration-base
     parent: puppet-openstack-base
+    branches: ^stable/(jewel|pike).*$
     required-projects:
-      - openstack/openstack
-      - openstack/puppet-aodh
-      - openstack/puppet-barbican
-      - openstack/puppet-ceilometer
-      - openstack/puppet-ceph
-      - openstack/puppet-cinder
-      - openstack/puppet-cloudkitty
-      - openstack/puppet-congress
-      - openstack/puppet-designate
-      - openstack/puppet-ec2api
-      - openstack/puppet-glance
-      - openstack/puppet-gnocchi
-      - openstack/puppet-heat
-      - openstack/puppet-horizon
-      - openstack/puppet-ironic
-      - openstack/puppet-keystone
-      - openstack/puppet-manila
-      - openstack/puppet-mistral
-      - openstack/puppet-monasca
-      - openstack/puppet-murano
-      - openstack/puppet-neutron
-      - openstack/puppet-nova
-      - openstack/puppet-octavia
-      - openstack/puppet-openstack-integration
-      - openstack/puppet-openstack_extras
-      - openstack/puppet-openstacklib
-      - openstack/puppet-oslo
-      - openstack/puppet-ovn
-      - openstack/puppet-panko
-      - openstack/puppet-qdr
-      - openstack/puppet-sahara
-      - openstack/puppet-swift
-      - openstack/puppet-tacker
-      - openstack/puppet-tempest
-      - openstack/puppet-trove
-      - openstack/puppet-vitrage
-      - openstack/puppet-vswitch
-      - openstack/puppet-watcher
-      - openstack/puppet-zaqar
-      - openstack/tempest
-      - openstack/tempest-horizon
+      - name: openstack/openstack
+      - name: openstack/puppet-aodh
+        override-checkout: stable/pike
+      - name: openstack/puppet-barbican
+        override-checkout: stable/pike
+      - name: openstack/puppet-ceilometer
+        override-checkout: stable/pike
+      - name: openstack/puppet-ceph
+        override-checkout: stable/jewel
+      - name: openstack/puppet-cinder
+        override-checkout: stable/pike
+      - name: openstack/puppet-cloudkitty
+        override-checkout: stable/pike
+      - name: openstack/puppet-congress
+        override-checkout: stable/pike
+      - name: openstack/puppet-designate
+        override-checkout: stable/pike
+      - name: openstack/puppet-ec2api
+        override-checkout: stable/pike
+      - name: openstack/puppet-glance
+        override-checkout: stable/pike
+      - name: openstack/puppet-gnocchi
+        override-checkout: stable/pike
+      - name: openstack/puppet-heat
+        override-checkout: stable/pike
+      - name: openstack/puppet-horizon
+        override-checkout: stable/pike
+      - name: openstack/puppet-ironic
+        override-checkout: stable/pike
+      - name: openstack/puppet-keystone
+        override-checkout: stable/pike
+      - name: openstack/puppet-manila
+        override-checkout: stable/pike
+      - name: openstack/puppet-mistral
+        override-checkout: stable/pike
+      - name: openstack/puppet-monasca
+        override-checkout: stable/pike
+      - name: openstack/puppet-murano
+        override-checkout: stable/pike
+      - name: openstack/puppet-neutron
+        override-checkout: stable/pike
+      - name: openstack/puppet-nova
+        override-checkout: stable/pike
+      - name: openstack/puppet-octavia
+        override-checkout: stable/pike
+      - name: openstack/puppet-openstack-integration
+        override-checkout: stable/pike
+      - name: openstack/puppet-openstack_extras
+        override-checkout: stable/pike
+      - name: openstack/puppet-openstacklib
+        override-checkout: stable/pike
+      - name: openstack/puppet-oslo
+        override-checkout: stable/pike
+      - name: openstack/puppet-ovn
+        override-checkout: stable/pike
+      - name: openstack/puppet-panko
+        override-checkout: stable/pike
+      - name: openstack/puppet-qdr
+        override-checkout: stable/pike
+      - name: openstack/puppet-sahara
+        override-checkout: stable/pike
+      - name: openstack/puppet-swift
+        override-checkout: stable/pike
+      - name: openstack/puppet-tacker
+        override-checkout: stable/pike
+      - name: openstack/puppet-tempest
+        override-checkout: stable/pike
+      - name: openstack/puppet-trove
+        override-checkout: stable/pike
+      - name: openstack/puppet-vitrage
+        override-checkout: stable/pike
+      - name: openstack/puppet-vswitch
+        override-checkout: stable/pike
+      - name: openstack/puppet-watcher
+        override-checkout: stable/pike
+      - name: openstack/puppet-zaqar
+        override-checkout: stable/pike
+      - name: openstack/tempest
+        override-checkout: stable/pike
+      - name: openstack/tempest-horizon
+        override-checkout: stable/pike
 
 - job:
     name: puppet-openstack-integration-run-base
@@ -56,6 +98,7 @@
     pre-run: playbooks/prepare-node-integration.yaml
     run: playbooks/run-integration-tests.yaml
     post-run: playbooks/upload-logs.yaml
+    branches: ^stable/(jewel|pike).*$
     timeout: 5400
     irrelevant-files:
       - ^.*\.md$
@@ -69,12 +112,14 @@
 - job:
     name: puppet-openstack-integration-4
     parent: puppet-openstack-integration-run-base
+    branches: ^stable/(jewel|pike).*$
     vars:
       puppet: 4
 
 - job:
     name: puppet-openstack-integration-4-scenario001
     parent: puppet-openstack-integration-4
+    branches: ^stable/(jewel|pike).*$
     vars:
       scenario: scenario001
 
@@ -82,11 +127,13 @@
     name: puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario001
     nodeset: ubuntu-xenial
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-integration-4-scenario001-tempest-centos-7
     parent: puppet-openstack-integration-4-scenario001
     nodeset: centos-7
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-integration-4-scenario002
@@ -123,6 +170,7 @@
 - job:
     name: puppet-openstack-integration-4-scenario004
     parent: puppet-openstack-integration-4
+    branches: ^stable/(jewel|pike).*$
     vars:
       scenario: scenario004
 
@@ -130,13 +178,13 @@
     name: puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario004
     nodeset: ubuntu-xenial
-    branches: ^(?!stable/newton).*$
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-integration-4-scenario004-tempest-centos-7
     parent: puppet-openstack-integration-4-scenario004
     nodeset: centos-7
-    branches: ^(?!stable/newton).*$
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-integration-5
@@ -248,12 +296,16 @@
     name: puppet-openstack-integration-jobs-scenario001
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7:
+            branches: ^stable/(jewel|pike).*$
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7:
+            branches: ^stable/(jewel|pike).*$
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial
@@ -293,12 +345,16 @@
     name: puppet-openstack-integration-jobs-scenario004
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7:
+            branches: ^stable/(jewel|pike).*$
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7:
+            branches: ^stable/(jewel|pike).*$
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial
@@ -308,11 +364,13 @@
     name: puppet-openstack-module-base
     parent: puppet-openstack-base
     pre-run: playbooks/prepare-node-unit.yaml
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-lint
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
+    branches: ^stable/(jewel|pike).*$
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -326,6 +384,7 @@
     name: puppet-openstack-syntax
     parent: puppet-openstack-module-base
     run: playbooks/run-syntax-tests.yaml
+    branches: ^stable/(jewel|pike).*$
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -340,6 +399,7 @@
     parent: puppet-openstack-syntax
     vars:
       puppet: 4
+    branches: ^stable/(jewel|pike).*$
 
 - job:
     name: puppet-openstack-unit-base
@@ -347,6 +407,7 @@
     run: playbooks/run-unit-tests.yaml
     pre-run: playbooks/prepare-node-unit.yaml
     timeout: 3600
+    branches: ^stable/(jewel|pike).*$
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -360,6 +421,7 @@
     name: puppet-openstack-unit-4.8-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
+    branches: ^stable/(jewel|pike).*$
     vars:
       puppet_gem_version: 4.8
 
@@ -376,22 +438,28 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-4.8-centos-7:
+            branches: ^stable/(jewel|pike).*$
         - puppet-openstack-unit-latest-centos-7
     gate:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-4.8-centos-7:
+            branches: ^stable/(jewel|pike).*$
 
 - project-template:
     name: puppet-openstack-check-jobs
     check:
       jobs:
-        - puppet-openstack-lint
-        - puppet-openstack-syntax-4
+        - puppet-openstack-lint:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-syntax-4:
+            branches: ^stable/(jewel|pike).*$
     gate:
       jobs:
-        - puppet-openstack-lint
-        - puppet-openstack-syntax-4
+        - puppet-openstack-lint:
+            branches: ^stable/(jewel|pike).*$
+        - puppet-openstack-syntax-4:
+            branches: ^stable/(jewel|pike).*$
 
 - project:
     name: openstack/puppet-openstack-integration
