@@ -232,7 +232,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '5.0.1'
+  :ref => '5.1.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
