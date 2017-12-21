@@ -21,10 +21,14 @@ if $::operatingsystem == 'Ubuntu' {
   $watcher_enabled = false
   # TODO(rnoriega) Enable testing for BGPVPN when UCA releases pike-m1
   $bgpvpn_enabled = false
+  $l2gw_enabled = true
 } else {
   $ipv6            = true
   $watcher_enabled = true
   $bgpvpn_enabled = true
+  # Until https://review.rdoproject.org/r/#/c/11064/ is merged and
+  # in consistent repo.
+  $l2gw_enabled = false
 }
 
 include ::openstack_integration
@@ -66,6 +70,6 @@ include ::openstack_integration::provision
 class { '::openstack_integration::tempest':
   watcher     => $watcher_enabled,
   bgpvpn      => $bgpvpn_enabled,
-  l2gw        => true,
+  l2gw        => $l2gw_enabled,
   l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
 }
