@@ -310,8 +310,6 @@
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
     irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
       - ^metadata.json$
