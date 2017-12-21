@@ -4,7 +4,7 @@ class openstack_integration::repos {
     'Debian': {
       include ::apt
       class { '::openstack_extras::repo::debian::ubuntu':
-        release         => 'pike',
+        release         => 'queens',
         package_require => true,
         uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
       }
@@ -25,15 +25,15 @@ class openstack_integration::repos {
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
         repo_hash         => {
-          'pike-puppet-passed-ci' => {
+          'master-puppet-passed-ci' => {
             'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
-            'descr'    => 'Pike puppet-passed-ci',
+            'descr'    => 'master puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'pike-delorean-deps'    => {
-            'baseurl'  => pick($::buildlogs_mirror_host, 'https://buildlogs.centos.org/centos/7/cloud/x86_64/openstack-pike'),
-            'descr'    => 'Pike delorean-deps',
+          'master-delorean-deps'    => {
+            'baseurl'  => pick($::deps_mirror_host, 'https://trunk.rdoproject.org/centos7-master/deps/latest/'),
+            'descr'    => 'master delorean-deps',
             'gpgcheck' => 'no',
           },
         },
