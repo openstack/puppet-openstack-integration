@@ -372,8 +372,6 @@
     run: playbooks/run-lint-tests.yaml
     branches: ^stable/(jewel|pike).*$
     irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
       - ^metadata.json$
