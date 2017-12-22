@@ -21,14 +21,15 @@ if $::operatingsystem == 'Ubuntu' {
   $watcher_enabled = false
   # TODO(rnoriega) Enable testing for BGPVPN when UCA releases pike-m1
   $bgpvpn_enabled = false
-  $l2gw_enabled = true
+  # TODO(tobasco): Enable l2gw on Ubuntu again when networking-l2gw has
+  # been cut with a newer version.
+  # See https://bugs.launchpad.net/ubuntu/+source/networking-l2gw/+bug/1739779
+  $l2gw_enabled = false
 } else {
   $ipv6            = true
   $watcher_enabled = true
   $bgpvpn_enabled = true
-  # Until https://review.rdoproject.org/r/#/c/11064/ is merged and
-  # in consistent repo.
-  $l2gw_enabled = false
+  $l2gw_enabled = true
 }
 
 include ::openstack_integration
@@ -49,7 +50,7 @@ class { '::openstack_integration::glance':
 }
 class { '::openstack_integration::neutron':
   bgpvpn_enabled => $bgpvpn_enabled,
-  l2gw_enabled   => true,
+  l2gw_enabled   => $l2gw_enabled,
 }
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
