@@ -20,14 +20,12 @@ case $::osfamily {
     # panko, gnocchi and vitrage are not packaged yet in debian/ubuntu
     # https://bugs.launchpad.net/cloud-archive/+bug/1535740
     $enable_vitrage          = false
-    $enable_legacy_telemetry = true
     $om_rpc                  = 'rabbit'
     $om_notify               = 'rabbit'
   }
   'RedHat': {
     $ipv6                    = true
     $enable_vitrage          = false
-    $enable_legacy_telemetry = false
     $om_rpc                  = 'amqp'
     $om_notify               = 'rabbit'
   }
@@ -65,9 +63,7 @@ class { '::openstack_integration::nova':
 class { '::openstack_integration::cinder':
   backend => 'rbd',
 }
-class { '::openstack_integration::ceilometer':
-  enable_legacy_telemetry =>  $enable_legacy_telemetry
-}
+include ::openstack_integration::ceilometer
 include ::openstack_integration::aodh
 if $enable_vitrage {
   include ::openstack_integration::vitrage
@@ -75,18 +71,16 @@ if $enable_vitrage {
 include ::openstack_integration::ceph
 include ::openstack_integration::heat
 include ::openstack_integration::provision
-if ! $enable_legacy_telemetry {
-  include ::openstack_integration::redis
-  include ::openstack_integration::gnocchi
-  include ::openstack_integration::panko
-}
+include ::openstack_integration::redis
+include ::openstack_integration::gnocchi
+include ::openstack_integration::panko
 
 class { '::openstack_integration::tempest':
   cinder     => true,
-  gnocchi    => ! $enable_legacy_telemetry,
+  gnocchi    => true,
   ceilometer => true,
   aodh       => true,
   heat       => true,
-  panko      => ! $enable_legacy_telemetry,
+  panko      => true,
   vitrage    => $enable_vitrage,
 }
