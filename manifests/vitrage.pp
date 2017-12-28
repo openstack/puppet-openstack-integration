@@ -24,6 +24,8 @@ class openstack_integration::vitrage {
     database_connection => 'mysql+pymysql://vitrage:vitrage@127.0.0.1/vitrage?charset=utf8'
   }
 
+  class { '::vitrage::db::sync': }
+
   class { '::vitrage':
     # TODO(ansmith): separate transports when bug/1711716 closed
     default_transport_url      => os_transport_url({
@@ -44,7 +46,8 @@ class openstack_integration::vitrage {
     amqp_sasl_mechanisms       => 'PLAIN',
     debug                      => true,
     snapshots_interval         => 120,
-    types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor'
+    types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor',
+    notification_driver        => 'messagingv2',
   }
 
   # Make sure tempest can read the configuration files
@@ -93,8 +96,11 @@ class openstack_integration::vitrage {
     auth_password => 'a_big_secret',
   }
   class { '::vitrage::graph': }
-  class { '::vitrage::notifier': }
+  class { '::vitrage::notifier':
+    notifiers => ['nova'],
+  }
   class { '::vitrage::collector': }
+  class { '::vitrage::persistor': }
   class { '::vitrage::client': }
 
 }

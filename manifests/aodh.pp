@@ -1,4 +1,12 @@
-class openstack_integration::aodh {
+# Configure the Aodh service
+#
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $::os_service_default.
+#
+class openstack_integration::aodh (
+  $notification_topics = $::os_service_default,
+) {
 
   include ::openstack_integration::config
   include ::openstack_integration::params
@@ -43,6 +51,8 @@ class openstack_integration::aodh {
     debug                      => true,
     database_connection        => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
     gnocchi_url                => $gnocchi_url,
+    notification_topics        => $notification_topics,
+    notification_driver        => 'messagingv2',
   }
   class { '::aodh::db::mysql':
     password => 'aodh',

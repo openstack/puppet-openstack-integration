@@ -13,10 +13,16 @@
 #   (optional) Set type of cinder backup
 #   Possible values: false, swift
 #   defaults to false.
+#
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $::os_service_default.
+#
 class openstack_integration::cinder (
-  $backend           = 'iscsi',
-  $volume_encryption = false,
-  $cinder_backup     = false,
+  $backend             = 'iscsi',
+  $volume_encryption   = false,
+  $cinder_backup       = false,
+  $notification_topics = $::os_service_default,
 ) {
 
   include ::openstack_integration::config
@@ -71,6 +77,8 @@ class openstack_integration::cinder (
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
+    notification_topics        => $notification_topics,
+    notification_driver        => 'messagingv2',
   }
   if $volume_encryption {
     $keymgr_backend             = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
