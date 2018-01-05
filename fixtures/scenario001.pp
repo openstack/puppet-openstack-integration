@@ -22,12 +22,14 @@ case $::osfamily {
     $enable_vitrage          = false
     $om_rpc                  = 'rabbit'
     $om_notify               = 'rabbit'
+    $notification_topics     = $::os_service_default
   }
   'RedHat': {
     $ipv6                    = true
-    $enable_vitrage          = false
+    $enable_vitrage          = true
     $om_rpc                  = 'amqp'
     $om_notify               = 'rabbit'
+    $notification_topics     = ['notifications', 'vitrage_notifications']
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -56,20 +58,27 @@ class { '::openstack_integration::keystone':
 class { '::openstack_integration::glance':
   backend => 'rbd',
 }
-include ::openstack_integration::neutron
+class { '::openstack_integration::neutron':
+  notification_topics => $notification_topics,
+}
 class { '::openstack_integration::nova':
-  libvirt_rbd => true,
+  libvirt_rbd         => true,
+  notification_topics => $notification_topics,
 }
 class { '::openstack_integration::cinder':
   backend => 'rbd',
 }
 include ::openstack_integration::ceilometer
-include ::openstack_integration::aodh
+class { '::openstack_integration::aodh':
+  notification_topics => $notification_topics,
+}
 if $enable_vitrage {
   include ::openstack_integration::vitrage
 }
 include ::openstack_integration::ceph
-include ::openstack_integration::heat
+class { '::openstack_integration::heat':
+  notification_topics => $notification_topics,
+}
 include ::openstack_integration::provision
 include ::openstack_integration::redis
 include ::openstack_integration::gnocchi

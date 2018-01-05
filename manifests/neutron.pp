@@ -14,10 +14,15 @@
 #   (optional) Flag to enable L2GW.
 #   Defaults to false.
 #
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $::os_service_default.
+#
 class openstack_integration::neutron (
-  $driver         = 'openvswitch',
-  $bgpvpn_enabled = false,
-  $l2gw_enabled = false,
+  $driver              = 'openvswitch',
+  $bgpvpn_enabled      = false,
+  $l2gw_enabled        = false,
+  $notification_topics = $::os_service_default,
 ) {
 
   include ::openstack_integration::config
@@ -146,6 +151,8 @@ class openstack_integration::neutron (
     use_ssl                    => $::openstack_integration::config::ssl,
     cert_file                  => $::openstack_integration::params::cert_path,
     key_file                   => "/etc/neutron/ssl/private/${::fqdn}.pem",
+    notification_topics        => $notification_topics,
+    notification_driver        => 'messagingv2',
   }
   class { '::neutron::client': }
   class { '::neutron::keystone::authtoken':

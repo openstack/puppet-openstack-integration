@@ -18,11 +18,16 @@
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
 #
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $::os_service_default.
+#
 class openstack_integration::nova (
-  $libvirt_rbd       = false,
-  $libvirt_virt_type = 'qemu',
-  $libvirt_cpu_mode  = 'none',
-  $volume_encryption = false,
+  $libvirt_rbd         = false,
+  $libvirt_virt_type   = 'qemu',
+  $libvirt_cpu_mode    = 'none',
+  $volume_encryption   = false,
+  $notification_topics = $::os_service_default,
 ) {
 
   include ::openstack_integration::config
@@ -111,6 +116,7 @@ class openstack_integration::nova (
     debug                         => true,
     notification_driver           => 'messagingv2',
     notify_on_state_change        => 'vm_and_task_state',
+    notification_topics           => $notification_topics,
   }
   class { '::nova::api':
     api_bind_address                     => $::openstack_integration::config::host,

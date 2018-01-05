@@ -1,4 +1,12 @@
-class openstack_integration::heat {
+# Configure the Heat service
+#
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $::os_service_default.
+#
+class openstack_integration::heat (
+  $notification_topics = $::os_service_default,
+) {
 
   include ::openstack_integration::config
   include ::openstack_integration::params
@@ -48,6 +56,8 @@ class openstack_integration::heat {
     amqp_sasl_mechanisms       => 'PLAIN',
     database_connection        => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
     debug                      => true,
+    notification_topics        => $notification_topics,
+    notification_driver        => 'messagingv2',
   }
   class { '::heat::db::mysql':
     password => 'heat',
