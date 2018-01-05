@@ -224,24 +224,20 @@ if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
 fi
 timestamp_puppet_log
 
-# scenario001 on centos is not idempotent anymore
-# https://bugs.launchpad.net/puppet-gnocchi/+bug/1741144
-if uses_debs || [ $SCENARIO != 'scenario001' ]; then
-    # Run puppet a second time and assert nothing changes.
-    set +e
-    print_header "Running Puppet Scenario: ${SCENARIO} (2nd time)"
-    run_puppet $SCENARIO
-    RESULT=$?
-    set -e
-    if [ $RESULT -ne 0 ]; then
-        print_header 'Second Puppet run is not idempotent.'
-        catch_puppet_failures
-        print_header 'SELinux Alerts (2nd time)'
-        catch_selinux_alerts
-        exit 1
-    fi
-    timestamp_puppet_log
+# Run puppet a second time and assert nothing changes.
+set +e
+print_header "Running Puppet Scenario: ${SCENARIO} (2nd time)"
+run_puppet $SCENARIO
+RESULT=$?
+set -e
+if [ $RESULT -ne 0 ]; then
+    print_header 'Second Puppet run is not idempotent.'
+    catch_puppet_failures
+    print_header 'SELinux Alerts (2nd time)'
+    catch_selinux_alerts
+    exit 1
 fi
+timestamp_puppet_log
 
 print_header 'Prepare Tempest'
 
