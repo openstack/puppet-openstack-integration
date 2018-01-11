@@ -276,7 +276,7 @@ uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-wh
 # Ironic
 # Note: running all Ironic tests under SSL is not working
 # https://bugs.launchpad.net/ironic/+bug/1554237
-echo "api.baremetal.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "ironic_tempest_plugin.tests.api.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Zaqar
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
