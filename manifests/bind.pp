@@ -29,14 +29,6 @@ class openstack_integration::bind {
     }
   }
 
-  # /var/named is root:named on RedHat and /var/cache/bind is root:bind on
-  # Debian. Both groups only have read access but require write permission in
-  # order to be able to use rndc addzone/delzone commands that Designate uses.
-  file { $::dns::params::vardir:
-    mode    => 'g+w',
-    require => Package[$dns::params::dns_server_package]
-  }
-
   # ::dns creates the rndc key but not a rndc.conf.
   # Contribute this in upstream ::dns ?
   file { '/etc/rndc.conf':
