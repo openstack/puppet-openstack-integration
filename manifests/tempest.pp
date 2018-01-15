@@ -248,7 +248,7 @@ class openstack_integration::tempest (
     db_flavor_ref            => '42',
     image_ssh_user           => 'cirros',
     image_alt_ssh_user       => 'cirros',
-    img_file                 => 'cirros-0.3.5-x86_64-disk.img',
+    img_file                 => 'cirros-0.4.0-x86_64-disk.img',
     compute_build_interval   => 10,
     ca_certificates_file     => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages    => true,
