@@ -62,6 +62,7 @@
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^spec/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
     roles:
       - zuul: openstack-infra/zuul-jobs
@@ -314,6 +315,7 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
 
 - job:
@@ -327,6 +329,7 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
 
 - job:
@@ -348,6 +351,7 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
       - ^spec/acceptance/.*$
 
@@ -405,6 +409,7 @@
       - ^.*\.md$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
 
 - job:
