@@ -265,7 +265,7 @@ echo "dashboard" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Gnocchi
-echo "gnocchi.tempest" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "telemetry_tempest_plugin.gnocchi" >> /tmp/openstack/tempest/test-whitelist.txt
 
 # Vitrage
 echo "TestEvents" >> /tmp/openstack/tempest/test-whitelist.txt
