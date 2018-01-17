@@ -478,6 +478,7 @@
       - ^spec/unit/.*$
       - ^spec/classes/.*$
       - ^test-requirements.txt$
+      - ^metadata.json$
 
 - job:
     name: puppet-openstack-beaker-centos-7
