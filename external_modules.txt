@@ -8,7 +8,6 @@ puppetlabs/puppetlabs-apt,2.4.0
 puppetlabs/puppetlabs-concat,2.2.1
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
-puppetlabs/puppetlabs-mongodb
 puppetlabs/puppetlabs-mysql
 puppetlabs/puppetlabs-postgresql
 puppetlabs/puppetlabs-rabbitmq

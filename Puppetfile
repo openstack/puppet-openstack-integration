@@ -190,10 +190,6 @@ mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
   :ref => '2.1.1'
 
-mod 'mongodb',
-  :git => 'https://github.com/puppetlabs/puppetlabs-mongodb',
-  :ref => 'v2.0.0'
-
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
   :ref => '5.2.0'
