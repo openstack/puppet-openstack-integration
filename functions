@@ -144,9 +144,8 @@ install_puppet() {
               if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
                   $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
               fi
-              $SUDO rm -f /tmp/puppet.deb
-              wget http://apt.puppetlabs.com/${PUPPET_RELEASE_FILE}-${DISTRO}.deb -O /tmp/puppet.deb
-              $SUDO dpkg -i /tmp/puppet.deb
+              echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} xenial PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+              $SUDO apt-key add files/GPG-KEY-puppetlabs
               # TODO(emilien): figure what installed /etc/default/puppet on the xenial nodepool image
               # We have no problem on Trusty but on Xenial we need to remove /etc/default/puppet before
               # trying to deploy puppet-agent from puppetlabs.com.
@@ -163,10 +162,18 @@ install_puppet() {
         if rpm --quiet -q epel-release; then
             $SUDO rpm -e epel-release
         fi
-        $SUDO rm -f /tmp/puppet.rpm
 
-        wget http://yum.puppetlabs.com/${PUPPET_RELEASE_FILE}-el-7.noarch.rpm -O /tmp/puppet.rpm
-        $SUDO rpm -ivh /tmp/puppet.rpm
+        $SUDO rpm --import files/GPG-KEY-puppetlabs
+        $SUDO rpm --import files/GPG-KEY-puppet
+        $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
+[puppetlabs-products]
+name=Puppet Labs Products El 7 - x86_64
+baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/el/7/PC1/x86_64/
+gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
+   file:///etc/pki/rpm-gpg/GPG-KEY-puppet
+enabled=1
+gpgcheck=1
+EOF"
         $SUDO yum install -y ${PUPPET_PKG}
     fi
 }
