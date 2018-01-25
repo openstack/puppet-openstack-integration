@@ -393,7 +393,6 @@
         - puppet-openstack-syntax-4
 
 - project:
-    name: openstack/puppet-openstack-integration
     templates:
       - puppet-openstack-check-jobs
       - puppet-openstack-integration-jobs-all
