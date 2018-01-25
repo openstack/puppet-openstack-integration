@@ -461,7 +461,6 @@
             branches: ^stable/(jewel|pike).*$
 
 - project:
-    name: openstack/puppet-openstack-integration
     templates:
       - puppet-openstack-check-jobs
       - puppet-openstack-integration-jobs-all
