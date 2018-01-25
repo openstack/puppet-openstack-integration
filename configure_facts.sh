@@ -25,8 +25,10 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     BUILDLOGS_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/cloud/x86_64/openstack-pike"
     if uses_debs; then
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-jewel"
+        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-jewel/"
+        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs/"
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
@@ -35,8 +37,10 @@ else
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
         CEPH_MIRROR_HOST='https://download.ceph.com/debian-jewel'
+        NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
         CEPH_MIRROR_HOST='http://mirror.centos.org/centos/7/storage/x86_64/ceph-jewel/'
+        NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com/"
     fi
 fi
 
