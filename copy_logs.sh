@@ -47,6 +47,10 @@ for project in $PUPPET_MODULES_PATH/*; do
     if [ -f $project/metadata.json ]; then
         if egrep -q "github.com/(stackforge|openstack)/puppet" $project/metadata.json; then
             PROJECTS+="$(basename $project) "
+            # if we've added ironic we want to try for ironic-inspector also
+            if [ "$(basename $project)" == 'ironic' ] ; then
+                PROJECTS+="ironic-inspector "
+            fi
         fi
     fi
 done
@@ -218,6 +222,12 @@ lsmod > $LOG_DIR/lsmod.txt
 cat /proc/cpuinfo > $LOG_DIR/cpuinfo.txt
 ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
 netstat -tulpn > $LOG_DIR/netstat.txt
+
+for table in raw filter nat mangle ; do
+    echo $table
+    sudo iptables -t $table -vnxL
+    echo ""
+done > $LOG_DIR/iptables.txt
 
 # keystone resources
 source $LOG_DIR/openrc.txt
