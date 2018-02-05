@@ -18,7 +18,7 @@ else
 fi
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
-export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
+export MODULES_DIR=${MODULES_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules_unit.sh)'

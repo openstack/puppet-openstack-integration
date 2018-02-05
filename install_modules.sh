@@ -18,7 +18,7 @@ if [ -e /opt/puppetlabs/bin/puppet ]; then
 fi
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
-export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
+export MODULES_DIR=${MODULES_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules.sh)'
@@ -31,7 +31,7 @@ gem install puppet_forge -v '= 2.2.6' --verbose
 gem install r10k --no-ri --no-rdoc --verbose
 
 # make sure there is no puppet module pre-installed
-rm -rf "${PUPPETFILE_DIR:?}/"*
+rm -rf "${MODULES_DIR:?}/"*
 
 print_header 'Install Modules'
 install_modules
