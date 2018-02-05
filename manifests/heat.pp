@@ -90,16 +90,6 @@ class openstack_integration::heat (
     heat_waitcondition_server_url => "${::openstack_integration::config::base_url}:8000/v1/waitcondition",
     heat_watch_server_url         => "${::openstack_integration::config::base_url}:8003",
   }
-  class { '::heat::api_cloudwatch':
-    service_name => 'httpd',
-  }
-  class { '::heat::wsgi::apache_api_cloudwatch':
-    bind_host => $::openstack_integration::config::host,
-    ssl       => $::openstack_integration::config::ssl,
-    ssl_cert  => $crt_file,
-    ssl_key   => $key_file,
-    workers   => 2,
-  }
   class { '::heat::api_cfn':
     service_name => 'httpd',
   }
