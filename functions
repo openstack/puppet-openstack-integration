@@ -8,22 +8,21 @@
 #
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
-# - ``MODULES_DIR`` must be set to Puppet modules directory
 install_external() {
-  r10k -v DEBUG puppetfile install --puppetfile ${SCRIPT_DIR}/Puppetfile1 --moduledir ${MODULES_DIR}
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k -v DEBUG puppetfile install
 }
 
 # Install Puppet OpenStack modules with zuul-cloner
 # Uses the following variables:
 #
-# - ``MODULES_DIR`` must be set to Puppet modules directory
+# - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch. Fallback to 'master'.
 install_openstack() {
   cat > clonemap.yaml <<EOF
 clonemap:
   - name: '(.*?)/puppet-(.*)'
-    dest: '$MODULES_DIR/\2'
+    dest: '$PUPPETFILE_DIR/\2'
 EOF
 
   # Periodic jobs run without ref on master
@@ -40,26 +39,25 @@ EOF
 
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268
-  mv $MODULES_DIR/openstack-integration $MODULES_DIR/openstack_integration
+  mv $PUPPETFILE_DIR/openstack-integration $PUPPETFILE_DIR/openstack_integration
 }
 
 # Install all Puppet modules with r10k
 # Uses the following variables:
 #
 # - ``SCRIPT_DIR`` must be set to script path
-# - ``MODULES_DIR`` must be set to Puppet modules directory
 install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
-  r10k -v DEBUG puppetfile install --puppetfile ${SCRIPT_DIR}/Puppetfile --moduledir ${MODULES_DIR}
-  cp -a ${SCRIPT_DIR} ${MODULES_DIR}/openstack_integration
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k -v DEBUG puppetfile install
+  cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
 
 # Install Puppet OpenStack modules and dependencies by using
 # zuul-cloner or r10k.
 # Uses the following variables:
 #
-# - ``MODULES_DIR`` must be set to Puppet modules directory
+# - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules() {
