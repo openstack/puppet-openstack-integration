@@ -11,12 +11,7 @@ if [ -n "${GEM_HOME}" ]; then
     export PATH=${PATH}:${GEM_BIN_DIR}
 fi
 
-if [ "${PUPPET_MAJ_VERSION}" = 4 ]; then
-  export PUPPET_BASE_PATH=/etc/puppetlabs/code
-else
-  export PUPPET_BASE_PATH=/etc/puppet
-fi
-
+export PUPPET_BASE_PATH=/etc/puppetlabs/code
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 source $SCRIPT_DIR/functions
