@@ -15,6 +15,9 @@ class openstack_integration::zaqar {
     $crt_file = undef
   }
 
+  class {'::zaqar::logging':
+    debug => true,
+  }
   class { '::zaqar::db::mysql':
     password => 'zaqar',
   }
@@ -24,6 +27,12 @@ class openstack_integration::zaqar {
     public_url   => "${::openstack_integration::config::base_url}:8888",
     internal_url => "${::openstack_integration::config::base_url}:8888",
     admin_url    => "${::openstack_integration::config::base_url}:8888",
+  }
+  class { '::zaqar::keystone::auth_websocket':
+    password     => 'a_big_secret',
+    public_url   => "ws://${::openstack_integration::config::ip_for_url}:8888",
+    internal_url => "ws://${::openstack_integration::config::ip_for_url}:8888",
+    admin_url    => "ws://${::openstack_integration::config::ip_for_url}:8888",
   }
   class {'::zaqar::management::sqlalchemy':
     uri => 'mysql+pymysql://zaqar:zaqar@127.0.0.1/zaqar?charset=utf8',
