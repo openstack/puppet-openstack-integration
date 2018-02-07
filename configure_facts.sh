@@ -28,7 +28,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
         CEPH_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/storage/x86_64/ceph-luminous/"
-        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs/"
+        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
@@ -40,7 +40,7 @@ else
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
         CEPH_MIRROR_HOST='https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-luminous/'
-        NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com/"
+        NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi
 
