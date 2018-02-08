@@ -63,9 +63,7 @@ class openstack_integration::designate {
     listen => '127.0.0.1:5354'
   }
 
-  class { '::designate::central':
-    backend_driver => 'bind9',
-  }
+  class { '::designate::central': }
 
   class { '::designate::pool_manager':
     pool_id => '794ccc2c-d751-44fe-b57f-8894c9f5c842',
