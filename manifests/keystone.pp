@@ -11,10 +11,6 @@
 #   and the associated configuration in keystone.conf is set up right.
 #   Defaults to false
 #
-# [*token_provider*]
-#   (optional) Define the token provider to use.
-#   Default to 'uuid'.
-#
 # [*token_expiration*]
 #   (optional) Define the token expiration to use.
 #   Default to '600'.
@@ -23,7 +19,6 @@
 class openstack_integration::keystone (
   $default_domain      = undef,
   $using_domain_config = false,
-  $token_provider      = 'uuid',
   $token_expiration    = '600',
 ) {
 
@@ -43,18 +38,20 @@ class openstack_integration::keystone (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  if $token_provider == 'fernet' {
-    $enable_fernet_setup = true
-    class { '::keystone::cron::fernet_rotate':
-      hour   => '*',
-      minute => '*/5',
-    }
+  # Keystone credential setup is not packaged in UCA yet.
+  # It should be done when Newton is released.
+  if $::osfamily == 'RedHat' {
+    $enable_credential_setup = true
   } else {
-    $enable_fernet_setup = false
+    $enable_credential_setup = false
   }
 
   class { '::keystone::client': }
   class { '::keystone::cron::token_flush': }
+  class { '::keystone::cron::fernet_rotate':
+    hour   => '*',
+    minute => '*/5',
+  }
   class { '::keystone::db::mysql':
     password => 'keystone',
   }
@@ -71,8 +68,7 @@ class openstack_integration::keystone (
     public_bind_host           => $::openstack_integration::config::host,
     admin_bind_host            => $::openstack_integration::config::host,
     manage_policyrcd           => true,
-    token_provider             => $token_provider,
-    enable_fernet_setup        => $enable_fernet_setup,
+    enable_credential_setup    => $enable_credential_setup,
     fernet_max_active_keys     => '4',
     token_expiration           => $token_expiration,
     default_transport_url      => os_transport_url({
