@@ -1,0 +1,11 @@
+- hosts: all
+  tasks:
+    - shell:
+        cmd: |
+          set -e
+          set -x
+          export PUPPET_VERSION="{{ puppet }}"
+          ./run_syntax_tests.sh
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace'
+      environment: '{{ zuul | zuul_legacy_vars }}'

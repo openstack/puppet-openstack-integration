@@ -27,10 +27,12 @@
       - openstack/puppet-manila
       - openstack/puppet-mistral
       - openstack/puppet-monasca
+      - openstack/puppet-modulesync-configs
       - openstack/puppet-murano
       - openstack/puppet-neutron
       - openstack/puppet-nova
       - openstack/puppet-octavia
+      - openstack/puppet-openstack-cookiecutter
       - openstack/puppet-openstack-integration
       - openstack/puppet-openstack_extras
       - openstack/puppet-openstacklib
@@ -436,3 +438,91 @@
       jobs:
         - puppet-openstack-beaker-centos-7
         - puppet-openstack-beaker-xenial
+
+- job:
+    name: puppet-openstack-libraries-puppet-beaker-rspec-centos-7
+    parent: puppet-openstack-integration-base
+    pre-run: playbooks/prepare-node-beaker.yaml
+    post-run: playbooks/upload-logs.yaml
+    run: playbooks/run-libraries-beaker-tests.yaml
+    timeout: 3600
+    nodeset: centos-7
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+
+- job:
+    name: puppet-openstack-libraries-puppet-lint-centos-7
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-libraries-lint-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-libraries-syntax-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-3-centos-7
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-7
+    branches: ^(stable/(newton|ocata)).*$
+    vars:
+      puppet: 3
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-4-centos-7
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-7
+    vars:
+      puppet: 4
+
+- job:
+    name: puppet-openstack-libraries-puppet-unit-centos-7
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-libraries-unit-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    nodeset: centos-7
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+
+- project-template:
+    name: puppet-openstack-library-jobs
+    check:
+      jobs:
+        - puppet-openstack-libraries-puppet-lint-centos-7
+        - puppet-openstack-libraries-puppet-syntax-3-centos-7
+        - puppet-openstack-libraries-puppet-syntax-4-centos-7
+        - puppet-openstack-libraries-puppet-unit-centos-7
+        - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
+    gate:
+      jobs:
+        - puppet-openstack-libraries-puppet-lint-centos-7
+        - puppet-openstack-libraries-puppet-syntax-3-centos-7
+        - puppet-openstack-libraries-puppet-syntax-4-centos-7
+        - puppet-openstack-libraries-puppet-unit-centos-7
+        - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
