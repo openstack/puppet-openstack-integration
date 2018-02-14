@@ -1,9 +1,15 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :development, :test, :system_tests do
-  gem 'puppet-openstack_spec_helper',
-      :git     => 'https://git.openstack.org/openstack/puppet-openstack_spec_helper',
-      :require => false
+  if ENV['ZUUL_PROJECT'] == 'openstack/puppet-openstack_spec_helper'
+    gem 'puppet-openstack_spec_helper',
+        :path => '../..',
+        :require => 'false'
+  else
+    gem 'puppet-openstack_spec_helper',
+        :git => 'https://git.openstack.org/openstack/puppet-openstack_spec_helper',
+        :require => 'false'
+  end
   gem 'fast_gettext', ['< 1.2.0']
 end
 
