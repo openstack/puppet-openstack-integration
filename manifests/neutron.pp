@@ -126,6 +126,12 @@ class openstack_integration::neutron (
   }
   $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin])
 
+  if $driver == 'linuxbridge' {
+      $global_physnet_mtu    = '1450'
+  } else {
+      $global_physnet_mtu    = undef
+  }
+
   class { '::neutron':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -153,6 +159,7 @@ class openstack_integration::neutron (
     key_file                   => "/etc/neutron/ssl/private/${::fqdn}.pem",
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
+    global_physnet_mtu         => $global_physnet_mtu,
   }
   class { '::neutron::client': }
   class { '::neutron::keystone::authtoken':
