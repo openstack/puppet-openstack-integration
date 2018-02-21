@@ -50,7 +50,7 @@ class openstack_integration::keystone (
   class { '::keystone::cron::token_flush': }
   class { '::keystone::cron::fernet_rotate':
     hour   => '*',
-    minute => '*/5',
+    minute => '*/10',
   }
   class { '::keystone::db::mysql':
     password => 'keystone',
@@ -69,7 +69,7 @@ class openstack_integration::keystone (
     admin_bind_host            => $::openstack_integration::config::host,
     manage_policyrcd           => true,
     enable_credential_setup    => $enable_credential_setup,
-    fernet_max_active_keys     => '4',
+    fernet_max_active_keys     => '5',
     token_expiration           => $token_expiration,
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
