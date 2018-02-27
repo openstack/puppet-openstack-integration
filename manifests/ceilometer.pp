@@ -54,10 +54,9 @@ class openstack_integration::ceilometer (
     configure_endpoint => false,
   }
 
-  # We use Gnocchi/Panko instead of local database
-  class { '::ceilometer::db::sync':
-    extra_params => '--skip-metering-database',
-  }
+  # We use Gnocchi/Panko instead of local database, db::sync is required to populate
+  # gnocchi resource types.
+  include ::ceilometer::db::sync
   # Ensure Gnocchi and creads are ready before running ceilometer-upgrade
   Service['httpd'] -> Exec['ceilometer-upgrade']
   Class['ceilometer::agent::auth'] -> Exec['ceilometer-upgrade']
