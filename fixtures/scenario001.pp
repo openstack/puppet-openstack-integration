@@ -26,7 +26,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6                    = true
-    $enable_vitrage          = false
+    $enable_vitrage          = true
     $om_rpc                  = 'amqp'
     $om_notify               = 'rabbit'
     $notification_topics     = ['notifications', 'vitrage_notifications']
