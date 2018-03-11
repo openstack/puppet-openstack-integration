@@ -14,22 +14,19 @@
 # limitations under the License.
 #
 
-# Disable SSL (workaround for Xenial)
 if $::operatingsystem == 'Ubuntu' {
   $ipv6            = false
   # Watcher packages are not available in Ubuntu repository.
   $watcher_enabled = false
-  # TODO(rnoriega) Enable testing for BGPVPN when UCA releases pike-m1
-  $bgpvpn_enabled = false
-  # TODO(tobasco): Enable l2gw on Ubuntu again when networking-l2gw has
-  # been cut with a newer version.
-  # See https://bugs.launchpad.net/ubuntu/+source/networking-l2gw/+bug/1739779
-  $l2gw_enabled = false
+  # TODO(tobasco): No service plugin 'BGPVPN'
+  $bgpvpn_enabled  = false
+  # TODO(tobasco): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
+  $l2gw_enabled    = false
 } else {
   $ipv6            = true
   $watcher_enabled = true
-  $bgpvpn_enabled = true
-  $l2gw_enabled = true
+  $bgpvpn_enabled  = true
+  $l2gw_enabled    = true
 }
 
 include ::openstack_integration
