@@ -37,8 +37,6 @@ case $::osfamily {
   }
 }
 
-# List of workarounds for Ubuntu Xenial:
-# - disable SSL
 if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
   # Disable Designate MDS on Ubuntu until we find why Puppet run is not
   # idempotent sometimes.

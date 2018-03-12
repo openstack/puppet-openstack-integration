@@ -17,8 +17,7 @@
 case $::osfamily {
   'Debian': {
     $ipv6                    = false
-    # panko, gnocchi and vitrage are not packaged yet in debian/ubuntu
-    # https://bugs.launchpad.net/cloud-archive/+bug/1535740
+    # vitrage are not packaged yet in debian/ubuntu
     $enable_vitrage          = false
     $om_rpc                  = 'rabbit'
     $om_notify               = 'rabbit'
@@ -51,7 +50,7 @@ if ($om_rpc == 'amqp') {
 }
 include ::openstack_integration::mysql
 class { '::openstack_integration::keystone':
-  # NOTE(sileht):zTelemetry autoscaling tempest tests can't renew token, so we
+  # NOTE(sileht): Telemetry autoscaling tempest tests can't renew token, so we
   # use a long one
   token_expiration => '2400',
 }
