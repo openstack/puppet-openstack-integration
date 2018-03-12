@@ -86,7 +86,6 @@
     name: puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario001
     nodeset: ubuntu-xenial
-    voting: false
 
 - job:
     name: puppet-openstack-integration-4-scenario001-tempest-centos-7
@@ -103,7 +102,6 @@
     name: puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario002
     nodeset: ubuntu-xenial
-    voting: false
 
 - job:
     name: puppet-openstack-integration-4-scenario002-tempest-centos-7
@@ -120,7 +118,6 @@
     name: puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario003
     nodeset: ubuntu-xenial
-    voting: false
 
 - job:
     name: puppet-openstack-integration-4-scenario003-tempest-centos-7
@@ -137,7 +134,6 @@
     name: puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
     parent: puppet-openstack-integration-4-scenario004
     nodeset: ubuntu-xenial
-    voting: false
     branches: ^(?!stable/newton).*$
 
 - job:
