@@ -61,6 +61,7 @@
     timeout: 5400
     irrelevant-files:
       - ^.*\.md$
+      - ^doc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^spec/.*$
@@ -408,6 +409,7 @@
     timeout: 5400
     irrelevant-files:
       - ^.*\.md$
+      - ^doc/.*$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
       - ^requirements.txt$
