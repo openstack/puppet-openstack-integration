@@ -64,6 +64,7 @@ class openstack_integration::ironic {
   class { '::ironic::conductor':
     enabled_drivers       => ['fake', 'pxe_ipmitool'],
   }
+  class { '::ironic::drivers::ipmi': }
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
   # Ironic inspector resources
   case $::osfamily {
