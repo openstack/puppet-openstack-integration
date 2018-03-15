@@ -33,15 +33,10 @@ class openstack_integration::murano {
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'murano':
+      notify  => Service['murano-api'],
       require => Package['murano-common'],
     }
-    $key_file = "/etc/murano/ssl/private/${::fqdn}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
-    File[$key_file] ~> Service<| tag == 'murano-service' |>
-    Exec['update-ca-certificates'] ~> Service<| tag == 'murano-service' |>
-  } else {
-    $key_file = undef
-    $crt_file = undef
+    Exec['update-ca-certificates'] ~> Service['murano-api']
   }
 
   class { '::murano::db::mysql':
@@ -69,8 +64,8 @@ class openstack_integration::murano {
     auth_uri              => $::openstack_integration::config::keystone_auth_uri,
     use_ssl               => $::openstack_integration::config::ssl,
     service_host          => $::openstack_integration::config::ip_for_url,
-    cert_file             => $crt_file,
-    key_file              => $key_file,
+    cert_file             => $::openstack_integration::params::cert_path,
+    key_file              => "/etc/neutron/ssl/private/${::fqdn}.pem",
     debug                 => true,
   }
 
