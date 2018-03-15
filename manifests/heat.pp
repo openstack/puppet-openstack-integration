@@ -100,5 +100,6 @@ class openstack_integration::heat (
     ssl_key   => $key_file,
     workers   => 2,
   }
+  class { '::heat::cron::purge_deleted': }
 
 }
