@@ -46,6 +46,9 @@ class openstack_integration::ironic {
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
+  class { '::ironic::keystone::auth_inspector':
+    password => 'a_big_secret',
+  }
   class { '::ironic::client': }
   class { '::ironic::api':
     service_name => 'httpd',
@@ -62,5 +65,28 @@ class openstack_integration::ironic {
     enabled_drivers       => ['fake', 'pxe_ipmitool'],
   }
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
-
+  # Ironic inspector resources
+  case $::osfamily {
+    'Debian': {
+      warning("Ironic inspector packaging is not ready on ${::osfamily}.")
+    }
+    'RedHat': {
+      class { '::ironic::inspector::db::mysql':
+        password => 'a_big_secret',
+      }
+      class { '::ironic::inspector::authtoken':
+        password => 'a_big_secret',
+      }
+      class { '::ironic::pxe': }
+      class { '::ironic::inspector':
+        ironic_password   => 'a_big_secret',
+        ironic_auth_url   => "${::openstack_integration::config::keystone_auth_uri}/v3",
+        dnsmasq_interface => 'eth0',
+        db_connection     => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
+      }
+    }
+    default: {
+      fail("Unsupported osfamily (${::osfamily})")
+    }
+  }
 }
