@@ -410,6 +410,7 @@
     irrelevant-files:
       - ^.*\.md$
       - ^doc/.*$
+      - ^releasenotes/.*$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
       - ^requirements.txt$
