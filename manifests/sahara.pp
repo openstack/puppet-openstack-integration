@@ -1,4 +1,12 @@
-class openstack_integration::sahara {
+# Configure the Sahara service
+#
+# [*integration_enable*]
+#   (optional) Boolean to run integration tests.
+#   Defaults to true.
+#
+class openstack_integration::sahara (
+  $integration_enable = true,
+){
 
   include ::openstack_integration::config
   include ::openstack_integration::params
@@ -48,29 +56,31 @@ class openstack_integration::sahara {
   class { '::sahara::client': }
   class { '::sahara::notify': }
 
-  # create simple sahara templates
-  sahara_node_group_template { 'master':
-    ensure         => present,
-    plugin         => 'vanilla',
-    plugin_version => '2.7.1',
-    flavor         => 'm1.micro',
-    node_processes => [ 'namenode', 'resourcemanager' ],
-  }
+  if $integration_enable {
+    # create simple sahara templates
+    sahara_node_group_template { 'master':
+      ensure         => present,
+      plugin         => 'vanilla',
+      plugin_version => '2.7.1',
+      flavor         => 'm1.micro',
+      node_processes => [ 'namenode', 'resourcemanager' ],
+    }
 
-  sahara_node_group_template { 'worker':
-    ensure         => present,
-    plugin         => 'vanilla',
-    plugin_version => '2.7.1',
-    flavor         => 'm1.micro',
-    node_processes => [ 'datanode', 'nodemanager' ],
-  }
+    sahara_node_group_template { 'worker':
+      ensure         => present,
+      plugin         => 'vanilla',
+      plugin_version => '2.7.1',
+      flavor         => 'm1.micro',
+      node_processes => [ 'datanode', 'nodemanager' ],
+    }
 
-  sahara_cluster_template { 'cluster':
-    ensure      => present,
-    node_groups => [ 'master:1', 'worker:2' ]
-  }
+    sahara_cluster_template { 'cluster':
+      ensure      => present,
+      node_groups => [ 'master:1', 'worker:2' ]
+    }
 
-  Nova_flavor<||> -> Sahara_node_group_template<||>
-  Class['::sahara::keystone::auth'] -> Sahara_node_group_template<||>
-  Class['::openstack_extras::auth_file'] -> Sahara_node_group_template<||>
+    Nova_flavor<||> -> Sahara_node_group_template<||>
+    Class['::sahara::keystone::auth'] -> Sahara_node_group_template<||>
+    Class['::openstack_extras::auth_file'] -> Sahara_node_group_template<||>
+  }
 }
