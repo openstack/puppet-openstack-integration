@@ -50,7 +50,7 @@ elif uses_debs; then
     print_header 'Setup (Debian based)'
     sudo apt-get remove -y --purge facter puppet puppet-common
     sudo apt-get update
-    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl
+    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl apt-transport-https
     DASHBOARD="horizon"
 fi
 
