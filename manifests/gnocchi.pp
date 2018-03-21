@@ -1,4 +1,12 @@
-class openstack_integration::gnocchi {
+# Configure the Sahara service
+#
+# [*integration_enable*]
+#   (optional) Boolean to run integration tests.
+#   Defaults to true.
+#
+class openstack_integration::gnocchi (
+  $integration_enable = true,
+){
 
   include ::openstack_integration::config
   include ::openstack_integration::params
@@ -62,14 +70,18 @@ class openstack_integration::gnocchi {
     metric_processing_delay => 5,
     coordination_url        => $::openstack_integration::config::tooz_url,
   }
-  class { '::gnocchi::storage::ceph':
-    ceph_username => 'openstack',
-    ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
-    manage_cradox => ($::osfamily == 'RedHat'),
-    manage_rados  => ($::osfamily == 'Debian'),
+  if $integration_enable {
+    class { '::gnocchi::storage::ceph':
+      ceph_username => 'openstack',
+      ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
+      manage_cradox => ($::osfamily == 'RedHat'),
+      manage_rados  => ($::osfamily == 'Debian'),
+    }
+    # make sure ceph pool exists before running gnocchi (dbsync & services)
+    Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
+  } else {
+    class { '::gnocchi::storage::file': }
   }
-  # make sure ceph pool exists before running gnocchi (dbsync & services)
-  Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
   class { '::gnocchi::statsd':
     archive_policy_name => 'high',
     flush_delay         => '100',
