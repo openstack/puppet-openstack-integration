@@ -59,7 +59,7 @@ mod 'ironic',
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/pike'
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
