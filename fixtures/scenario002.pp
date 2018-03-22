@@ -19,10 +19,13 @@ case $::osfamily {
     $ipv6             = false
     # ec2api is not packaged on UCA
     $ec2api_enabled   = false
+    # LP#1758094
+    $ironic_enabled   = false
   }
   'RedHat': {
     $ipv6               = true
     $ec2api_enabled     = true
+    $ironic_enabled     = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -51,7 +54,9 @@ class { '::openstack_integration::glance':
 }
 include ::openstack_integration::neutron
 include ::openstack_integration::swift
-include ::openstack_integration::ironic
+if $ironic_enabled {
+  include ::openstack_integration::ironic
+}
 include ::openstack_integration::zaqar
 include ::openstack_integration::provision
 
@@ -74,7 +79,7 @@ class { '::openstack_integration::tempest':
   cinder                  => true,
   cinder_backup           => true,
   swift                   => true,
-  ironic                  => true,
+  ironic                  => $ironic_enabled,
   zaqar                   => true,
   attach_encrypted_volume => true,
   ec2api                  => $ec2api_enabled,
