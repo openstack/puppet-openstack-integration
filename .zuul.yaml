@@ -413,6 +413,7 @@
       - ^releasenotes/.*$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
+      - ^spec/defines/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^metadata.json$
