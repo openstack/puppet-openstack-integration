@@ -1,4 +1,4 @@
-# Configure the Sahara service
+# Configure the Gnocchi service
 #
 # [*integration_enable*]
 #   (optional) Boolean to run integration tests.
