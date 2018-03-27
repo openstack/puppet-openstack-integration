@@ -7,14 +7,8 @@ class openstack_integration::zaqar {
       notify  => Service['httpd'],
       require => Package['zaqar-common'],
     }
-    $key_file = "/etc/zaqar/ssl/private/${::fqdn}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
     Exec['update-ca-certificates'] ~> Service['httpd']
-  } else {
-    $key_file = undef
-    $crt_file = undef
   }
-
   class {'::zaqar::logging':
     debug => true,
   }
@@ -58,8 +52,8 @@ class openstack_integration::zaqar {
   class { '::zaqar::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_cert  => $crt_file,
-    ssl_key   => $key_file,
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_key   => "/etc/zaqar/ssl/private/${::fqdn}.pem",
     workers   => 2,
   }
   include ::zaqar::db::sync
