@@ -14,10 +14,15 @@ class openstack_integration::glance (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'glance':
-      notify  => Service['glance-api'],
+      notify => Service['glance-api'],
     }
     Package<| tag == 'glance-package' |> -> File['/etc/glance/ssl']
+    $key_file  = "/etc/glance/ssl/private/${::fqdn}.pem"
+    $crt_file = $::openstack_integration::params::cert_path
     Exec['update-ca-certificates'] ~> Service['glance-api']
+  } else {
+    $key_file = undef
+    $crt_file  = undef
   }
 
   openstack_integration::mq_user { 'glance':
@@ -81,8 +86,8 @@ class openstack_integration::glance (
     stores              => $glance_stores,
     default_store       => $backend,
     bind_host           => $::openstack_integration::config::host,
-    cert_file           => $::openstack_integration::params::cert_path,
-    key_file            => "/etc/glance/ssl/private/${::fqdn}.pem",
+    cert_file           => $crt_file,
+    key_file            => $key_file,
     enable_v1_api       => false,
     enable_v2_api       => true,
   }
