@@ -514,6 +514,20 @@
       - ^releasenotes/.*$
       - ^test-requirements.txt$
 
+- job:
+    name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
+    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    vars:
+      puppet_gem_version: 4.8
+
+- job:
+    name: puppet-openstack-libraries-puppet-unit-latest-centos-7
+    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    branches: ^master
+    voting: false
+    vars:
+      puppet_gem_version: latest
+
 - project-template:
     name: puppet-openstack-library-jobs
     check:
@@ -521,12 +535,14 @@
         - puppet-openstack-libraries-puppet-lint-centos-7
         - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
-        - puppet-openstack-libraries-puppet-unit-centos-7
+        - puppet-openstack-libraries-puppet-unit-4.8-centos-7
+        - puppet-openstack-libraries-puppet-unit-latest-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-centos-7
         - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
-        - puppet-openstack-libraries-puppet-unit-centos-7
+        - puppet-openstack-libraries-puppet-unit-4.8-centos-7
+        - puppet-openstack-libraries-puppet-unit-latest-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
