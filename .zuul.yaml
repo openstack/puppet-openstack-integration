@@ -338,6 +338,12 @@
       puppet: 4
 
 - job:
+    name: puppet-openstack-syntax-5
+    parent: puppet-openstack-syntax
+    vars:
+      puppet: 5
+
+- job:
     name: puppet-openstack-unit-base
     parent: puppet-openstack-integration-base
     run: playbooks/run-unit-tests.yaml
@@ -386,10 +392,12 @@
       jobs:
         - puppet-openstack-lint
         - puppet-openstack-syntax-4
+        - puppet-openstack-syntax-5
     gate:
       jobs:
         - puppet-openstack-lint
         - puppet-openstack-syntax-4
+        - puppet-openstack-syntax-5
 
 - project:
     templates:
