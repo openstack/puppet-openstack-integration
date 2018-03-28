@@ -26,7 +26,7 @@
           end
           system(cmd)
           EOF
-            $GEM_HOME/bin/bundle install --without system_tests
+            $GEM_HOME/bin/bundle install --without system_tests --retry 3
             $GEM_HOME/bin/bundle exec rake lint 2>&1
           else
             gem install rake -n ./.bundled_gems/
