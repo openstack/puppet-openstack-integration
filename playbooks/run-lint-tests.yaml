@@ -20,7 +20,7 @@
           export GEM_HOME=`pwd`/.bundled_gems
           if [ -f Gemfile ]; then
             gem install bundler --no-rdoc --no-ri --verbose
-            $GEM_HOME/bin/bundle install --without system_tests
+            $GEM_HOME/bin/bundle install --without system_tests --retry 3
             $GEM_HOME/bin/bundle exec rake lint 2>&1
           else
             gem install rake -n ./.bundled_gems/
