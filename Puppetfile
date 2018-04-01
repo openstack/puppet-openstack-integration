@@ -232,7 +232,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v2.3.0'
+  :ref => 'v3.0.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
