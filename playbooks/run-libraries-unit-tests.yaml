@@ -4,6 +4,9 @@
         cmd: |
           set -e
           set -x
+          if [ "{{ puppet_gem_version }}" != "latest" ]; then
+            export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}.0'
+          fi
           ./run_unit_tests.sh
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
