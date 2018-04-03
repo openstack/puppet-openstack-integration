@@ -129,7 +129,7 @@ install_puppet() {
         if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
             $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
         fi
-        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} xenial PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} `lsb_release -s -c` PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-key add files/GPG-KEY-puppetlabs
         # TODO(emilien): figure what installed /etc/default/puppet on the xenial nodepool image
         # We have no problem on Trusty but on Xenial we need to remove /etc/default/puppet before
