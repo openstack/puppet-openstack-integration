@@ -2,11 +2,25 @@ class openstack_integration::repos {
 
   case $::osfamily {
     'Debian': {
-      include ::apt
-      class { '::openstack_extras::repo::debian::ubuntu':
-        release         => 'queens',
-        package_require => true,
-        uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
+      case $::operatingsystem {
+        'ubuntu': {
+          include ::apt
+          class { '::openstack_extras::repo::debian::ubuntu':
+            release         => 'queens',
+            package_require => true,
+            uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
+          }
+        }
+        'debian': {
+          include ::apt
+          class { '::openstack_extras::repo::debian::debian':
+            release         => 'queens',
+            package_require => true,
+          }
+        }
+        default: {
+          fail("Unsupported operatingsystem (${::operatingsystem})")
+        }
       }
       # Ceph is both packaged on UCA & ceph.com
       # Official packages are on ceph.com so we want to make sure
