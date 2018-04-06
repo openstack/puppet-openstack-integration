@@ -67,6 +67,7 @@
       - ^spec/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
+      - ^LICENSE$
     roles:
       - zuul: openstack-infra/zuul-jobs
 
@@ -330,6 +331,7 @@
       - ^releasenotes/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-syntax-4
@@ -359,6 +361,7 @@
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^spec/acceptance/.*$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-unit-4.8-centos-7
@@ -421,6 +424,7 @@
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^metadata.json$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-beaker-centos-7
@@ -463,6 +467,7 @@
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^test-requirements.txt$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-libraries-puppet-lint-centos-7
@@ -486,6 +491,7 @@
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^test-requirements.txt$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-libraries-puppet-syntax-3-centos-7
@@ -517,6 +523,7 @@
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^test-requirements.txt$
+      - ^LICENSE$
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
