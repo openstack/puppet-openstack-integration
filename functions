@@ -126,22 +126,12 @@ install_puppet() {
         print_header 'Setup (Debian based)'
         # Puppetlabs packaging:
         # - xenial: puppet4 only
-        if dpkg -l $PUPPET_RELEASE_FILE >/dev/null 2>&1; then
-            $SUDO apt-get purge -y $PUPPET_RELEASE_FILE
-        fi
         echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} `lsb_release -s -c` PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-key add files/GPG-KEY-puppetlabs
-        # TODO(emilien): figure what installed /etc/default/puppet on the xenial nodepool image
-        # We have no problem on Trusty but on Xenial we need to remove /etc/default/puppet before
-        # trying to deploy puppet-agent from puppetlabs.com.
-        $SUDO rm -rf /etc/default/puppet
         $SUDO apt-get update
         $SUDO apt-get install -y ${PUPPET_PKG}
     elif is_fedora; then
         print_header 'Setup (RedHat based)'
-        if rpm --quiet -q $PUPPET_RELEASE_FILE; then
-            $SUDO rpm -e $PUPPET_RELEASE_FILE
-        fi
         # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
         if rpm --quiet -q epel-release; then
             $SUDO rpm -e epel-release
