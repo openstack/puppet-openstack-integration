@@ -128,6 +128,7 @@ install_puppet() {
         # - xenial: puppet4 only
         echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} `lsb_release -s -c` PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-key add files/GPG-KEY-puppetlabs
+        $SUDO apt-key add files/GPG-KEY-ceph
         $SUDO apt-get update
         $SUDO apt-get install -y ${PUPPET_PKG}
     elif is_fedora; then
