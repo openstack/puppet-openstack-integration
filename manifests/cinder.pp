@@ -99,21 +99,28 @@ class openstack_integration::cinder (
     auth_uri            => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers   => $::openstack_integration::config::memcached_servers,
   }
+  if ($::os_package_type == 'debian') {
+    $service_name = 'cinder-api'
+  } else {
+    $service_name = 'httpd'
+  }
   class { '::cinder::api':
     default_volume_type        => 'BACKEND_1',
     public_endpoint            => "${::openstack_integration::config::base_url}:8776",
-    service_name               => 'httpd',
+    service_name               => $service_name,
     keymgr_backend             => $keymgr_backend,
     keymgr_encryption_api_url  => $keymgr_encryption_api_url,
     keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
-  include ::apache
-  class { '::cinder::wsgi::apache':
-    bind_host => $::openstack_integration::config::ip_for_url,
-    ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/cinder/ssl/private/${::fqdn}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
-    workers   => 2,
+  if ($::os_package_type != 'debian') {
+    include ::apache
+    class { '::cinder::wsgi::apache':
+      bind_host => $::openstack_integration::config::ip_for_url,
+      ssl       => $::openstack_integration::config::ssl,
+      ssl_key   => "/etc/cinder/ssl/private/${::fqdn}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      workers   => 2,
+    }
   }
   class { '::cinder::quota': }
   class { '::cinder::scheduler': }
