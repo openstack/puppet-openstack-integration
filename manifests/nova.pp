@@ -133,13 +133,15 @@ class openstack_integration::nova (
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
   }
-  class { '::nova::wsgi::apache_placement':
-    bind_host => $::openstack_integration::config::ip_for_url,
-    api_port  => '8778',
-    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
-    ssl       => $::openstack_integration::config::ssl,
-    workers   => '2',
+  if ($::os_package_type != 'debian') {
+    class { '::nova::wsgi::apache_placement':
+      bind_host => $::openstack_integration::config::ip_for_url,
+      api_port  => '8778',
+      ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      ssl       => $::openstack_integration::config::ssl,
+      workers   => '2',
+    }
   }
   class { '::nova::placement':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
