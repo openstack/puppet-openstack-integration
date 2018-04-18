@@ -14,6 +14,15 @@
 # limitations under the License.
 #
 
+if ($::os_package_type == 'debian') {
+  include ::apache::params
+  class { '::apache':
+    mod_packages => merge($::apache::params::mod_packages, {
+      'wsgi' => 'libapache2-mod-wsgi-py3',
+    })
+  }
+}
+
 case $::osfamily {
   'Debian': {
     $ipv6             = false
