@@ -28,14 +28,30 @@
         - ruby-devel
         - zlib-devel
 
+    - name: Install Ruby dependencies (Ubuntu)
+      apt:
+        name: "{{ item }}"
+      become: true
+      when:
+        - ansible_os_family == 'Debian'
+        - ansible_distribution == "Ubuntu"
+      with_items:
+        - libxml2-dev
+        - libxslt-dev
+        - ruby-dev
+        - zlib1g-dev
+
     - name: Install Ruby dependencies (Debian)
       apt:
         name: "{{ item }}"
       become: true
-      when: ansible_os_family == 'Debian'
+      when:
+        - ansible_os_family == 'Debian'
+        - ansible_distribution == "Debian"
       with_items:
+        - libicu-dev
         - libxml2-dev
-        - libxslt-dev
+        - libxslt1-dev
         - ruby-dev
         - zlib1g-dev
 
