@@ -42,12 +42,12 @@ class openstack_integration::designate {
     admin_url    => "http://${::openstack_integration::config::ip_for_url}:9001",
   }
   class { '::designate::keystone::authtoken':
-    password            => 'a_big_secret',
-    user_domain_name    => 'Default',
-    project_domain_name => 'Default',
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
 
   class { '::designate::api':
