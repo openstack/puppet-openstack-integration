@@ -25,9 +25,9 @@ class openstack_integration::ec2api {
       }
       class { '::ec2api': }
       class { '::ec2api::keystone::authtoken':
-        password => 'a_big_secret',
-        auth_url => $::openstack_integration::config::keystone_admin_uri,
-        auth_uri => $::openstack_integration::config::keystone_auth_uri,
+        password             => 'a_big_secret',
+        auth_url             => $::openstack_integration::config::keystone_admin_uri,
+        www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
       }
       class { '::ec2api::api':
         keystone_ec2_tokens_url => "${::openstack_integration::config::keystone_auth_uri}/v3/ec2tokens",
