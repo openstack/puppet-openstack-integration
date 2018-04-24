@@ -163,12 +163,12 @@ class openstack_integration::neutron (
   }
   class { '::neutron::client': }
   class { '::neutron::keystone::authtoken':
-    password            => 'a_big_secret',
-    user_domain_name    => 'Default',
-    project_domain_name => 'Default',
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   $providers_list = delete_undef_values(['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
                                         'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
