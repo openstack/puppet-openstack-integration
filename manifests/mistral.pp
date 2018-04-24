@@ -20,9 +20,9 @@ class openstack_integration::mistral {
         Exec['update-ca-certificates'] ~> Service['httpd']
       }
       class { '::mistral::keystone::authtoken':
-        password => 'a_big_secret',
-        auth_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
-        auth_url => $::openstack_integration::config::keystone_auth_uri,
+        password             => 'a_big_secret',
+        www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
+        auth_url             => $::openstack_integration::config::keystone_auth_uri,
       }
       class { '::mistral':
         default_transport_url => os_transport_url({
