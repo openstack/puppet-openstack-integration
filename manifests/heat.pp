@@ -30,12 +30,12 @@ class openstack_integration::heat (
   }
 
   class { '::heat::keystone::authtoken':
-    password            => 'a_big_secret',
-    user_domain_name    => 'Default',
-    project_domain_name => 'Default',
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    auth_uri            => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { '::heat':
     default_transport_url      => os_transport_url({
