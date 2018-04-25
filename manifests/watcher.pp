@@ -29,13 +29,13 @@ class openstack_integration::watcher {
     internal_url => "https://${::openstack_integration::config::ip_for_url}:9322",
   }
   class {'::watcher::keystone::authtoken':
-    password            => 'a_big_secret',
-    auth_version        => 'v3',
-    user_domain_name    => 'Default',
-    project_domain_name => 'Default',
-    auth_url            => "${::openstack_integration::config::keystone_admin_uri}/v3",
-    auth_uri            => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    memcached_servers   => $::openstack_integration::config::memcached_servers,
+    password             => 'a_big_secret',
+    auth_version         => 'v3',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { '::watcher::logging':
     debug => true,
