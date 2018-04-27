@@ -42,4 +42,5 @@ class openstack_integration::horizon {
     compress_offline => false,
   }
 
+  horizon::dashboard { 'heat': }
 }
