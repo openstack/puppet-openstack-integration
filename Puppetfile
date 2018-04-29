@@ -188,7 +188,7 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => '2.2.0'
+  :ref => '2.2.1'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -224,7 +224,7 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
-  :ref => '1.18.2'
+  :ref => '1.19.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
