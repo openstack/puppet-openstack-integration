@@ -328,11 +328,19 @@ else
     export tempest_binary="/usr/bin/tempest"
 fi
 
+# List tempest plugins
+$tempest_binary list-plugins
+
+# list tempest workspace
+$tempest_binary workspace list
+
+# list tempest tests before running tempest
+$tempest_binary run -l --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt
+
 # Run tempest commands
 $tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
 RESULT=$?
 set -e
-$tempest_binary list-plugins
 if [ -d .testrepository ]; then
     testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 elif [ -d .stestr ]; then
