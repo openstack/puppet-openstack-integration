@@ -124,10 +124,13 @@ print_header() {
 install_puppet() {
     if uses_debs; then
         print_header 'Setup (Debian based)'
-        # Puppetlabs packaging:
-        # - xenial: puppet4 only
         if [ "${MANAGE_REPOS}" == "true" ] ; then
-            echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} `lsb_release -s -c` PC1" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+            if [ $PUPPET_MAJ_VERSION == 4 ]; then
+                local PUPPET_APT_POOL="PC1"
+            elif [ $PUPPET_MAJ_VERSION == 5 ]; then
+                local PUPPET_APT_POOL="puppet5"
+            fi
+            echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} `lsb_release -s -c` ${PUPPET_APT_POOL}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
             $SUDO apt-key add files/GPG-KEY-puppetlabs
             $SUDO apt-key add files/GPG-KEY-ceph
             $SUDO apt-get update
@@ -141,12 +144,17 @@ install_puppet() {
         fi
 
         if [ "${MANAGE_REPOS}" == "true" ] ; then
+            if [ $PUPPET_MAJ_VERSION == 4 ]; then
+                local PUPPET_YUM_SUFFIX="/el/7/PC1/x86_64/"
+            elif [ $PUPPET_MAJ_VERSION == 5 ]; then
+                local PUPPET_YUM_SUFFIX="/puppet5/el/7/x86_64/"
+            fi
             $SUDO rpm --import files/GPG-KEY-puppetlabs
             $SUDO rpm --import files/GPG-KEY-puppet
             $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El 7 - x86_64
-baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/el/7/PC1/x86_64/
+baseurl=${NODEPOOL_PUPPETLABS_MIRROR}${PUPPET_YUM_SUFFIX}
 gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
        file:///etc/pki/rpm-gpg/GPG-KEY-puppet
 enabled=1
