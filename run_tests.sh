@@ -249,8 +249,13 @@ $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
 # install from source now on ubuntu until packaged
 if uses_debs; then
-    cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
-    $SUDO pip install -U stestr os-testr
+    cd /tmp/openstack/tempest-horizon;
+    if [ $(lsb_release --id -s) = "Debian" ] ; then
+        $SUDO apt-get install -y tempest python3-stestr python3-os-testr python3-tempest
+    else
+        $SUDO python setup.py install
+        $SUDO pip install -U stestr os-testr
+    fi
 fi
 
 set +e
