@@ -2,7 +2,7 @@ class openstack_integration::repos {
 
   case $::osfamily {
     'Debian': {
-      case $::operatingsystem {
+      case $::os_package_type {
         'ubuntu': {
           include ::apt
           class { '::openstack_extras::repo::debian::ubuntu':
@@ -19,7 +19,7 @@ class openstack_integration::repos {
           }
         }
         default: {
-          fail("Unsupported operatingsystem (${::operatingsystem})")
+          fail("Unsupported package type (${::os_package_type})")
         }
       }
       # Ceph is both packaged on UCA & ceph.com
