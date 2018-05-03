@@ -50,8 +50,12 @@ elif uses_debs; then
     print_header 'Setup (Debian based)'
     sudo apt-get remove -y --purge facter puppet puppet-common
     sudo apt-get update
-    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl apt-transport-https
+    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl apt-transport-https adduser
     DASHBOARD="horizon"
+fi
+
+if [ $(lsb_release --id -s) = "Debian" ] ; then
+	adduser --disabled-password --gecos puppet,,, puppet
 fi
 
 print_header 'Install Bundler'
