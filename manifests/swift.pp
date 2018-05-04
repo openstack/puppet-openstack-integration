@@ -26,9 +26,16 @@ class openstack_integration::swift {
 
   # Ubuntu/Debian requires particular permissions for rsyslog to work
   if $::osfamily == 'Debian' {
-    File<| title == '/var/log/swift' |> {
-      owner => 'syslog',
-      group => 'adm'
+    if $::os_package_type == 'debian' {
+      File<| title == '/var/log/swift' |> {
+        owner => 'root',
+        group => 'adm'
+      }
+    } else {
+      File<| title == '/var/log/swift' |> {
+        owner => 'syslog',
+        group => 'adm'
+      }
     }
   }
 
