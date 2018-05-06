@@ -12,7 +12,7 @@ class openstack_integration::repos {
         'ubuntu': {
           include ::apt
           class { '::openstack_extras::repo::debian::ubuntu':
-            release         => 'queens',
+            release         => 'rocky',
             package_require => true,
             uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }

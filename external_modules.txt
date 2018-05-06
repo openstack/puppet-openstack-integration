@@ -21,4 +21,3 @@ theforeman/puppet-dns
 voxpupuli/puppet-archive
 voxpupuli/puppet-corosync,v5.0.0
 voxpupuli/puppet-ssh_keygen,v2.0.1
-arioch/puppet-redis
