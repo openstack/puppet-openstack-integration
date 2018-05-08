@@ -89,11 +89,20 @@ class openstack_integration::nova (
     admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
     password     => 'a_big_secret',
   }
-  class { '::nova::keystone::auth_placement':
-    public_url   => "${::openstack_integration::config::base_url}:8778/placement",
-    internal_url => "${::openstack_integration::config::base_url}:8778/placement",
-    admin_url    => "${::openstack_integration::config::base_url}:8778/placement",
-    password     => 'a_big_secret',
+  if ($::os_package_type == 'debian') {
+    class { '::nova::keystone::auth_placement':
+      public_url   => "${::openstack_integration::config::base_url}:8778",
+      internal_url => "${::openstack_integration::config::base_url}:8778",
+      admin_url    => "${::openstack_integration::config::base_url}:8778",
+      password     => 'a_big_secret',
+    }
+  } else {
+    class { '::nova::keystone::auth_placement':
+      public_url   => "${::openstack_integration::config::base_url}:8778/placement",
+      internal_url => "${::openstack_integration::config::base_url}:8778/placement",
+      admin_url    => "${::openstack_integration::config::base_url}:8778/placement",
+      password     => 'a_big_secret',
+    }
   }
   class { '::nova::keystone::authtoken':
     password            => 'a_big_secret',
