@@ -146,7 +146,9 @@ fi
 
 if [ -f ~/cache/files/cirros-0.4.0-x86_64-disk.img ]; then
     # Create a symlink for tempest.
-    ln -s ~/cache/files/cirros-0.4.0-x86_64-disk.img $IMG_DIR
+    if ! [ -h /tmp/openstack/image/cirros-0.4.0-x86_64-disk.img ] ; then
+        ln -s ~/cache/files/cirros-0.4.0-x86_64-disk.img $IMG_DIR
+    fi
 else
     wget http://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img -P $IMG_DIR
 fi
