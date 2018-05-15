@@ -55,7 +55,9 @@ elif uses_debs; then
 fi
 
 if [ $(lsb_release --id -s) = "Debian" ] ; then
-	adduser --disabled-password --gecos puppet,,, puppet
+    if ! getent passwd puppet ; then
+        adduser --disabled-password --gecos puppet,,, puppet
+    fi
 fi
 
 print_header 'Install Bundler'
