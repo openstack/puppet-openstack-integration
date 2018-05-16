@@ -174,13 +174,22 @@ class openstack_integration::neutron (
                                         'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
                                         'FIREWALL:Iptables:neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver:default',
                                         $l2gw_provider])
+
+  if $::osfamily == 'Debian' {
+    Service<| title == 'neutron-server'|> -> Openstacklib::Service_validation<| title == 'neutron-server' |> -> Neutron_network<||>
+    $validate_neutron_server_service = true
+  } else {
+    $validate_neutron_server_service = false
+  }
   class { '::neutron::server':
     database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
     sync_db             => true,
     api_workers         => 2,
     rpc_workers         => 2,
+    validate            => $validate_neutron_server_service,
     service_providers   => $providers_list,
   }
+
   class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'vlan', 'flat'],
