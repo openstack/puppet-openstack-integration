@@ -13,9 +13,16 @@ class openstack_integration::swift {
     require => Package['rsyslog'],
   }
 
-  file { '/var/log/swift':
-    ensure => directory,
-    mode   => '0755',
+  if ($::os_package_type == 'debian') {
+    file { '/var/log/swift':
+      ensure => directory,
+      mode   => '0750',
+    }
+  } else {
+    file { '/var/log/swift':
+      ensure => directory,
+      mode   => '0755',
+    }
   }
   file { '/etc/rsyslog.d/10-swift.conf':
     ensure  => present,
@@ -28,7 +35,7 @@ class openstack_integration::swift {
   if $::osfamily == 'Debian' {
     if $::os_package_type == 'debian' {
       File<| title == '/var/log/swift' |> {
-        owner => 'root',
+        owner => 'swift',
         group => 'adm'
       }
     } else {
