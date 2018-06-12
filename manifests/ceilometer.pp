@@ -47,7 +47,7 @@ class openstack_integration::ceilometer (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    memcached_servers          => $::openstack_integration::config::memcached_servers,
+    memcache_servers           => $::openstack_integration::config::memcached_servers,
     debug                      => true,
   }
 
