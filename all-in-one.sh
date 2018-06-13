@@ -42,9 +42,9 @@ print_header 'Start (all-in-one.sh)'
 
 if is_fedora; then
     print_header 'Setup (RedHat based)'
-    sudo yum -y remove facter puppet rdo-release
-    sudo yum -y install libxml2-devel libxslt-devel ruby-devel rubygems wget
-    sudo yum -y groupinstall "Development Tools"
+    sudo -E $YUM -y remove facter puppet rdo-release
+    sudo -E $YUM -y install libxml2-devel libxslt-devel ruby-devel rubygems wget
+    sudo -E $YUM -y groupinstall "Development Tools"
     DASHBOARD="dashboard"
 elif uses_debs; then
     print_header 'Setup (Debian based)'

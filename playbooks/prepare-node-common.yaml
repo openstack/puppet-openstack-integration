@@ -5,22 +5,60 @@
         path: "{{ ansible_user_dir }}/workspace"
         state: directory
 
-    - name: Clean-up system state (RedHat)
+    - name: Install python2-dnf(Fedora)
+      command: "dnf -y install python2-dnf python3-dnf yum"
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora"
+
+    - name: Clean-up system state (non Fedora)
       yum:
         name: "{{ item }}"
         state: absent
       become: true
-      when: ansible_os_family == 'RedHat'
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution != "Fedora"
       with_items:
         - rdo-release
         - centos-release-openstack-*
         - centos-release-ceph-*
 
-    - name: Install Ruby dependencies (RedHat)
+    - name: Clean-up system state (Fedora)
+      dnf:
+        name: "{{ item }}"
+        state: absent
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora"
+      with_items:
+        - rdo-release
+        - centos-release-openstack-*
+        - centos-release-ceph-*
+
+    - name: Install Ruby dependencies (Fedora)
+      dnf:
+        name: "{{ item }}"
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora"
+      with_items:
+        - "@Development tools"
+        - libxml2-devel
+        - libxslt-devel
+        - ruby-devel
+        - zlib-devel
+
+    - name: Install Ruby dependencies (non Fedora)
       yum:
         name: "{{ item }}"
       become: true
-      when: ansible_os_family == 'RedHat'
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution != "Fedora"
       with_items:
         - "@Development tools"
         - libxml2-devel
@@ -60,9 +98,14 @@
         cmd: |
           set -e
           set -x
-          if [ -f /usr/bin/yum ]; then
-              yum install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
-              yum install -y puppet-agent
+          if type "dnf" 2>/dev/null;then
+              export YUM=dnf
+          else
+              export YUM=yum
+          fi
+          if [[ -f /usr/bin/yum || -f /usr/bin/dnf ]]; then
+              $YUM install -y https://yum.puppetlabs.com/puppetlabs-release-pc1-el-7.noarch.rpm
+              $YUM install -y puppet-agent
           elif [ -f /usr/bin/apt-get ]; then
               wget https://apt.puppetlabs.com/puppetlabs-release-pc1-{{ ansible_distribution_release }}.deb -O /tmp/puppet.deb
               dpkg -i /tmp/puppet.deb

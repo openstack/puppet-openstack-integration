@@ -107,6 +107,12 @@ uses_debs() {
     type "apt-get" 2>/dev/null
 }
 
+if type "dnf" 2>/dev/null;then
+    export YUM=dnf
+else
+    export YUM=yum
+fi
+
 print_header() {
     if [ -n "$(set | grep xtrace)" ]; then
       set +x
@@ -161,7 +167,7 @@ enabled=1
 gpgcheck=1
 EOF"
         fi
-        $SUDO yum install -y ${PUPPET_PKG}
+        $SUDO $YUM install -y ${PUPPET_PKG}
     fi
 }
 
