@@ -262,6 +262,8 @@ class openstack_integration::tempest (
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
     # img_dir               => '/home/jenkins/cache/files',
     img_dir                          => '/tmp/openstack/image',
+    baremetal_driver                 => 'fake-hardware',
+    baremetal_enabled_hardware_types => 'ipmi,fake-hardware',
   }
 
 }

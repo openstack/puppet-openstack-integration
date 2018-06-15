@@ -62,7 +62,14 @@ class openstack_integration::ironic {
     workers   => 2,
   }
   class { '::ironic::conductor':
-    enabled_drivers       => ['fake', 'pxe_ipmitool'],
+    enabled_hardware_types => ['fake-hardware', 'ipmi'],
+  }
+  class { '::ironic::drivers::interfaces':
+    enabled_management_interfaces => ['fake', 'ipmitool'],
+    enabled_boot_interfaces       => ['fake', 'pxe'],
+    enabled_deploy_interfaces     => ['fake', 'iscsi', 'direct'],
+    enabled_power_interfaces      => ['fake', 'ipmitool'],
+    enabled_vendor_interfaces     => ['fake', 'ipmitool', 'no-vendor'],
   }
   class { '::ironic::drivers::ipmi': }
   Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
