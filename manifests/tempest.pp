@@ -209,7 +209,7 @@ class openstack_integration::tempest (
     admin_password                   => 'a_big_secret',
     admin_domain_name                => 'Default',
     auth_version                     => 'v3',
-    tempest_roles                    => ['Member', 'creator'], # needed to use barbican.
+    tempest_roles                    => ['member', 'creator'], # needed to use barbican.
     image_name                       => 'cirros',
     image_name_alt                   => 'cirros_alt',
     cinder_available                 => $cinder,
@@ -264,6 +264,7 @@ class openstack_integration::tempest (
     img_dir                          => '/tmp/openstack/image',
     baremetal_driver                 => 'fake-hardware',
     baremetal_enabled_hardware_types => 'ipmi,fake-hardware',
+    ec2api_tester_roles              => ['member'],
   }
 
 }

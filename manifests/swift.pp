@@ -75,7 +75,7 @@ class openstack_integration::swift {
     password => 'a_big_secret',
   }
   class { '::swift::proxy::keystone':
-    operator_roles => ['Member', 'admin', 'SwiftOperator']
+    operator_roles => ['member', 'admin', 'SwiftOperator']
   }
   include ::swift::proxy::formpost
   include ::swift::proxy::staticweb
