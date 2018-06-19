@@ -19,14 +19,22 @@ install_external() {
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch. Fallback to 'master'.
 install_openstack() {
+  # Periodic jobs run without ref on master
+  ZUUL_BRANCH=${ZUUL_BRANCH:-master}
+
+  if [ $ZUUL_PROJECT != "openstack/puppet-ceph" ] && [ -n "$CEPH_VERSION" ]; then
+    if [ $CEPH_VERSION == "mimic" ]; then
+      ZUUL_BRANCH="master"
+    else
+      ZUUL_BRANCH="stable/$CEPH_VERSION"
+    fi
+  fi
+
   cat > clonemap.yaml <<EOF
 clonemap:
   - name: '(.*?)/puppet-(.*)'
     dest: '$PUPPETFILE_DIR/\2'
 EOF
-
-  # Periodic jobs run without ref on master
-  ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
     ${SCRIPT_DIR}/Puppetfile0 | tr -d "'," | cut -d '/' -f 4- | xargs
