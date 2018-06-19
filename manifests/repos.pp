@@ -25,15 +25,15 @@ class openstack_integration::repos {
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
         repo_hash         => {
-          'master-puppet-passed-ci' => {
-            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
-            'descr'    => 'master puppet-passed-ci',
+          'queens-puppet-passed-ci' => {
+            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-queens/puppet-passed-ci/'),
+            'descr'    => 'queens puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
-          'master-delorean-deps'    => {
-            'baseurl'  => pick($::deps_mirror_host, 'https://trunk.rdoproject.org/centos7-master/deps/latest/'),
-            'descr'    => 'master delorean-deps',
+          'queens-delorean-deps'    => {
+            'baseurl'  => pick($::deps_mirror_host, 'https://trunk.rdoproject.org/centos7-queens/deps/latest/'),
+            'descr'    => 'queens delorean-deps',
             'gpgcheck' => 'no',
           },
         },
