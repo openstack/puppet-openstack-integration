@@ -66,8 +66,14 @@
       - ^spec/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
     roles:
       - zuul: openstack-infra/zuul-jobs
+    # NOTE(tobasco): The ceph variable must be provided with a default here
+    # or zuul will complain when it tries to render the run-integration-tests template.
+    vars:
+      ceph: luminous
 
 - job:
     name: puppet-openstack-integration-4
@@ -80,15 +86,16 @@
     parent: puppet-openstack-integration-4
     vars:
       scenario: scenario001
+      ceph: luminous
 
 - job:
-    name: puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
+    name: puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial-luminous
     parent: puppet-openstack-integration-4-scenario001
     nodeset: ubuntu-xenial
     voting: false
 
 - job:
-    name: puppet-openstack-integration-4-scenario001-tempest-centos-7
+    name: puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
     parent: puppet-openstack-integration-4-scenario001
     nodeset: centos-7
 
@@ -131,16 +138,17 @@
     parent: puppet-openstack-integration-4
     vars:
       scenario: scenario004
+      ceph: mimic
 
 - job:
-    name: puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
+    name: puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
     parent: puppet-openstack-integration-4-scenario004
     nodeset: ubuntu-xenial
     voting: false
     branches: ^(?!stable/newton).*$
 
 - job:
-    name: puppet-openstack-integration-4-scenario004-tempest-centos-7
+    name: puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
     parent: puppet-openstack-integration-4-scenario004
     nodeset: centos-7
     branches: ^(?!stable/newton).*$
@@ -157,14 +165,15 @@
     parent: puppet-openstack-integration-5
     vars:
       scenario: scenario001
+      ceph: luminous
 
 - job:
-    name: puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial
+    name: puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial-luminous
     parent: puppet-openstack-integration-5-scenario001
     nodeset: ubuntu-xenial
 
 - job:
-    name: puppet-openstack-integration-5-scenario001-tempest-centos-7
+    name: puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
     parent: puppet-openstack-integration-5-scenario001
     nodeset: centos-7
 
@@ -205,15 +214,16 @@
     parent: puppet-openstack-integration-5
     vars:
       scenario: scenario004
+      ceph: mimic
 
 - job:
-    name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial
+    name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial-mimic
     parent: puppet-openstack-integration-5-scenario004
     nodeset: ubuntu-xenial
     branches: ^(?!stable/newton).*$
 
 - job:
-    name: puppet-openstack-integration-5-scenario004-tempest-centos-7
+    name: puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
     parent: puppet-openstack-integration-5-scenario004
     nodeset: centos-7
     branches: ^(?!stable/newton).*$
@@ -222,44 +232,49 @@
     name: puppet-openstack-integration-jobs-all
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial-luminous
         - puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
         - puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial-luminous
+        - puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
+        - puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
     experimental:
       jobs:
-        - puppet-openstack-integration-5-scenario001-tempest-centos-7
+        - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
-        - puppet-openstack-integration-5-scenario004-tempest-centos-7
-        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial
+        - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
+        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial-luminous
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-xenial
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-xenial
-        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial
+        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial-mimic
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario001
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial-luminous
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7
+        - puppet-openstack-integration-4-scenario001-tempest-ubuntu-xenial-luminous
+        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
     experimental:
       jobs:
-        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial
-        - puppet-openstack-integration-5-scenario001-tempest-centos-7
+        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-xenial-luminous
+        - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario002
@@ -270,6 +285,7 @@
     gate:
       jobs:
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
+        - puppet-openstack-integration-4-scenario002-tempest-ubuntu-xenial
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-xenial
@@ -284,6 +300,7 @@
     gate:
       jobs:
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
+        - puppet-openstack-integration-4-scenario003-tempest-ubuntu-xenial
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-xenial
@@ -293,15 +310,16 @@
     name: puppet-openstack-integration-jobs-scenario004
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7
+        - puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
+        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
     experimental:
       jobs:
-        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial
-        - puppet-openstack-integration-5-scenario004-tempest-centos-7
+        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial-mimic
+        - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
 
 - job:
     name: puppet-openstack-module-base
@@ -365,6 +383,13 @@
       puppet_gem_version: 4.8
 
 - job:
+    name: puppet-openstack-unit-5.5-centos-7
+    parent: puppet-openstack-unit-base
+    nodeset: centos-7
+    vars:
+      puppet_gem_version: 5.5
+
+- job:
     name: puppet-openstack-unit-latest-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
@@ -378,10 +403,12 @@
     check:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-5.5-centos-7
         - puppet-openstack-unit-latest-centos-7
     gate:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-5.5-centos-7
 
 - project-template:
     name: puppet-openstack-check-jobs
