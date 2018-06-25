@@ -15,14 +15,22 @@
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
+export DLRN_BASE=${DLRN_BASE:-centos7-master/puppet-passed-ci}
+export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-centos7-master/deps/latest/}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
+if [ -f /etc/fedora-release ]; then
+    # Can be changed to more stable repo later(ex:- fedora/puppet-passed-ci)
+    DLRN_BASE="fedora/current"
+    DLRN_DEPS_BASE="fedora/stable-base/latest/"
+fi
+
 if [ -f /etc/ci/mirror_info.sh ]; then
     source /etc/ci/mirror_info.sh
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
-    DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/centos7-master/deps/latest/"
+    DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-luminous"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
@@ -32,7 +40,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    DEPS_MIRROR_HOST='https://trunk.rdoproject.org/centos7-master/deps/latest/'
+    DEPS_MIRROR_HOST='https://trunk.rdoproject.org/${DLRN_DEPS_BASE}/'
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
@@ -44,7 +52,7 @@ else
     fi
 fi
 
-rdo_dlrn=`curl --silent ${NODEPOOL_RDO_PROXY}/centos7-master/puppet-passed-ci/delorean.repo | grep baseurl | cut -d= -f2`
+rdo_dlrn=`curl --silent ${NODEPOOL_RDO_PROXY}/${DLRN_BASE}/delorean.repo | grep baseurl | cut -d= -f2`
 if [[ -z "$rdo_dlrn" ]]; then
     echo "Failed to parse dlrn hash"
     exit 1
