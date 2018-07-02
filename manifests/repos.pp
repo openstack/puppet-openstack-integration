@@ -1,5 +1,11 @@
 class openstack_integration::repos {
 
+  # To make beaker tests work.
+  if $::ceph_version != '' {
+    $ceph_version_real = $::ceph_version
+  } else {
+    $ceph_version_real = 'luminous'
+  }
   case $::osfamily {
     'Debian': {
       case $::os_package_type {
@@ -31,7 +37,7 @@ class openstack_integration::repos {
       }
       $enable_sig  = false
       $enable_epel = false
-      $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${::ceph_version}/")
+      $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
       class { '::openstack_extras::repo::redhat::redhat':
@@ -53,9 +59,9 @@ class openstack_integration::repos {
         },
       }
       # TODO(tobasco): Remove this CBS candidate repo for Mimic when Storage SIG release it.
-      $ceph_mirror_fallback = $::ceph_version ? {
+      $ceph_mirror_fallback = $ceph_version_real ? {
         'mimic' => 'http://cbs.centos.org/repos/storage7-ceph-mimic-candidate/x86_64/os/',
-        default => "https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-${::ceph_version}/"
+        default => "https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-${ceph_version_real}/"
       }
       $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.

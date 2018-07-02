@@ -18,12 +18,13 @@ install_external() {
 # - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch. Fallback to 'master'.
+# - ``CEPH_VERSION`` can be set to override Ceph version.
 install_openstack() {
   # Periodic jobs run without ref on master
   ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 
-  if [ $ZUUL_PROJECT != "openstack/puppet-ceph" ] && [ -n "$CEPH_VERSION" ]; then
-    if [ $CEPH_VERSION == "mimic" ]; then
+  if [ "$ZUUL_PROJECT" != "openstack/puppet-ceph" ] && [ -n "$CEPH_VERSION" ]; then
+    if [ "$CEPH_VERSION" == "mimic" ]; then
       ZUUL_BRANCH="master"
     else
       ZUUL_BRANCH="stable/$CEPH_VERSION"

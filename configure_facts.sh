@@ -17,6 +17,7 @@
 export WRITE_FACTS=${WRITE_FACTS:-true}
 export DLRN_BASE=${DLRN_BASE:-centos7-master/puppet-passed-ci}
 export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-centos7-master/deps/latest/}
+export CEPH_VERSION=${CEPH_VERSION:-luminous}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
