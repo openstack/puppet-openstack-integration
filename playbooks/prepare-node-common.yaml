@@ -12,6 +12,23 @@
         - ansible_os_family == 'RedHat'
         - ansible_distribution == "Fedora"
 
+    - name: Remove excludes from /etc/dnf/dnf.conf (Fedora)
+      lineinfile:
+        path: /etc/dnf/dnf.conf
+        state: absent
+        regexp: '^exclude='
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora"
+
+    - name: Reinstall python3-setuptools (Fedora)
+      command: "dnf -y reinstall python3-setuptools"
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora"
+
     - name: Clean-up system state (non Fedora)
       yum:
         name: "{{ item }}"
