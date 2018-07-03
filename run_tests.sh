@@ -352,7 +352,11 @@ set -e
 if [ -d .testrepository ]; then
     testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 elif [ -d .stestr ]; then
-    stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+    if type "stestr-3" 2>/dev/null; then
+        stestr-3 last --subunit > /tmp/openstack/tempest/testrepository.subunit
+    else
+        stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
+    fi
 fi
 subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
