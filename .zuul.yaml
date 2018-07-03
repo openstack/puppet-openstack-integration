@@ -166,9 +166,6 @@
     name: puppet-openstack-integration-4-scenario004
     parent: puppet-openstack-integration-4
     abstract: true
-    # TODO(aschultz): need to move this seperately because zuul doesn't like
-    # this.
-    branches: ^(stable/(ocata|pike|queens)).*$
     vars:
       scenario: scenario004
       ceph: mimic
@@ -176,11 +173,13 @@
 - job:
     name: puppet-openstack-integration-4-scenario004-tempest-ubuntu-xenial-mimic
     parent: puppet-openstack-integration-4-scenario004
+    branches: ^(stable/(ocata|pike|queens)).*$
     nodeset: ubuntu-xenial
 
 - job:
     name: puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
     parent: puppet-openstack-integration-4-scenario004
+    branches: ^(stable/(ocata|pike|queens)).*$
     nodeset: centos-7
 
 - job:
