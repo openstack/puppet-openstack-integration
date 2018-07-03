@@ -501,7 +501,6 @@
     parent: puppet-openstack-unit-base
     nodeset: centos-7
     branches: ^master
-    voting: false
     vars:
       puppet_gem_version: 5.5
 
