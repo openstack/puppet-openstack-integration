@@ -172,7 +172,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => '3.2.0'
+  :ref => '74fa040be21689e32f156f73ed1a71f08a94eb49'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
