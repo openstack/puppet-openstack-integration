@@ -24,13 +24,6 @@ class openstack_integration::aodh (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  # gnocchi is not packaged in Ubuntu Cloud Archive
-  # https://bugs.launchpad.net/cloud-archive/+bug/1535740
-  if $::osfamily == 'RedHat' {
-    $gnocchi_url = "${::openstack_integration::config::ip_for_url}:8041"
-  } else {
-    $gnocchi_url = undef
-  }
   class { '::aodh':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -50,7 +43,6 @@ class openstack_integration::aodh (
     amqp_sasl_mechanisms       => 'PLAIN',
     debug                      => true,
     database_connection        => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
-    gnocchi_url                => $gnocchi_url,
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
