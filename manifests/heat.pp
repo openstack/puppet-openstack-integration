@@ -88,7 +88,6 @@ class openstack_integration::heat (
     auth_encryption_key           => '1234567890AZERTYUIOPMLKJHGFDSQ12',
     heat_metadata_server_url      => "${::openstack_integration::config::base_url}:8000",
     heat_waitcondition_server_url => "${::openstack_integration::config::base_url}:8000/v1/waitcondition",
-    heat_watch_server_url         => "${::openstack_integration::config::base_url}:8003",
   }
   class { '::heat::api_cfn':
     service_name => 'httpd',
