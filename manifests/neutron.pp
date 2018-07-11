@@ -207,17 +207,10 @@ class openstack_integration::neutron (
     interface_driver => $driver,
     debug            => true,
   }
-  if ($::os_package_type == 'debian') {
-    class { '::neutron::agents::l3':
-      interface_driver => $driver,
-      debug            => true,
-    }
-  } else {
-    class { '::neutron::agents::l3':
-      interface_driver => $driver,
-      debug            => true,
-      extensions       => 'fwaas',
-    }
+  class { '::neutron::agents::l3':
+    interface_driver => $driver,
+    debug            => true,
+    extensions       => 'fwaas',
   }
   class { '::neutron::agents::dhcp':
     interface_driver => $driver,
