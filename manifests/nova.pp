@@ -112,6 +112,9 @@ class openstack_integration::nova (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
+  class { '::nova::logging':
+    debug => true,
+  }
   class { '::nova':
     default_transport_url         => $default_transport_url,
     notification_transport_url    => $notification_transport_url,
@@ -122,7 +125,6 @@ class openstack_integration::nova (
     amqp_sasl_mechanisms          => 'PLAIN',
     use_ipv6                      => $::openstack_integration::config::ipv6,
     glance_api_servers            => "${::openstack_integration::config::base_url}:9292",
-    debug                         => true,
     notification_driver           => 'messagingv2',
     notify_on_state_change        => 'vm_and_task_state',
     notification_topics           => $notification_topics,
