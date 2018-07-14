@@ -206,7 +206,7 @@ class openstack_integration::tempest (
     identity_uri_v3                  => "${::openstack_integration::config::keystone_auth_uri}/v3",
     admin_username                   => 'admin',
     admin_project_name               => 'openstack',
-    admin_password                   => 'a_big_secret',
+    admin_password                   => hiera('admin_pwd'),
     admin_domain_name                => 'Default',
     auth_version                     => 'v3',
     tempest_roles                    => ['member', 'creator'], # needed to use barbican.
