@@ -14,6 +14,10 @@
 #   (optional) Flag to enable L2GW.
 #   Defaults to false.
 #
+# [*bgp_dragent_enabled*]
+#   (optional) Flag to enable BGP dragent
+#   Defaults to false.
+#
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default.
@@ -22,6 +26,7 @@ class openstack_integration::neutron (
   $driver              = 'openvswitch',
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
+  $bgp_dragent_enabled = false,
   $notification_topics = $::os_service_default,
 ) {
 
@@ -124,7 +129,11 @@ class openstack_integration::neutron (
     true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
     default => undef,
   }
-  $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin])
+  $bgp_dr_plugin = $bgp_dragent_enabled ? {
+    true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
+    default => undef,
+  }
+  $plugins_list = delete_undef_values(['router', 'metering', 'firewall', 'lbaasv2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
 
   if $driver == 'linuxbridge' {
       $global_physnet_mtu    = '1450'
@@ -188,6 +197,7 @@ class openstack_integration::neutron (
     rpc_workers         => 2,
     validate            => $validate_neutron_server_service,
     service_providers   => $providers_list,
+    ensure_dr_package   => $bgp_dragent_enabled,
   }
 
   class { '::neutron::services::lbaas': }
@@ -234,5 +244,8 @@ class openstack_integration::neutron (
     class {'::neutron::services::bgpvpn':
       service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
     }
+  }
+  if $bgp_dragent_enabled {
+    include ::neutron::agents::bgp_dragent
   }
 }

@@ -60,6 +60,10 @@
 #   (optional) Define a switch name for testing.
 #   Default to undef.
 #
+# [*dr*]
+#   (optional) Define if Neutron Dynamic routing needs to be tested.
+#   Default to false.
+#
 # [*mistral*]
 #   (optional) Define if Mistral needs to be tested.
 #   Default to false.
@@ -125,6 +129,7 @@ class openstack_integration::tempest (
   $ironic                  = false,
   $l2gw                    = false,
   $l2gw_switch             = undef,
+  $dr                      = false,
   $mistral                 = false,
   $murano                  = false,
   $neutron                 = true,
@@ -225,6 +230,7 @@ class openstack_integration::tempest (
     neutron_bgpvpn_available         => $bgpvpn,
     neutron_lbaas_available          => true,
     neutron_l2gw_available           => $l2gw,
+    neutron_dr_available             => $dr,
     neutron_fwaas_available          => true,
     ceilometer_available             => $ceilometer,
     aodh_available                   => $aodh,

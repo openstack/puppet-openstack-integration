@@ -315,6 +315,10 @@ echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/t
 if uses_debs; then
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
   EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$).*"
+
+  # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
+  # vpnaas and dynamic routing projects.
+  $SUDO pip install neutron-tempest-plugin
 else
   # https://review.openstack.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
@@ -322,7 +326,15 @@ else
   # Note these tests were disabled in https://review.openstack.org/#/c/461969/ and hopefully it's more stable now and allows
   # us to run it until we can implement --blacklist-file in a stable way.
   #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
-  EXCLUDES=""
+
+  # TODO(tobias-urdin): An ugly fix to make sure we get the ryu.tests.integrated.common module which is removed
+  # from the ryu RPM package. Remove this if we push a fix for the ryu centos package (4.26 is the packaged version).
+  git clone -b v4.26 https://github.com/osrg/ryu.git /tmp/openstack/ryu
+  $SUDO cp -R /tmp/openstack/ryu/ryu/tests/integrated/common/ /usr/lib/python2.7/site-packages/ryu/tests/integrated/
+
+  # NOTE(tobias-urdin): Blacklist the dynamic routing scenario tests because they use Docker which is not available and also
+  # requires the above mentioned ryu.tests.integrated.common module (we need to init tempest workspace now).
+  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario.*"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
