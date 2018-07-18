@@ -75,5 +75,5 @@ class openstack_integration::config (
 
   $base_url           = "${proto}://${ip_for_url}"
   $keystone_auth_uri  = "${base_url}:5000"
-  $keystone_admin_uri = "${base_url}:35357"
+  $keystone_admin_uri = "${base_url}:5000"
 }

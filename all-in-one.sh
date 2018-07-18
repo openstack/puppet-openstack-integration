@@ -82,7 +82,7 @@ export OS_PROJECT_NAME=openstack
 export OS_TENANT_NAME=openstack
 export OS_USERNAME=admin
 export OS_PASSWORD=a_big_secret
-export OS_AUTH_URL=http://127.0.0.1:35357/v3
+export OS_AUTH_URL=http://127.0.0.1:5000/v3
 export OS_IDENTITY_API_VERSION=3
 EOF
 
