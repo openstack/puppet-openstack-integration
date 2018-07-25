@@ -160,7 +160,7 @@ mod 'kmod',
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
-  :ref => 'v0.0.11'
+  :ref => 'v0.0.12'
 
 mod 'ipaclient',
   :git => 'https://github.com/joshuabaird/puppet-ipaclient',
@@ -172,7 +172,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => '74fa040be21689e32f156f73ed1a71f08a94eb49'
+  :ref => '3.2.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -196,7 +196,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => '5.6.0'
+  :ref => '5.7.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
@@ -220,15 +220,15 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v3.2.0'
+  :ref => 'v3.3.0'
 
 mod 'python',
   :git => 'https://github.com/stankevich/puppet-python',
-  :ref => 'v2.0.0'
+  :ref => 'v2.1.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '5.2.0'
+  :ref => '5.3.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
@@ -241,3 +241,4 @@ mod 'corosync',
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
   :ref => 'v2.0.1'
+
