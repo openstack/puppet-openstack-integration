@@ -25,6 +25,7 @@
       shell:
         cmd: |
           trap "{{ ansible_user_dir }}/workspace/openstack/puppet-openstack-integration/copy_logs.sh" EXIT
+          export BEAKER_PUPPET_COLLECTION=puppet5
           export BEAKER_set=nodepool-{{ nodepool_type }}
           export BEAKER_debug=yes
           export BEAKER_color=no
