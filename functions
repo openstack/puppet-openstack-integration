@@ -146,12 +146,9 @@ install_puppet() {
                 local PUPPET_APT_POOL="puppet5"
             fi
             PUPPET_CODENAME=$(lsb_release -s -c)
-            # TODO(tobasco): Remove this when Puppet 5 is released for Bionic i.e not nightly build.
             if [ $PUPPET_CODENAME == "bionic" ]; then
                 # For some reason this directory does not exist in Bionic
                 $SUDO mkdir -p /etc/apt/sources.list.d
-                NODEPOOL_PUPPETLABS_MIRROR="https://nightlies.puppet.com/apt"
-                PUPPET_APT_POOL="puppet5-nightly"
             fi
             echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} ${PUPPET_APT_POOL}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
             $SUDO apt-key add files/GPG-KEY-puppetlabs
