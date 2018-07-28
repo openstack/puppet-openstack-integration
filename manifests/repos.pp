@@ -4,7 +4,7 @@ class openstack_integration::repos {
   if $::ceph_version != '' {
     $ceph_version_real = $::ceph_version
   } else {
-    $ceph_version_real = 'luminous'
+    $ceph_version_real = 'mimic'
   }
   case $::osfamily {
     'Debian': {
