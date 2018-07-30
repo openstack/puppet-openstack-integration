@@ -3,7 +3,7 @@ camptocamp/puppet-kmod
 duritong/puppet-sysctl
 joshuabaird/puppet-ipaclient
 nanliu/puppet-staging
-puppetlabs/puppetlabs-apache
+puppetlabs/puppetlabs-apache,b4cbc858a61ba2eea4a1178c261a982a59db963d
 puppetlabs/puppetlabs-apt,2.4.0
 puppetlabs/puppetlabs-concat,2.2.1
 puppetlabs/puppetlabs-firewall
