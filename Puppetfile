@@ -223,7 +223,7 @@ mod 'memcached',
   :ref => 'v3.3.0'
 
 mod 'python',
-  :git => 'https://github.com/stankevich/puppet-python',
+  :git => 'https://github.com/voxpupuli/puppet-python',
   :ref => 'v2.1.0'
 
 mod 'dns',
