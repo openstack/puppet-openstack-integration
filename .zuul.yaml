@@ -496,6 +496,7 @@
     gate:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-5.5-centos-7
 
 - project-template:
     name: puppet-openstack-check-jobs
