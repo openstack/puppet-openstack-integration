@@ -192,7 +192,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => '5.4.0'
+  :ref => '6.0.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
@@ -232,7 +232,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v3.1.0'
+  :ref => 'v3.1.1'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
