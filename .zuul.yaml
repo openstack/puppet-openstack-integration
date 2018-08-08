@@ -545,7 +545,7 @@
       nodepool_type: centos7
 
 - job:
-    name: puppet-openstack-beaker-bionic
+    name: puppet-openstack-beaker-ubuntu-bionic
     parent: puppet-openstack-beaker-run-base
     nodeset: ubuntu-bionic
     vars:
@@ -556,11 +556,11 @@
     check:
       jobs:
         - puppet-openstack-beaker-centos-7
-        - puppet-openstack-beaker-bionic
+        - puppet-openstack-beaker-ubuntu-bionic
     gate:
       jobs:
         - puppet-openstack-beaker-centos-7
-        - puppet-openstack-beaker-bionic
+        - puppet-openstack-beaker-ubuntu-bionic
 
 - job:
     name: puppet-openstack-libraries-puppet-beaker-rspec-centos-7
@@ -630,19 +630,18 @@
       - ^.gitignore$
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-3-centos-7
-    parent: puppet-openstack-libraries-puppet-syntax
-    nodeset: centos-7
-    branches: ^(stable/(newton|ocata)).*$
-    vars:
-      puppet: 3
-
-- job:
     name: puppet-openstack-libraries-puppet-syntax-4-centos-7
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-7
     vars:
       puppet: 4
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-5-centos-7
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-7
+    vars:
+      puppet: 5
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-centos-7
@@ -667,6 +666,12 @@
     parent: puppet-openstack-libraries-puppet-unit-centos-7
     vars:
       puppet_gem_version: 4.8
+
+- job:
+    name: puppet-openstack-libraries-puppet-unit-5.5-centos-7
+    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    vars:
+      puppet_gem_version: 5.5
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-latest-centos-7
@@ -722,18 +727,20 @@
     check:
       jobs:
         - puppet-openstack-libraries-puppet-lint-centos-7
-        - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
+        - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-unit-4.8-centos-7
+        - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-unit-latest-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-centos-7
-        - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
+        - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-unit-4.8-centos-7
+        - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-unit-latest-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
