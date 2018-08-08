@@ -547,7 +547,6 @@
 - job:
     name: puppet-openstack-beaker-bionic
     parent: puppet-openstack-beaker-run-base
-    voting: false
     nodeset: ubuntu-bionic
     vars:
       nodepool_type: bionic
