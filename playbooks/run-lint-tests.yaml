@@ -28,11 +28,18 @@
           EOF
             $GEM_HOME/bin/bundle install --without system_tests --retry 3
             $GEM_HOME/bin/bundle exec rake lint 2>&1
+            if [ -f metadata.json ]; then
+              $GEM_HOME/bin/bundle exec rake metadata_lint 2>&1
+            fi
           else
             gem install rake -n ./.bundled_gems/
             gem install puppet-lint
+            gem install metadata-json-lint -n ./.bundled_gems/ --no-ri --no-rdoc
             gem install puppetlabs_spec_helper
             ./.bundled_gems/rake lint 2>&1
+            if [ -f metadata.json ]; then
+              ./.bundled_gems/metadata-json-lint
+            fi
           fi
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
