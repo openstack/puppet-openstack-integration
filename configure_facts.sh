@@ -46,7 +46,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     fi
 else
     CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    DEPS_MIRROR_HOST='https://trunk.rdoproject.org/${DLRN_DEPS_BASE}/'
+    DEPS_MIRROR_HOST="https://trunk.rdoproject.org/${DLRN_DEPS_BASE}/"
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
