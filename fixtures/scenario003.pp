@@ -74,15 +74,7 @@ if $trove_enabled {
 }
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-
-# NOTE(tobasco): Sahara packages for Ubuntu Bionic changed
-# so that the sahara-api systemd unit file does not exist.
-# Disabling Sahara on Ubuntu until resolved, see this bug:
-# https://bugs.launchpad.net/ubuntu/+source/sahara/+bug/1786214
-if $::operatingsystem != 'Ubuntu' {
-  include ::openstack_integration::sahara
-}
-
+include ::openstack_integration::sahara
 if $designate_enabled {
   include ::openstack_integration::designate
 }

@@ -11,6 +11,14 @@ class openstack_integration::sahara (
   include ::openstack_integration::config
   include ::openstack_integration::params
 
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'sahara':
+      notify  => Service['httpd'],
+      require => Package['sahara-api'],
+    }
+    Exec['update-ca-certificates'] ~> Service['httpd']
+  }
+
   openstack_integration::mq_user { 'sahara':
     password => 'an_even_bigger_secret',
     before   => Anchor['sahara::service::begin'],
@@ -19,17 +27,19 @@ class openstack_integration::sahara (
   class { '::sahara::db::mysql':
     password => 'sahara',
   }
+
   class { '::sahara::keystone::auth':
-    # SSL does not seem to work in Sahara
-    # https://bugs.launchpad.net/sahara/+bug/1565082
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:8386/v1.1/%(tenant_id)s",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:8386/v1.1/%(tenant_id)s",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:8386/v1.1/%(tenant_id)s",
+    public_url   => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
+    internal_url => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
+    admin_url    => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
     password     => 'a_big_secret',
   }
   class { '::sahara':
     host                  => $::openstack_integration::config::host,
     database_connection   => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+    use_ssl               => $::openstack_integration::config::ssl,
+    cert_file             => $::openstack_integration::params::cert_path,
+    key_file              => "/etc/sahara/ssl/private/${::fqdn}.pem",
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -49,8 +59,39 @@ class openstack_integration::sahara (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
+  $service_name = $::os_package_type ? {
+    'debian' => $::sahara::params::api_service_name,
+    default  => 'httpd',
+  }
   class { '::sahara::service::api':
-    api_workers => 2,
+    service_name => $service_name,
+  }
+  if $service_name == 'httpd' {
+    # NOTE(tobias-urdin): The sahara-api package in Ubuntu installs this apache vhosts which we
+    # do not need since we create them using the puppetlabs-apache module. Set them as empty
+    # so that package upgrades still work.
+    if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '18') >= 0) {
+      ensure_resource('file', '/etc/apache2/sites-available/sahara-api.conf', {
+        'ensure'  => 'present',
+        'content' => '',
+      })
+      ensure_resource('file', '/etc/apache2/sites-enabled/sahara-api.conf', {
+        'ensure'  => 'present',
+        'content' => '',
+      })
+
+      Package['sahara-api'] -> File['/etc/apache2/sites-available/sahara-api.conf']
+      -> File['/etc/apache2/sites-enabled/sahara-api.conf'] ~> Anchor['sahara::install::end']
+    }
+
+    include ::apache
+    class { '::sahara::wsgi::apache':
+      bind_host => $::openstack_integration::config::ip_for_url,
+      ssl       => $::openstack_integration::config::ssl,
+      ssl_key   => "/etc/sahara/ssl/private/${::fqdn}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      workers   => 2,
+    }
   }
   class { '::sahara::service::engine': }
   class { '::sahara::client': }
