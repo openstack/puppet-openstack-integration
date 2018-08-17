@@ -70,6 +70,7 @@ scenario](#all-in-one).
 | vitrage    |      X      |             |             |             |              |
 | watcher    |             |             |             |      X      |              |
 | bgpvpn-api |             |             |             |      X      |              |
+| bgp-dr     |             |             |             |      X      |              |
 | redis      |      X      |             |             |             |              |
 | l2gw       |             |             |             |      X      |              |
 | om rpc     |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
