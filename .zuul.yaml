@@ -236,6 +236,7 @@
     name: puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-5-scenario003
     nodeset: ubuntu-bionic
+    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -264,6 +265,7 @@
     name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
     parent: puppet-openstack-integration-5-scenario004
     nodeset: ubuntu-bionic
+    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
