@@ -246,6 +246,8 @@ class openstack_integration::neutron (
     }
   }
   if $bgp_dragent_enabled {
-    include ::neutron::agents::bgp_dragent
+    class {'::neutron::agents::bgp_dragent':
+      bgp_router_id => '127.0.0.1'
+    }
   }
 }
