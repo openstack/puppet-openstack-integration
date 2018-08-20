@@ -28,12 +28,19 @@ class openstack_integration::repos {
           fail("Unsupported package type (${::os_package_type})")
         }
       }
-      # Ceph is both packaged on UCA & ceph.com
-      # Official packages are on ceph.com so we want to make sure
-      # Ceph will be installed from there.
-      apt::pin { 'ceph':
-        priority => 1001,
-        origin   => 'download.ceph.com',
+      # Ceph is both packaged on UCA and official download.ceph.com packages
+      # which we mirror. We want to use the official packages or our mirror.
+      if $::nodepool_mirror_host != '' {
+        $ceph_version_cap = capitalize($ceph_version_real)
+        apt::pin { 'ceph':
+          priority   => 1001,
+          originator => "Ceph ${ceph_version_cap}",
+        }
+      } else {
+        apt::pin { 'ceph':
+          priority => 1001,
+          origin   => 'download.ceph.com',
+        }
       }
       $enable_sig  = false
       $enable_epel = false

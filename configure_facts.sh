@@ -70,6 +70,7 @@ if [[ -z "$rdo_dlrn" ]]; then
 fi
 RDO_MIRROR_HOST=${rdo_dlrn/https:\/\/trunk.rdoproject.org/$NODEPOOL_RDO_PROXY}
 
+export FACTER_nodepool_mirror_host=$NODEPOOL_MIRROR_HOST
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
 export FACTER_uca_mirror_host=$NODEPOOL_UCA_MIRROR
 export FACTER_deps_mirror_host=$DEPS_MIRROR_HOST
@@ -78,6 +79,7 @@ export FACTER_rdo_mirror_host=$RDO_MIRROR_HOST
 export FACTER_ceph_version=$CEPH_VERSION
 
 MIRROR_FACTS="\
+nodepool_mirror_host=${FACTER_nodepool_mirror_host}
 centos_mirror_host=${FACTER_centos_mirror_host}
 uca_mirror_host=${FACTER_uca_mirror_host}
 deps_mirror_host=${FACTER_deps_mirror_host}
