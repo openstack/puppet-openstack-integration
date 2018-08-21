@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://git.openstack.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'barbican',
   :git => 'https://git.openstack.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'ceilometer',
   :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'ceph',
   :git => 'https://git.openstack.org/openstack/puppet-ceph',
@@ -19,135 +19,135 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://git.openstack.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'cloudkitty',
   :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'congress',
   :git => 'https://git.openstack.org/openstack/puppet-congress',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'designate',
   :git => 'https://git.openstack.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'ec2api',
   :git => 'https://git.openstack.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'glance',
   :git => 'https://git.openstack.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'gnocchi',
   :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'heat',
   :git => 'https://git.openstack.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'horizon',
   :git => 'https://git.openstack.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'ironic',
   :git => 'https://git.openstack.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'keystone',
   :git => 'https://git.openstack.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'manila',
   :git => 'https://git.openstack.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'mistral',
   :git => 'https://git.openstack.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'monasca',
   :git => 'https://git.openstack.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'murano',
   :git => 'https://git.openstack.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'neutron',
   :git => 'https://git.openstack.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'nova',
   :git => 'https://git.openstack.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'octavia',
   :git => 'https://git.openstack.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'openstack_extras',
   :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'openstacklib',
   :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'oslo',
   :git => 'https://git.openstack.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'ovn',
   :git => 'https://git.openstack.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'qdr',
   :git => 'https://git.openstack.org/openstack/puppet-qdr',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'sahara',
   :git => 'https://git.openstack.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'swift',
   :git => 'https://git.openstack.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'tacker',
   :git => 'https://git.openstack.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'tempest',
   :git => 'https://git.openstack.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'trove',
   :git => 'https://git.openstack.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'vswitch',
   :git => 'https://git.openstack.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'vitrage',
   :git => 'https://git.openstack.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'watcher',
   :git => 'https://git.openstack.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 mod 'zaqar',
   :git => 'https://git.openstack.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/rocky'
 
 ## External modules
 mod 'powerdns',
