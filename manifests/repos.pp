@@ -15,6 +15,7 @@ class openstack_integration::repos {
             release         => 'rocky',
             package_require => true,
             uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
+            before          => File['/tmp/update-packages'],
           }
         }
         'debian': {
@@ -22,6 +23,7 @@ class openstack_integration::repos {
           class { '::openstack_extras::repo::debian::debian':
             release         => 'queens',
             package_require => true,
+            before          => File['/tmp/update-packages'],
           }
         }
         default: {
@@ -35,11 +37,13 @@ class openstack_integration::repos {
         apt::pin { 'ceph':
           priority   => 1001,
           originator => "Ceph ${ceph_version_cap}",
+          before     => File['/tmp/update-packages'],
         }
       } else {
         apt::pin { 'ceph':
           priority => 1001,
           origin   => 'download.ceph.com',
+          before   => File['/tmp/update-packages'],
         }
       }
       $enable_sig  = false
@@ -64,6 +68,7 @@ class openstack_integration::repos {
             'gpgcheck' => 'no',
           },
         },
+        before            => File['/tmp/update-packages'],
       }
       # TODO(tobasco): Remove this CBS candidate repo for Mimic when Storage SIG release it.
       $ceph_mirror_fallback = $ceph_version_real ? {
@@ -89,6 +94,7 @@ class openstack_integration::repos {
           matches => [ 'fedora*.repo' ],
           rmdirs  => false,
           require => Class['::openstack_extras::repo::redhat::redhat'],
+          before  => File['/tmp/update-packages'],
         }
       }
     }
@@ -101,6 +107,30 @@ class openstack_integration::repos {
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
     ceph_mirror => $ceph_mirror,
+    before      => File['/tmp/update-packages'],
+  }
+
+  # We want to upgrade packages after repos is added but only once
+  # to not break idempotency. Must be done in here so it applies to
+  # both integration and beaker tests.
+  if $::osfamily == 'RedHat' {
+    if $::operatingsystem == 'Fedora' {
+      $yum_cmd = '/usr/bin/dnf'
+    } else {
+      $yum_cmd = '/usr/bin/yum'
+    }
+    $update_cmd = "${yum_cmd} update -y"
+  } else {
+    $update_cmd = '/usr/bin/apt upgrade -y'
+  }
+
+  file { '/tmp/update-packages':
+    ensure => 'present',
+    notify => Exec['update-packages'],
+  }
+  exec { 'update-packages':
+    command     => $update_cmd,
+    refreshonly => true,
   }
 
 }
