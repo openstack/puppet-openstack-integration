@@ -131,6 +131,8 @@ class openstack_integration::repos {
   exec { 'update-packages':
     command     => $update_cmd,
     refreshonly => true,
+    tries       => 2,
+    timeout     => 900,
   }
 
 }
