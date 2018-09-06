@@ -71,5 +71,6 @@ class openstack_integration::barbican {
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
+  class { '::barbican::worker': }
 
 }
