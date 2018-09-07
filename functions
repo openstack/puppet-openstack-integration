@@ -204,7 +204,7 @@ function catch_selinux_alerts() {
             # FIXME(ykarel) catch_selinux_alerts not work with non ssl scenarios(no rabbitmq alert),
             # currently running scenario-py3 without ssl because glance py3 has issues when
             # running with eventlet + ssl: https://bugs.launchpad.net/glance/+bug/1769006
-            elif [[ ! -f /etc/fedora-release && "$SCENARIO" = "scenario-py3" ]]; then
+            elif [[ "$SCENARIO" = "scenario-py3" ]]; then
                 echo "non ssl scenario-py3, ignoring it now."
             else
                 echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."
