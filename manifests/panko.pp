@@ -39,6 +39,21 @@ class openstack_integration::panko {
     enabled      => true,
     service_name => 'httpd',
   }
+  # NOTE(tobias-urdin): The panko-api package in Ubuntu installs the apache vhosts which we
+  # not need but we keep them as empty to not break package upgrades.
+  if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '18') >= 0) {
+    ensure_resource('file', '/etc/apache2/sites-available/panko-api.conf', {
+      'ensure'  => 'present',
+      'content' => '',
+    })
+    ensure_resource('file', '/etc/apache2/sites-enabled/panko-api.conf', {
+      'ensure'  => 'present',
+      'content' => '',
+    })
+
+    Package['panko-api'] -> File['/etc/apache2/sites-available/panko-api.conf']
+    -> File['/etc/apache2/sites-enabled/panko-api.conf'] ~> Anchor['panko::install::end']
+  }
   include ::apache
   class { '::panko::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
