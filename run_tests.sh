@@ -222,7 +222,9 @@ fi
 
 # install from source now on ubuntu until packaged
 if uses_debs; then
-    cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
+    cd /tmp/openstack/tempest-horizon
+    git reset --hard a23f4074fd458b74e9de1a583b7812e1ef855bce
+    $SUDO python setup.py install
 fi
 
 set +e
