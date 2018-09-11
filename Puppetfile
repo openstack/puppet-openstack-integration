@@ -196,7 +196,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => '5.8.0'
+  :ref => '5.9.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
@@ -216,7 +216,7 @@ mod 'vcsrepo',
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
-  :ref => '3.0.0'
+  :ref => '3.1.0'
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
