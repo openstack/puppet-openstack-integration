@@ -113,9 +113,10 @@ class openstack_integration::repos {
   # beaker testing.
   if $::osfamily == 'RedHat' {
     package { 'python-chardet':
-      ensure => 'latest',
+      ensure   => 'installed',
+      provider => 'rpm',
+      source   => 'http://mirror.centos.org/centos/7/cloud/x86_64/openstack-rocky/python2-chardet-3.0.4-7.el7.noarch.rpm',
     }
-    Yumrepo<||> -> Package<| title == 'python-chardet' |>
   }
 
 }
