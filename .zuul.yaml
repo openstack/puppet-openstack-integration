@@ -697,13 +697,29 @@
       - ^LICENSE$
       - ^.gitignore$
 
+- job:
+    name: tripleo-puppet-ci-centos-7-undercloud-oooq
+    parent: tripleo-ci-centos-7-undercloud-oooq
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+
 - project-template:
     name: tripleo-puppet-undercloud
     check:
       jobs:
+        - tripleo-puppet-ci-centos-7-undercloud-oooq
         - tripleo-puppet-ci-centos-7-undercloud-containers
     gate:
       jobs:
+        - tripleo-puppet-ci-centos-7-undercloud-oooq
         - tripleo-puppet-ci-centos-7-undercloud-containers
 
 
