@@ -131,13 +131,22 @@ class openstack_integration::nova (
   }
   class { '::nova::api':
     api_bind_address                     => $::openstack_integration::config::host,
-    neutron_metadata_proxy_shared_secret => 'a_big_secret',
-    metadata_workers                     => 2,
     sync_db_api                          => true,
     service_name                         => 'httpd',
+    nova_metadata_wsgi_enabled           => true,
+  }
+  class { '::nova::metadata':
+    neutron_metadata_proxy_shared_secret => 'a_big_secret',
   }
   include ::apache
   class { '::nova::wsgi::apache_api':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl       => $::openstack_integration::config::ssl,
+    workers   => '2',
+  }
+  class { '::nova::wsgi::apache_metadata':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,

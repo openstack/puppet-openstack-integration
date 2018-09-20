@@ -208,10 +208,24 @@ class openstack_integration::neutron (
     mechanism_drivers    => $driver,
     firewall_driver      => $firewall_driver,
   }
+
+  if $::openstack_integration::config::ssl {
+    # with nova metadata api running via wsgi it is ssl terminated, also
+    # neutron metadata agent does not support an ipv6 address for the
+    # metadata_host, so we need to use the hostname
+    $metadata_host     = 'localhost'
+    $metadata_protocol = 'https'
+  } else {
+    $metadata_host     = $::openstack_integration::config::host
+    $metadata_protocol = 'http'
+  }
+
   class { '::neutron::agents::metadata':
-    debug            => true,
-    shared_secret    => 'a_big_secret',
-    metadata_workers => 2,
+    debug             => true,
+    shared_secret     => 'a_big_secret',
+    metadata_workers  => 2,
+    metadata_host     => $metadata_host,
+    metadata_protocol => $metadata_protocol,
   }
   class { '::neutron::agents::lbaas':
     interface_driver => $driver,
