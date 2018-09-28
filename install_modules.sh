@@ -28,7 +28,7 @@ gem install fast_gettext -v '< 1.2.0' --verbose
 # puppet_forge 2.2.7 has a dependency on semantic_puppet ~> 1.0
 # which is not compatible with dependency of latest r10k on semantic_puppet ~> 0.1.0
 gem install puppet_forge -v '= 2.2.6' --verbose
-gem install r10k --no-ri --no-rdoc --verbose
+gem install r10k -v 2.6.4 --no-ri --no-rdoc --verbose
 
 # make sure there is no puppet module pre-installed
 rm -rf "${PUPPETFILE_DIR:?}/"*
