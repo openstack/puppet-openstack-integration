@@ -39,12 +39,13 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 include ::openstack_integration::glance
-class { '::openstack_integration::provision':
-  neutron => false,
-  nova    => false,
-}
+include ::openstack_integration::neutron
+include ::openstack_integration::nova
+include ::openstack_integration::cinder
+include ::openstack_integration::horizon
+include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
-  neutron => false,
-  nova    => false,
+  horizon => true,
+  cinder  => true,
 }
