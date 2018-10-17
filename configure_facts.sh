@@ -23,8 +23,7 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
 if [ -f /etc/fedora-release ]; then
-    # Can be changed to more stable repo later(ex:- fedora/puppet-passed-ci)
-    DLRN_BASE="fedora/current"
+    DLRN_BASE="fedora/puppet-passed-ci"
     DLRN_DEPS_BASE="fedora/stable-base/latest/"
 fi
 
