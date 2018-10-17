@@ -172,11 +172,11 @@ class openstack_integration::nova (
   class { '::nova::consoleauth': }
   class { '::nova::cron::archive_deleted_rows': }
   if $volume_encryption {
-    $keymgr_api_class     = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    $keymgr_backend       = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
     $keymgr_auth_endpoint = "${::openstack_integration::config::keystone_auth_uri}/v3"
     $barbican_endpoint    = "${::openstack_integration::config::base_url}:9311"
   } else {
-    $keymgr_api_class     = undef
+    $keymgr_backend       = undef
     $keymgr_auth_endpoint = undef
     $barbican_endpoint    = undef
   }
@@ -184,7 +184,7 @@ class openstack_integration::nova (
     vnc_enabled                 => true,
     instance_usage_audit        => true,
     instance_usage_audit_period => 'hour',
-    keymgr_api_class            => $keymgr_api_class,
+    keymgr_backend              => $keymgr_backend,
     barbican_auth_endpoint      => $keymgr_auth_endpoint,
     barbican_endpoint           => $barbican_endpoint,
   }
