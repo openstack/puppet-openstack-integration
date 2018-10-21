@@ -142,8 +142,8 @@ install_puppet() {
         if [ "${MANAGE_REPOS}" == "true" ] ; then
             if [ $PUPPET_MAJ_VERSION == 4 ]; then
                 local PUPPET_APT_POOL="PC1"
-            elif [ $PUPPET_MAJ_VERSION == 5 ]; then
-                local PUPPET_APT_POOL="puppet5"
+            else
+                local PUPPET_APT_POOL="puppet${PUPPET_MAJ_VERSION}"
             fi
             PUPPET_CODENAME=$(lsb_release -s -c)
             if [ $PUPPET_CODENAME == "bionic" ]; then
@@ -166,8 +166,8 @@ install_puppet() {
         if [ "${MANAGE_REPOS}" == "true" ] ; then
             if [ $PUPPET_MAJ_VERSION == 4 ]; then
                 local PUPPET_YUM_SUFFIX="/el/7/PC1/x86_64/"
-            elif [ $PUPPET_MAJ_VERSION == 5 ]; then
-                local PUPPET_YUM_SUFFIX="/puppet5/el/7/x86_64/"
+            else
+                local PUPPET_YUM_SUFFIX="/puppet${PUPPET_MAJ_VERSION}/el/7/x86_64/"
             fi
             $SUDO rpm --import files/GPG-KEY-puppetlabs
             $SUDO rpm --import files/GPG-KEY-puppet

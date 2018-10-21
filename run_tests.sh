@@ -17,7 +17,6 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source ${SCRIPT_DIR}/functions
 
 export WORKSPACE=${WORKSPACE:-/tmp}
-export PUPPET_URL_SUFFIX=
 export CEPH_VERSION=${CEPH_VERSION:-mimic}
 export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-4}
 export SCENARIO=${SCENARIO:-scenario001}
@@ -44,21 +43,9 @@ export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 export WRITE_FACTS=false
 source ${SCRIPT_DIR}/configure_facts.sh
 
-
-if [ $PUPPET_MAJ_VERSION == 4 ]; then
-  export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-  export PUPPET_RELEASE_FILE=puppetlabs-release-pc1
-  export PUPPET_BASE_PATH=/etc/puppetlabs/code
-  export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
-elif [ $PUPPET_MAJ_VERSION == 5 ]; then
-  export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-  export PUPPET_RELEASE_FILE=puppet5-nightly-release
-  export PUPPET_BASE_PATH=/etc/puppetlabs/code
-  export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
-  if is_fedora; then
-      PUPPET_URL_SUFFIX='puppet5-nightly/'
-  fi
-fi
+export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
+export PUPPET_BASE_PATH=/etc/puppetlabs/code
+export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
 
 print_header 'Start (run_tests.sh)'
 
