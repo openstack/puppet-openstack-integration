@@ -1,3 +1,8 @@
+- pragma:
+    implied-branches:
+      - stable/pike
+      - stable/jewel
+
 - job:
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common.yaml
