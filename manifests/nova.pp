@@ -74,7 +74,7 @@ class openstack_integration::nova (
   # prior to the compute being registered
   exec { 'wait-for-compute-registration':
     path        => ['/bin', '/usr/bin'],
-    command     => 'sleep 10',
+    command     => 'sleep 30',
     refreshonly => true,
     notify      => Class['nova::cell_v2::discover_hosts'],
     subscribe   => Anchor['nova::service::end'],
