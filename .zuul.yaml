@@ -460,16 +460,17 @@
       - ^.gitignore$
 
 - job:
-    name: puppet-openstack-unit-4.10-centos-7
+    name: puppet-openstack-unit-4.8-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
     vars:
-      puppet_gem_version: 4.10
+      puppet_gem_version: 4.8
 
 - job:
     name: puppet-openstack-unit-5.5-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
+    branches: ^master
     vars:
       puppet_gem_version: 5.5
 
@@ -486,12 +487,12 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-4.10-centos-7
+        - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
         - puppet-openstack-unit-latest-centos-7
     gate:
       jobs:
-        - puppet-openstack-unit-4.10-centos-7
+        - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
 
 - project-template:
@@ -658,10 +659,10 @@
       - ^.gitignore$
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-4.10-centos-7
+    name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
     parent: puppet-openstack-libraries-puppet-unit-centos-7
     vars:
-      puppet_gem_version: 4.10
+      puppet_gem_version: 4.8
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-5.5-centos-7
@@ -725,6 +726,9 @@
       jobs:
         - tripleo-puppet-ci-centos-7-standalone
 
+
+
+
 - project-template:
     name: puppet-openstack-library-jobs
     check:
@@ -732,7 +736,7 @@
         - puppet-openstack-libraries-puppet-lint-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
-        - puppet-openstack-libraries-puppet-unit-4.10-centos-7
+        - puppet-openstack-libraries-puppet-unit-4.8-centos-7
         - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-unit-latest-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
@@ -742,7 +746,7 @@
         - puppet-openstack-libraries-puppet-lint-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
-        - puppet-openstack-libraries-puppet-unit-4.10-centos-7
+        - puppet-openstack-libraries-puppet-unit-4.8-centos-7
         - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
