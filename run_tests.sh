@@ -318,7 +318,7 @@ echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/t
 
 if uses_debs; then
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
-  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$).*"
+  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$)(?!tempest_horizon.tests.scenario.test_dashboard_basic_ops.*$).*"
 
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
@@ -338,7 +338,9 @@ else
 
   # NOTE(tobias-urdin): Blacklist the dynamic routing scenario tests because they use Docker which is not available and also
   # requires the above mentioned ryu.tests.integrated.common module (we need to init tempest workspace now).
-  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario.*"
+  # Note(chandankumar): Blacklist tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
+  # Adding it to skip list will help till we find the correct solution
+  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario|tempest_horizon.tests.scenario.test_dashboard_basic_ops"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
