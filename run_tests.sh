@@ -34,7 +34,12 @@ export DISTRO=$(lsb_release -c -s)
 # export TEMPEST_VERSION=${TEMPEST_VERSION:-'382a2065f3364a36c110bfcc6275a0f8f6894773'}
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
 # For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
-export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+# In Ubuntu, Tempest packages are not maintained so installing from source
+if [ $(lsb_release --id -s) = "Ubuntu" ]; then
+   export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+else
+   export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+fi
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
 
@@ -251,7 +256,7 @@ print_header 'Prepare Tempest'
 # FIXME: Since tempest create tempest workspace which is owned by root user.
 # We need to fix it in puppet-tempest, as a workaround we are changing the mode
 # of tempest workspace and run tempest command using root.
-$SUDO touch /tmp/openstack/tempest/test-whitelist.txt
+$SUDO touch /tmp/openstack/tempest/test-whitelist.txt /tmp/openstack/tempest/test-blacklist.txt
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
 # install from source now on ubuntu until packaged
@@ -317,8 +322,11 @@ echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-whitelist.txt
 echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-whitelist.txt
 
 if uses_debs; then
+  echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-blacklist.txt
+  echo "ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications" >> /tmp/openstack/tempest/test-blacklist.txt
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
-  EXCLUDES="--regex=^(?!mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions.*$)(?!ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications.*$)(?!tempest.api.object_storage.*$)(?!tempest_horizon.tests.scenario.test_dashboard_basic_ops.*$).*"
+  echo "tempest.api.object_storage" >> /tmp/openstack/tempest/test-blacklist.txt
+  EXCLUDES="--blacklist-file=/tmp/openstack/tempest/test-blacklist.txt"
 
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
@@ -349,10 +357,16 @@ if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
     run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
+    run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
+elif [ $(lsb_release --id -s) = "Debian" ]; then
+    export tempest_binary="/usr/bin/python3-tempest"
 else
     export tempest_binary="/usr/bin/tempest"
 fi
+
+# List tempest version
+$tempest_binary --version
 
 # List tempest plugins
 $tempest_binary list-plugins
@@ -363,8 +377,9 @@ $tempest_binary workspace list
 # list tempest tests before running tempest
 $tempest_binary run -l --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt
 
-# Run tempest commands
+# Run tempest tests
 $tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
+
 RESULT=$?
 set -e
 if [ -d .testrepository ]; then
