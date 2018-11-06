@@ -69,6 +69,7 @@ class openstack_integration::keystone (
     admin_bind_host            => $::openstack_integration::config::host,
     manage_policyrcd           => true,
     enable_credential_setup    => $enable_credential_setup,
+    fernet_key_repository      => '/etc/keystone/fernet-keys/',
     fernet_max_active_keys     => '5',
     token_expiration           => $token_expiration,
     default_transport_url      => os_transport_url({
