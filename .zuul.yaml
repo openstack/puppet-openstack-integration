@@ -474,9 +474,9 @@
       puppet_gem_version: 5.5
 
 - job:
-    name: puppet-openstack-unit-latest-centos-7
+    name: puppet-openstack-unit-latest-ubuntu-bionic
     parent: puppet-openstack-unit-base
-    nodeset: centos-7
+    nodeset: ubuntu-bionic
     branches: ^master
     voting: false
     vars:
@@ -488,7 +488,7 @@
       jobs:
         - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
-        - puppet-openstack-unit-latest-centos-7
+        - puppet-openstack-unit-latest-ubuntu-bionic
     gate:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
@@ -640,12 +640,11 @@
       puppet: 5
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-centos-7
+    name: puppet-openstack-libraries-puppet-unit-base
     parent: puppet-openstack-integration-base
     run: playbooks/run-libraries-unit-tests.yaml
     pre-run: playbooks/prepare-node-unit.yaml
     timeout: 3600
-    nodeset: centos-7
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -659,20 +658,23 @@
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
-    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-7
     vars:
       puppet_gem_version: 4.8
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-5.5-centos-7
-    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-7
     vars:
       puppet_gem_version: 5.5
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-latest-centos-7
-    parent: puppet-openstack-libraries-puppet-unit-centos-7
+    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
+    parent: puppet-openstack-libraries-puppet-unit-base
     branches: ^master
+    nodeset: ubuntu-bionic
     voting: false
     vars:
       puppet_gem_version: latest
@@ -737,7 +739,7 @@
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-unit-4.8-centos-7
         - puppet-openstack-libraries-puppet-unit-5.5-centos-7
-        - puppet-openstack-libraries-puppet-unit-latest-centos-7
+        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
