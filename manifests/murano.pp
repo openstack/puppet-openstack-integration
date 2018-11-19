@@ -65,7 +65,7 @@ class openstack_integration::murano {
     use_ssl               => $::openstack_integration::config::ssl,
     service_host          => $::openstack_integration::config::ip_for_url,
     cert_file             => $::openstack_integration::params::cert_path,
-    key_file              => "/etc/neutron/ssl/private/${::fqdn}.pem",
+    key_file              => "/etc/murano/ssl/private/${::fqdn}.pem",
     debug                 => true,
   }
 
