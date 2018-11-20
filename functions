@@ -82,6 +82,28 @@ install_modules() {
   fi
 }
 
+# This is only executed from install_modules_unit.sh because we have
+# some modules that is only required for puppet6 unit testing.
+# Uses the following variables:
+#
+# - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
+# - ``SCRIPT_DIR`` must be set to script path
+# - ``ZUUL_BRANCH`` must be set to Zuul branch
+install_modules_unit() {
+  # If zuul-cloner is there, have it install modules using zuul refs
+  if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+    csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
+      --prefix ${SCRIPT_DIR}/Puppetfile \
+      --suffix '%d'
+    cat ${SCRIPT_DIR}/Puppetfile_unit >> ${SCRIPT_DIR}/Puppetfile1
+    install_external
+    install_openstack
+  else
+    cat ${SCRIPT_DIR}/Puppetfile_unit >> ${SCRIPT_DIR}/Puppetfile
+    install_all
+  fi
+}
+
 # Write out basic hiera configuration
 #
 # Uses the following variables:

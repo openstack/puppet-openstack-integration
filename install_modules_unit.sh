@@ -19,7 +19,7 @@ source $SCRIPT_DIR/functions
 print_header 'Start (install_modules_unit.sh)'
 
 print_header 'Install Modules'
-install_modules
+install_modules_unit
 
 print_header 'Module List'
 puppet module list --modulepath ./spec/fixtures/modules
