@@ -36,16 +36,29 @@ if ($::os_package_type == 'debian') or ($::operatingsystem == 'Fedora') {
 
 include ::openstack_integration
 include ::openstack_integration::rabbitmq
+include ::openstack_integration::memcached
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
-include ::openstack_integration::glance
+class { '::openstack_integration::glance':
+  backend => 'swift',
+}
 include ::openstack_integration::neutron
+include ::openstack_integration::swift
 include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::horizon
+include ::openstack_integration::heat
+include ::openstack_integration::zaqar
+include ::openstack_integration::ironic
+include ::openstack_integration::mistral
 include ::openstack_integration::provision
 
 class { '::openstack_integration::tempest':
-  horizon => true,
   cinder  => true,
+  heat    => true,
+  horizon => true,
+  ironic  => true,
+  mistral => true,
+  swift   => true,
+  zaqar   => true,
 }

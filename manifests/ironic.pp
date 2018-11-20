@@ -87,6 +87,13 @@ class openstack_integration::ironic {
       }
       class { '::ironic::pxe': }
       class { '::ironic::inspector':
+        default_transport_url => os_transport_url({
+          'transport' => $::openstack_integration::config::messaging_default_proto,
+          'host'      => $::openstack_integration::config::host,
+          'port'      => $::openstack_integration::config::messaging_default_port,
+          'username'  => 'ironic',
+          'password'  => 'an_even_bigger_secret',
+        }),
         ironic_password   => 'a_big_secret',
         ironic_auth_url   => "${::openstack_integration::config::keystone_auth_uri}/v3",
         dnsmasq_interface => 'eth0',
