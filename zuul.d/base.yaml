@@ -126,6 +126,9 @@
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+    # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
+    vars:
+      rspec_puppet_version: '~> 2.3.0'
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-base
@@ -145,6 +148,9 @@
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+    # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
+    vars:
+      rspec_puppet_version: '~> 2.3.0'
 
 - job:
     name: puppet-openstack-beaker-run-base

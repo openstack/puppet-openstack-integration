@@ -11,6 +11,8 @@
               export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}.0'
             fi
           fi
+          # TODO(tobias-urdin): Remove when we dont pin rspec-puppet
+          export RSPEC_PUPPET_VERSION='{{ rspec_puppet_version }}'
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
           ruby <<EOF
