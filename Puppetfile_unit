@@ -1,0 +1,15 @@
+mod 'augeas_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-augeas_core',
+  :ref => '1.0.3'
+
+mod 'cron_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-cron_core',
+  :ref => '1.0.0'
+
+mod 'sshkeys_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-sshkeys_core',
+  :ref => '1.0.1'
+
+mod 'yumrepo_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
+  :ref => 'd751a380d7aea5ba88b3571a342039dfae3621e4'
