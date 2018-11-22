@@ -55,8 +55,10 @@ class openstack_integration::keystone (
   class { '::keystone::db::mysql':
     password => 'keystone',
   }
+  class { '::keystone::logging':
+    debug => true,
+  }
   class { '::keystone':
-    debug                      => true,
     database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
     admin_token                => 'a_big_token',
     admin_password             => 'a_big_secret',
