@@ -26,6 +26,10 @@ class openstack_integration::vitrage {
 
   class { '::vitrage::db::sync': }
 
+  class { '::vitrage::logging':
+    debug => true,
+  }
+
   class { '::vitrage':
     # TODO(ansmith): separate transports when bug/1711716 closed
     default_transport_url      => os_transport_url({
@@ -44,7 +48,6 @@ class openstack_integration::vitrage {
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    debug                      => true,
     snapshots_interval         => 120,
     types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor',
     notification_driver        => 'messagingv2',

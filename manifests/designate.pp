@@ -15,7 +15,9 @@ class openstack_integration::designate {
   class { '::designate::db::mysql':
     password => 'designate',
   }
-
+  class { '::designate::logging':
+    debug => true,
+  }
   class { '::designate':
     default_transport_url => os_transport_url({
       'transport' => 'rabbit',
@@ -25,9 +27,7 @@ class openstack_integration::designate {
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    debug                 => true,
   }
-
   class { '::designate::db':
     database_connection => 'mysql+pymysql://designate:designate@127.0.0.1/designate?charset=utf8'
   }

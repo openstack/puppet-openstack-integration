@@ -42,7 +42,9 @@ class openstack_integration::murano {
   class { '::murano::db::mysql':
     password => 'a_big_secret',
   }
-
+  class { '::murano::logging':
+    debug => true,
+  }
   class { '::murano':
     admin_password        => 'a_big_secret',
     default_transport_url => os_transport_url({
@@ -66,9 +68,7 @@ class openstack_integration::murano {
     service_host          => $::openstack_integration::config::ip_for_url,
     cert_file             => $::openstack_integration::params::cert_path,
     key_file              => "/etc/murano/ssl/private/${::fqdn}.pem",
-    debug                 => true,
   }
-
   class { '::murano::api':
     host => $::openstack_integration::config::host,
   }

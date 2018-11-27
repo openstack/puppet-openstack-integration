@@ -34,6 +34,9 @@ class openstack_integration::sahara (
     admin_url    => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
     password     => 'a_big_secret',
   }
+  class { '::sahara::logging':
+    debug => true,
+  }
   class { '::sahara':
     host                  => $::openstack_integration::config::host,
     database_connection   => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
@@ -49,7 +52,6 @@ class openstack_integration::sahara (
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms  => 'PLAIN',
-    debug                 => true,
   }
   class { '::sahara::keystone::authtoken':
     password             => 'a_big_secret',

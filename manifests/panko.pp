@@ -11,6 +11,10 @@ class openstack_integration::panko {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  class { '::panko::logging':
+    debug => true,
+  }
+
   include ::panko
 
   class { '::panko::db':

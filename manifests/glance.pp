@@ -79,8 +79,10 @@ class openstack_integration::glance (
   }
   $http_store = ['http']
   $glance_stores = concat($http_store, $backend_store)
+  class { '::glance::api::logging':
+    debug => true,
+  }
   class { '::glance::api':
-    debug               => true,
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
     workers             => 2,
     stores              => $glance_stores,

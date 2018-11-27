@@ -21,6 +21,9 @@ class openstack_integration::trove {
     $crt_file = undef
   }
 
+  class { '::trove::logging':
+    debug => true,
+  }
   class { '::trove':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -60,7 +63,6 @@ class openstack_integration::trove {
   }
   class { '::trove::api':
     bind_host => $::openstack_integration::config::host,
-    debug     => true,
     workers   => 2,
     cert_file => $crt_file,
     key_file  => $key_file,

@@ -19,6 +19,9 @@ class openstack_integration::mistral {
     www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
     auth_url             => $::openstack_integration::config::keystone_auth_uri,
   }
+  class { '::mistral::logging':
+    debug => true,
+  }
   class { '::mistral':
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -29,8 +32,6 @@ class openstack_integration::mistral {
     }),
     database_connection   => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    # if it works, we might need to change the default in puppet-mistral
-    debug                 => true,
   }
   class { '::mistral::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8989/v2",

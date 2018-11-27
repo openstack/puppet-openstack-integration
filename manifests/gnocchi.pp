@@ -19,8 +19,10 @@ class openstack_integration::gnocchi (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  class { '::gnocchi::logging':
+    debug => true,
+  }
   class { '::gnocchi':
-    debug               => true,
     database_connection => 'mysql+pymysql://gnocchi:gnocchi@127.0.0.1/gnocchi?charset=utf8',
   }
   class { '::gnocchi::db::mysql':

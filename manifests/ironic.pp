@@ -15,7 +15,9 @@ class openstack_integration::ironic {
     password => 'an_even_bigger_secret',
     before   => Anchor['ironic::service::begin'],
   }
-
+  class { '::ironic::logging':
+    debug => true,
+  }
   class { '::ironic':
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -27,7 +29,6 @@ class openstack_integration::ironic {
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms  => 'PLAIN',
     database_connection   => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
-    debug                 => true,
   }
   class { '::ironic::db::mysql':
     password => 'ironic',

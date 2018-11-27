@@ -29,6 +29,9 @@ class openstack_integration::ceilometer (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  class { '::ceilometer::logging':
+    debug => true,
+  }
   class { '::ceilometer':
     telemetry_secret           => 'secrete',
     default_transport_url      => os_transport_url({
@@ -48,9 +51,7 @@ class openstack_integration::ceilometer (
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
     memcache_servers           => $::openstack_integration::config::memcached_servers,
-    debug                      => true,
   }
-
   class { '::ceilometer::keystone::auth':
     public_url         => "${::openstack_integration::config::base_url}:8777",
     internal_url       => "${::openstack_integration::config::base_url}:8777",

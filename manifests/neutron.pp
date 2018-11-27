@@ -141,6 +141,9 @@ class openstack_integration::neutron (
       $global_physnet_mtu    = undef
   }
 
+  class { '::neutron::logging':
+    debug => true,
+  }
   class { '::neutron':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -161,7 +164,6 @@ class openstack_integration::neutron (
     allow_overlapping_ips      => true,
     core_plugin                => 'ml2',
     service_plugins            => $plugins_list,
-    debug                      => true,
     bind_host                  => $::openstack_integration::config::host,
     use_ssl                    => $::openstack_integration::config::ssl,
     cert_file                  => $::openstack_integration::params::cert_path,
