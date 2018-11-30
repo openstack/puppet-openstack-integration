@@ -1,0 +1,76 @@
+- job:
+    name: puppet-openstack-lint
+    parent: puppet-openstack-module-base
+    run: playbooks/run-lint-tests.yaml
+    irrelevant-files:
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^releasenotes/.*$
+      - ^requirements.txt$
+      - ^test-requirements.txt$
+
+- job:
+    name: puppet-openstack-syntax-4
+    parent: puppet-openstack-syntax-base
+    vars:
+      puppet: 4
+
+- job:
+    name: puppet-openstack-syntax-5
+    parent: puppet-openstack-syntax-base
+    vars:
+      puppet: 5
+
+- job:
+    name: puppet-openstack-syntax-6
+    parent: puppet-openstack-syntax-base
+    vars:
+      puppet: 6
+
+- job:
+    name: puppet-openstack-libraries-puppet-lint-centos-7
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-libraries-lint-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax
+    parent: puppet-openstack-integration-base
+    run: playbooks/run-libraries-syntax-tests.yaml
+    pre-run: playbooks/prepare-node-unit.yaml
+    timeout: 3600
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-4-centos-7
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-7
+    vars:
+      puppet: 4
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-5-centos-7
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-7
+    vars:
+      puppet: 5
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: ubuntu-bionic
+    vars:
+      puppet: 6
+
+

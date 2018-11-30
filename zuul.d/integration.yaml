@@ -1,0 +1,322 @@
+---
+
+- job:
+    name: puppet-openstack-integration-4
+    parent: puppet-openstack-integration-run-base
+    abstract: true
+    vars:
+      puppet: 4
+
+- job:
+    name: puppet-openstack-integration-4-scenario001
+    parent: puppet-openstack-integration-4
+    abstract: true
+    vars:
+      scenario: scenario001
+      ceph: luminous
+
+- job:
+    name: puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
+    parent: puppet-openstack-integration-4-scenario001
+    branches: ^stable/(newton|ocata|pike|queens).*$
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-4-scenario001
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-4-scenario002
+    parent: puppet-openstack-integration-4
+    abstract: true
+    vars:
+      scenario: scenario002
+
+- job:
+    name: puppet-openstack-integration-4-scenario002-tempest-centos-7
+    parent: puppet-openstack-integration-4-scenario002
+    branches: ^stable/(newton|ocata|pike|queens).*$
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-4-scenario002-tempest-debian-stable
+    parent: puppet-openstack-integration-4-scenario002
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-4-scenario003
+    parent: puppet-openstack-integration-4
+    abstract: true
+    vars:
+      scenario: scenario003
+
+- job:
+    name: puppet-openstack-integration-4-scenario003-tempest-centos-7
+    parent: puppet-openstack-integration-4-scenario003
+    branches: ^stable/(newton|ocata|pike|queens).*$
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-4-scenario003-tempest-debian-stable
+    parent: puppet-openstack-integration-4-scenario003
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-4-scenario004
+    parent: puppet-openstack-integration-4
+    abstract: true
+    vars:
+      scenario: scenario004
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
+    parent: puppet-openstack-integration-4-scenario004
+    branches: ^(stable/(ocata|pike|queens)).*$
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-4-scenario004
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    nodeset: debian-stable
+    vars:
+      ceph: luminous
+
+- job:
+    name: puppet-openstack-integration-5
+    parent: puppet-openstack-integration-run-base
+    abstract: true
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    vars:
+      puppet: 5
+
+- job:
+    name: puppet-openstack-integration-5-scenario001
+    parent: puppet-openstack-integration-5
+    abstract: true
+    vars:
+      scenario: scenario001
+      ceph: luminous
+
+- job:
+    name: puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
+    parent: puppet-openstack-integration-5-scenario001
+    nodeset: ubuntu-bionic
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
+    parent: puppet-openstack-integration-5-scenario001
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-5-scenario001-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-5-scenario001
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-5-scenario002
+    parent: puppet-openstack-integration-5
+    abstract: true
+    vars:
+      scenario: scenario002
+
+- job:
+    name: puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
+    parent: puppet-openstack-integration-5-scenario002
+    nodeset: ubuntu-bionic
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-5-scenario002-tempest-centos-7
+    parent: puppet-openstack-integration-5-scenario002
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-5-scenario002-tempest-debian-stable
+    parent: puppet-openstack-integration-5-scenario002
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-5-scenario003
+    parent: puppet-openstack-integration-5
+    abstract: true
+    vars:
+      scenario: scenario003
+
+- job:
+    name: puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
+    parent: puppet-openstack-integration-5-scenario003
+    nodeset: ubuntu-bionic
+    voting: false
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-5-scenario003-tempest-centos-7
+    parent: puppet-openstack-integration-5-scenario003
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-5-scenario003-tempest-debian-stable
+    parent: puppet-openstack-integration-5-scenario003
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-5-scenario004
+    parent: puppet-openstack-integration-5
+    branches: ^(?!stable/newton).*$
+    abstract: true
+    vars:
+      scenario: scenario004
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
+    parent: puppet-openstack-integration-5-scenario004
+    nodeset: ubuntu-bionic
+    voting: false
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
+    parent: puppet-openstack-integration-5-scenario004
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-5-scenario004-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-5-scenario004
+    nodeset: debian-stable
+    vars:
+      ceph: luminous
+
+- job:
+    name: puppet-openstack-integration-6
+    parent: puppet-openstack-integration-run-base
+    abstract: true
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    vars:
+      puppet: 6
+
+- job:
+    name: puppet-openstack-integration-6-scenario001
+    parent: puppet-openstack-integration-6
+    abstract: true
+    vars:
+      scenario: scenario001
+      ceph: luminous
+
+- job:
+    name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic-mimic
+    parent: puppet-openstack-integration-6-scenario001
+    nodeset: ubuntu-bionic
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-6-scenario001-tempest-centos-7-luminous
+    parent: puppet-openstack-integration-6-scenario001
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-6-scenario001
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-6-scenario002
+    parent: puppet-openstack-integration-6
+    abstract: true
+    vars:
+      scenario: scenario002
+
+- job:
+    name: puppet-openstack-integration-6-scenario002-tempest-ubuntu-bionic
+    parent: puppet-openstack-integration-6-scenario002
+    nodeset: ubuntu-bionic
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-6-scenario002-tempest-centos-7
+    parent: puppet-openstack-integration-6-scenario002
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-6-scenario002-tempest-debian-stable
+    parent: puppet-openstack-integration-6-scenario002
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-6-scenario003
+    parent: puppet-openstack-integration-6
+    abstract: true
+    vars:
+      scenario: scenario003
+
+- job:
+    name: puppet-openstack-integration-6-scenario003-tempest-ubuntu-bionic
+    parent: puppet-openstack-integration-6-scenario003
+    nodeset: ubuntu-bionic
+    voting: false
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-6-scenario003-tempest-centos-7
+    parent: puppet-openstack-integration-6-scenario003
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-6-scenario003-tempest-debian-stable
+    parent: puppet-openstack-integration-6-scenario003
+    nodeset: debian-stable
+
+- job:
+    name: puppet-openstack-integration-6-scenario004
+    parent: puppet-openstack-integration-6
+    branches: ^(?!stable/newton).*$
+    abstract: true
+    vars:
+      scenario: scenario004
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic-mimic
+    parent: puppet-openstack-integration-6-scenario004
+    nodeset: ubuntu-bionic
+    voting: false
+    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # luminous is not packaged for Bionic repos.pp will fail otherwise.
+    vars:
+      ceph: mimic
+
+- job:
+    name: puppet-openstack-integration-6-scenario004-tempest-centos-7-mimic
+    parent: puppet-openstack-integration-6-scenario004
+    nodeset: centos-7
+
+- job:
+    name: puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
+    parent: puppet-openstack-integration-6-scenario004
+    nodeset: debian-stable
+    vars:
+      ceph: luminous
