@@ -61,7 +61,7 @@ class openstack_integration::murano {
     rabbit_own_use_ssl    => $::openstack_integration::config::ssl,
     database_connection   => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
     identity_uri          => $::openstack_integration::config::keystone_admin_uri,
-    auth_uri              => $::openstack_integration::config::keystone_auth_uri,
+    www_authenticate_uri  => $::openstack_integration::config::keystone_auth_uri,
     use_ssl               => $::openstack_integration::config::ssl,
     service_host          => $::openstack_integration::config::ip_for_url,
     cert_file             => $::openstack_integration::params::cert_path,
