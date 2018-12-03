@@ -102,7 +102,6 @@ class openstack_integration::vitrage {
   class { '::vitrage::notifier':
     notifiers => ['nova'],
   }
-  class { '::vitrage::collector': }
   class { '::vitrage::persistor': }
   class { '::vitrage::client': }
 
