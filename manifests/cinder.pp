@@ -134,7 +134,7 @@ class openstack_integration::cinder (
         size => '15G',
       }
       cinder::backend::iscsi { 'BACKEND_1':
-        iscsi_ip_address   => '127.0.0.1',
+        target_ip_address  => '127.0.0.1',
         manage_volume_type => true,
       }
     }
