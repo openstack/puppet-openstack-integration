@@ -1,0 +1,55 @@
+
+- project-template:
+    name: puppet-openstack-beaker-jobs
+    check:
+      jobs:
+        - puppet-openstack-beaker-centos-7
+        - puppet-openstack-beaker-ubuntu-bionic
+    gate:
+      jobs:
+        - puppet-openstack-beaker-centos-7
+        - puppet-openstack-beaker-ubuntu-bionic
+
+- job:
+    name: puppet-openstack-libraries-puppet-beaker-rspec-centos-7
+    parent: puppet-openstack-integration-base
+    pre-run: playbooks/prepare-node-beaker.yaml
+    post-run: playbooks/upload-logs.yaml
+    run: playbooks/run-libraries-beaker-tests.yaml
+    timeout: 3600
+    nodeset: centos-7
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+    vars:
+      nodepool_type: centos7
+
+- job:
+    name: puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
+    parent: puppet-openstack-integration-base
+    pre-run: playbooks/prepare-node-beaker.yaml
+    post-run: playbooks/upload-logs.yaml
+    run: playbooks/run-libraries-beaker-tests.yaml
+    timeout: 3600
+    nodeset: ubuntu-bionic
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+    vars:
+      nodepool_type: bionic
+
+

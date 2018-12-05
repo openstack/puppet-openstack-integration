@@ -1,0 +1,51 @@
+---
+# This file contains the tripleo jobs for the puppet modules
+#
+- job:
+    name: tripleo-puppet-ci-centos-7-undercloud-containers
+    parent: tripleo-ci-centos-7-undercloud-containers
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+
+- project-template:
+    name: tripleo-puppet-undercloud
+    check:
+      jobs:
+        - tripleo-puppet-ci-centos-7-undercloud-containers
+    gate:
+      jobs:
+        - tripleo-puppet-ci-centos-7-undercloud-containers
+
+- job:
+    name: tripleo-puppet-ci-centos-7-standalone
+    parent: tripleo-ci-centos-7-standalone
+    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+
+- project-template:
+    name: tripleo-puppet-standalone
+    check:
+      jobs:
+        - tripleo-puppet-ci-centos-7-standalone
+    gate:
+      jobs:
+        - tripleo-puppet-ci-centos-7-standalone
+
