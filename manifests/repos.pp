@@ -103,19 +103,29 @@ class openstack_integration::repos {
     ceph_mirror => $ceph_mirror,
   }
 
-  # NOTE(tobias-urdin): The python-requests RPM package has a package dependency
-  # which upstream requests package does not support so it outputs a warning which
-  # messes up output (warning is printed to stdout) an causes some providers that
-  # rely on the stdout output to fail. If you upgrade the python-chardet dependency
-  # to a newer version you are fine, is reported upstream:
-  # https://bugzilla.redhat.com/show_bug.cgi?id=1620221
-  # This is added here so we have the latest of this package in both integration and
-  # beaker testing.
   if $::osfamily == 'RedHat' {
+    # NOTE(tobias-urdin): The python-requests RPM package has a package dependency
+    # which upstream requests package does not support so it outputs a warning which
+    # messes up output (warning is printed to stdout) an causes some providers that
+    # rely on the stdout output to fail. If you upgrade the python-chardet dependency
+    # to a newer version you are fine, is reported upstream:
+    # https://bugzilla.redhat.com/show_bug.cgi?id=1620221
+    # This is added here so we have the latest of this package in both integration and
+    # beaker testing.
     package { 'python-chardet':
       ensure   => 'installed',
       provider => 'rpm',
       source   => 'http://mirror.centos.org/centos/7/cloud/x86_64/openstack-rocky/python2-chardet-3.0.4-7.el7.noarch.rpm',
+    }
+
+    # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
+    # that causes the puppet-openvswitch module to fail parsing the output.
+    # This issue does not occur in integration testing but only beaker tests since some
+    # other package (probably nova) causes this package to be installed, or the yum upgrade
+    # part in integration catches it.
+    # Reported upstream: https://bugzilla.redhat.com/show_bug.cgi?id=1658141
+    package { 'libibverbs':
+      ensure => 'present',
     }
   }
 
