@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-if ($::os_package_type == 'debian') {
+if ($::os['family'] == 'Debian') {
   $wsgi_mod_package = 'libapache2-mod-wsgi-py3'
   $wsgi_mod_lib     = undef
 }

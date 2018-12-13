@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-if ($::os_package_type == 'debian') {
+if ($::os['family'] == 'Debian') {
   include ::apache::params
   class { '::apache':
     mod_packages => merge($::apache::params::mod_packages, {
