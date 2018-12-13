@@ -2,6 +2,7 @@
   tasks:
     - shell:
         cmd: |
+          set -e
           if [ -f Modulefile -o -f metadata.json ]; then
             if [ -f Modulefile ]; then
               MODULE=$(awk '/^name/ {print $NF}' Modulefile |tr -d \"\')
@@ -32,10 +33,11 @@
               $GEM_HOME/bin/bundle exec rake metadata_lint 2>&1
             fi
           else
-            gem install rake -n ./.bundled_gems/
-            gem install puppet-lint
+            gem install rake -n ./.bundled_gems/ --no-ri --no-rdoc
+            gem install puppet-lint -n ./.bundled_gems/ --no-ri --no-rdoc
             gem install metadata-json-lint -n ./.bundled_gems/ --no-ri --no-rdoc
-            gem install puppetlabs_spec_helper
+            gem install puppetlabs_spec_helper -n ./.bundled_gems/ --no-ri --no-rdoc
+            gem install puppet -n ./.bundled_gems/ --no-ri --no-rdoc
             ./.bundled_gems/rake lint 2>&1
             if [ -f metadata.json ]; then
               ./.bundled_gems/metadata-json-lint
