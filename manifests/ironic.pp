@@ -95,10 +95,10 @@ class openstack_integration::ironic {
           'username'  => 'ironic',
           'password'  => 'an_even_bigger_secret',
         }),
-        ironic_password   => 'a_big_secret',
-        ironic_auth_url   => "${::openstack_integration::config::keystone_auth_uri}/v3",
-        dnsmasq_interface => 'eth0',
-        db_connection     => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
+        ironic_password       => 'a_big_secret',
+        ironic_auth_url       => "${::openstack_integration::config::keystone_auth_uri}/v3",
+        dnsmasq_interface     => 'eth0',
+        db_connection         => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
       }
     }
     default: {
