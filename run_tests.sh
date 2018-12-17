@@ -85,6 +85,12 @@ if [ -f ~/.gemrc ]; then
     cat ~/.gemrc | $SUDO tee /root/.gemrc
 fi
 
+# handle umask issue after "pam" new release, this is needed when run_tests.sh
+# is run remotely via ansible using a user which doesn't have .bashrc file
+if [ -f /etc/fedora-release -a -f /etc/bashrc ]; then
+    source /etc/bashrc
+fi
+
 print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # TODO(pabelanger): Move this into tools/install_tempest.sh and add logic so we
 # can clone tempest outside of the gate. Also, tempest should be sandboxed into
