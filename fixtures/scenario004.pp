@@ -34,7 +34,7 @@ if $::operatingsystem == 'Ubuntu' {
 } else {
   $ipv6            = true
   $watcher_enabled = true
-  $bgpvpn_enabled  = true
+  $bgpvpn_enabled  = false
   $l2gw_enabled    = true
 }
 
@@ -55,7 +55,7 @@ class { '::openstack_integration::glance':
 class { '::openstack_integration::neutron':
   bgpvpn_enabled      => $bgpvpn_enabled,
   l2gw_enabled        => $l2gw_enabled,
-  bgp_dragent_enabled => true,
+  bgp_dragent_enabled => false,
 }
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
@@ -78,5 +78,5 @@ class { '::openstack_integration::tempest':
   bgpvpn      => $bgpvpn_enabled,
   l2gw        => $l2gw_enabled,
   l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
-  dr          => true,
+  dr          => false,
 }
