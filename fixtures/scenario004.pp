@@ -24,18 +24,21 @@ if ($::os_package_type == 'debian') {
 }
 
 if $::operatingsystem == 'Ubuntu' {
-  $ipv6            = false
+  $ipv6                = false
   # Watcher packages are not available in Ubuntu repository.
-  $watcher_enabled = false
+  $watcher_enabled     = false
   # TODO(tobasco): No service plugin 'BGPVPN'
-  $bgpvpn_enabled  = false
+  $bgpvpn_enabled      = false
   # TODO(tobasco): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
-  $l2gw_enabled    = false
+  $l2gw_enabled        = false
+  # FIXME(ykarel) Disable bgp_dragent until Ubuntu python3 stein(with stein packages) jobs are ready
+  $bgp_dragent_enabled = false
 } else {
-  $ipv6            = true
-  $watcher_enabled = true
-  $bgpvpn_enabled  = false
-  $l2gw_enabled    = true
+  $ipv6                = true
+  $watcher_enabled     = true
+  $bgpvpn_enabled      = true
+  $l2gw_enabled        = true
+  $bgp_dragent_enabled = true
 }
 
 include ::openstack_integration
@@ -55,7 +58,7 @@ class { '::openstack_integration::glance':
 class { '::openstack_integration::neutron':
   bgpvpn_enabled      => $bgpvpn_enabled,
   l2gw_enabled        => $l2gw_enabled,
-  bgp_dragent_enabled => false,
+  bgp_dragent_enabled => $bgp_dragent_enabled,
 }
 class { '::openstack_integration::nova':
   libvirt_rbd => true,
@@ -78,5 +81,5 @@ class { '::openstack_integration::tempest':
   bgpvpn      => $bgpvpn_enabled,
   l2gw        => $l2gw_enabled,
   l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
-  dr          => false,
+  dr          => $bgp_dragent_enabled,
 }
