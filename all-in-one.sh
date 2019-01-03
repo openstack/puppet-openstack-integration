@@ -63,7 +63,7 @@ fi
 print_header 'Install Bundler'
 mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
-gem install bundler --no-rdoc --no-ri --verbose
+gem install bundler --version 1.17.3 --no-rdoc --no-ri --verbose
 
 set -e
 ./run_tests.sh
