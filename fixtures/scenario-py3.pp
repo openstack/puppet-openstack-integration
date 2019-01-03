@@ -18,11 +18,13 @@ if ($::os_package_type == 'debian') {
   $wsgi_mod_package = 'libapache2-mod-wsgi-py3'
   $wsgi_mod_lib     = undef
 }
-elsif ($::operatingsystem == 'Fedora') {
+elsif ($::os['name'] == 'Fedora') or
+  ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
   $wsgi_mod_package = 'python3-mod_wsgi'
   $wsgi_mod_lib     = 'mod_wsgi_python3.so'
 }
-if ($::os_package_type == 'debian') or ($::operatingsystem == 'Fedora') {
+if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
+  ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
   include ::apache::params
   class { '::apache':
     mod_packages => merge($::apache::params::mod_packages, {
