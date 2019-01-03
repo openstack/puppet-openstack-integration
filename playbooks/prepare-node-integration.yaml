@@ -43,6 +43,8 @@
     - name: Install bundler
       gem:
         name: bundler
+        # Required against https://bugs.launchpad.net/puppet-openstack-integration/+bug/1810401
+        version: 1.17.3
         user_install: false
       environment:
         GEM_HOME: "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/.bundled_gems"
