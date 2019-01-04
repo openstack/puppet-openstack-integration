@@ -19,7 +19,13 @@
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
           if [ -f Gemfile ]; then
-            gem install --version 1.17.3 bundler --no-rdoc --no-ri --verbose
+            ruby <<EOF
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+              cmd += ' -v 1.17.3'
+          end
+          system(cmd)
+          EOF
             $GEM_HOME/bin/bundle install --without system_tests
             $GEM_HOME/bin/bundle exec rake lint 2>&1
           else
