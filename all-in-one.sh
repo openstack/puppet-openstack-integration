@@ -63,7 +63,13 @@ fi
 print_header 'Install Bundler'
 mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
-gem install bundler --version 1.17.3 --no-rdoc --no-ri --verbose
+ruby <<EOF
+cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+    cmd += ' -v 1.17.3'
+end
+system(cmd)
+EOF
 
 set -e
 ./run_tests.sh

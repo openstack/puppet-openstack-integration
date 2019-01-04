@@ -41,10 +41,14 @@
         state: directory
 
     - name: Install bundler
-      gem:
-        name: bundler
-        # Required against https://bugs.launchpad.net/puppet-openstack-integration/+bug/1810401
-        version: 1.17.3
-        user_install: false
+      shell:
+        cmd: |
+          ruby <<EOF
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+              cmd += ' -v 1.17.3'
+          end
+          system(cmd)
+          EOF
       environment:
         GEM_HOME: "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/.bundled_gems"
