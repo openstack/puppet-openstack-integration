@@ -1,6 +1,7 @@
 - hosts: all
   tasks:
-    - shell:
+    - name: install ruby bundler and run it
+      shell:
         cmd: |
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
             if [ "{{ puppet_gem_version }}" == "5.5" ]; then
@@ -12,7 +13,13 @@
           fi
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
-          gem install bundler --version 1.17.3 --no-rdoc --no-ri --verbose
+          ruby <<EOF
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+              cmd += ' -v 1.17.3'
+          end
+          system(cmd)
+          EOF
           $GEM_HOME/bin/bundle install --retry 3
           $GEM_HOME/bin/bundle exec rake spec SPEC_OPTS='--format documentation'
         chdir: '{{ ansible_user_dir }}/workspace'
