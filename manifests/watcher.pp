@@ -24,9 +24,9 @@ class openstack_integration::watcher {
   # TODO: Support SSL
   class { '::watcher::keystone::auth':
     password     => 'a_big_secret',
-    public_url   => "https://${::openstack_integration::config::ip_for_url}:9322",
-    admin_url    => "https://${::openstack_integration::config::ip_for_url}:9322",
-    internal_url => "https://${::openstack_integration::config::ip_for_url}:9322",
+    public_url   => "${::openstack_integration::config::base_url}:9322",
+    admin_url    => "${::openstack_integration::config::base_url}:9322",
+    internal_url => "${::openstack_integration::config::base_url}:9322",
   }
   class {'::watcher::keystone::authtoken':
     password             => 'a_big_secret',

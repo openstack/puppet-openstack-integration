@@ -23,6 +23,17 @@ class openstack_integration::ceph (
     $ms_bind_ipv6 = undef
   }
 
+  # FIXME(ykarel) python2-rbd is installed as a indirect dependency for 'ceph' package,
+  # but we need to install python3-rbd in Fedora until 'ceph' package is fixed.
+  if ($::os_package_type == 'debian') or ($::operatingsystem == 'Fedora') or
+    ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
+
+    ensure_resource('package', 'python3-rbd', {
+      name   => 'python3-rbd',
+      ensure => 'present',
+    })
+  }
+
   class { '::ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo
