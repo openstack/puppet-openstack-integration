@@ -196,11 +196,11 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => '5.10.0'
+  :ref => '5.11.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
-  :ref => 'v8.4.0'
+  :ref => 'v8.4.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -224,15 +224,15 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
-  :ref => 'v2.1.1'
+  :ref => 'v2.2.2'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '5.3.1'
+  :ref => '5.4.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v3.2.0'
+  :ref => 'v3.2.1'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
