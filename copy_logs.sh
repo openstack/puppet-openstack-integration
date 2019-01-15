@@ -272,7 +272,12 @@ if [ -f $LOG_DIR/rabbitmq ]; then
     done
 fi
 
-# hiera
+# hiera config
+if [ -f $SCRIPT_DIR/hiera.yaml ]; then
+    mv $SCRIPT_DIR/hiera.yaml $LOG_DIR
+fi
+
+# hiera data
 if [ -d $SCRIPT_DIR/hiera ]; then
     mv $SCRIPT_DIR/hiera $LOG_DIR
 fi

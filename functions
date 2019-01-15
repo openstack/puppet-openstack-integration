@@ -113,14 +113,17 @@ install_modules_unit() {
 configure_hiera() {
   cat <<EOF >$HIERA_CONFIG
 ---
-:backends:
-  - yaml
-:yaml:
-  :datadir: "${SCRIPT_DIR}/hiera"
-:hierarchy:
-  - "%{::operatingsystem}"
-  - "%{::osfamily}"
-  - common
+version: 5
+defaults:
+  datadir: ${SCRIPT_DIR}/hiera
+  data_hash: yaml_data
+hierarchy:
+  - name: "OS specific"
+    path: "%{::operatingsystem}.yaml"
+  - name: "OS family specific"
+    path: "%{::osfamily}.yaml"
+  - name: "Common"
+    path: "common.yaml"
 EOF
 }
 
