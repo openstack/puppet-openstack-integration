@@ -1,4 +1,3 @@
-
 - project-template:
     name: puppet-openstack-beaker-jobs
     check:
@@ -51,5 +50,3 @@
       - ^.gitignore$
     vars:
       nodepool_type: bionic
-
-

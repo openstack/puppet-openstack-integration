@@ -1,5 +1,4 @@
 ---
-
 - job:
     name: puppet-openstack-integration-4
     parent: puppet-openstack-integration-run-base

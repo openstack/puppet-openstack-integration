@@ -28,7 +28,7 @@
     name: puppet-openstack-library-jobs
     check:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-centos-7
+        - puppet-openstack-libraries-puppet-lint-ubuntu-bionic
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
@@ -40,7 +40,7 @@
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-centos-7
+        - puppet-openstack-libraries-puppet-lint-ubuntu-bionic
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic

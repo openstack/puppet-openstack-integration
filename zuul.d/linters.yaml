@@ -28,12 +28,11 @@
       puppet: 6
 
 - job:
-    name: puppet-openstack-libraries-puppet-lint-centos-7
+    name: puppet-openstack-libraries-puppet-lint-ubuntu-bionic
     parent: puppet-openstack-integration-base
     run: playbooks/run-libraries-lint-tests.yaml
     pre-run: playbooks/prepare-node-unit.yaml
     timeout: 3600
-    nodeset: centos-7
 
 - job:
     name: puppet-openstack-libraries-puppet-syntax
@@ -69,8 +68,5 @@
 - job:
     name: puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-syntax
-    nodeset: ubuntu-bionic
     vars:
       puppet: 6
-
-
