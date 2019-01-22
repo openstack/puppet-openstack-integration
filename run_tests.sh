@@ -318,6 +318,7 @@ if uses_debs; then
   echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-blacklist.txt
   echo "ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications" >> /tmp/openstack/tempest/test-blacklist.txt
   echo "tempest_horizon.tests.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-blacklist.txt
+  echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-blacklist.txt
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
   echo "tempest.api.object_storage" >> /tmp/openstack/tempest/test-blacklist.txt
   EXCLUDES="--blacklist-file=/tmp/openstack/tempest/test-blacklist.txt"
@@ -342,7 +343,7 @@ else
   # requires the above mentioned ryu.tests.integrated.common module (we need to init tempest workspace now).
   # Note(chandankumar): Blacklist tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
   # Adding it to skip list will help till we find the correct solution
-  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario|tempest_horizon.tests.scenario.test_dashboard_basic_ops"
+  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario|tempest_horizon.tests.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
