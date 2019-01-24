@@ -29,9 +29,9 @@ class openstack_integration::sahara (
   }
 
   class { '::sahara::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
-    internal_url => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
-    admin_url    => "${::openstack_integration::config::base_url}:8386/v1.1/%(tenant_id)s",
+    public_url   => "${::openstack_integration::config::base_url}:8386",
+    internal_url => "${::openstack_integration::config::base_url}:8386",
+    admin_url    => "${::openstack_integration::config::base_url}:8386",
     password     => 'a_big_secret',
   }
   class { '::sahara::logging':
