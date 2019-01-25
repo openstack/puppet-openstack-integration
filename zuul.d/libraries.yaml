@@ -32,3 +32,6 @@
     voting: false
     vars:
       puppet_gem_version: latest
+      # TODO(tobias-urdin): Remove this when we 2.7.1 works without
+      # any issues and we can leave it not pinned to anything.
+      rspec_puppet_version: '= 2.7.1'
