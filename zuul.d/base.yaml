@@ -184,3 +184,4 @@
     voting: false
     vars:
       nodepool_type: bionic
+      puppet_gem_version: latest
