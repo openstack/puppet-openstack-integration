@@ -334,16 +334,9 @@ else
   # us to run it until we can implement --blacklist-file in a stable way.
   #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 
-  # TODO(tobias-urdin): An ugly fix to make sure we get the ryu.tests.integrated.common module which is removed
-  # from the ryu RPM package. Remove this if we push a fix for the ryu centos package (4.26 is the packaged version).
-  git clone -b v4.26 https://github.com/osrg/ryu.git /tmp/openstack/ryu
-  $SUDO cp -R /tmp/openstack/ryu/ryu/tests/integrated/common/ /usr/lib/python2.7/site-packages/ryu/tests/integrated/
-
-  # NOTE(tobias-urdin): Blacklist the dynamic routing scenario tests because they use Docker which is not available and also
-  # requires the above mentioned ryu.tests.integrated.common module (we need to init tempest workspace now).
   # Note(chandankumar): Blacklist tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
   # Adding it to skip list will help till we find the correct solution
-  EXCLUDES="--black-regex=^neutron_dynamic_routing.tests.tempest.scenario|tempest_horizon.tests.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
+  EXCLUDES="--black-regex=^tempest_horizon.tests.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
