@@ -5,12 +5,7 @@
           set -e
           set -x
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
-            if [ "{{ puppet_gem_version }}" == "5.5" ]; then
-              # Pin to 5.5.6. See PUP-9270 and PUP-9271
-              export PUPPET_GEM_VERSION='{{ puppet_gem_version }}.6'
-            else
-              export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}.0'
-            fi
+            export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
           fi
           # TODO(tobias-urdin): Remove when we dont pin rspec-puppet
           export RSPEC_PUPPET_VERSION='{{ rspec_puppet_version }}'
