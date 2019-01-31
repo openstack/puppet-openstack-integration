@@ -83,8 +83,10 @@ class { '::openstack_integration::neutron':
   l2gw_enabled        => $l2gw_enabled,
   bgp_dragent_enabled => $bgp_dragent_enabled,
 }
+include ::openstack_integration::nova_placement
 class { '::openstack_integration::nova':
-  libvirt_rbd => true,
+  libvirt_rbd                   => true,
+  placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
 }
 
 class { '::openstack_integration::ceph':

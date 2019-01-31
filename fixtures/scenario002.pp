@@ -80,8 +80,10 @@ include ::openstack_integration::ironic
 include ::openstack_integration::zaqar
 include ::openstack_integration::provision
 
+include ::openstack_integration::nova_placement
 class { '::openstack_integration::nova':
-  volume_encryption => true,
+  volume_encryption             => true,
+  placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
 }
 
 class { '::openstack_integration::cinder':

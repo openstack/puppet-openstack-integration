@@ -22,12 +22,20 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
+# [*placement_database_connection*]
+#   (optional) Connection url for the placement database.
+#   Defaults to undef.
+#
 class openstack_integration::nova (
   $libvirt_rbd         = false,
   $libvirt_virt_type   = 'qemu',
   $libvirt_cpu_mode    = 'none',
   $volume_encryption   = false,
   $notification_topics = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $placement_database_connection = $::os_service_default,
 ) {
 
   include ::openstack_integration::config
@@ -80,29 +88,11 @@ class openstack_integration::nova (
     subscribe   => Anchor['nova::service::end'],
   }
 
-  class { '::nova::db::mysql_placement':
-    password => 'nova',
-  }
   class { '::nova::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
     internal_url => "${::openstack_integration::config::base_url}:8774/v2.1",
     admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
     password     => 'a_big_secret',
-  }
-  if ($::os_package_type == 'debian') {
-    class { '::nova::keystone::auth_placement':
-      public_url   => "${::openstack_integration::config::base_url}:8778",
-      internal_url => "${::openstack_integration::config::base_url}:8778",
-      admin_url    => "${::openstack_integration::config::base_url}:8778",
-      password     => 'a_big_secret',
-    }
-  } else {
-    class { '::nova::keystone::auth_placement':
-      public_url   => "${::openstack_integration::config::base_url}:8778/placement",
-      internal_url => "${::openstack_integration::config::base_url}:8778/placement",
-      admin_url    => "${::openstack_integration::config::base_url}:8778/placement",
-      password     => 'a_big_secret',
-    }
   }
   class { '::nova::keystone::authtoken':
     password             => 'a_big_secret',
@@ -120,7 +110,7 @@ class openstack_integration::nova (
     notification_transport_url    => $notification_transport_url,
     database_connection           => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
     api_database_connection       => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
-    placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
+    placement_database_connection => $placement_database_connection,
     rabbit_use_ssl                => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms          => 'PLAIN',
     use_ipv6                      => $::openstack_integration::config::ipv6,
@@ -161,16 +151,6 @@ class openstack_integration::nova (
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
-  }
-  if ($::os_package_type != 'debian') {
-    class { '::nova::wsgi::apache_placement':
-      bind_host => $::openstack_integration::config::ip_for_url,
-      api_port  => '8778',
-      ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
-      ssl_cert  => $::openstack_integration::params::cert_path,
-      ssl       => $::openstack_integration::config::ssl,
-      workers   => '2',
-    }
   }
   class { '::nova::placement':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
