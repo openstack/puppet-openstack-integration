@@ -29,10 +29,8 @@ include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 include ::openstack_integration::glance
 include ::openstack_integration::neutron
-include ::openstack_integration::nova_placement
-class { '::openstack_integration::nova':
-  placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
-}
+include ::openstack_integration::placement
+include ::openstack_integration::nova
 include ::openstack_integration::cinder
 include ::openstack_integration::horizon
 include ::openstack_integration::provision

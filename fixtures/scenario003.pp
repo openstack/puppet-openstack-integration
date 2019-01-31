@@ -91,10 +91,8 @@ include ::openstack_integration::glance
 class { '::openstack_integration::neutron':
   driver => 'linuxbridge',
 }
-include ::openstack_integration::nova_placement
-class { '::openstack_integration::nova':
-  placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
-}
+include ::openstack_integration::placement
+include ::openstack_integration::nova
 if $trove_enabled {
   include ::openstack_integration::trove
 }

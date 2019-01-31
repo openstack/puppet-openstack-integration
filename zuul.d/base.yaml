@@ -34,6 +34,7 @@
       - openstack/puppet-oslo
       - openstack/puppet-ovn
       - openstack/puppet-panko
+      - openstack/puppet-placement
       - openstack/puppet-qdr
       - openstack/puppet-sahara
       - openstack/puppet-swift

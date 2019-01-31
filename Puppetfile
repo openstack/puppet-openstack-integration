@@ -109,6 +109,10 @@ mod 'panko',
   :git => 'https://git.openstack.org/openstack/puppet-panko',
   :ref => 'master'
 
+mod 'placement',
+  :git => 'https://git.openstack.org/openstack/puppet-placement',
+  :ref => 'master'
+
 mod 'qdr',
   :git => 'https://git.openstack.org/openstack/puppet-qdr',
   :ref => 'master'
