@@ -207,7 +207,8 @@ if [ "${MANAGE_REPOS}" = true ]; then
         $SUDO $YUM update -y
         update_ret=$?
     elif uses_debs; then
-        $SUDO DEBIAN_FRONTEND=noninteractive apt-get -y -o Dpkg::Options::="--force-confnew" upgrade
+        export DEBIAN_FRONTEND=noninteractive
+        $SUDO apt-get -y -o Dpkg::Options::="--force-confnew" upgrade
         update_ret=$?
     fi
     if [ $update_ret -ne 0 ]; then
