@@ -253,7 +253,7 @@ class openstack_integration::neutron (
   class { '::neutron::services::fwaas':
     enabled       => true,
     agent_version => 'v2',
-    driver        => 'neutron_fwaas.services.firewall.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver',
+    driver        => 'neutron_fwaas.services.firewall.service_drivers.agents.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver',
 
   }
   if $bgpvpn_enabled {
