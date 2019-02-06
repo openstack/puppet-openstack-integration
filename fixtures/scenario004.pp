@@ -23,7 +23,7 @@ elsif ($::os['name'] == 'Fedora') or
   $wsgi_mod_package = 'python3-mod_wsgi'
   $wsgi_mod_lib     = 'mod_wsgi_python3.so'
 }
-if ($::os_package_type == 'debian') or ($::os['name'] == 'Fedora') or
+if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
   include ::apache::params
   class { '::apache':
