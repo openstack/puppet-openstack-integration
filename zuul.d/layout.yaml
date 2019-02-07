@@ -63,14 +63,6 @@
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
-            voting: false
-        - puppet-openstack-integration-4-scenario002-tempest-debian-stable:
-            voting: false
-        - puppet-openstack-integration-4-scenario003-tempest-debian-stable:
-            voting: false
-        - puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous:
-            voting: false
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
@@ -81,6 +73,14 @@
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
     experimental:
       jobs:
+        - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
+            voting: false
+        - puppet-openstack-integration-4-scenario002-tempest-debian-stable:
+            voting: false
+        - puppet-openstack-integration-4-scenario003-tempest-debian-stable:
+            voting: false
+        - puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous:
+            voting: false
         - puppet-openstack-integration-5-scenario001-tempest-debian-stable-luminous
         - puppet-openstack-integration-5-scenario002-tempest-debian-stable
         - puppet-openstack-integration-5-scenario003-tempest-debian-stable
@@ -104,14 +104,14 @@
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
-        - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
-            voting: false
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
     experimental:
       jobs:
+        - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
+            voting: false
         - puppet-openstack-integration-5-scenario001-tempest-debian-stable-luminous
         - puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
         - puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic-mimic
@@ -123,14 +123,14 @@
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
-        - puppet-openstack-integration-4-scenario002-tempest-debian-stable:
-            voting: false
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
     experimental:
       jobs:
+        - puppet-openstack-integration-4-scenario002-tempest-debian-stable:
+            voting: false
         - puppet-openstack-integration-5-scenario002-tempest-debian-stable
         - puppet-openstack-integration-6-scenario002-tempest-debian-stable
         - puppet-openstack-integration-6-scenario002-tempest-ubuntu-bionic
@@ -142,13 +142,13 @@
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
-        - puppet-openstack-integration-4-scenario003-tempest-debian-stable:
-            voting: false
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
     experimental:
       jobs:
+        - puppet-openstack-integration-4-scenario003-tempest-debian-stable:
+            voting: false
         - puppet-openstack-integration-5-scenario003-tempest-debian-stable
         - puppet-openstack-integration-6-scenario003-tempest-debian-stable
         - puppet-openstack-integration-6-scenario003-tempest-ubuntu-bionic
@@ -160,13 +160,13 @@
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
-        - puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous:
-            voting: false
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
     experimental:
       jobs:
+        - puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous:
+            voting: false
         - puppet-openstack-integration-5-scenario004-tempest-debian-stable-luminous
         - puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
         - puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic-mimic
