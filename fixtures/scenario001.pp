@@ -36,7 +36,7 @@ if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   }
 }
 
-if ($::os['name'] == 'Fedora') or
+if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
   # FIXME(ykarel) Disable SSL until services are ready to work with SSL + Python3
   $ssl = false
