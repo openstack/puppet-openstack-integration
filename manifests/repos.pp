@@ -136,5 +136,12 @@ class openstack_integration::repos {
       ensure => 'present',
     }
     Apt::Source<||> -> Package['python3-websockify']
+
+    # NOTE(tobias-urdin): Remove this when Ubuntu 18.04 bionic-updates swift
+    # packages properly depends on python-keystonemiddleware (swift is still py2).
+    package { 'python-keystonemiddleware':
+      ensure => 'present',
+    }
+    Apt::Source<||> -> Package['python-keystonemiddleware']
   }
 }
