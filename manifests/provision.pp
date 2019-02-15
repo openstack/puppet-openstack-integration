@@ -26,14 +26,14 @@ class openstack_integration::provision (
       ensure => present,
       id     => '42',
       ram    => '128',
-      disk   => '0',
+      disk   => '2',
       vcpus  => '1',
     }
     nova_flavor { 'm1.micro':
       ensure => present,
       id     => '84',
       ram    => '128',
-      disk   => '0',
+      disk   => '2',
       vcpus  => '1',
     }
     # NOTE(ykarel): "m1.small" flavor is required by murano scenario tests
@@ -41,7 +41,7 @@ class openstack_integration::provision (
       ensure => present,
       id     => '2',
       ram    => '128',
-      disk   => '0',
+      disk   => '2',
       vcpus  => '1',
     }
     # NOTE(amoralej): "m1.tiny" flavor is required by murano scenario tests
@@ -50,7 +50,7 @@ class openstack_integration::provision (
       ensure => present,
       id     => '1',
       ram    => '128',
-      disk   => '0',
+      disk   => '2',
       vcpus  => '1',
     }
     Keystone_user_role <||>-> Nova_flavor<||>
