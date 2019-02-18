@@ -196,7 +196,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => '5.12.0'
+  :ref => '5.12.1'
 
 mod 'rabbitmq',
   :git => 'https://github.com/puppetlabs/puppetlabs-rabbitmq',
@@ -204,7 +204,7 @@ mod 'rabbitmq',
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
-  :ref => '1.1.0'
+  :ref => '1.1.1'
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
