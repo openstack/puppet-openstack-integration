@@ -112,10 +112,11 @@ class openstack_integration::repos {
     # https://bugzilla.redhat.com/show_bug.cgi?id=1620221
     # This is added here so we have the latest of this package in both integration and
     # beaker testing.
-    package { 'python-chardet':
-      ensure   => 'installed',
-      provider => 'rpm',
-      source   => 'http://mirror.centos.org/centos/7/cloud/x86_64/openstack-rocky/python2-chardet-3.0.4-7.el7.noarch.rpm',
+    exec { 'install python2-chardet':
+      command => 'yum install -y http://mirror.centos.org/centos/7/cloud/x86_64/openstack-rocky/python2-chardet-3.0.4-7.el7.noarch.rpm',
+      path    => '/bin',
+      user    => 'root',
+      unless  => 'rpm -qa | grep -w python2-chardet-3.0.4-7',
     }
 
     # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
