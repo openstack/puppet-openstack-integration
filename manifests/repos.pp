@@ -120,13 +120,6 @@ class openstack_integration::repos {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    # NOTE(tobias-urdin): Remove this when Ubuntu 18.04 bionic-updates nova-novncproxy
-    # package properly depends on python3-websockify.
-    package { 'python3-websockify':
-      ensure => 'present',
-    }
-    Apt::Source<||> -> Package['python3-websockify']
-
     # NOTE(tobias-urdin): Remove this when Ubuntu 18.04 bionic-updates swift
     # packages properly depends on python-keystonemiddleware (swift is still py2).
     package { 'python-keystonemiddleware':
