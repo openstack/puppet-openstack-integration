@@ -120,13 +120,6 @@ class openstack_integration::repos {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    # NOTE(tobias-urdin): Remove this when Ubuntu 18.04 bionic-updates swift
-    # packages properly depends on python-keystonemiddleware (swift is still py2).
-    package { 'python-keystonemiddleware':
-      ensure => 'present',
-    }
-    Apt::Source<||> -> Package['python-keystonemiddleware']
-
     # TODO(tobias-urdin): Something changed in packages that was installed in puppet-nova
     # on Ubuntu so the rbd and rados python libs are not installed anymore.
     # Need to figure out a good place to add them back in, until then just testing with this.
