@@ -14,6 +14,7 @@ puppetlabs/puppetlabs-rabbitmq
 puppetlabs/puppetlabs-rsync
 puppetlabs/puppetlabs-stdlib
 puppetlabs/puppetlabs-vcsrepo
+voxpupuli/puppet-git_resource
 puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
 voxpupuli/puppet-python

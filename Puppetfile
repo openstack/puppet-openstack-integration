@@ -218,6 +218,10 @@ mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
   :ref => '2.4.0'
 
+mod 'git_resource',
+  :git => 'https://github.com/voxpupuli/puppet-git_resource',
+  :ref => 'v1.0.2'
+
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
   :ref => '3.1.0'
