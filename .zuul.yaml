@@ -22,7 +22,7 @@
       - name: openstack/puppet-ceilometer
         override-checkout: stable/queens
       - name: openstack/puppet-ceph
-        override-checkout: stable/liminous
+        override-checkout: stable/luminous
       - name: openstack/puppet-cinder
         override-checkout: stable/queens
       - name: openstack/puppet-cloudkitty
