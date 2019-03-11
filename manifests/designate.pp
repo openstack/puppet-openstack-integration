@@ -69,6 +69,12 @@ class openstack_integration::designate {
     pool_id => '794ccc2c-d751-44fe-b57f-8894c9f5c842',
   }
 
+  # pool_manager and designate worker cannot be enabled together
+  class { '::designate::worker':
+    enabled        => false,
+    service_ensure => 'stopped',
+  }
+
   class { '::designate::pool_manager_cache::memcache':
     memcached_servers => $::openstack_integration::config::memcached_servers,
   }
