@@ -104,21 +104,10 @@ class openstack_integration::repos {
   }
 
   if $::osfamily == 'RedHat' {
-    # NOTE(tobias-urdin): The python-requests RPM package has a package dependency
-    # which upstream requests package does not support so it outputs a warning which
-    # messes up output (warning is printed to stdout) an causes some providers that
-    # rely on the stdout output to fail. If you upgrade the python-chardet dependency
-    # to a newer version you are fine, is reported upstream:
-    # https://bugzilla.redhat.com/show_bug.cgi?id=1620221
-    # This is added here so we have the latest of this package in both integration and
-    # beaker testing.
-    exec { 'install python2-chardet':
-      command => 'yum install -y http://mirror.centos.org/centos/7/cloud/x86_64/openstack-rocky/python2-chardet-3.0.4-7.el7.noarch.rpm',
-      path    => '/bin',
-      user    => 'root',
-      unless  => 'rpm -qa | grep -w python2-chardet-3.0.4-7',
+    package { 'python2-chardet':
+      ensure => 'latest',
     }
-
+    Yumrepo<||> -> Package<| title == 'python2-chardet' |>
     # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
     # that causes the puppet-openvswitch module to fail parsing the output.
     # This issue does not occur in integration testing but only beaker tests since some
