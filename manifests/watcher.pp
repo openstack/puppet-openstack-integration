@@ -59,10 +59,15 @@ class openstack_integration::watcher {
     amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { '::watcher::api':
-    watcher_api_bind_host   => $::openstack_integration::config::host,
-    watcher_client_password => 'a_big_secret',
-    upgrade_db              => true,
-    service_name            => 'httpd',
+    watcher_api_bind_host              => $::openstack_integration::config::host,
+    watcher_client_password            => 'a_big_secret',
+    watcher_client_project_domain_name => 'Default',
+    watcher_client_user_domain_name    => 'Default',
+    watcher_client_project_name        => 'services',
+    watcher_client_auth_uri            => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    watcher_client_auth_url            => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    upgrade_db                         => true,
+    service_name                       => 'httpd',
   }
   include ::apache
   class { '::watcher::wsgi::apache':
