@@ -38,6 +38,7 @@
     post-run: playbooks/upload-logs.yaml
     run: playbooks/run-libraries-beaker-tests.yaml
     timeout: 3600
+    voting: false
     nodeset: ubuntu-bionic
     irrelevant-files:
       - ^.*\.md$

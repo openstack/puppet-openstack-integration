@@ -48,7 +48,6 @@
         - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-unit-6.0-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
-        - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
 
 # integration jobs
 - project-template:
@@ -69,8 +68,6 @@
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
-        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
     experimental:
       jobs:
         - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
