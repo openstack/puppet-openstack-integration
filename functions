@@ -35,7 +35,7 @@ EOF
   /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
     --cache-dir /opt/git \
     --zuul-branch $ZUUL_BRANCH \
-    git://git.openstack.org $project_names
+    https://git.openstack.org $project_names
 
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268

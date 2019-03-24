@@ -115,7 +115,7 @@ If you're new in Puppet OpenStack and you want to deploy an All-In-One setup of
 an OpenStack Cloud with the Puppet modules, please follow the steps:
 
 ```bash
-git clone git://git.openstack.org/openstack/puppet-openstack-integration
+git clone https://git.openstack.org/openstack/puppet-openstack-integration
 cd puppet-openstack-integration
 ./all-in-one.sh
 ```
