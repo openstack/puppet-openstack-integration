@@ -85,10 +85,10 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 
 if [ -e /usr/zuul-env/bin/zuul-cloner ] && [ "${TEMPEST_FROM_SOURCE}" = true ] ; then
     /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-        git://git.openstack.org openstack/tempest
+        https://git.openstack.org openstack/tempest
     if uses_debs; then
         /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            git://git.openstack.org openstack/tempest-horizon
+            https://git.openstack.org openstack/tempest-horizon
     fi
 
     # Pin Tempest to TEMPEST_VERSION unless we're running inside the
@@ -104,9 +104,9 @@ elif [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     $SUDO rm -rf /tmp/openstack/tempest-horizon
 
     # We're outside the gate, just do a regular git clone
-    git clone git://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+    git clone https://git.openstack.org/openstack/tempest /tmp/openstack/tempest
     if uses_debs; then
-        git clone git://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        git clone https://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     pushd /tmp/openstack/tempest
     git reset --hard origin/$TEMPEST_VERSION

@@ -48,7 +48,7 @@ EOF
     --cache-dir /opt/git \
     --project-branch openstack/puppet-ceph=$PUPPET_CEPH_ZUUL_BRANCH \
     --zuul-branch $ZUUL_BRANCH \
-    git://git.openstack.org $project_names
+    https://git.openstack.org $project_names
 
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268
