@@ -25,7 +25,7 @@
           /usr/zuul-env/bin/zuul-cloner -m $CLONEMAP \
               --cache-dir /opt/git \
               --zuul-branch $ZUUL_BRANCH_REAL \
-              git://git.openstack.org openstack/puppet-openstack-integration
+              https://git.openstack.org openstack/puppet-openstack-integration
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
