@@ -5,6 +5,7 @@
     name: tripleo-puppet-ci-centos-7-undercloud-containers
     parent: tripleo-ci-centos-7-undercloud-containers
     branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    voting: false
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -23,14 +24,12 @@
     check:
       jobs:
         - tripleo-puppet-ci-centos-7-undercloud-containers
-    gate:
-      jobs:
-        - tripleo-puppet-ci-centos-7-undercloud-containers
 
 - job:
     name: tripleo-puppet-ci-centos-7-standalone
     parent: tripleo-ci-centos-7-standalone
     branches: ^(?!stable/(newton|ocata|pike|queens)).*$
+    voting: false
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -47,8 +46,5 @@
 - project-template:
     name: tripleo-puppet-standalone
     check:
-      jobs:
-        - tripleo-puppet-ci-centos-7-standalone
-    gate:
       jobs:
         - tripleo-puppet-ci-centos-7-standalone
