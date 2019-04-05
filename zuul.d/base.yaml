@@ -8,7 +8,7 @@
       - name: openstack/puppet-barbican
       - name: openstack/puppet-ceilometer
       - name: openstack/puppet-ceph
-        override-checkout: stable/mimic
+        override-checkout: master
       - name: openstack/puppet-cinder
       - name: openstack/puppet-cloudkitty
       - name: openstack/puppet-congress
