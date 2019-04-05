@@ -194,9 +194,11 @@
       ceph: mimic
 
 - job:
-    name: puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
+    name: puppet-openstack-integration-5-scenario004-tempest-centos-7-nautilus
     parent: puppet-openstack-integration-5-scenario004
     nodeset: centos-7
+    vars:
+      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-5-scenario004-tempest-debian-stable-luminous
@@ -311,9 +313,11 @@
       ceph: mimic
 
 - job:
-    name: puppet-openstack-integration-6-scenario004-tempest-centos-7-mimic
+    name: puppet-openstack-integration-6-scenario004-tempest-centos-7-nautilus
     parent: puppet-openstack-integration-6-scenario004
     nodeset: centos-7
+    vars:
+      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous

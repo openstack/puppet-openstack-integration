@@ -34,6 +34,23 @@ class openstack_integration::ceph (
     })
   }
 
+  exec { 'lvm_create':
+    command   => "/bin/true # comment to satisfy puppet syntax requirements
+truncate --size=10G /diskimage.img
+losetup /dev/loop0 /diskimage.img
+pvcreate /dev/loop0
+vgcreate ceph_vg /dev/loop0
+lvcreate -n lv_data -a y -l 100%FREE ceph_vg
+",
+    unless    => "/bin/true # comment to satisfy puppet syntax requirements
+set -ex
+test -b /dev/ceph_vg/lv_data
+",
+    logoutput => true,
+  }
+
+  Exec['lvm_create'] -> Class['Ceph::Osds']
+
   class { '::ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo
@@ -68,7 +85,7 @@ class openstack_integration::ceph (
       },
     },
     osds                         => {
-      '/var/lib/ceph/data' => {},
+      'ceph_vg/lv_data' => {},
     },
     # Configure Ceph RadosGW
     # These could be always set in the above call to ceph::profile::params
