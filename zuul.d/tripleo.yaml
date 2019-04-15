@@ -15,6 +15,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
 
@@ -41,6 +42,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
 

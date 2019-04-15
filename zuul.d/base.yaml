@@ -66,6 +66,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
     roles:
@@ -104,6 +105,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
 
@@ -125,6 +127,7 @@
       - ^spec/acceptance/.*$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
     # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
@@ -147,6 +150,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
     # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
@@ -173,6 +177,7 @@
       - ^metadata.json$
       - ^LICENSE$
       - ^.gitignore$
+      - ^.gitreview$
       - ^setup.cfg$
       - ^setup.py$
 
