@@ -27,7 +27,7 @@
       - openstack/puppet-manila
       - openstack/puppet-mistral
       - openstack/puppet-monasca
-      - openstack/puppet-modulesync-configs
+      - x/puppet-modulesync-configs
       - openstack/puppet-murano
       - openstack/puppet-neutron
       - openstack/puppet-nova
@@ -66,7 +66,7 @@
       - ^spec/.*$
       - ^test-requirements.txt$
     roles:
-      - zuul: openstack-infra/zuul-jobs
+      - zuul: zuul/zuul-jobs
 
 - job:
     name: puppet-openstack-integration-4
