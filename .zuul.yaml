@@ -51,7 +51,7 @@
         override-checkout: stable/queens
       - name: openstack/puppet-monasca
         override-checkout: stable/queens
-      - name: openstack/puppet-modulesync-configs
+      - name: x/puppet-modulesync-configs
         override-checkout: stable/queens
       - name: openstack/puppet-murano
         override-checkout: stable/queens
@@ -117,7 +117,7 @@
       - ^LICENSE$
       - ^.gitignore$
     roles:
-      - zuul: openstack-infra/zuul-jobs
+      - zuul: zuul/zuul-jobs
     # NOTE(tobasco): The ceph variable must be provided with a default here
     # or zuul will complain when it tries to render the run-integration-tests template.
     vars:
