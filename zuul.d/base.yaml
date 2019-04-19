@@ -22,7 +22,7 @@
       - openstack/puppet-manila
       - openstack/puppet-mistral
       - openstack/puppet-monasca
-      - openstack/puppet-modulesync-configs
+      - x/puppet-modulesync-configs
       - openstack/puppet-murano
       - openstack/puppet-neutron
       - openstack/puppet-nova
@@ -69,7 +69,7 @@
       - ^setup.cfg$
       - ^setup.py$
     roles:
-      - zuul: openstack-infra/zuul-jobs
+      - zuul: zuul/zuul-jobs
     # NOTE(tobasco): The ceph variable must be provided with a default here
     # or zuul will complain when it tries to render the run-integration-tests template.
     vars:
