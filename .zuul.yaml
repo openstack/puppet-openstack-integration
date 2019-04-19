@@ -112,7 +112,7 @@
       - ^spec/.*$
       - ^test-requirements.txt$
     roles:
-      - zuul: openstack-infra/zuul-jobs
+      - zuul: zuul/zuul-jobs
 
 - job:
     name: puppet-openstack-integration-4

@@ -25,7 +25,7 @@
           /usr/zuul-env/bin/zuul-cloner -m $CLONEMAP \
               --cache-dir /opt/git \
               --zuul-branch $ZUUL_BRANCH_REAL \
-              https://git.openstack.org openstack/puppet-openstack-integration
+              https://opendev.org openstack/puppet-openstack-integration
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
@@ -33,7 +33,7 @@
     - include_role:
         name: bindep
       vars:
-        bindep_dir: "src/git.openstack.org/openstack/puppet-openstack-integration"
+        bindep_dir: "src/opendev.org/openstack/puppet-openstack-integration"
 
     - name: Create folder for gems
       file:
