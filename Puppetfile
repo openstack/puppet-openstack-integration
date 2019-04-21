@@ -2,155 +2,155 @@
 
 ## OpenStack modules
 mod 'aodh',
-  :git => 'https://git.openstack.org/openstack/puppet-aodh',
+  :git => 'https://opendev.org/openstack/puppet-aodh',
   :ref => 'master'
 
 mod 'barbican',
-  :git => 'https://git.openstack.org/openstack/puppet-barbican',
+  :git => 'https://opendev.org/openstack/puppet-barbican',
   :ref => 'master'
 
 mod 'ceilometer',
-  :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
+  :git => 'https://opendev.org/openstack/puppet-ceilometer',
   :ref => 'master'
 
 mod 'ceph',
-  :git => 'https://git.openstack.org/openstack/puppet-ceph',
+  :git => 'https://opendev.org/openstack/puppet-ceph',
   :ref => 'master'
 
 mod 'cinder',
-  :git => 'https://git.openstack.org/openstack/puppet-cinder',
+  :git => 'https://opendev.org/openstack/puppet-cinder',
   :ref => 'master'
 
 mod 'cloudkitty',
-  :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
+  :git => 'https://opendev.org/openstack/puppet-cloudkitty',
   :ref => 'master'
 
 mod 'congress',
-  :git => 'https://git.openstack.org/openstack/puppet-congress',
+  :git => 'https://opendev.org/openstack/puppet-congress',
   :ref => 'master'
 
 mod 'designate',
-  :git => 'https://git.openstack.org/openstack/puppet-designate',
+  :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'master'
 
 mod 'ec2api',
-  :git => 'https://git.openstack.org/openstack/puppet-ec2api',
+  :git => 'https://opendev.org/openstack/puppet-ec2api',
   :ref => 'master'
 
 mod 'glance',
-  :git => 'https://git.openstack.org/openstack/puppet-glance',
+  :git => 'https://opendev.org/openstack/puppet-glance',
   :ref => 'master'
 
 mod 'gnocchi',
-  :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
+  :git => 'https://opendev.org/openstack/puppet-gnocchi',
   :ref => 'master'
 
 mod 'heat',
-  :git => 'https://git.openstack.org/openstack/puppet-heat',
+  :git => 'https://opendev.org/openstack/puppet-heat',
   :ref => 'master'
 
 mod 'horizon',
-  :git => 'https://git.openstack.org/openstack/puppet-horizon',
+  :git => 'https://opendev.org/openstack/puppet-horizon',
   :ref => 'master'
 
 mod 'ironic',
-  :git => 'https://git.openstack.org/openstack/puppet-ironic',
+  :git => 'https://opendev.org/openstack/puppet-ironic',
   :ref => 'master'
 
 mod 'keystone',
-  :git => 'https://git.openstack.org/openstack/puppet-keystone',
+  :git => 'https://opendev.org/openstack/puppet-keystone',
   :ref => 'master'
 
 mod 'manila',
-  :git => 'https://git.openstack.org/openstack/puppet-manila',
+  :git => 'https://opendev.org/openstack/puppet-manila',
   :ref => 'master'
 
 mod 'mistral',
-  :git => 'https://git.openstack.org/openstack/puppet-mistral',
+  :git => 'https://opendev.org/openstack/puppet-mistral',
   :ref => 'master'
 
 mod 'monasca',
-  :git => 'https://git.openstack.org/openstack/puppet-monasca',
+  :git => 'https://opendev.org/openstack/puppet-monasca',
   :ref => 'master'
 
 mod 'murano',
-  :git => 'https://git.openstack.org/openstack/puppet-murano',
+  :git => 'https://opendev.org/openstack/puppet-murano',
   :ref => 'master'
 
 mod 'neutron',
-  :git => 'https://git.openstack.org/openstack/puppet-neutron',
+  :git => 'https://opendev.org/openstack/puppet-neutron',
   :ref => 'master'
 
 mod 'nova',
-  :git => 'https://git.openstack.org/openstack/puppet-nova',
+  :git => 'https://opendev.org/openstack/puppet-nova',
   :ref => 'master'
 
 mod 'octavia',
-  :git => 'https://git.openstack.org/openstack/puppet-octavia',
+  :git => 'https://opendev.org/openstack/puppet-octavia',
   :ref => 'master'
 
 mod 'openstack_extras',
-  :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
+  :git => 'https://opendev.org/openstack/puppet-openstack_extras',
   :ref => 'master'
 
 mod 'openstacklib',
-  :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
+  :git => 'https://opendev.org/openstack/puppet-openstacklib',
   :ref => 'master'
 
 mod 'oslo',
-  :git => 'https://git.openstack.org/openstack/puppet-oslo',
+  :git => 'https://opendev.org/openstack/puppet-oslo',
   :ref => 'master'
 
 mod 'ovn',
-  :git => 'https://git.openstack.org/openstack/puppet-ovn',
+  :git => 'https://opendev.org/openstack/puppet-ovn',
   :ref => 'master'
 
 mod 'panko',
-  :git => 'https://git.openstack.org/openstack/puppet-panko',
+  :git => 'https://opendev.org/openstack/puppet-panko',
   :ref => 'master'
 
 mod 'placement',
-  :git => 'https://git.openstack.org/openstack/puppet-placement',
+  :git => 'https://opendev.org/openstack/puppet-placement',
   :ref => 'master'
 
 mod 'qdr',
-  :git => 'https://git.openstack.org/openstack/puppet-qdr',
+  :git => 'https://opendev.org/openstack/puppet-qdr',
   :ref => 'master'
 
 mod 'sahara',
-  :git => 'https://git.openstack.org/openstack/puppet-sahara',
+  :git => 'https://opendev.org/openstack/puppet-sahara',
   :ref => 'master'
 
 mod 'swift',
-  :git => 'https://git.openstack.org/openstack/puppet-swift',
+  :git => 'https://opendev.org/openstack/puppet-swift',
   :ref => 'master'
 
 mod 'tacker',
-  :git => 'https://git.openstack.org/openstack/puppet-tacker',
+  :git => 'https://opendev.org/openstack/puppet-tacker',
   :ref => 'master'
 
 mod 'tempest',
-  :git => 'https://git.openstack.org/openstack/puppet-tempest',
+  :git => 'https://opendev.org/openstack/puppet-tempest',
   :ref => 'master'
 
 mod 'trove',
-  :git => 'https://git.openstack.org/openstack/puppet-trove',
+  :git => 'https://opendev.org/openstack/puppet-trove',
   :ref => 'master'
 
 mod 'vswitch',
-  :git => 'https://git.openstack.org/openstack/puppet-vswitch',
+  :git => 'https://opendev.org/openstack/puppet-vswitch',
   :ref => 'master'
 
 mod 'vitrage',
-  :git => 'https://git.openstack.org/openstack/puppet-vitrage',
+  :git => 'https://opendev.org/openstack/puppet-vitrage',
   :ref => 'master'
 
 mod 'watcher',
-  :git => 'https://git.openstack.org/openstack/puppet-watcher',
+  :git => 'https://opendev.org/openstack/puppet-watcher',
   :ref => 'master'
 
 mod 'zaqar',
-  :git => 'https://git.openstack.org/openstack/puppet-zaqar',
+  :git => 'https://opendev.org/openstack/puppet-zaqar',
   :ref => 'master'
 
 ## External modules
