@@ -112,11 +112,11 @@ if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            https://git.openstack.org openstack/tempest-horizon
+            https://opendev.org openstack/tempest-horizon
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            https://git.openstack.org openstack/tempest
+            https://opendev.org openstack/tempest
         # Pin Tempest to TEMPEST_VERSION unless we're running inside the
         # openstack/tempest gate.
         if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
@@ -129,11 +129,11 @@ else
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         $SUDO rm -rf /tmp/openstack/tempest-horizon
-        git clone https://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         $SUDO rm -rf /tmp/openstack/tempest
-        git clone https://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+        git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
         pushd /tmp/openstack/tempest
         git reset --hard origin/$TEMPEST_VERSION
         popd
@@ -348,7 +348,7 @@ cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
-    run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
+    run_tempest/bin/pip install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
