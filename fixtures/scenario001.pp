@@ -92,11 +92,10 @@ class { '::openstack_integration::glance':
 class { '::openstack_integration::neutron':
   notification_topics => $notification_topics,
 }
-include ::openstack_integration::nova_placement
+include ::openstack_integration::placement
 class { '::openstack_integration::nova':
-  libvirt_rbd                   => true,
-  notification_topics           => $notification_topics,
-  placement_database_connection => 'mysql+pymysql://nova_placement:nova@127.0.0.1/nova_placement?charset=utf8',
+  libvirt_rbd         => true,
+  notification_topics => $notification_topics,
 }
 class { '::openstack_integration::cinder':
   backend => 'rbd',
