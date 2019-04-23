@@ -9,6 +9,13 @@
           fi
           # TODO(tobias-urdin): Remove when we dont pin rspec-puppet
           export RSPEC_PUPPET_VERSION='{{ rspec_puppet_version }}'
+          # NOTE(aschultz): rspec-puppet 2.4+ has strict variables enabled
+          # which causes test failures. The problem is that the puppet modules
+          # have never worked with strict_variables = true due to backwards
+          # compatibility & import ordering.  Since this has not been true,
+          # lets disable it in the unit testing for now. Perhaps some day
+          # we will be able to turn this back to true.
+          export STRICT_VARIABLES=no
           ./run_unit_tests.sh
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
