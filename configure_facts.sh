@@ -15,15 +15,15 @@
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export DLRN_BASE=${DLRN_BASE:-centos7-master/puppet-passed-ci}
-export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-centos7-master/deps/latest/}
+export DLRN_BASE=${DLRN_BASE:-centos7-stein/puppet-passed-ci}
+export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-centos7-stein/deps/latest/}
 export CEPH_VERSION=${CEPH_VERSION:-mimic}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
 if [ -f /etc/fedora-release ]; then
-    DLRN_BASE="fedora/puppet-passed-ci"
+    DLRN_BASE="fedora28-stein/consistent"
     DLRN_DEPS_BASE="fedora/stable-base/latest/"
 fi
 
