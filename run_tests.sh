@@ -31,7 +31,7 @@ export DISTRO=$(lsb_release -c -s)
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 if uses_debs; then
-    # Pin tempest until https://review.openstack.org/#/c/605851/ is included in ubuntu's keystone package
+    # Pin tempest until https://review.opendev.org/#/c/605851/ is included in ubuntu's keystone package
     export TEMPEST_VERSION=${TEMPEST_VERSION:-'a7c4c14493d9c20fb89daa5e094d6396a6cbe80d'}
 else
     export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
@@ -332,10 +332,10 @@ if uses_debs; then
   # vpnaas and dynamic routing projects.
   $SUDO pip install neutron-tempest-plugin
 else
-  # https://review.openstack.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
+  # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
-  # we need to remove this regex option and implement https://review.openstack.org/#/c/547278 when ready.
-  # Note these tests were disabled in https://review.openstack.org/#/c/461969/ and hopefully it's more stable now and allows
+  # we need to remove this regex option and implement https://review.opendev.org/#/c/547278 when ready.
+  # Note these tests were disabled in https://review.opendev.org/#/c/461969/ and hopefully it's more stable now and allows
   # us to run it until we can implement --blacklist-file in a stable way.
   #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 

@@ -45,7 +45,7 @@ class openstack_integration::provision (
       vcpus  => '1',
     }
     # NOTE(amoralej): "m1.tiny" flavor is required by murano scenario tests
-    # https://review.openstack.org/#/c/480848/ moved jobs from m1.small
+    # https://review.opendev.org/#/c/480848/ moved jobs from m1.small
     nova_flavor { 'm1.tiny':
       ensure => present,
       id     => '1',

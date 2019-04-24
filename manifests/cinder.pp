@@ -87,7 +87,7 @@ class openstack_integration::cinder (
     $keymgr_encryption_api_url  = "${::openstack_integration::config::base_url}:9311"
     $keymgr_encryption_auth_url = "${::openstack_integration::config::keystone_auth_uri}/v3"
   } else {
-    # (TODO) amoralej - we need to define api_class until fix https://review.openstack.org/#/c/468252 in
+    # (TODO) amoralej - we need to define api_class until fix https://review.opendev.org/#/c/468252 in
     # cinder is merged to unblock puppet promotion
     $keymgr_backend             = 'cinder.keymgr.conf_key_mgr.ConfKeyManager'
     $keymgr_encryption_api_url  = undef
