@@ -22,20 +22,12 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default.
 #
-# DEPRECATED PARAMETERS
-#
-# [*placement_database_connection*]
-#   (optional) Connection url for the placement database.
-#   Defaults to undef.
-#
 class openstack_integration::nova (
   $libvirt_rbd         = false,
   $libvirt_virt_type   = 'qemu',
   $libvirt_cpu_mode    = 'none',
   $volume_encryption   = false,
   $notification_topics = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $placement_database_connection = $::os_service_default,
 ) {
 
   include ::openstack_integration::config
@@ -106,18 +98,17 @@ class openstack_integration::nova (
     debug => true,
   }
   class { '::nova':
-    default_transport_url         => $default_transport_url,
-    notification_transport_url    => $notification_transport_url,
-    database_connection           => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
-    api_database_connection       => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
-    placement_database_connection => $placement_database_connection,
-    rabbit_use_ssl                => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms          => 'PLAIN',
-    use_ipv6                      => $::openstack_integration::config::ipv6,
-    glance_api_servers            => "${::openstack_integration::config::base_url}:9292",
-    notification_driver           => 'messagingv2',
-    notify_on_state_change        => 'vm_and_task_state',
-    notification_topics           => $notification_topics,
+    default_transport_url      => $default_transport_url,
+    notification_transport_url => $notification_transport_url,
+    database_connection        => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
+    api_database_connection    => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
+    use_ipv6                   => $::openstack_integration::config::ipv6,
+    glance_api_servers         => "${::openstack_integration::config::base_url}:9292",
+    notification_driver        => 'messagingv2',
+    notify_on_state_change     => 'vm_and_task_state',
+    notification_topics        => $notification_topics,
   }
   class { '::nova::api':
     api_bind_address           => $::openstack_integration::config::host,
