@@ -50,7 +50,6 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
-      - ^.gitreview$
 
 - job:
     name: puppet-openstack-libraries-puppet-syntax-4-centos-7

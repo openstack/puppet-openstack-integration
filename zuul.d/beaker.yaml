@@ -27,7 +27,6 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
-      - ^.gitreview$
     vars:
       nodepool_type: centos7
       puppet_gem_version: 5.5
@@ -51,7 +50,6 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
-      - ^.gitreview$
     vars:
       nodepool_type: bionic
       puppet_gem_version: latest
