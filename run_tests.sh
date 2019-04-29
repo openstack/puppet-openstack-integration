@@ -257,15 +257,13 @@ print_header 'Prepare Tempest'
 $SUDO touch /tmp/openstack/tempest/test-whitelist.txt /tmp/openstack/tempest/test-blacklist.txt
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
-# install from source now on ubuntu until packaged
 if uses_debs; then
     cd /tmp/openstack/tempest-horizon;
+    pkglist="tempest python3-stestr python3-os-testr python3-tempest"
     if [ $(lsb_release --id -s) = "Debian" ] ; then
-        $SUDO apt-get install -y tempest python3-stestr python3-os-testr python3-tempest python3-tempest-horizon
-    else
-        $SUDO python setup.py install
-        $SUDO pip install -U stestr os-testr
+        pkglist="${pkglist} python3-tempest-horizon"
     fi
+    $SUDO apt-get install -y $pkglist
 fi
 
 set +e
