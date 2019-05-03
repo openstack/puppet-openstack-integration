@@ -34,12 +34,15 @@ class openstack_integration::ceph (
     })
   }
 
+  ensure_packages(['lvm2'], {'ensure' => 'present', before  => Exec['lvm_create']})
+
   exec { 'lvm_create':
     command   => "/bin/true # comment to satisfy puppet syntax requirements
 truncate --size=10G /diskimage.img
 losetup /dev/loop0 /diskimage.img
 pvcreate /dev/loop0
 vgcreate ceph_vg /dev/loop0
+sleep 5
 lvcreate -n lv_data -a y -l 100%FREE ceph_vg
 ",
     unless    => "/bin/true # comment to satisfy puppet syntax requirements
