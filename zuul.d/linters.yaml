@@ -12,6 +12,7 @@
 - job:
     name: puppet-openstack-syntax-4-ubuntu-bionic
     parent: puppet-openstack-syntax-base
+    branches: ^stable/(ocata|pike|queens|rocky|stein)$
     vars:
       puppet: 4
 
@@ -55,6 +56,7 @@
     name: puppet-openstack-libraries-puppet-syntax-4-centos-7
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-7
+    branches: ^stable/(ocata|pike|queens|rocky|stein)$
     vars:
       puppet: 4
 
