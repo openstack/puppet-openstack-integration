@@ -104,7 +104,6 @@ class openstack_integration::nova (
     api_database_connection    => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    use_ipv6                   => $::openstack_integration::config::ipv6,
     glance_api_servers         => "${::openstack_integration::config::base_url}:9292",
     notification_driver        => 'messagingv2',
     notify_on_state_change     => 'vm_and_task_state',
