@@ -128,7 +128,6 @@ class openstack_integration::keystone (
     admin_url      => $::openstack_integration::config::keystone_admin_uri,
     version        => '',
   }
-  class { '::keystone::disable_admin_token_auth': }
 
   class { '::openstack_extras::auth_file':
     password       => 'a_big_secret',
