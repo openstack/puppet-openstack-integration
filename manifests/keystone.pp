@@ -95,12 +95,11 @@ class openstack_integration::keystone (
   }
   include ::apache
   class { '::keystone::wsgi::apache':
-    bind_host       => $::openstack_integration::config::ip_for_url,
-    admin_bind_host => $::openstack_integration::config::ip_for_url,
-    ssl             => $::openstack_integration::config::ssl,
-    ssl_key         => "/etc/keystone/ssl/private/${::fqdn}.pem",
-    ssl_cert        => $::openstack_integration::params::cert_path,
-    workers         => 2,
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/keystone/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    workers   => 2,
   }
   # Workaround to empty Keystone vhost that is provided & activated by default with running
   # Canonical packaging (called 'keystone'). This will make sure upgrading the package is
