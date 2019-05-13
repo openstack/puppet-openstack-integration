@@ -133,7 +133,7 @@ class openstack_integration::neutron (
     true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
     default => undef,
   }
-  $plugins_list = delete_undef_values(['router', 'metering', 'firewall_v2', 'lbaasv2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
+  $plugins_list = delete_undef_values(['router', 'metering', 'firewall_v2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
 
   if $driver == 'linuxbridge' {
       $global_physnet_mtu    = '1450'
@@ -181,9 +181,7 @@ class openstack_integration::neutron (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  $providers_list = delete_undef_values(['LOADBALANCER:Haproxy:neutron_lbaas.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                                        'LOADBALANCERV2:Haproxy:neutron_lbaas.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default',
-                                        'FIREWALL_V2:fwaas_db:neutron_fwaas.services.firewall.service_drivers.agents.agents.FirewallAgentDriver:default',
+  $providers_list = delete_undef_values(['FIREWALL_V2:fwaas_db:neutron_fwaas.services.firewall.service_drivers.agents.agents.FirewallAgentDriver:default',
                                         $l2gw_provider])
 
   if $::osfamily == 'Debian' {
@@ -203,7 +201,6 @@ class openstack_integration::neutron (
     ensure_dr_package        => $bgp_dragent_enabled,
   }
 
-  class { '::neutron::services::lbaas': }
   class { '::neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'vlan', 'flat'],
     tenant_network_types => ['vxlan', 'vlan', 'flat'],
@@ -229,10 +226,6 @@ class openstack_integration::neutron (
     metadata_workers  => 2,
     metadata_host     => $metadata_host,
     metadata_protocol => $metadata_protocol,
-  }
-  class { '::neutron::agents::lbaas':
-    interface_driver => $driver,
-    debug            => true,
   }
   class { '::neutron::agents::l3':
     interface_driver => $driver,
