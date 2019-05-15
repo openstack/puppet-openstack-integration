@@ -121,7 +121,7 @@
               export YUM=yum
           fi
           if [[ -f /usr/bin/yum || -f /usr/bin/dnf ]]; then
-              $YUM install -y https://yum.puppetlabs.com/puppet5/puppet5-release-el-7.noarch.rpm
+              $YUM install -y https://yum.puppetlabs.com/puppet5-release-el-7.noarch.rpm
               $YUM install -y puppet-agent
           elif [ -f /usr/bin/apt-get ]; then
               wget https://apt.puppetlabs.com/puppet5-release-{{ ansible_distribution_release }}.deb -O /tmp/puppet.deb
