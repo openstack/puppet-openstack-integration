@@ -17,12 +17,12 @@
 
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-6.0-ubuntu-bionic
+    name: puppet-openstack-libraries-puppet-unit-6.4-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-unit-base
-    branches: ^master
+    branches: ^(stable/stein|master)$
     nodeset: ubuntu-bionic
     vars:
-      puppet_gem_version: 6.0
+      puppet_gem_version: 6.4
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
