@@ -101,22 +101,6 @@ class openstack_integration::keystone (
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  # Workaround to empty Keystone vhost that is provided & activated by default with running
-  # Canonical packaging (called 'keystone'). This will make sure upgrading the package is
-  # possible, see https://bugs.launchpad.net/ubuntu/+source/keystone/+bug/1737697
-  if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-    ensure_resource('file', '/etc/apache2/sites-available/keystone.conf', {
-      'ensure'  => 'present',
-      'content' => '',
-    })
-    ensure_resource('file', '/etc/apache2/sites-enabled/keystone.conf', {
-      'ensure'  => 'present',
-      'content' => '',
-    })
-
-    Package['keystone'] -> File['/etc/apache2/sites-available/keystone.conf']
-    -> File['/etc/apache2/sites-enabled/keystone.conf'] ~> Anchor['keystone::install::end']
-  }
   class { '::keystone::roles::admin':
     email    => 'test@example.tld',
     password => 'a_big_secret',
