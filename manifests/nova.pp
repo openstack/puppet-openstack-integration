@@ -148,7 +148,6 @@ class openstack_integration::nova (
   }
   class { '::nova::client': }
   class { '::nova::conductor': }
-  class { '::nova::consoleauth': }
   class { '::nova::cron::archive_deleted_rows': }
   if $volume_encryption {
     $keymgr_backend       = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
