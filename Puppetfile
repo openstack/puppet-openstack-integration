@@ -224,7 +224,7 @@ mod 'git_resource',
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
-  :ref => '3.1.0'
+  :ref => 'v3.3.0'
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
@@ -240,7 +240,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v3.2.1'
+  :ref => 'v4.0.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
