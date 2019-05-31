@@ -30,12 +30,7 @@ export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --s
 export DISTRO=$(lsb_release -c -s)
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
-if uses_debs; then
-    # Pin tempest until https://review.opendev.org/#/c/605851/ is included in ubuntu's keystone package
-    export TEMPEST_VERSION=${TEMPEST_VERSION:-'a7c4c14493d9c20fb89daa5e094d6396a6cbe80d'}
-else
-    export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
-fi
+export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
 # For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
 # In Ubuntu, Tempest packages are not maintained so installing from source
 if [ $(lsb_release --id -s) = "Ubuntu" ]; then
