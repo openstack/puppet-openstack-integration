@@ -228,7 +228,6 @@ class openstack_integration::tempest (
     nova_available                   => $nova,
     neutron_available                => $neutron,
     neutron_bgpvpn_available         => $bgpvpn,
-    neutron_lbaas_available          => true,
     neutron_l2gw_available           => $l2gw,
     neutron_dr_available             => $dr,
     neutron_fwaas_available          => true,
