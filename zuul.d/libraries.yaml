@@ -5,6 +5,7 @@
     name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-7
+    branches: ^stable/(ocata|pike|queens|rocky|stein)$
     vars:
       puppet_gem_version: 4.8
 
