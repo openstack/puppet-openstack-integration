@@ -7,7 +7,6 @@
     gate:
       jobs:
         - puppet-openstack-beaker-centos-7
-        - puppet-openstack-beaker-ubuntu-bionic
 
 - job:
     name: puppet-openstack-libraries-puppet-beaker-rspec-centos-7
