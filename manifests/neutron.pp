@@ -124,6 +124,8 @@ class openstack_integration::neutron (
       }
       $l2gw_provider = undef
     }
+  } else {
+    $l2gw_provider = undef
   }
   $l2gw_plugin = $l2gw_enabled ? {
     true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
