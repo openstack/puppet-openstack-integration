@@ -50,13 +50,8 @@ class openstack_integration::panko {
       'ensure'  => 'present',
       'content' => '',
     })
-    ensure_resource('file', '/etc/apache2/sites-enabled/panko-api.conf', {
-      'ensure'  => 'present',
-      'content' => '',
-    })
 
-    Package['panko-api'] -> File['/etc/apache2/sites-available/panko-api.conf']
-    -> File['/etc/apache2/sites-enabled/panko-api.conf'] ~> Anchor['panko::install::end']
+    Package['panko-api'] -> File['/etc/apache2/sites-available/panko-api.conf'] ~> Anchor['panko::install::end']
   }
   include ::apache
   class { '::panko::wsgi::apache':

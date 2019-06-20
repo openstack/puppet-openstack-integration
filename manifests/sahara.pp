@@ -77,13 +77,8 @@ class openstack_integration::sahara (
         'ensure'  => 'present',
         'content' => '',
       })
-      ensure_resource('file', '/etc/apache2/sites-enabled/sahara-api.conf', {
-        'ensure'  => 'present',
-        'content' => '',
-      })
 
-      Package['sahara-api'] -> File['/etc/apache2/sites-available/sahara-api.conf']
-      -> File['/etc/apache2/sites-enabled/sahara-api.conf'] ~> Anchor['sahara::install::end']
+      Package['sahara-api'] -> File['/etc/apache2/sites-available/sahara-api.conf'] ~> Anchor['sahara::install::end']
     }
 
     include ::apache
