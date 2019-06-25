@@ -1,5 +1,6 @@
 - job:
     name: puppet-openstack-base
+    parent: legacy-base
     pre-run: playbooks/prepare-node-common.yaml
     abstract: true
     vars:
