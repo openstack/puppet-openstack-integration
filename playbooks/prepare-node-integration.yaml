@@ -9,8 +9,12 @@
           # puppet-openstack-integration from stable/pike when working on
           # stable/jewel.
           # Ceph Jewel works with Newton to Pike
+          # Ceph Mimic works with Rocky to Stein
           if [[ "$ZUUL_BRANCH" == "stable/jewel" ]]; then
               ZUUL_BRANCH_REAL='stable/pike'
+          fi
+          if [[ "$ZUUL_BRANCH" == "stable/mimic" ]]; then
+              ZUUL_BRANCH_REAL='stable/rocky'
           fi
           CLONEMAP=`mktemp`
           function cleanup {

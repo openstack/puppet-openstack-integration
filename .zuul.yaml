@@ -1,3 +1,10 @@
+# handle puppet-ceph mimic branch and puppet-pacemaker 0.7.x
+- pragma:
+    implied-branches:
+      - stable/rocky
+      - stable/mimic
+      - stable/0.7.x
+
 - job:
     name: puppet-openstack-base
     parent: legacy-base
