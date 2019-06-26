@@ -12,7 +12,7 @@ install_external() {
   PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k -v DEBUG puppetfile install
 }
 
-# Install Puppet OpenStack modules with zuul-cloner
+# Install Puppet OpenStack modules from zuul checkouts
 # Uses the following variables:
 #
 # - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
@@ -31,20 +31,20 @@ install_openstack() {
     fi
   fi
 
-  cat > clonemap.yaml <<EOF
-clonemap:
-  - name: '(.*?)/puppet-(.*)'
-    dest: '$PUPPETFILE_DIR/\2'
-EOF
-
   local project_names=$(awk '{ if ($1 == ":git") print $3 }' \
     ${SCRIPT_DIR}/Puppetfile0 | tr -d "'," | cut -d '/' -f 4- | xargs
   )
-  project_names="${project_names} openstack/puppet-openstack-integration"
-  /usr/zuul-env/bin/zuul-cloner -m clonemap.yaml \
-    --cache-dir /opt/git \
-    --zuul-branch $ZUUL_BRANCH \
-    https://opendev.org $project_names
+
+  for project in $project_names openstack/puppet-openstack-integration
+  do
+    local module_name=$(echo $project | cut -d "-" -f2-)
+
+    if [ -d /home/zuul/src/opendev.org/$project ]; then
+      cp -R /home/zuul/src/opendev.org/$project $PUPPETFILE_DIR/$module_name
+    else
+      git clone -b $ZUUL_BRANCH https://opendev.org/$project $PUPPETFILE_DIR/$module_name
+    fi
+  done
 
   # Because openstack-integration can't be a class name.
   # https://projects.puppetlabs.com/issues/5268
@@ -63,15 +63,14 @@ install_all() {
 }
 
 # Install Puppet OpenStack modules and dependencies by using
-# zuul-cloner or r10k.
+# zuul checkouts or r10k.
 # Uses the following variables:
 #
 # - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules() {
-  # If zuul-cloner is there, have it install modules using zuul refs
-  if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+  if [ -d /home/zuul/src/opendev.org ] ; then
     csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
@@ -90,8 +89,7 @@ install_modules() {
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules_unit() {
-  # If zuul-cloner is there, have it install modules using zuul refs
-  if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+  if [ -d /home/zuul/src/opendev.org ] ; then
     csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
