@@ -105,16 +105,23 @@ if [[ "${ZUUL_PROJECT}" = "openstack/tempest" ]]; then
     TEMPEST_FROM_SOURCE=true
 fi
 
-
-if [ -e /usr/zuul-env/bin/zuul-cloner ] ; then
+if [ -d /home/zuul/src/opendev.org ]; then
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
-        /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            https://git.openstack.org openstack/tempest-horizon
+        if [ -d /home/zuul/src/opendev.org/openstack/tempest-horizon ]; then
+            [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
+            cp -R /home/zuul/src/opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        else
+            git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        fi
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-        /usr/zuul-env/bin/zuul-cloner --workspace /tmp --cache-dir /opt/git \
-            https://git.openstack.org openstack/tempest
+        if [ -d /home/zuul/src/opendev.org/openstack/tempest ]; then
+            [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
+            cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
+        else
+            git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
+        fi
         # Pin Tempest to TEMPEST_VERSION unless we're running inside the
         # openstack/tempest gate.
         if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
