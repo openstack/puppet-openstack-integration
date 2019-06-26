@@ -4,29 +4,18 @@
         cmd: |
           set -e
           set -x
-          CLONEMAP=`mktemp`
-          function cleanup {
-              # In cases where zuul-cloner is aborted during a git
-              # clone operation, git will remove the git work tree in
-              # its cleanup. The work tree in these jobs is the
-              # workspace directory, which means that subsequent
-              # jenkins post-build actions can not run because the
-              # workspace has been removed.
-              # To reduce the likelihood of this having an impact,
-              # recreate the workspace directory if needed
-              mkdir -p $WORKSPACE
-              rm -f $CLONEMAP
-          }
-          trap cleanup EXIT
-          cat > $CLONEMAP << EOF
-          clonemap:
-            - name: $ZUUL_PROJECT
-              dest: .
-            - name: openstack/puppet-openstack-integration
-              dest: openstack/puppet-openstack-integration
-          EOF
-          /usr/zuul-env/bin/zuul-cloner -m $CLONEMAP --cache-dir /opt/git \
-              https://opendev.org $ZUUL_PROJECT openstack/puppet-openstack-integration
+
+          if [ -d /home/zuul/src/opendev.org/$ZUUL_PROJECT ]; then
+              cp -dR /home/zuul/src/opendev.org/$ZUUL_PROJECT/. .
+          else
+              git clone https://opendev.org/$ZUUL_PROJECT .
+          fi
+          if [ -d /home/zuul/src/opendev.org/openstack/puppet-openstack-integration ]; then
+              [ ! -d puppet-openstack-integration ] && mkdir puppet-openstack-integration
+              cp -dR /home/zuul/src/opendev.org/openstack/puppet-openstack-integration/. puppet-openstack-integration
+          else
+              git clone https://opendev.org/openstack/puppet-openstack-integration puppet-openstack-integration
+          fi
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
