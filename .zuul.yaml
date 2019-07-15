@@ -195,6 +195,7 @@
     name: puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
     parent: puppet-openstack-integration-5-scenario001
     nodeset: ubuntu-bionic
+    voting: false
     vars:
       ceph: mimic
 
@@ -219,6 +220,7 @@
     name: puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-5-scenario002
     nodeset: ubuntu-bionic
+    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -326,10 +328,6 @@
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
-        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
-        - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
-        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
     experimental:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-debian-stable-luminous
@@ -348,7 +346,6 @@
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
     experimental:
@@ -366,7 +363,6 @@
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
     experimental:
@@ -384,7 +380,6 @@
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
         - puppet-openstack-integration-4-scenario003-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
     experimental:
@@ -402,7 +397,6 @@
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
     experimental:
