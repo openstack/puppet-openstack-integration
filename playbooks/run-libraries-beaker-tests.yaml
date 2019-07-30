@@ -24,7 +24,7 @@
         cmd: |
           set -e
           set -x
-          trap "{{ ansible_user_dir }}/workspace/openstack/puppet-openstack-integration/copy_logs.sh" EXIT
+          trap "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh" EXIT
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
             export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
           fi
