@@ -24,7 +24,7 @@
         cmd: |
           set -e
           set -x
-          trap "{{ ansible_user_dir }}/workspace/openstack/puppet-openstack-integration/copy_logs.sh" EXIT
+          trap "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh" EXIT
           ./run_beaker_tests.sh
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
