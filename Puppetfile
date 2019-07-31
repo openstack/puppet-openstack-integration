@@ -160,7 +160,7 @@ mod 'powerdns',
 
 mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => '2.3.0'
+  :ref => '2.3.1'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
@@ -236,7 +236,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '6.1.0'
+  :ref => '6.2.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
