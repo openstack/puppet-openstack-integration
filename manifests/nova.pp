@@ -201,4 +201,9 @@ class openstack_integration::nova (
 
   Keystone_endpoint <||> -> Service['nova-compute']
   Keystone_service <||> -> Service['nova-compute']
+
+  Keystone_endpoint <||> -> Service['nova-conductor']
+  Keystone_service <||> -> Service['nova-conductor']
+  Keystone_endpoint <||> -> Service['nova-scheduler']
+  Keystone_service <||> -> Service['nova-scheduler']
 }
