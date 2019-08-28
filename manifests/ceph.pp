@@ -139,9 +139,6 @@ test -b /dev/ceph_vg/lv_data
     #configure rgw to use keystone
     ceph::rgw::keystone { 'radosgw.gateway':
       rgw_keystone_url            => $::openstack_integration::config::keystone_admin_uri,
-      rgw_keystone_version        => 'v3',
-      user                        => 'ceph',
-      use_pki                     => false,
       rgw_keystone_accepted_roles => ['admin', 'member'],
       rgw_keystone_admin_domain   => $user_domain,
       rgw_keystone_admin_project  => $project,
