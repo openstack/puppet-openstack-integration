@@ -197,6 +197,8 @@
     name: puppet-openstack-integration-5-scenario004-tempest-centos-7-nautilus
     parent: puppet-openstack-integration-5-scenario004
     nodeset: centos-7
+    # NOTE(mwhahha): Currently broken for stein in CI. Revert this once fixed.
+    voting: false
     vars:
       ceph: nautilus
 
