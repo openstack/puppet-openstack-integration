@@ -78,8 +78,6 @@
 
 - job:
     name: puppet-openstack-base
-    # NOTE(mwhahaha): needed for zuul-cloner (we should probably remove this usage)
-    parent: legacy-base
     pre-run: playbooks/prepare-node-common.yaml
     abstract: true
     nodeset: ubuntu-bionic
