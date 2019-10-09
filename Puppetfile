@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,139 +19,139 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'congress',
   :git => 'https://opendev.org/openstack/puppet-congress',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'ec2api',
   :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'monasca',
   :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'panko',
   :git => 'https://opendev.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'qdr',
   :git => 'https://opendev.org/openstack/puppet-qdr',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'sahara',
   :git => 'https://opendev.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'tacker',
   :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/train'
 
 ## External modules
 mod 'powerdns',
