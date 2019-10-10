@@ -25,7 +25,7 @@
 - job:
     name: puppet-openstack-syntax-6-ubuntu-bionic
     parent: puppet-openstack-syntax-base
-    branches: ^(stable/stein|master)$
+    branches: ^(?!stable/(ocata|pike|queens|rocky|jewel|mimic|luminous)).*$
     vars:
       puppet: 6
 
@@ -71,6 +71,6 @@
 - job:
     name: puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-syntax
-    branches: ^(stable/stein|master)$
+    branches: ^(?!stable/(ocata|pike|queens|rocky|jewel|mimic|luminous)).*$
     vars:
       puppet: 6

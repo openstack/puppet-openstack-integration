@@ -20,7 +20,7 @@
     name: puppet-openstack-unit-6.4-ubuntu-bionic
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-bionic
-    branches: ^(stable/stein|master)$
+    branches: ^(?!stable/(ocata|pike|queens|rocky|jewel|mimic|luminous)).*$
     vars:
       puppet_gem_version: 6.4
 
