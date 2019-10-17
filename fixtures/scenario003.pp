@@ -53,14 +53,23 @@ case $::osfamily {
     $murano_enabled  = false
     # trove package contains broken Tempest tests
     $trove           = false
+
+    # TODO(tobias-urdin): Ubuntu Train packages has not moved out Sahara
+    # plugins to its own packages.
+    if $::operatingsystem == 'Ubuntu' {
+      $sahara_integration_enable = false
+    } else {
+      $sahara_integration_enable = true
+    }
   }
   'RedHat': {
-    $ipv6            = true
-    $mistral_enabled = true
+    $ipv6                      = true
+    $mistral_enabled           = true
     # NOTE(mnaser): We need to figure out why Murano won't accept credentials
     #               and how to get it to work with Keystone V3.
-    $murano_enabled  = false
-    $trove_enabled   = true
+    $murano_enabled            = false
+    $trove_enabled             = true
+    $sahara_integration_enable = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -98,7 +107,9 @@ if $trove_enabled {
 }
 include ::openstack_integration::horizon
 include ::openstack_integration::heat
-include ::openstack_integration::sahara
+class { '::openstack_integration::sahara':
+  integration_enable => $sahara_integration_enable,
+}
 if $designate_enabled {
   include ::openstack_integration::designate
 }
@@ -114,7 +125,7 @@ class { '::openstack_integration::tempest':
   designate => $designate_enabled,
   trove     => $trove_enabled,
   mistral   => $mistral_enabled,
-  sahara    => true,
+  sahara    => $sahara_integration_enable,
   horizon   => true,
   murano    => $murano_enabled,
   heat      => true,
