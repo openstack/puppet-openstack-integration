@@ -188,7 +188,6 @@
     name: puppet-openstack-beaker-ubuntu-bionic
     parent: puppet-openstack-beaker-run-base
     nodeset: ubuntu-bionic
-    voting: false
     vars:
       nodepool_type: bionic
       puppet_gem_version: latest

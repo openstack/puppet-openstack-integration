@@ -106,7 +106,6 @@
     name: puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
     parent: puppet-openstack-integration-5-scenario001
     nodeset: ubuntu-bionic
-    voting: false
     vars:
       ceph: mimic
 
@@ -131,7 +130,6 @@
     name: puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-5-scenario002
     nodeset: ubuntu-bionic
-    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -158,7 +156,6 @@
     name: puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-5-scenario003
     nodeset: ubuntu-bionic
-    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -187,7 +184,6 @@
     name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
     parent: puppet-openstack-integration-5-scenario004
     nodeset: ubuntu-bionic
-    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -277,7 +273,6 @@
     name: puppet-openstack-integration-6-scenario003-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-6-scenario003
     nodeset: ubuntu-bionic
-    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
@@ -306,7 +301,6 @@
     name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic-mimic
     parent: puppet-openstack-integration-6-scenario004
     nodeset: ubuntu-bionic
-    voting: false
     # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
