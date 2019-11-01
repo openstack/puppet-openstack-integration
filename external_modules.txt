@@ -10,7 +10,7 @@ puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile,2.2.0
 puppetlabs/puppetlabs-mysql,6.2.0
 puppetlabs/puppetlabs-postgresql
-puppetlabs/puppetlabs-rabbitmq
+voxpupuli/puppet-rabbitmq
 puppetlabs/puppetlabs-rsync
 puppetlabs/puppetlabs-stdlib
 puppetlabs/puppetlabs-vcsrepo
