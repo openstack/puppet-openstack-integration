@@ -14,9 +14,9 @@
 #   Default to true.
 #
 class openstack_integration::provision (
-  $glance                    = true,
-  $nova                      = true,
-  $neutron                   = true,
+  $glance  = true,
+  $nova    = true,
+  $neutron = true,
 ){
 
   include openstack_integration::config
