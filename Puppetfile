@@ -176,7 +176,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v5.1.0'
+  :ref => 'v5.2.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -240,7 +240,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v4.3.0'
+  :ref => 'v4.4.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
