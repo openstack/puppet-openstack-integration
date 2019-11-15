@@ -50,7 +50,7 @@ class openstack_integration::keystone (
   class { '::keystone::cron::token_flush': }
   class { '::keystone::cron::fernet_rotate':
     hour   => '*',
-    minute => '*/10',
+    minute => '*/30',
   }
   class { '::keystone::db::mysql':
     password => 'keystone',
