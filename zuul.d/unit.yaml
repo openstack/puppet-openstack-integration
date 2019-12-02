@@ -2,12 +2,12 @@
 # This file contains the puppet unit job configurations
 #
 - job:
-    name: puppet-openstack-unit-4.8-centos-7
+    name: puppet-openstack-unit-4.10-centos-7
     parent: puppet-openstack-unit-base
     nodeset: centos-7
     branches: ^stable/(ocata|pike|queens|rocky|stein)$
     vars:
-      puppet_gem_version: 4.8
+      puppet_gem_version: 4.10
 
 - job:
     name: puppet-openstack-unit-5.5-centos-7
@@ -17,12 +17,12 @@
       puppet_gem_version: 5.5
 
 - job:
-    name: puppet-openstack-unit-6.4-ubuntu-bionic
+    name: puppet-openstack-unit-6.11-ubuntu-bionic
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-bionic
     branches: ^(?!stable/(ocata|pike|queens|rocky|jewel|mimic|luminous)).*$
     vars:
-      puppet_gem_version: 6.4
+      puppet_gem_version: 6.11
 
 - job:
     name: puppet-openstack-unit-latest-ubuntu-bionic
@@ -40,12 +40,12 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-4.10-centos-7
         - puppet-openstack-unit-5.5-centos-7
-        - puppet-openstack-unit-6.4-ubuntu-bionic
+        - puppet-openstack-unit-6.11-ubuntu-bionic
         - puppet-openstack-unit-latest-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
+        - puppet-openstack-unit-4.10-centos-7
         - puppet-openstack-unit-5.5-centos-7
-        - puppet-openstack-unit-6.4-ubuntu-bionic
+        - puppet-openstack-unit-6.11-ubuntu-bionic
