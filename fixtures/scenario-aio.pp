@@ -15,27 +15,27 @@
 #
 
 if ($::os['family'] == 'Debian') {
-  include ::apache::params
-  class { '::apache':
+  include apache::params
+  class { 'apache':
     mod_packages => merge($::apache::params::mod_packages, {
       'wsgi' => 'libapache2-mod-wsgi-py3',
     })
   }
 }
 
-include ::openstack_integration
-include ::openstack_integration::rabbitmq
-include ::openstack_integration::mysql
-include ::openstack_integration::keystone
-include ::openstack_integration::glance
-include ::openstack_integration::neutron
-include ::openstack_integration::placement
-include ::openstack_integration::nova
-include ::openstack_integration::cinder
-include ::openstack_integration::horizon
-include ::openstack_integration::provision
+include openstack_integration
+include openstack_integration::rabbitmq
+include openstack_integration::mysql
+include openstack_integration::keystone
+include openstack_integration::glance
+include openstack_integration::neutron
+include openstack_integration::placement
+include openstack_integration::nova
+include openstack_integration::cinder
+include openstack_integration::horizon
+include openstack_integration::provision
 
-class { '::openstack_integration::tempest':
+class { 'openstack_integration::tempest':
   horizon => true,
   cinder  => true,
 }

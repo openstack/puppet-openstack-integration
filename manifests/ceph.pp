@@ -15,7 +15,7 @@ class openstack_integration::ceph (
   $swift_dropin = false,
 ) {
 
-  include ::openstack_integration::config
+  include openstack_integration::config
 
   if $::openstack_integration::config::ipv6 {
     $ms_bind_ipv6 = true
@@ -54,7 +54,7 @@ test -b /dev/ceph_vg/lv_data
 
   Exec['lvm_create'] -> Class['Ceph::Osds']
 
-  class { '::ceph::profile::params':
+  class { 'ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo
     ms_bind_ipv6                 => $ms_bind_ipv6,
@@ -101,9 +101,9 @@ test -b /dev/ceph_vg/lv_data
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
   ceph::pool { $ceph_pools: }
 
-  class { '::ceph::profile::mgr': }
-  class { '::ceph::profile::mon': }
-  class { '::ceph::profile::osd': }
+  class { 'ceph::profile::mgr': }
+  class { 'ceph::profile::mon': }
+  class { 'ceph::profile::osd': }
 
   # Extra Ceph configuration to increase performances
   $ceph_extra_config = {
@@ -111,7 +111,7 @@ test -b /dev/ceph_vg/lv_data
 
   }
 
-  class { '::ceph::conf':
+  class { 'ceph::conf':
     args => $ceph_extra_config,
   }
 
@@ -126,7 +126,7 @@ test -b /dev/ceph_vg/lv_data
     }
 
     # FIXME(Xarses) switch to param when supported in puppet-ceph
-    class { '::ceph::profile::rgw':
+    class { 'ceph::profile::rgw':
       # swift_dropin = $swift_dropin
     }
 
@@ -147,7 +147,7 @@ test -b /dev/ceph_vg/lv_data
     }
 
     if $swift_dropin {
-      class { '::ceph::rgw::keystone::auth':
+      class { 'ceph::rgw::keystone::auth':
         password     => $password,
         user         => $auth_name,
         tenant       => $project,

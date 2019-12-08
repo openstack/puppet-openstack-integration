@@ -8,8 +8,8 @@ class openstack_integration::aodh (
   $notification_topics = $::os_service_default,
 ) {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'aodh':
     password => 'an_even_bigger_secret',
@@ -24,10 +24,10 @@ class openstack_integration::aodh (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  class { '::aodh::logging':
+  class { 'aodh::logging':
     debug => true,
   }
-  class { '::aodh':
+  class { 'aodh':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -48,16 +48,16 @@ class openstack_integration::aodh (
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
-  class { '::aodh::db::mysql':
+  class { 'aodh::db::mysql':
     password => 'aodh',
   }
-  class { '::aodh::keystone::auth':
+  class { 'aodh::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8042",
     internal_url => "${::openstack_integration::config::base_url}:8042",
     admin_url    => "${::openstack_integration::config::base_url}:8042",
     password     => 'a_big_secret',
   }
-  class { '::aodh::keystone::authtoken':
+  class { 'aodh::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -65,27 +65,27 @@ class openstack_integration::aodh (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::aodh::api':
+  class { 'aodh::api':
     enabled      => true,
     service_name => 'httpd',
     sync_db      => true,
   }
-  include ::apache
-  class { '::aodh::wsgi::apache':
+  include apache
+  class { 'aodh::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/aodh/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::aodh::auth':
+  class { 'aodh::auth':
     auth_url      => $::openstack_integration::config::keystone_auth_uri,
     auth_password => 'a_big_secret',
   }
-  class { '::aodh::client': }
-  class { '::aodh::notifier': }
-  class { '::aodh::listener': }
-  class { '::aodh::evaluator':
+  class { 'aodh::client': }
+  class { 'aodh::notifier': }
+  class { 'aodh::listener': }
+  class { 'aodh::evaluator':
     evaluation_interval => 10,
   }
 

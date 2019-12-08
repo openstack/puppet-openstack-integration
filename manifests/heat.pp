@@ -8,8 +8,8 @@ class openstack_integration::heat (
   $notification_topics = $::os_service_default,
 ) {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'heat':
     password => 'an_even_bigger_secret',
@@ -29,7 +29,7 @@ class openstack_integration::heat (
     $crt_file = undef
   }
 
-  class { '::heat::keystone::authtoken':
+  class { 'heat::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -37,10 +37,10 @@ class openstack_integration::heat (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::heat::logging':
+  class { 'heat::logging':
     debug => true,
   }
-  class { '::heat':
+  class { 'heat':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -61,46 +61,46 @@ class openstack_integration::heat (
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
-  class { '::heat::db::mysql':
+  class { 'heat::db::mysql':
     password => 'heat',
   }
-  class { '::heat::keystone::auth':
+  class { 'heat::keystone::auth':
     password                  => 'a_big_secret',
     configure_delegated_roles => true,
     public_url                => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
     internal_url              => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
     admin_url                 => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
   }
-  class { '::heat::keystone::domain':
+  class { 'heat::keystone::domain':
     domain_password => 'oh_my_no_secret',
   }
-  class { '::heat::client': }
-  class { '::heat::api':
+  class { 'heat::client': }
+  class { 'heat::api':
     service_name => 'httpd',
   }
-  include ::apache
-  class { '::heat::wsgi::apache_api':
+  include apache
+  class { 'heat::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_cert  => $crt_file,
     ssl_key   => $key_file,
     workers   => 2,
   }
-  class { '::heat::engine':
+  class { 'heat::engine':
     auth_encryption_key           => '1234567890AZERTYUIOPMLKJHGFDSQ12',
     heat_metadata_server_url      => "${::openstack_integration::config::base_url}:8000",
     heat_waitcondition_server_url => "${::openstack_integration::config::base_url}:8000/v1/waitcondition",
   }
-  class { '::heat::api_cfn':
+  class { 'heat::api_cfn':
     service_name => 'httpd',
   }
-  class { '::heat::wsgi::apache_api_cfn':
+  class { 'heat::wsgi::apache_api_cfn':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_cert  => $crt_file,
     ssl_key   => $key_file,
     workers   => 2,
   }
-  class { '::heat::cron::purge_deleted': }
+  class { 'heat::cron::purge_deleted': }
 
 }

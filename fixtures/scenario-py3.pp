@@ -25,8 +25,8 @@ elsif ($::os['name'] == 'Fedora') or
 }
 if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  include ::apache::params
-  class { '::apache':
+  include apache::params
+  class { 'apache':
     mod_packages => merge($::apache::params::mod_packages, {
       'wsgi' => $wsgi_mod_package,
     }),
@@ -36,27 +36,27 @@ if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   }
 }
 
-include ::openstack_integration
-include ::openstack_integration::rabbitmq
-include ::openstack_integration::memcached
-include ::openstack_integration::mysql
-include ::openstack_integration::keystone
-class { '::openstack_integration::glance':
+include openstack_integration
+include openstack_integration::rabbitmq
+include openstack_integration::memcached
+include openstack_integration::mysql
+include openstack_integration::keystone
+class { 'openstack_integration::glance':
   backend => 'swift',
 }
-include ::openstack_integration::neutron
-include ::openstack_integration::swift
-include ::openstack_integration::placement
-include ::openstack_integration::nova
-include ::openstack_integration::cinder
-include ::openstack_integration::horizon
-include ::openstack_integration::heat
-include ::openstack_integration::zaqar
-include ::openstack_integration::ironic
-include ::openstack_integration::mistral
-include ::openstack_integration::provision
+include openstack_integration::neutron
+include openstack_integration::swift
+include openstack_integration::placement
+include openstack_integration::nova
+include openstack_integration::cinder
+include openstack_integration::horizon
+include openstack_integration::heat
+include openstack_integration::zaqar
+include openstack_integration::ironic
+include openstack_integration::mistral
+include openstack_integration::provision
 
-class { '::openstack_integration::tempest':
+class { 'openstack_integration::tempest':
   cinder  => true,
   heat    => true,
   horizon => true,

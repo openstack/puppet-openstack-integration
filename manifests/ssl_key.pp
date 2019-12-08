@@ -13,7 +13,7 @@ define openstack_integration::ssl_key(
   $key_owner = $name,
 ) {
 
-  include ::openstack_integration::config
+  include openstack_integration::config
 
   if $key_path == undef {
     $_key_path  = "/etc/${name}/ssl/private/${::fqdn}.pem"

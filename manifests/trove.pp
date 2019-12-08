@@ -1,7 +1,7 @@
 class openstack_integration::trove {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'trove':
     password => 'an_even_bigger_secret',
@@ -21,10 +21,10 @@ class openstack_integration::trove {
     $crt_file = undef
   }
 
-  class { '::trove::logging':
+  class { 'trove::logging':
     debug => true,
   }
-  class { '::trove':
+  class { 'trove':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -44,16 +44,16 @@ class openstack_integration::trove {
     amqp_sasl_mechanisms       => 'PLAIN',
     nova_proxy_admin_pass      => 'a_big_secret',
   }
-  class { '::trove::db::mysql':
+  class { 'trove::db::mysql':
     password => 'trove',
   }
-  class { '::trove::keystone::auth':
+  class { 'trove::keystone::auth':
     password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
     internal_url => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
     admin_url    => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
   }
-  class { '::trove::keystone::authtoken':
+  class { 'trove::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -61,22 +61,22 @@ class openstack_integration::trove {
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::trove::api':
+  class { 'trove::api':
     bind_host => $::openstack_integration::config::host,
     workers   => 2,
     cert_file => $crt_file,
     key_file  => $key_file,
   }
-  class { '::trove::client': }
-  class { '::trove::conductor':
+  class { 'trove::client': }
+  class { 'trove::conductor':
     debug    => true,
     workers  => 2,
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
-  class { '::trove::taskmanager':
+  class { 'trove::taskmanager':
     debug                   => true,
     auth_url                => $::openstack_integration::config::keystone_auth_uri,
     use_guestagent_template => false,
   }
-  class { '::trove::quota': }
+  class { 'trove::quota': }
 }

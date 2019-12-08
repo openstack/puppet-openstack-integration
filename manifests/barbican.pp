@@ -1,7 +1,7 @@
 class openstack_integration::barbican {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'barbican':
     password => 'an_even_bigger_secret',
@@ -16,32 +16,32 @@ class openstack_integration::barbican {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  include ::barbican
-  class { '::barbican::db::mysql':
+  include barbican
+  class { 'barbican::db::mysql':
     password => 'barbican',
   }
-  class { '::barbican::db':
+  class { 'barbican::db':
     database_connection => 'mysql+pymysql://barbican:barbican@127.0.0.1/barbican?charset=utf8',
   }
-  class { '::barbican::keystone::auth':
+  class { 'barbican::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9311",
     internal_url => "${::openstack_integration::config::base_url}:9311",
     admin_url    => "${::openstack_integration::config::base_url}:9311",
     password     => 'a_big_secret',
   }
-  include ::barbican::quota
-  include ::barbican::keystone::notification
-  class { '::barbican::api::logging':
+  include barbican::quota
+  include barbican::keystone::notification
+  class { 'barbican::api::logging':
     debug => true,
   }
-  class { '::barbican::keystone::authtoken':
+  class { 'barbican::keystone::authtoken':
     password             => 'a_big_secret',
     auth_url             => "${::openstack_integration::config::keystone_admin_uri}/v3",
     www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
   }
-  class { '::barbican::api':
+  class { 'barbican::api':
     default_transport_url       => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -63,14 +63,14 @@ class openstack_integration::barbican {
     db_auto_create              => false,
     rabbit_use_ssl              => $::openstack_integration::config::ssl,
   }
-  include ::apache
-  class { '::barbican::wsgi::apache':
+  include apache
+  class { 'barbican::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/barbican/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::barbican::worker': }
+  class { 'barbican::worker': }
 
 }

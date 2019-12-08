@@ -1,5 +1,5 @@
 class openstack_integration::redis {
-  include ::openstack_integration::config
+  include openstack_integration::config
 
   # NOTE(tobasco): Manually manage redis until arioch/puppet-redis support
   # redis 4.x since that is used by Ubuntu Bionic.

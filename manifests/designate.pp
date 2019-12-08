@@ -3,22 +3,22 @@
 
 class openstack_integration::designate {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
-  include ::openstack_integration::bind
+  include openstack_integration::config
+  include openstack_integration::params
+  include openstack_integration::bind
 
   openstack_integration::mq_user { 'designate':
     password => 'an_even_bigger_secret',
     before   => Anchor['designate::service::begin'],
   }
 
-  class { '::designate::db::mysql':
+  class { 'designate::db::mysql':
     password => 'designate',
   }
-  class { '::designate::logging':
+  class { 'designate::logging':
     debug => true,
   }
-  class { '::designate':
+  class { 'designate':
     default_transport_url => os_transport_url({
       'transport' => 'rabbit',
       'host'      => $::openstack_integration::config::host,
@@ -28,20 +28,20 @@ class openstack_integration::designate {
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
   }
-  class { '::designate::db':
+  class { 'designate::db':
     database_connection => 'mysql+pymysql://designate:designate@127.0.0.1/designate?charset=utf8'
   }
 
-  include '::designate::client'
+  include 'designate::client'
 
   # TODO: Support SSL
-  class { '::designate::keystone::auth':
+  class { 'designate::keystone::auth':
     password     => 'a_big_secret',
     public_url   => "http://${::openstack_integration::config::ip_for_url}:9001",
     internal_url => "http://${::openstack_integration::config::ip_for_url}:9001",
     admin_url    => "http://${::openstack_integration::config::ip_for_url}:9001",
   }
-  class { '::designate::keystone::authtoken':
+  class { 'designate::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -50,7 +50,7 @@ class openstack_integration::designate {
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
 
-  class { '::designate::api':
+  class { 'designate::api':
     listen           => "${::openstack_integration::config::ip_for_url}:9001",
     api_base_uri     => "http://${::openstack_integration::config::ip_for_url}:9001",
     auth_strategy    => 'keystone',
@@ -59,17 +59,17 @@ class openstack_integration::designate {
   }
 
   # IPv6 doesn't work for mdns ? https://bugs.launchpad.net/designate/+bug/1501396
-  class { '::designate::mdns':
+  class { 'designate::mdns':
     listen => '127.0.0.1:5354'
   }
 
-  class { '::designate::central': }
+  class { 'designate::central': }
 
-  class { '::designate::producer': }
+  class { 'designate::producer': }
 
-  class { '::designate::worker': }
+  class { 'designate::worker': }
 
-  class { '::designate::backend::bind9':
+  class { 'designate::backend::bind9':
     rndc_host        => '127.0.0.1',
     rndc_config_file => '/etc/rndc.conf',
     rndc_key_file    => $::dns::params::rndckeypath,

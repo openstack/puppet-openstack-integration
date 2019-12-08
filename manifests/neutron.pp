@@ -30,8 +30,8 @@ class openstack_integration::neutron (
   $notification_topics = $::os_service_default,
 ) {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'neutron':
@@ -48,7 +48,7 @@ class openstack_integration::neutron (
 
   case $driver {
     'openvswitch': {
-      include ::vswitch::ovs
+      include vswitch::ovs
       # Functional test for Open-vSwitch:
       # create dummy loopback interface to exercise adding a port to a bridge
       vs_bridge { 'br-ex':
@@ -73,7 +73,7 @@ class openstack_integration::neutron (
         command     => 'ip addr add 172.24.5.1/24 dev br-ex && ip link set br-ex up',
         refreshonly => true,
       }
-      class { '::neutron::agents::ml2::ovs':
+      class { 'neutron::agents::ml2::ovs':
         local_ip        => '127.0.0.1',
         tunnel_types    => ['vxlan'],
         bridge_mappings => ['external:br-ex'],
@@ -88,7 +88,7 @@ class openstack_integration::neutron (
         unless   => 'ip l show loop0',
         command  => 'ip link add name loop0 type dummy && ip addr add 172.24.5.1/24 dev loop0 && ip link set loop0 up',
       }
-      class { '::neutron::agents::ml2::linuxbridge':
+      class { 'neutron::agents::ml2::linuxbridge':
         local_ip                    => $::ipaddress,
         tunnel_types                => ['vxlan'],
         physical_interface_mappings => ['external:loop0'],
@@ -100,10 +100,10 @@ class openstack_integration::neutron (
     }
   }
 
-  class { '::neutron::db::mysql':
+  class { 'neutron::db::mysql':
     password => 'neutron',
   }
-  class { '::neutron::keystone::auth':
+  class { 'neutron::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9696",
     internal_url => "${::openstack_integration::config::base_url}:9696",
     admin_url    => "${::openstack_integration::config::base_url}:9696",
@@ -115,11 +115,11 @@ class openstack_integration::neutron (
   }
   if $l2gw_enabled {
     if ($::operatingsystem == 'Ubuntu') {
-      class {'::neutron::services::l2gw': }
+      class {'neutron::services::l2gw': }
       $l2gw_provider = 'L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default'
     }
     elsif ($::operatingsystem != 'Ubuntu') {
-      class {'::neutron::services::l2gw':
+      class {'neutron::services::l2gw':
         service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
       $l2gw_provider = undef
@@ -143,10 +143,10 @@ class openstack_integration::neutron (
       $global_physnet_mtu    = undef
   }
 
-  class { '::neutron::logging':
+  class { 'neutron::logging':
     debug => true,
   }
-  class { '::neutron':
+  class { 'neutron':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -174,8 +174,8 @@ class openstack_integration::neutron (
     notification_driver        => 'messagingv2',
     global_physnet_mtu         => $global_physnet_mtu,
   }
-  class { '::neutron::client': }
-  class { '::neutron::keystone::authtoken':
+  class { 'neutron::client': }
+  class { 'neutron::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -192,7 +192,7 @@ class openstack_integration::neutron (
   } else {
     $validate_neutron_server_service = false
   }
-  class { '::neutron::server':
+  class { 'neutron::server':
     database_connection      => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
     sync_db                  => true,
     api_workers              => 2,
@@ -203,7 +203,7 @@ class openstack_integration::neutron (
     ensure_dr_package        => $bgp_dragent_enabled,
   }
 
-  class { '::neutron::plugins::ml2':
+  class { 'neutron::plugins::ml2':
     type_drivers         => ['vxlan', 'vlan', 'flat'],
     tenant_network_types => ['vxlan', 'vlan', 'flat'],
     extension_drivers    => 'port_security,qos',
@@ -222,43 +222,43 @@ class openstack_integration::neutron (
     $metadata_protocol = 'http'
   }
 
-  class { '::neutron::agents::metadata':
+  class { 'neutron::agents::metadata':
     debug             => true,
     shared_secret     => 'a_big_secret',
     metadata_workers  => 2,
     metadata_host     => $metadata_host,
     metadata_protocol => $metadata_protocol,
   }
-  class { '::neutron::agents::l3':
+  class { 'neutron::agents::l3':
     interface_driver => $driver,
     debug            => true,
     extensions       => 'fwaas_v2',
   }
-  class { '::neutron::agents::dhcp':
+  class { 'neutron::agents::dhcp':
     interface_driver => $driver,
     debug            => true,
   }
-  class { '::neutron::agents::metering':
+  class { 'neutron::agents::metering':
     interface_driver => $driver,
     debug            => true,
   }
-  class { '::neutron::server::notifications':
+  class { 'neutron::server::notifications':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
-  class { '::neutron::services::fwaas':
+  class { 'neutron::services::fwaas':
     enabled       => true,
     agent_version => 'v2',
     driver        => 'neutron_fwaas.services.firewall.service_drivers.agents.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver',
 
   }
   if $bgpvpn_enabled {
-    class {'::neutron::services::bgpvpn':
+    class {'neutron::services::bgpvpn':
       service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
     }
   }
   if $bgp_dragent_enabled {
-    class {'::neutron::agents::bgp_dragent':
+    class {'neutron::agents::bgp_dragent':
       bgp_router_id => '127.0.0.1'
     }
   }

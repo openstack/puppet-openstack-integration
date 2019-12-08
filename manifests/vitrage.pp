@@ -1,7 +1,7 @@
 class openstack_integration::vitrage {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'vitrage':
     password => 'an_even_bigger_secret',
@@ -16,21 +16,21 @@ class openstack_integration::vitrage {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  class { '::vitrage::db::mysql':
+  class { 'vitrage::db::mysql':
     password => 'vitrage',
   }
 
-  class { '::vitrage::db':
+  class { 'vitrage::db':
     database_connection => 'mysql+pymysql://vitrage:vitrage@127.0.0.1/vitrage?charset=utf8'
   }
 
-  class { '::vitrage::db::sync': }
+  class { 'vitrage::db::sync': }
 
-  class { '::vitrage::logging':
+  class { 'vitrage::logging':
     debug => true,
   }
 
-  class { '::vitrage':
+  class { 'vitrage':
     # TODO(ansmith): separate transports when bug/1711716 closed
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_notify_proto,
@@ -68,13 +68,13 @@ class openstack_integration::vitrage {
     mode   => '0766',
   }
 
-  class { '::vitrage::keystone::auth':
+  class { 'vitrage::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8999",
     internal_url => "${::openstack_integration::config::base_url}:8999",
     admin_url    => "${::openstack_integration::config::base_url}:8999",
     password     => 'a_big_secret',
   }
-  class { '::vitrage::keystone::authtoken':
+  class { 'vitrage::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -82,27 +82,27 @@ class openstack_integration::vitrage {
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::vitrage::api':
+  class { 'vitrage::api':
     enabled      => true,
     service_name => 'httpd',
   }
-  include ::apache
-  class { '::vitrage::wsgi::apache':
+  include apache
+  class { 'vitrage::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/vitrage/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::vitrage::auth':
+  class { 'vitrage::auth':
     auth_url      => $::openstack_integration::config::keystone_auth_uri,
     auth_password => 'a_big_secret',
   }
-  class { '::vitrage::graph': }
-  class { '::vitrage::notifier':
+  class { 'vitrage::graph': }
+  class { 'vitrage::notifier':
     notifiers => ['nova'],
   }
-  class { '::vitrage::persistor': }
-  class { '::vitrage::client': }
+  class { 'vitrage::persistor': }
+  class { 'vitrage::client': }
 
 }

@@ -25,8 +25,8 @@ elsif ($::os['name'] == 'Fedora') or
 }
 if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  include ::apache::params
-  class { '::apache':
+  include apache::params
+  class { 'apache':
     mod_packages => merge($::apache::params::mod_packages, {
       'wsgi' => $wsgi_mod_package,
     }),
@@ -62,45 +62,45 @@ if $::operatingsystem == 'Ubuntu' {
   $bgp_dragent_enabled = true
 }
 
-include ::openstack_integration
-class { '::openstack_integration::config':
+include openstack_integration
+class { 'openstack_integration::config':
   ssl  => $ssl,
   ipv6 => $ipv6,
 }
 
 if $ssl {
-  include ::openstack_integration::cacert
+  include openstack_integration::cacert
 }
-include ::openstack_integration::memcached
-include ::openstack_integration::rabbitmq
-include ::openstack_integration::mysql
-include ::openstack_integration::keystone
-class { '::openstack_integration::glance':
+include openstack_integration::memcached
+include openstack_integration::rabbitmq
+include openstack_integration::mysql
+include openstack_integration::keystone
+class { 'openstack_integration::glance':
   backend => 'swift',
 }
-class { '::openstack_integration::neutron':
+class { 'openstack_integration::neutron':
   bgpvpn_enabled      => $bgpvpn_enabled,
   l2gw_enabled        => $l2gw_enabled,
   bgp_dragent_enabled => $bgp_dragent_enabled,
 }
-include ::openstack_integration::placement
-class { '::openstack_integration::nova':
+include openstack_integration::placement
+class { 'openstack_integration::nova':
   libvirt_rbd => true,
 }
 
-class { '::openstack_integration::ceph':
+class { 'openstack_integration::ceph':
   deploy_rgw   => true,
   swift_dropin => true,
 }
 if $watcher_enabled {
-  include ::openstack_integration::watcher
+  include openstack_integration::watcher
 }
 
-include ::openstack_integration::provision
+include openstack_integration::provision
 
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
-class { '::openstack_integration::tempest':
+class { 'openstack_integration::tempest':
   watcher     => $watcher_enabled,
   bgpvpn      => $bgpvpn_enabled,
   l2gw        => $l2gw_enabled,

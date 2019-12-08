@@ -25,8 +25,8 @@ elsif ($::os['name'] == 'Fedora') or
 }
 if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  include ::apache::params
-  class { '::apache':
+  include apache::params
+  class { 'apache':
     mod_packages => merge($::apache::params::mod_packages, {
       'wsgi' => $wsgi_mod_package,
     }),
@@ -65,58 +65,58 @@ case $::osfamily {
   }
 }
 
-include ::openstack_integration
-class { '::openstack_integration::config':
+include openstack_integration
+class { 'openstack_integration::config':
   ssl            => $ssl,
   ipv6           => $ipv6,
   rpc_backend    => $om_rpc,
   notify_backend => $om_notify,
 }
 if $ssl {
-  include ::openstack_integration::cacert
+  include openstack_integration::cacert
 }
-include ::openstack_integration::memcached
-include ::openstack_integration::rabbitmq
+include openstack_integration::memcached
+include openstack_integration::rabbitmq
 if ($om_rpc == 'amqp') {
-  include ::openstack_integration::qdr
+  include openstack_integration::qdr
 }
-include ::openstack_integration::mysql
-class { '::openstack_integration::keystone':
+include openstack_integration::mysql
+class { 'openstack_integration::keystone':
   # NOTE(sileht): Telemetry autoscaling tempest tests can't renew token, so we
   # use a long one
   token_expiration => '2400',
 }
-class { '::openstack_integration::glance':
+class { 'openstack_integration::glance':
   backend => 'rbd',
 }
-class { '::openstack_integration::neutron':
+class { 'openstack_integration::neutron':
   notification_topics => $notification_topics,
 }
-include ::openstack_integration::placement
-class { '::openstack_integration::nova':
+include openstack_integration::placement
+class { 'openstack_integration::nova':
   libvirt_rbd         => true,
   notification_topics => $notification_topics,
 }
-class { '::openstack_integration::cinder':
+class { 'openstack_integration::cinder':
   backend => 'rbd',
 }
-include ::openstack_integration::ceilometer
-class { '::openstack_integration::aodh':
+include openstack_integration::ceilometer
+class { 'openstack_integration::aodh':
   notification_topics => $notification_topics,
 }
 if $enable_vitrage {
-  include ::openstack_integration::vitrage
+  include openstack_integration::vitrage
 }
-include ::openstack_integration::ceph
-class { '::openstack_integration::heat':
+include openstack_integration::ceph
+class { 'openstack_integration::heat':
   notification_topics => $notification_topics,
 }
-include ::openstack_integration::provision
-include ::openstack_integration::redis
-include ::openstack_integration::gnocchi
-include ::openstack_integration::panko
+include openstack_integration::provision
+include openstack_integration::redis
+include openstack_integration::gnocchi
+include openstack_integration::panko
 
-class { '::openstack_integration::tempest':
+class { 'openstack_integration::tempest':
   cinder     => true,
   gnocchi    => true,
   ceilometer => true,

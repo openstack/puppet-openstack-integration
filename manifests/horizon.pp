@@ -1,7 +1,7 @@
 class openstack_integration::horizon {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   if $::openstack_integration::config::ssl {
     file { '/etc/openstack-dashboard/ssl':
@@ -28,7 +28,7 @@ class openstack_integration::horizon {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  class { '::horizon':
+  class { 'horizon':
     secret_key       => 'big_secret',
     allowed_hosts    => $::openstack_integration::config::ip_for_url,
     listen_ssl       => $::openstack_integration::config::ssl,

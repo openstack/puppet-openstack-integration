@@ -202,7 +202,7 @@ fi
 set +e
 if [ "${MANAGE_REPOS}" = true ]; then
     print_header 'Install repos'
-    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include ::openstack_integration::repos"
+    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include openstack_integration::repos"
     RESULT=$?
     if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
         print_header 'Puppet failed to install repositories.'

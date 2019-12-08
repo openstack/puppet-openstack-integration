@@ -1,7 +1,7 @@
 class openstack_integration::rabbitmq {
 
-  include ::openstack_integration::params
-  include ::openstack_integration::config
+  include openstack_integration::params
+  include openstack_integration::config
 
   if $::openstack_integration::config::ssl {
     file { '/etc/rabbitmq/ssl/private':
@@ -16,7 +16,7 @@ class openstack_integration::rabbitmq {
       require  => File['/etc/rabbitmq/ssl/private'],
       notify   => Service['rabbitmq-server'],
     }
-    class { '::rabbitmq':
+    class { 'rabbitmq':
       package_provider      => $::package_provider,
       delete_guest_user     => true,
       ssl                   => true,
@@ -28,7 +28,7 @@ class openstack_integration::rabbitmq {
       repos_ensure          => false,
     }
   } else {
-    class { '::rabbitmq':
+    class { 'rabbitmq':
       package_provider      => $::package_provider,
       delete_guest_user     => true,
       environment_variables => $::openstack_integration::config::rabbit_env,
@@ -37,7 +37,7 @@ class openstack_integration::rabbitmq {
   }
   rabbitmq_vhost { '/':
     provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
+    require  => Class['rabbitmq'],
   }
 
 }

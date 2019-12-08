@@ -25,8 +25,8 @@ class openstack_integration::cinder (
   $notification_topics = $::os_service_default,
 ) {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'cinder':
     password => 'an_even_bigger_secret',
@@ -40,11 +40,11 @@ class openstack_integration::cinder (
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
-  include ::cinder::client
-  class { '::cinder::db::mysql':
+  include cinder::client
+  class { 'cinder::db::mysql':
     password => 'cinder',
   }
-  class { '::cinder::keystone::auth':
+  class { 'cinder::keystone::auth':
     public_url_v2   => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
     internal_url_v2 => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
     admin_url_v2    => "${::openstack_integration::config::base_url}:8776/v2/%(tenant_id)s",
@@ -53,10 +53,10 @@ class openstack_integration::cinder (
     admin_url_v3    => "${::openstack_integration::config::base_url}:8776/v3/%(tenant_id)s",
     password        => 'a_big_secret',
   }
-  class { '::cinder::logging':
+  class { 'cinder::logging':
     debug => true,
   }
-  class { '::cinder':
+  class { 'cinder':
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -68,7 +68,7 @@ class openstack_integration::cinder (
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms  => 'PLAIN',
   }
-  class { '::cinder::ceilometer':
+  class { 'cinder::ceilometer':
     notification_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_notify_proto,
       'host'      => $::openstack_integration::config::host,
@@ -90,7 +90,7 @@ class openstack_integration::cinder (
     $keymgr_encryption_api_url  = undef
     $keymgr_encryption_auth_url = undef
   }
-  class { '::cinder::keystone::authtoken':
+  class { 'cinder::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
@@ -98,7 +98,7 @@ class openstack_integration::cinder (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::cinder::api':
+  class { 'cinder::api':
     default_volume_type        => 'BACKEND_1',
     public_endpoint            => "${::openstack_integration::config::base_url}:8776",
     service_name               => 'httpd',
@@ -106,28 +106,28 @@ class openstack_integration::cinder (
     keymgr_encryption_api_url  => $keymgr_encryption_api_url,
     keymgr_encryption_auth_url => $keymgr_encryption_auth_url,
   }
-  include ::apache
-  class { '::cinder::wsgi::apache':
+  include apache
+  class { 'cinder::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/cinder/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::cinder::quota': }
-  class { '::cinder::scheduler': }
-  class { '::cinder::scheduler::filter': }
-  class { '::cinder::volume':
+  class { 'cinder::quota': }
+  class { 'cinder::scheduler': }
+  class { 'cinder::scheduler::filter': }
+  class { 'cinder::volume':
     volume_clear => 'none',
   }
-  class { '::cinder::backup': }
-  class { '::cinder::cron::db_purge': }
-  class { '::cinder::glance':
+  class { 'cinder::backup': }
+  class { 'cinder::cron::db_purge': }
+  class { 'cinder::glance':
     glance_api_servers => "${::openstack_integration::config::base_url}:9292",
   }
   case $backend {
     'iscsi': {
-      class { '::cinder::setup_test_volume':
+      class { 'cinder::setup_test_volume':
         size => '15G',
       }
       cinder::backend::iscsi { 'BACKEND_1':
@@ -150,12 +150,12 @@ class openstack_integration::cinder (
       fail("Unsupported backend (${backend})")
     }
   }
-  class { '::cinder::backends':
+  class { 'cinder::backends':
     enabled_backends => ['BACKEND_1'],
   }
 
   if $cinder_backup == swift {
-    class { '::cinder::backup::swift':
+    class { 'cinder::backup::swift':
       backup_swift_user_domain    => 'Default',
       backup_swift_project_domain => 'Default',
       backup_swift_project        => 'Default',

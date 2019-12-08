@@ -1,13 +1,13 @@
 class openstack_integration::murano {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   rabbitmq_user { ['murano', 'murano_private']:
     admin    => true,
     password => 'an_even_bigger_secret',
     provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
+    require  => Class['rabbitmq'],
   }
 
   rabbitmq_vhost { '/murano':
@@ -20,14 +20,14 @@ class openstack_integration::murano {
     write_permission     => '.*',
     read_permission      => '.*',
     provider             => 'rabbitmqctl',
-    require              => [ Class['::rabbitmq'], Rabbitmq_vhost['/murano'] ],
+    require              => [ Class['rabbitmq'], Rabbitmq_vhost['/murano'] ],
   }
 
   if $::openstack_integration::config::messaging_default_proto == 'amqp' {
     qdr_user { 'murano':
       password => 'an_even_bigger_secret',
       provider => 'sasl',
-      require  => Class['::qdr'],
+      require  => Class['qdr'],
     }
   }
 
@@ -39,13 +39,13 @@ class openstack_integration::murano {
     Exec['update-ca-certificates'] ~> Service['murano-api']
   }
 
-  class { '::murano::db::mysql':
+  class { 'murano::db::mysql':
     password => 'a_big_secret',
   }
-  class { '::murano::logging':
+  class { 'murano::logging':
     debug => true,
   }
-  class { '::murano':
+  class { 'murano':
     admin_password        => 'a_big_secret',
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -69,13 +69,13 @@ class openstack_integration::murano {
     cert_file             => $::openstack_integration::params::cert_path,
     key_file              => "/etc/murano/ssl/private/${::fqdn}.pem",
   }
-  class { '::murano::api':
+  class { 'murano::api':
     host => $::openstack_integration::config::host,
   }
 
-  class { '::murano::engine': }
+  class { 'murano::engine': }
 
-  class { '::murano::keystone::auth':
+  class { 'murano::keystone::auth':
     password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:8082",
     internal_url => "${::openstack_integration::config::base_url}:8082",

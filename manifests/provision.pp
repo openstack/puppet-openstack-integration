@@ -19,7 +19,7 @@ class openstack_integration::provision (
   $neutron                   = true,
 ){
 
-  include ::openstack_integration::config
+  include openstack_integration::config
 
   if $nova {
     nova_flavor { 'm1.nano':

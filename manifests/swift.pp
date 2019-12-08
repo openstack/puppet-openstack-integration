@@ -1,6 +1,6 @@
 class openstack_integration::swift {
 
-  include ::openstack_integration::config
+  include openstack_integration::config
 
   # Setup logging to /var/log/swift
   # TODO: Move rsyslog implementation to something more generic
@@ -46,10 +46,10 @@ class openstack_integration::swift {
     }
   }
 
-  class { '::swift':
+  class { 'swift':
     swift_hash_path_suffix => 'secrete',
   }
-  class { '::swift::proxy':
+  class { 'swift::proxy':
     proxy_local_net_ip => $::openstack_integration::config::host,
     workers            => '2',
     pipeline           => [
@@ -59,30 +59,30 @@ class openstack_integration::swift {
     ],
     node_timeout       => 30,
   }
-  include ::swift::proxy::catch_errors
-  include ::swift::proxy::healthcheck
-  include ::swift::proxy::proxy_logging
+  include swift::proxy::catch_errors
+  include swift::proxy::healthcheck
+  include swift::proxy::proxy_logging
   # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
   # different: https://bugs.launchpad.net/swift/+bug/1610064
-  class { '::swift::proxy::cache':
+  class { 'swift::proxy::cache':
     memcache_servers => $::openstack_integration::config::swift_memcached_servers
   }
-  include ::swift::proxy::tempurl
-  include ::swift::proxy::ratelimit
-  class { '::swift::proxy::authtoken':
+  include swift::proxy::tempurl
+  include swift::proxy::ratelimit
+  class { 'swift::proxy::authtoken':
     auth_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
     auth_url => "${::openstack_integration::config::keystone_admin_uri}/",
     password => 'a_big_secret',
   }
-  class { '::swift::proxy::keystone':
+  class { 'swift::proxy::keystone':
     operator_roles => ['member', 'admin', 'SwiftOperator']
   }
-  include ::swift::proxy::formpost
-  include ::swift::proxy::staticweb
-  include ::swift::proxy::container_quotas
-  include ::swift::proxy::account_quotas
-  include ::swift::proxy::tempauth
-  class { '::swift::keystone::auth':
+  include swift::proxy::formpost
+  include swift::proxy::staticweb
+  include swift::proxy::container_quotas
+  include swift::proxy::account_quotas
+  include swift::proxy::tempauth
+  class { 'swift::keystone::auth':
     public_url     => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
     admin_url      => "http://${::openstack_integration::config::ip_for_url}:8080",
     internal_url   => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
@@ -104,8 +104,8 @@ class openstack_integration::swift {
       require => File['/srv/node'],
     }
   }
-  include ::swift::ringbuilder
-  class { '::swift::storage::all':
+  include swift::ringbuilder
+  class { 'swift::storage::all':
     storage_local_net_ip => $::openstack_integration::config::host,
     incoming_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
     outgoing_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',

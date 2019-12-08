@@ -16,14 +16,15 @@ define openstack_integration::mq_user (
   $admin = true,
   $vhost = '/',
 ) {
-  include ::openstack_integration::config
-  include ::openstack_integration::rabbitmq
+
+  include openstack_integration::config
+  include openstack_integration::rabbitmq
 
   rabbitmq_user { $name:
     admin    => $admin,
     password => $password,
     provider => 'rabbitmqctl',
-    require  => Class['::rabbitmq'],
+    require  => Class['rabbitmq'],
   }
 
   rabbitmq_user_permissions { "${name}@${vhost}":
@@ -31,16 +32,16 @@ define openstack_integration::mq_user (
     write_permission     => '.*',
     read_permission      => '.*',
     provider             => 'rabbitmqctl',
-    require              => Class['::rabbitmq'],
+    require              => Class['rabbitmq'],
   }
 
   if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    include ::openstack_integration::qdr
+    include openstack_integration::qdr
 
     qdr_user { $name:
       password => $password,
       provider => 'sasl',
-      require  => Class['::qdr'],
+      require  => Class['qdr'],
     }
   }
 }

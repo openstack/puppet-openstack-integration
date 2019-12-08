@@ -1,7 +1,7 @@
 class openstack_integration::cacert {
 
-  include ::openstack_integration::params
-  include ::openstack_integration::config
+  include openstack_integration::params
+  include openstack_integration::config
 
   file { $::openstack_integration::params::cert_path:
     ensure                  => present,

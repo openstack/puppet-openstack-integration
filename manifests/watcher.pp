@@ -1,7 +1,7 @@
 class openstack_integration::watcher {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'watcher':
     password => 'my_secret',
@@ -15,20 +15,20 @@ class openstack_integration::watcher {
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
-  class { '::watcher::db::mysql':
+  class { 'watcher::db::mysql':
     password => 'watcher',
   }
-  class { '::watcher::db':
+  class { 'watcher::db':
     database_connection => 'mysql+pymysql://watcher:watcher@127.0.0.1/watcher?charset=utf8',
   }
   # TODO: Support SSL
-  class { '::watcher::keystone::auth':
+  class { 'watcher::keystone::auth':
     password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:9322",
     admin_url    => "${::openstack_integration::config::base_url}:9322",
     internal_url => "${::openstack_integration::config::base_url}:9322",
   }
-  class {'::watcher::keystone::authtoken':
+  class {'watcher::keystone::authtoken':
     password             => 'a_big_secret',
     auth_version         => 'v3',
     user_domain_name     => 'Default',
@@ -37,10 +37,10 @@ class openstack_integration::watcher {
     www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  class { '::watcher::logging':
+  class { 'watcher::logging':
     debug => true,
   }
-  class { '::watcher':
+  class { 'watcher':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -58,7 +58,7 @@ class openstack_integration::watcher {
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
   }
-  class { '::watcher::api':
+  class { 'watcher::api':
     watcher_api_bind_host              => $::openstack_integration::config::host,
     watcher_client_password            => 'a_big_secret',
     watcher_client_project_domain_name => 'Default',
@@ -69,18 +69,18 @@ class openstack_integration::watcher {
     upgrade_db                         => true,
     service_name                       => 'httpd',
   }
-  include ::apache
-  class { '::watcher::wsgi::apache':
+  include apache
+  class { 'watcher::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/watcher/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::watcher::applier':
+  class { 'watcher::applier':
     applier_workers => '2',
   }
-  class { '::watcher::decision_engine':
+  class { 'watcher::decision_engine':
     decision_engine_workers => '2',
   }
 

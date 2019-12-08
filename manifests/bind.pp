@@ -3,8 +3,8 @@
 
 class openstack_integration::bind {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   # Need some particular options that aren't default in ::dns when using
   # designate with bind9 backend. Set them up.
@@ -17,7 +17,7 @@ class openstack_integration::bind {
   }
   # NOTE (dmsimard): listen_on_v6 is false and overridden due to extended port
   # configuration in additional_options
-  class { '::dns':
+  class { 'dns':
     recursion          => 'no',
     allow_recursion    => [],
     controls           => $controls,

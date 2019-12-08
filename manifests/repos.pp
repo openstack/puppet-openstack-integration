@@ -10,16 +10,16 @@ class openstack_integration::repos {
     'Debian': {
       case $::os_package_type {
         'ubuntu': {
-          include ::apt
-          class { '::openstack_extras::repo::debian::ubuntu':
+          include apt
+          class { 'openstack_extras::repo::debian::ubuntu':
             release         => 'train',
             package_require => true,
             uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }
         }
         'debian': {
-          include ::apt
-          class { '::openstack_extras::repo::debian::debian':
+          include apt
+          class { 'openstack_extras::repo::debian::debian':
             release         => 'queens',
             package_require => true,
           }
@@ -47,7 +47,7 @@ class openstack_integration::repos {
       $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
-      class { '::openstack_extras::repo::redhat::redhat':
+      class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
@@ -88,7 +88,7 @@ class openstack_integration::repos {
           recurse => true,
           matches => [ 'fedora*.repo' ],
           rmdirs  => false,
-          require => Class['::openstack_extras::repo::redhat::redhat'],
+          require => Class['openstack_extras::repo::redhat::redhat'],
         }
       }
     }
@@ -97,7 +97,7 @@ class openstack_integration::repos {
     }
   }
 
-  class { '::ceph::repo':
+  class { 'ceph::repo':
     enable_sig  => $enable_sig,
     enable_epel => $enable_epel,
     ceph_mirror => $ceph_mirror,

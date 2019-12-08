@@ -1,10 +1,10 @@
 class openstack_integration::qdr {
 
-  include ::openstack_integration::params
-  include ::openstack_integration::config
+  include openstack_integration::params
+  include openstack_integration::config
 
   if $::osfamily == 'Debian' {
-    include ::apt
+    include apt
     Class['apt::update'] -> Package<| provider == 'apt' |>
     apt::ppa { 'ppa:qpid/released' : }
     package { 'pyngus':
@@ -37,7 +37,7 @@ class openstack_integration::qdr {
       require  => File['/etc/qpid-dispatch/ssl/private'],
       notify   => Service['qdrouterd'],
     }
-    class { '::qdr':
+    class { 'qdr':
       listener_require_ssl   => 'yes',
       listener_ssl_cert_db   => $::openstack_integration::params::ca_bundle_cert_path,
       listener_ssl_cert_file => $::openstack_integration::params::cert_path,
@@ -49,7 +49,7 @@ class openstack_integration::qdr {
       extra_addresses        => $extra_addresses,
     }
   } else {
-    class { '::qdr':
+    class { 'qdr':
       listener_addr      => $::openstack_integration::config::host,
       listener_port      => $::openstack_integration::config::messaging_default_port,
       listener_sasl_mech => 'PLAIN',

@@ -25,8 +25,8 @@ elsif ($::os['name'] == 'Fedora') or
 }
 if ($::os['family'] == 'Debian') or ($::os['name'] == 'Fedora') or
   ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  include ::apache::params
-  class { '::apache':
+  include apache::params
+  class { 'apache':
     mod_packages => merge($::apache::params::mod_packages, {
       'wsgi' => $wsgi_mod_package,
     }),
@@ -84,44 +84,44 @@ if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease
   $designate_enabled = true
 }
 
-include ::openstack_integration
-class { '::openstack_integration::config':
+include openstack_integration
+class { 'openstack_integration::config':
   ssl  => $ssl,
   ipv6 => $ipv6,
 }
 if $ssl {
-  include ::openstack_integration::cacert
+  include openstack_integration::cacert
 }
-include ::openstack_integration::memcached
-include ::openstack_integration::rabbitmq
-include ::openstack_integration::mysql
-include ::openstack_integration::keystone
-include ::openstack_integration::glance
-class { '::openstack_integration::neutron':
+include openstack_integration::memcached
+include openstack_integration::rabbitmq
+include openstack_integration::mysql
+include openstack_integration::keystone
+include openstack_integration::glance
+class { 'openstack_integration::neutron':
   driver => 'linuxbridge',
 }
-include ::openstack_integration::placement
-include ::openstack_integration::nova
+include openstack_integration::placement
+include openstack_integration::nova
 if $trove_enabled {
-  include ::openstack_integration::trove
+  include openstack_integration::trove
 }
-include ::openstack_integration::horizon
-include ::openstack_integration::heat
-class { '::openstack_integration::sahara':
+include openstack_integration::horizon
+include openstack_integration::heat
+class { 'openstack_integration::sahara':
   integration_enable => $sahara_integration_enable,
 }
 if $designate_enabled {
-  include ::openstack_integration::designate
+  include openstack_integration::designate
 }
 if $murano_enabled {
-  include ::openstack_integration::murano
+  include openstack_integration::murano
 }
 if $mistral_enabled {
-  include ::openstack_integration::mistral
+  include openstack_integration::mistral
 }
-include ::openstack_integration::provision
+include openstack_integration::provision
 
-class { '::openstack_integration::tempest':
+class { 'openstack_integration::tempest':
   designate => $designate_enabled,
   trove     => $trove_enabled,
   mistral   => $mistral_enabled,

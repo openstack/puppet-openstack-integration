@@ -22,8 +22,8 @@ class openstack_integration::keystone (
   $token_expiration    = '600',
 ) {
 
-  include ::openstack_integration::config
-  include ::openstack_integration::params
+  include openstack_integration::config
+  include openstack_integration::params
 
   openstack_integration::mq_user { 'keystone':
     password => 'an_even_bigger_secret',
@@ -46,19 +46,19 @@ class openstack_integration::keystone (
     $enable_credential_setup = false
   }
 
-  class { '::keystone::client': }
-  class { '::keystone::cron::token_flush': }
-  class { '::keystone::cron::fernet_rotate':
+  class { 'keystone::client': }
+  class { 'keystone::cron::token_flush': }
+  class { 'keystone::cron::fernet_rotate':
     hour   => '*',
     minute => '*/30',
   }
-  class { '::keystone::db::mysql':
+  class { 'keystone::db::mysql':
     password => 'keystone',
   }
-  class { '::keystone::logging':
+  class { 'keystone::logging':
     debug => true,
   }
-  class { '::keystone':
+  class { 'keystone':
     database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
     admin_token                => 'a_big_token',
     admin_password             => 'a_big_secret',
@@ -90,29 +90,29 @@ class openstack_integration::keystone (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
   }
-  class { '::keystone::messaging::amqp':
+  class { 'keystone::messaging::amqp':
     amqp_sasl_mechanisms => 'PLAIN',
   }
-  include ::apache
-  class { '::keystone::wsgi::apache':
+  include apache
+  class { 'keystone::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/keystone/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { '::keystone::roles::admin':
+  class { 'keystone::roles::admin':
     email    => 'test@example.tld',
     password => 'a_big_secret',
   }
-  class { '::keystone::endpoint':
+  class { 'keystone::endpoint':
     default_domain => $default_domain,
     public_url     => $::openstack_integration::config::keystone_auth_uri,
     admin_url      => $::openstack_integration::config::keystone_admin_uri,
     version        => '',
   }
 
-  class { '::openstack_extras::auth_file':
+  class { 'openstack_extras::auth_file':
     password       => 'a_big_secret',
     project_domain => 'default',
     user_domain    => 'default',

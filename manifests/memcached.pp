@@ -1,7 +1,7 @@
 class openstack_integration::memcached {
-  include ::openstack_integration::config
+  include openstack_integration::config
 
-  class { '::memcached':
+  class { 'memcached':
     listen_ip => $::openstack_integration::config::host,
     udp_port  => 0,
   }
