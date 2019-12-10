@@ -53,6 +53,7 @@ class openstack_integration::config (
       $rabbit_env = {
         'RABBITMQ_NODE_IP_ADDRESS'   => $host,
         'RABBITMQ_SERVER_START_ARGS' => '"-proto_dist inet6_tcp"',
+        'LC_ALL'                     => 'en_US.UTF-8',
       }
     }
     $ip_version  = '6'
@@ -63,7 +64,9 @@ class openstack_integration::config (
     $tooz_url = "redis://[${host}]:6379"
   } else {
     $host        = '127.0.0.1'
-    $rabbit_env  = {}
+    $rabbit_env  = {
+        'LC_ALL' => 'en_US.UTF-8',
+    }
     $ip_version  = '4'
     $memcached_servers  = ["${host}:11211"]
     $swift_memcached_servers = $memcached_servers

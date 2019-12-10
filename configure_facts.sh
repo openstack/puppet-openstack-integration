@@ -13,10 +13,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+source /etc/os-release
+OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
+
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export DLRN_BASE=${DLRN_BASE:-centos7-master/puppet-passed-ci}
-export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-centos7-master/deps/latest/}
+export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-train/current-passed-ci}
+export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-train/deps/latest/}
 export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
@@ -67,7 +70,7 @@ else
 fi
 
 rdo_dlrn=`curl --silent ${NODEPOOL_RDO_PROXY}/${DLRN_BASE}/delorean.repo | grep baseurl | cut -d= -f2`
-if [[ -z "$rdo_dlrn" ]]; then
+if [[ -z "$rdo_dlrn" ]] && [ -f /etc/redhat-release ] ; then
     echo "Failed to parse dlrn hash"
     exit 1
 fi

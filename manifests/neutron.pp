@@ -49,6 +49,12 @@ class openstack_integration::neutron (
   case $driver {
     'openvswitch': {
       include ::vswitch::ovs
+      # In CentOS8 puppet-vswitch requires network-scripts package until it's ported to NM.
+      if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') == 0) {
+        package { 'network-scripts-openvswitch':
+          ensure => 'latest'
+        }
+      }
       # Functional test for Open-vSwitch:
       # create dummy loopback interface to exercise adding a port to a bridge
       vs_bridge { 'br-ex':

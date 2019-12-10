@@ -97,8 +97,15 @@ include ::openstack_integration::rabbitmq
 include ::openstack_integration::mysql
 include ::openstack_integration::keystone
 include ::openstack_integration::glance
+# RHEL8 has an issue with linuxbridge driver https://bugzilla.redhat.com/show_bug.cgi?id=1720637
+if ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
+  $neutron_driver = undef
+} else {
+  $neutron_driver = 'linuxbridge'
+}
+
 class { '::openstack_integration::neutron':
-  driver => 'linuxbridge',
+  driver => $neutron_driver,
 }
 include ::openstack_integration::placement
 include ::openstack_integration::nova
