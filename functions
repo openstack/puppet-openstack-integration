@@ -8,6 +8,11 @@
 #
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
+BASE_PUPPETFILE=Puppetfile
+source /etc/os-release
+if [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "7" ]]; then
+    BASE_PUPPETFILE=Puppetfile_centos7
+fi
 install_external() {
   PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k -v DEBUG puppetfile install
 }
@@ -58,7 +63,7 @@ install_openstack() {
 install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k -v DEBUG puppetfile install
+  PUPPETFILE=${SCRIPT_DIR}/${BASE_PUPPETFILE} r10k -v DEBUG puppetfile install
   cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
 
@@ -71,7 +76,7 @@ install_all() {
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules() {
   if [ -d /home/zuul/src/opendev.org ] ; then
-    csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
+    csplit ${SCRIPT_DIR}/${BASE_PUPPETFILE} /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
     install_external
@@ -90,7 +95,7 @@ install_modules() {
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules_unit() {
   if [ -d /home/zuul/src/opendev.org ] ; then
-    csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
+    csplit ${SCRIPT_DIR}/${BASE_PUPPETFILE} /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
     cat ${SCRIPT_DIR}/Puppetfile_unit >> ${SCRIPT_DIR}/Puppetfile1
@@ -220,17 +225,18 @@ function catch_selinux_alerts() {
         $SUDO sealert -a /var/log/audit/audit.log
         if $SUDO grep -iq 'type=AVC' /var/log/audit/audit.log; then
             echo "AVC detected in /var/log/audit/audit.log"
+            source /etc/os-release
             # TODO: figure why latest rabbitmq deployed with SSL tries to write in SSL pem file.
             # https://bugzilla.redhat.com/show_bug.cgi?id=1341738
             if $SUDO grep -iqE 'denied.*system_r:rabbitmq_t' /var/log/audit/audit.log; then
                 echo "non-critical RabbitMQ AVC, ignoring it now."
             # FIXME(ykarel) catch_selinux_alerts not work with non ssl scenarios(no rabbitmq alert),
-            # currently running all scenarios without ssl in Fedora, and scenario-py3 in CentOS/Fedora,
+            # currently running all scenarios without ssl in Fedora and CentOS8,
             # because glance,nova,mistral py3 has issues when running with eventlet + ssl:
             # glance https://bugs.launchpad.net/glance/+bug/1769006
             # nova https://bugs.launchpad.net/nova/+bug/1808975
             # mistral https://bugs.launchpad.net/mistral/+bug/1808953
-            elif [ -f /etc/fedora-release -o "$SCENARIO" = "scenario-py3" ]; then
+            elif [ -f /etc/fedora-release ] || [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "8" ]]; then
                 echo "non ssl scenario, ignoring it now."
             else
                 echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."

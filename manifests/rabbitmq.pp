@@ -26,6 +26,7 @@ class openstack_integration::rabbitmq {
       ssl_key               => "/etc/rabbitmq/ssl/private/${::fqdn}.pem",
       environment_variables => $::openstack_integration::config::rabbit_env,
       repos_ensure          => false,
+      manage_python         => false,
     }
   } else {
     class { 'rabbitmq':
@@ -33,6 +34,7 @@ class openstack_integration::rabbitmq {
       delete_guest_user     => true,
       environment_variables => $::openstack_integration::config::rabbit_env,
       repos_ensure          => false,
+      manage_python         => false,
     }
   }
   rabbitmq_vhost { '/':

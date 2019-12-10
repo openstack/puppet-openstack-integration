@@ -44,6 +44,15 @@ if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
   $ssl = true
 }
 
+# FIXME(ykarel) Enable ceph in CentOS8 once Ceph repos are available
+if ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
+  $backend = undef
+  $ceph    = false
+} else {
+  $backend = 'swift'
+  $ceph    = true
+}
+
 if $::operatingsystem == 'Ubuntu' {
   $ipv6                = false
   # Watcher packages are not available in Ubuntu repository.
@@ -76,7 +85,7 @@ include openstack_integration::rabbitmq
 include openstack_integration::mysql
 include openstack_integration::keystone
 class { 'openstack_integration::glance':
-  backend => 'swift',
+  backend => $backend,
 }
 class { 'openstack_integration::neutron':
   bgpvpn_enabled      => $bgpvpn_enabled,
@@ -85,12 +94,14 @@ class { 'openstack_integration::neutron':
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
-  libvirt_rbd => true,
+  libvirt_rbd => $ceph,
 }
 
-class { 'openstack_integration::ceph':
-  deploy_rgw   => true,
-  swift_dropin => true,
+if $ceph {
+  class { 'openstack_integration::ceph':
+    deploy_rgw   => true,
+    swift_dropin => true,
+  }
 }
 if $watcher_enabled {
   include openstack_integration::watcher
