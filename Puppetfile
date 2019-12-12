@@ -176,7 +176,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v5.2.0'
+  :ref => 'v5.3.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -216,7 +216,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v3.0.0'
+  :ref => 'v3.1.0'
 
 mod 'git_resource',
   :git => 'https://github.com/voxpupuli/puppet-git_resource',
