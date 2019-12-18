@@ -18,8 +18,10 @@ OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-train/current-passed-ci}
+export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-train/puppet-passed-ci}
 export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-train/deps/latest/}
+export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-train/puppet-passed-ci/delorean.repo}
+export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-train/delorean-deps.repo}
 export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
