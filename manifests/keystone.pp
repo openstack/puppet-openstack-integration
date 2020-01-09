@@ -60,8 +60,6 @@ class openstack_integration::keystone (
   }
   class { 'keystone':
     database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
-    admin_token                => 'a_big_token',
-    admin_password             => 'a_big_secret',
     enabled                    => true,
     service_name               => 'httpd',
     default_domain             => $default_domain,
@@ -101,15 +99,19 @@ class openstack_integration::keystone (
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { 'keystone::roles::admin':
-    email    => 'test@example.tld',
-    password => 'a_big_secret',
+  class { 'keystone::bootstrap':
+    password   => 'a_big_secret',
+    email      => 'test@example.tld',
+    public_url => $::openstack_integration::config::keystone_auth_uri,
+    admin_url  => $::openstack_integration::config::keystone_admin_uri,
   }
-  class { 'keystone::endpoint':
-    default_domain => $default_domain,
-    public_url     => $::openstack_integration::config::keystone_auth_uri,
-    admin_url      => $::openstack_integration::config::keystone_admin_uri,
-    version        => '',
+  keystone_tenant { 'openstack':
+    ensure  => 'present',
+    enabled => true,
+  }
+  keystone_user_role { "${::keystone::bootstrap::username}@openstack":
+    ensure => 'present',
+    roles  => [$::keystone::bootstrap::role_name],
   }
 
   class { 'openstack_extras::auth_file':
