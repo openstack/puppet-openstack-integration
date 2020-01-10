@@ -2,10 +2,14 @@
 
 set -ex
 
+GEM_INSTALL_CMD="gem install --no-user-install --minimal-dep --verbose --no-ri --no-rdoc"
+
 if [ -n "${GEM_HOME}" ]; then
     GEM_BIN_DIR=${GEM_HOME}/bin/
     export PATH=${PATH}:${GEM_BIN_DIR}
+    GEM_INSTALL_CMD="${GEM_INSTALL_CMD} --install-dir=$GEM_HOME --bindir=${GEM_BIN_DIR}"
 fi
+
 
 # NOTE(aschultz): since puppet 3 is now EOL, and beaker-puppet_install_helper
 # version 0.6.0 has made the agent version the default, we need to symlink
@@ -24,13 +28,13 @@ source $SCRIPT_DIR/functions
 print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
 # fast_gettext 1.2.0+ requires ruby 2.1.0
-gem install fast_gettext -v '< 1.2.0' --verbose
+$GEM_INSTALL_CMD fast_gettext -v '< 1.2.0'
 # gettext 3.3.0+ requires ruby 2.5.0
-gem install gettext -v '< 3.3.0' --verbose
+$GEM_INSTALL_CMD gettext -v '< 3.3.0'
 # puppet_forge 2.2.7 has a dependency on semantic_puppet ~> 1.0
 # which is not compatible with dependency of latest r10k on semantic_puppet ~> 0.1.0
-gem install puppet_forge -v '= 2.2.6' --verbose
-gem install r10k -v 2.6.4 --no-ri --no-rdoc --verbose
+$GEM_INSTALL_CMD puppet_forge -v '= 2.2.6'
+$GEM_INSTALL_CMD r10k -v 2.6.4
 
 # make sure there is no puppet module pre-installed
 rm -rf "${PUPPETFILE_DIR:?}/"*
