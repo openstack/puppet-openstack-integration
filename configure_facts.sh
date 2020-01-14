@@ -20,8 +20,7 @@ OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
 export WRITE_FACTS=${WRITE_FACTS:-true}
 export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-master/puppet-passed-ci}
 export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
-# change consistent to puppet-passed-ci after promotion pipeline is setup
-export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/consistent/delorean.repo}
+export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
 export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
 export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 
