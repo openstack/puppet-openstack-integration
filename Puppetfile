@@ -236,7 +236,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '6.2.0'
+  :ref => '7.0.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
