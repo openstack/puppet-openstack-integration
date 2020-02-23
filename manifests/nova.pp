@@ -194,8 +194,8 @@ class openstack_integration::nova (
   class { 'nova::vncproxy': }
 
   class { 'nova::network::neutron':
-    neutron_auth_url      => "${::openstack_integration::config::keystone_admin_uri}/v3",
-    neutron_password      => 'a_big_secret',
+    auth_url              => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    password              => 'a_big_secret',
     default_floating_pool => 'public',
   }
 
