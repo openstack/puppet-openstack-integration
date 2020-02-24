@@ -74,3 +74,21 @@
     branches: ^(?!stable/(ocata|pike|queens|rocky|jewel|mimic|luminous)).*$
     vars:
       puppet: 6
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-5-centos-8
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-8
+    voting: false
+    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
+    vars:
+      puppet: 5
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-6-centos-8
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-8
+    voting: false
+    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
+    vars:
+      puppet: 6
