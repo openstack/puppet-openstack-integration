@@ -8,11 +8,6 @@
 #
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
-BASE_PUPPETFILE=Puppetfile
-source /etc/os-release
-if [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "8" ]]; then
-    BASE_PUPPETFILE=Puppetfile_centos8
-fi
 install_external() {
   PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k -v DEBUG puppetfile install
 }
@@ -63,7 +58,7 @@ install_openstack() {
 install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
-  PUPPETFILE=${SCRIPT_DIR}/${BASE_PUPPETFILE} r10k -v DEBUG puppetfile install
+  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k -v DEBUG puppetfile install
   cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
 
@@ -76,7 +71,7 @@ install_all() {
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules() {
   if [ -d /home/zuul/src/opendev.org ] ; then
-    csplit ${SCRIPT_DIR}/${BASE_PUPPETFILE} /'External modules'/ \
+    csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
     install_external
@@ -95,7 +90,7 @@ install_modules() {
 # - ``ZUUL_BRANCH`` must be set to Zuul branch
 install_modules_unit() {
   if [ -d /home/zuul/src/opendev.org ] ; then
-    csplit ${SCRIPT_DIR}/${BASE_PUPPETFILE} /'External modules'/ \
+    csplit ${SCRIPT_DIR}/Puppetfile /'External modules'/ \
       --prefix ${SCRIPT_DIR}/Puppetfile \
       --suffix '%d'
     cat ${SCRIPT_DIR}/Puppetfile_unit >> ${SCRIPT_DIR}/Puppetfile1
