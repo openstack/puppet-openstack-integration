@@ -30,8 +30,8 @@
 - job:
     name: tripleo-puppet-ci-centos-7-standalone
     parent: tripleo-ci-centos-7-standalone
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    irrelevant-files:
+    branches: ^(stable/(rocky|stein|train)).*$
+    irrelevant-files: &standalone_irrelevant_files
       - ^.*\.md$
       - ^.*\.rst$
       - ^doc/.*$
@@ -44,11 +44,19 @@
       - ^setup.cfg$
       - ^setup.py$
 
+- job:
+    name: tripleo-puppet-ci-centos-8-standalone
+    parent: tripleo-ci-centos-8-standalone
+    branches: ^(?!stable/(newton|ocata|pike|queens|rocky|stein|train)).*$
+    irrelevant-files: *standalone_irrelevant_files
+
 - project-template:
     name: tripleo-puppet-standalone
     check:
       jobs:
         - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-puppet-ci-centos-8-standalone
     gate:
       jobs:
         - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-puppet-ci-centos-8-standalone
