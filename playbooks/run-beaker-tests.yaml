@@ -50,7 +50,7 @@
           export GEM_HOME=`pwd`/.bundled_gems
           if [ -f Gemfile ]; then
             ruby <<EOF
-          cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install'
           if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
               cmd += ' -v 1.17.3'
           end
@@ -59,10 +59,10 @@
             $GEM_HOME/bin/bundle install --without system_tests --retry 3
             $GEM_HOME/bin/bundle exec rspec spec/acceptance
           else
-            gem install rake -n ./.bundled_gems/
-            gem install beaker-rspec
-            gem install puppetlabs_spec_helper
-            ./.bundled_gems/rake acceptance 2>&1
+            gem install rake -n ./.bundled_gems/ --no-user-instal
+            gem install beaker-rspec --no-user-install
+            gem install puppetlabs_spec_helper --no-user-install
+            ./.bundled_gems/rake acceptance 2>&1 --no-user-install
           fi
         chdir: '{{ ansible_user_dir }}/workspace'
         executable: /bin/bash
