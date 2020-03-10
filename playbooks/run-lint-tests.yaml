@@ -21,7 +21,7 @@
           export GEM_HOME=`pwd`/.bundled_gems
           if [ -f Gemfile ]; then
             ruby <<EOF
-          cmd = 'gem install bundler --no-rdoc --no-ri --verbose'
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install'
           if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
               cmd += ' -v 1.17.3'
           end
@@ -33,11 +33,11 @@
               $GEM_HOME/bin/bundle exec rake metadata_lint 2>&1
             fi
           else
-            gem install rake -n ./.bundled_gems/ --no-ri --no-rdoc
-            gem install puppet-lint -n ./.bundled_gems/ --no-ri --no-rdoc
-            gem install metadata-json-lint -n ./.bundled_gems/ --no-ri --no-rdoc
-            gem install puppetlabs_spec_helper -n ./.bundled_gems/ --no-ri --no-rdoc
-            gem install puppet -n ./.bundled_gems/ --no-ri --no-rdoc
+            gem install rake -n ./.bundled_gems/ --no-ri --no-rdoc --no-user-install
+            gem install puppet-lint -n ./.bundled_gems/ --no-ri --no-rdoc --no-user-install
+            gem install metadata-json-lint -n ./.bundled_gems/ --no-ri --no-rdoc --no-user-install
+            gem install puppetlabs_spec_helper -n ./.bundled_gems/ --no-ri --no-rdoc --no-user-install
+            gem install puppet -n ./.bundled_gems/ --no-ri --no-rdoc --no-user-install
             ./.bundled_gems/rake lint 2>&1
             if [ -f metadata.json ]; then
               ./.bundled_gems/metadata-json-lint
