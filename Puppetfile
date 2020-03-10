@@ -160,7 +160,7 @@ mod 'powerdns',
 
 mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => '2.4.0'
+  :ref => '2.5.0'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
@@ -196,7 +196,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v10.3.0'
+  :ref => 'v10.4.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
