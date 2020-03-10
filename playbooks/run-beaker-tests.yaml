@@ -44,16 +44,17 @@
           fi
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
+          export GEM_BIN_DIR=$GEM_HOME/bin
           if [ -f Gemfile ]; then
             ruby <<EOF
-          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install'
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
           if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
               cmd += ' -v 1.17.3'
           end
           system(cmd)
           EOF
-            $GEM_HOME/bin/bundle install --without system_tests --retry 3
-            $GEM_HOME/bin/bundle exec rspec spec/acceptance
+            $GEM_BIN_DIR/bundle install --without system_tests --retry 3
+            $GEM_BIN_DIR/bundle exec rspec spec/acceptance
           else
             gem install rake -n ./.bundled_gems/ --no-user-instal
             gem install beaker-rspec --no-user-install
