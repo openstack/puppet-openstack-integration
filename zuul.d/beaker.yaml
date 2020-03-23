@@ -28,7 +28,7 @@
       - ^.gitignore$
     vars:
       nodepool_type: centos7
-      puppet_gem_version: 5.5
+      puppet_gem_version: 5.5.0
 
 - job:
     name: puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
