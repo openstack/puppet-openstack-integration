@@ -40,9 +40,9 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros so we use CBS.
+        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-mimic-release/x86_64/os/'
+            CEPH_MIRROR_HOST='https://trunk.rdoproject.org/centos7/deps/storage/storage7-ceph-mimic/x86_64/'
         else
             CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
@@ -57,9 +57,9 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros so we use CBS.
+        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-mimic-release/x86_64/os/'
+            CEPH_MIRROR_HOST='https://trunk.rdoproject.org/centos7/deps/storage/storage7-ceph-mimic/x86_64/'
         else
             CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
