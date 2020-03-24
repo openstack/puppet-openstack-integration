@@ -35,13 +35,11 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        # TODO(tobasco): Remove this CBS candidate repo for Mimic and Nautilus when Storage SIG release it.
+        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-mimic-candidate/x86_64/os/'
-        elif [ "$CEPH_VERSION" == "nautilus" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-nautilus-candidate/x86_64/os/'
+            CEPH_MIRROR_HOST='https://trunk.rdoproject.org/centos7/deps/storage/storage7-ceph-mimic/x86_64/'
         else
-            CEPH_MIRROR_HOST="${NODEPOOL_BUILDLOGS_CENTOS_PROXY}/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
@@ -54,13 +52,11 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        # TODO(tobasco): Remove this CBS candidate repo for Mimic and Nautilus when Storage SIG releases it.
+        # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-mimic-candidate/x86_64/os/'
-        elif [ "$CEPH_VERSION" == "nautilus" ]; then
-            CEPH_MIRROR_HOST='http://cbs.centos.org/repos/storage7-ceph-nautilus-candidate/x86_64/os/'
+            CEPH_MIRROR_HOST='https://trunk.rdoproject.org/centos7/deps/storage/storage7-ceph-mimic/x86_64/'
         else
-            CEPH_MIRROR_HOST="https://buildlogs.centos.org/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/7/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
