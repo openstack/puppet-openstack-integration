@@ -57,18 +57,13 @@ class openstack_integration::cinder (
     debug => true,
   }
   class { 'cinder':
-    default_transport_url => os_transport_url({
+    default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
       'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
-    database_connection   => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms  => 'PLAIN',
-  }
-  class { 'cinder::ceilometer':
     notification_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_notify_proto,
       'host'      => $::openstack_integration::config::host,
@@ -78,6 +73,9 @@ class openstack_integration::cinder (
     }),
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
+    database_connection        => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    amqp_sasl_mechanisms       => 'PLAIN',
   }
   if $volume_encryption {
     $keymgr_backend             = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
