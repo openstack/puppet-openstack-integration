@@ -62,7 +62,7 @@ mod 'keystone',
   :ref => 'master'
 
 mod 'magnum',
-  :git => 'https://git.openstack.org/openstack/puppet-magnum',
+  :git => 'https://opendev.org/openstack/puppet-magnum',
   :ref => 'master'
 
 mod 'manila',
