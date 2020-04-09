@@ -10,13 +10,6 @@
       - ^test-requirements.txt$
 
 - job:
-    name: puppet-openstack-syntax-4-ubuntu-bionic
-    parent: puppet-openstack-syntax-base
-    branches: ^stable/(ocata|pike|queens|rocky|stein)$
-    vars:
-      puppet: 4
-
-- job:
     name: puppet-openstack-syntax-5-ubuntu-bionic
     parent: puppet-openstack-syntax-base
     vars:
@@ -25,7 +18,6 @@
 - job:
     name: puppet-openstack-syntax-6-ubuntu-bionic
     parent: puppet-openstack-syntax-base
-    branches: ^(stable/stein|master)$
     vars:
       puppet: 6
 
@@ -54,14 +46,6 @@
       - ^.gitignore$
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-4-centos-7
-    parent: puppet-openstack-libraries-puppet-syntax
-    nodeset: centos-7
-    branches: ^stable/(ocata|pike|queens|rocky|stein)$
-    vars:
-      puppet: 4
-
-- job:
     name: puppet-openstack-libraries-puppet-syntax-5-centos-7
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-7
@@ -72,7 +56,6 @@
 - job:
     name: puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-syntax
-    branches: ^(stable/stein|master)$
     vars:
       puppet: 6
 
@@ -80,7 +63,6 @@
     name: puppet-openstack-libraries-puppet-syntax-5-centos-8
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-8
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet: 5
 
@@ -88,6 +70,5 @@
     name: puppet-openstack-libraries-puppet-syntax-6-centos-8
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-8
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet: 6

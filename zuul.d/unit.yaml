@@ -2,14 +2,6 @@
 # This file contains the puppet unit job configurations
 #
 - job:
-    name: puppet-openstack-unit-4.8-centos-7
-    parent: puppet-openstack-unit-base
-    nodeset: centos-7
-    branches: ^stable/(ocata|pike|queens|rocky|stein)$
-    vars:
-      puppet_gem_version: 4.8.0
-
-- job:
     name: puppet-openstack-unit-5.5-centos-7
     parent: puppet-openstack-unit-base
     branches: ^stable/(ocata|pike|queens|rocky|stein|train)$
@@ -21,7 +13,6 @@
     name: puppet-openstack-unit-5.5-centos-8
     parent: puppet-openstack-unit-base
     nodeset: centos-8
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 5.5.0
 
@@ -29,7 +20,6 @@
     name: puppet-openstack-unit-6.4-centos-8
     parent: puppet-openstack-unit-base
     nodeset: centos-8
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 6.4.0
 
@@ -37,7 +27,6 @@
     name: puppet-openstack-unit-6.4-ubuntu-bionic
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-bionic
-    branches: ^(stable/stein|master)$
     vars:
       puppet_gem_version: 6.4.0
 
@@ -45,8 +34,6 @@
     name: puppet-openstack-unit-latest-ubuntu-bionic
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-bionic
-    branches: ^master
-    voting: false
     vars:
       puppet_gem_version: latest
       # TODO(tobias-urdin): Remove this when we 2.7.1 works without
@@ -57,7 +44,6 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
         - puppet-openstack-unit-5.5-centos-8
         - puppet-openstack-unit-6.4-centos-8
@@ -65,6 +51,5 @@
         - puppet-openstack-unit-latest-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
         - puppet-openstack-unit-6.4-ubuntu-bionic

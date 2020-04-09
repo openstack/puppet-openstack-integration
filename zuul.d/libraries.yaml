@@ -2,14 +2,6 @@
 # This file contains the jobs for the puppet openstack libraries
 #
 - job:
-    name: puppet-openstack-libraries-puppet-unit-4.8-centos-7
-    parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: centos-7
-    branches: ^stable/(ocata|pike|queens|rocky|stein)$
-    vars:
-      puppet_gem_version: 4.8.0
-
-- job:
     name: puppet-openstack-libraries-puppet-unit-5.5-centos-7
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-7
@@ -21,7 +13,6 @@
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-8
     voting: false
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 5.5.0
 
@@ -30,14 +21,12 @@
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-8
     voting: false
-    branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 6.4.0
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-6.4-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-unit-base
-    branches: ^(stable/stein|master)$
     nodeset: ubuntu-bionic
     vars:
       puppet_gem_version: 6.4.0
@@ -45,7 +34,6 @@
 - job:
     name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-unit-base
-    branches: ^master
     nodeset: ubuntu-bionic
     voting: false
     vars:
