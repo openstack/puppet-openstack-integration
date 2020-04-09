@@ -12,6 +12,7 @@
 - job:
     name: puppet-openstack-unit-5.5-centos-7
     parent: puppet-openstack-unit-base
+    branches: ^stable/(ocata|pike|queens|rocky|stein|train)$
     nodeset: centos-7
     vars:
       puppet_gem_version: 5.5.0
@@ -20,7 +21,6 @@
     name: puppet-openstack-unit-5.5-centos-8
     parent: puppet-openstack-unit-base
     nodeset: centos-8
-    voting: false
     branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 5.5.0
@@ -29,7 +29,6 @@
     name: puppet-openstack-unit-6.4-centos-8
     parent: puppet-openstack-unit-base
     nodeset: centos-8
-    voting: false
     branches: ^(?!stable/(ocata|pike|queens|rocky|stein)).*$
     vars:
       puppet_gem_version: 6.4.0
