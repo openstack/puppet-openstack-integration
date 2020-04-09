@@ -26,7 +26,6 @@
     name: puppet-openstack-unit-latest-ubuntu-bionic
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-bionic
-    branches: ^master
     voting: false
     vars:
       puppet_gem_version: latest
