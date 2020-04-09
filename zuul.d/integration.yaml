@@ -1,96 +1,8 @@
 ---
 - job:
-    name: puppet-openstack-integration-4
-    parent: puppet-openstack-integration-run-base
-    abstract: true
-    vars:
-      puppet: 4
-
-- job:
-    name: puppet-openstack-integration-4-scenario001
-    parent: puppet-openstack-integration-4
-    abstract: true
-    vars:
-      scenario: scenario001
-      ceph: luminous
-
-- job:
-    name: puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
-    parent: puppet-openstack-integration-4-scenario001
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-4-scenario001
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    nodeset: debian-stable
-
-- job:
-    name: puppet-openstack-integration-4-scenario002
-    parent: puppet-openstack-integration-4
-    abstract: true
-    vars:
-      scenario: scenario002
-
-- job:
-    name: puppet-openstack-integration-4-scenario002-tempest-centos-7
-    parent: puppet-openstack-integration-4-scenario002
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-4-scenario002-tempest-debian-stable
-    parent: puppet-openstack-integration-4-scenario002
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    nodeset: debian-stable
-
-- job:
-    name: puppet-openstack-integration-4-scenario003
-    parent: puppet-openstack-integration-4
-    abstract: true
-    vars:
-      scenario: scenario003
-
-- job:
-    name: puppet-openstack-integration-4-scenario003-tempest-centos-7
-    parent: puppet-openstack-integration-4-scenario003
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-4-scenario003-tempest-debian-stable
-    parent: puppet-openstack-integration-4-scenario003
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    nodeset: debian-stable
-
-- job:
-    name: puppet-openstack-integration-4-scenario004
-    parent: puppet-openstack-integration-4
-    abstract: true
-    vars:
-      scenario: scenario004
-      ceph: mimic
-
-- job:
-    name: puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
-    parent: puppet-openstack-integration-4-scenario004
-    branches: ^(stable/(ocata|pike|queens)).*$
-    nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-4-scenario004
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
-
-- job:
     name: puppet-openstack-integration-5
     parent: puppet-openstack-integration-run-base
     abstract: true
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     vars:
       puppet: 5
 
@@ -177,7 +89,6 @@
 - job:
     name: puppet-openstack-integration-5-scenario004
     parent: puppet-openstack-integration-5
-    branches: ^(?!stable/newton).*$
     abstract: true
     vars:
       scenario: scenario004
@@ -213,7 +124,6 @@
     name: puppet-openstack-integration-6
     parent: puppet-openstack-integration-run-base
     abstract: true
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     vars:
       puppet: 6
 
@@ -298,7 +208,6 @@
 - job:
     name: puppet-openstack-integration-6-scenario004
     parent: puppet-openstack-integration-6
-    branches: ^(?!stable/newton).*$
     abstract: true
     vars:
       scenario: scenario004
