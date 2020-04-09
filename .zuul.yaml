@@ -12,7 +12,6 @@
 - job:
     name: puppet-openstack-integration-base
     parent: puppet-openstack-base
-    branches: ^stable/(luminous|queens).*$
     required-projects:
       - name: openstack/openstack
       - name: openstack/puppet-aodh
@@ -193,13 +192,11 @@
     parent: puppet-openstack-integration-4-scenario004
     nodeset: ubuntu-xenial
     voting: false
-    branches: ^(?!stable/(newton|jewel)).*$
 
 - job:
     name: puppet-openstack-integration-4-scenario004-tempest-centos-7-luminous
     parent: puppet-openstack-integration-4-scenario004
     nodeset: centos-7
-    branches: ^(?!stable/(newton|jewel)).*$
 
 - job:
     name: puppet-openstack-integration-5
@@ -268,13 +265,11 @@
     name: puppet-openstack-integration-5-scenario004-tempest-ubuntu-xenial-luminous
     parent: puppet-openstack-integration-5-scenario004
     nodeset: ubuntu-xenial
-    branches: ^(?!stable/(newton|jewel)).*$
 
 - job:
     name: puppet-openstack-integration-5-scenario004-tempest-centos-7-luminous
     parent: puppet-openstack-integration-5-scenario004
     nodeset: centos-7
-    branches: ^(?!stable/(newton|jewel)).*$
 
 - project-template:
     name: puppet-openstack-integration-jobs-all
@@ -545,14 +540,6 @@
       - ^test-requirements.txt$
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-3-centos-7
-    parent: puppet-openstack-libraries-puppet-syntax
-    nodeset: centos-7
-    branches: ^(stable/(newton|ocata)).*$
-    vars:
-      puppet: 3
-
-- job:
     name: puppet-openstack-libraries-puppet-syntax-4-centos-7
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-7
@@ -580,14 +567,12 @@
     check:
       jobs:
         - puppet-openstack-libraries-puppet-lint-centos-7
-        - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-unit-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-centos-7
-        - puppet-openstack-libraries-puppet-syntax-3-centos-7
         - puppet-openstack-libraries-puppet-syntax-4-centos-7
         - puppet-openstack-libraries-puppet-unit-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
