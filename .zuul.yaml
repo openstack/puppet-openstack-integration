@@ -16,7 +16,6 @@
     name: puppet-openstack-integration-base
     abstract: true
     parent: puppet-openstack-base
-    branches: ^stable/(mimic|rocky|0.7x).*$
     required-projects:
       - name: openstack/openstack
       - name: openstack/puppet-aodh
@@ -145,15 +144,8 @@
       ceph: luminous
 
 - job:
-    name: puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
-    parent: puppet-openstack-integration-4-scenario001
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
     name: puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous
     parent: puppet-openstack-integration-4-scenario001
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     nodeset: debian-stable
 
 - job:
@@ -164,15 +156,8 @@
       scenario: scenario002
 
 - job:
-    name: puppet-openstack-integration-4-scenario002-tempest-centos-7
-    parent: puppet-openstack-integration-4-scenario002
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
     name: puppet-openstack-integration-4-scenario002-tempest-debian-stable
     parent: puppet-openstack-integration-4-scenario002
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     nodeset: debian-stable
 
 - job:
@@ -183,15 +168,8 @@
       scenario: scenario003
 
 - job:
-    name: puppet-openstack-integration-4-scenario003-tempest-centos-7
-    parent: puppet-openstack-integration-4-scenario003
-    branches: ^stable/(newton|ocata|pike|queens).*$
-    nodeset: centos-7
-
-- job:
     name: puppet-openstack-integration-4-scenario003-tempest-debian-stable
     parent: puppet-openstack-integration-4-scenario003
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     nodeset: debian-stable
 
 - job:
@@ -203,26 +181,11 @@
       ceph: mimic
 
 - job:
-    name: puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
-    parent: puppet-openstack-integration-4-scenario004
-    branches: ^(stable/(ocata|pike|queens)).*$
-    nodeset: centos-7
-
-- job:
     name: puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous
     parent: puppet-openstack-integration-4-scenario004
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     nodeset: debian-stable
     vars:
       ceph: luminous
-
-- job:
-    name: puppet-openstack-integration-5
-    parent: puppet-openstack-integration-run-base
-    abstract: true
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
-    vars:
-      puppet: 5
 
 - job:
     name: puppet-openstack-integration-5-scenario001
@@ -307,7 +270,6 @@
 - job:
     name: puppet-openstack-integration-5-scenario004
     parent: puppet-openstack-integration-5
-    branches: ^(?!stable/newton).*$
     abstract: true
     vars:
       scenario: scenario004
@@ -339,10 +301,6 @@
     name: puppet-openstack-integration-jobs-all
     check:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
-        - puppet-openstack-integration-4-scenario002-tempest-centos-7
-        - puppet-openstack-integration-4-scenario003-tempest-centos-7
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
@@ -361,10 +319,6 @@
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
-        - puppet-openstack-integration-4-scenario002-tempest-centos-7
-        - puppet-openstack-integration-4-scenario003-tempest-centos-7
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
@@ -381,13 +335,11 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-4-scenario001-tempest-debian-stable-luminous:
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
     experimental:
       jobs:
@@ -398,13 +350,11 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
-        - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-4-scenario002-tempest-debian-stable:
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
     experimental:
       jobs:
@@ -415,7 +365,6 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
-        - puppet-openstack-integration-4-scenario003-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
         - puppet-openstack-integration-4-scenario003-tempest-debian-stable:
             voting: false
@@ -432,13 +381,11 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-4-scenario004-tempest-debian-stable-luminous:
             voting: false
     gate:
       jobs:
-        - puppet-openstack-integration-4-scenario004-tempest-centos-7-mimic
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-mimic
     experimental:
       jobs:
@@ -726,7 +673,6 @@
 - job:
     name: tripleo-puppet-ci-centos-7-undercloud-containers
     parent: tripleo-ci-centos-7-undercloud-containers
-    branches: ^(?!stable/(newton|ocata|pike|queens)).*$
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
