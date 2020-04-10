@@ -423,21 +423,12 @@
     vars:
       puppet_gem_version: 5.5
 
-- job:
-    name: puppet-openstack-unit-latest-centos-7
-    parent: puppet-openstack-unit-base
-    nodeset: centos-7
-    voting: false
-    vars:
-      puppet_gem_version: latest
-
 - project-template:
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
         - puppet-openstack-unit-5.5-centos-7
-        - puppet-openstack-unit-latest-centos-7
     gate:
       jobs:
         - puppet-openstack-unit-4.8-centos-7
