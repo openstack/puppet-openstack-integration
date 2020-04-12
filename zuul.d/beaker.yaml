@@ -3,6 +3,7 @@
     check:
       jobs:
         - puppet-openstack-beaker-centos-7
+        - puppet-openstack-beaker-centos-8
         - puppet-openstack-beaker-ubuntu-bionic
     gate:
       jobs:
@@ -28,6 +29,29 @@
       - ^.gitignore$
     vars:
       nodepool_type: centos7
+      puppet_gem_version: 5.5.0
+
+- job:
+    name: puppet-openstack-libraries-puppet-beaker-rspec-centos-8
+    parent: puppet-openstack-integration-base
+    pre-run: playbooks/prepare-node-beaker.yaml
+    post-run: playbooks/upload-logs.yaml
+    run: playbooks/run-libraries-beaker-tests.yaml
+    timeout: 3600
+    nodeset: centos-8
+    voting: false
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^metadata.json$
+      - ^releasenotes/.*$
+      - ^test-requirements.txt$
+      - ^LICENSE$
+      - ^.gitignore$
+    vars:
+      nodepool_type: centos8
       puppet_gem_version: 5.5.0
 
 - job:
