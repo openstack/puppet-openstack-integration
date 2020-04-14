@@ -36,6 +36,7 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^spec/.*$
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
