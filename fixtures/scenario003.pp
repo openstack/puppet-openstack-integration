@@ -52,7 +52,7 @@ case $::osfamily {
     # murano package should be fixed on Ubuntu Xenial
     $murano_enabled  = false
     # trove package contains broken Tempest tests
-    $trove           = false
+    $trove_enabled   = false
 
     # TODO(tobias-urdin): Ubuntu Train packages has not moved out Sahara
     # plugins to its own packages.
