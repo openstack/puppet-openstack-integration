@@ -31,8 +31,8 @@
         - puppet-openstack-libraries-puppet-syntax-6-centos-8
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-5.5-centos-8
-        - puppet-openstack-libraries-puppet-unit-6.11-centos-8
-        - puppet-openstack-libraries-puppet-unit-6.11-ubuntu-bionic
+        - puppet-openstack-libraries-puppet-unit-6.14-centos-8
+        - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
@@ -44,8 +44,8 @@
         - puppet-openstack-libraries-puppet-syntax-6-centos-8
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-5.5-centos-8
-        - puppet-openstack-libraries-puppet-unit-6.11-centos-8
-        - puppet-openstack-libraries-puppet-unit-6.11-ubuntu-bionic
+        - puppet-openstack-libraries-puppet-unit-6.14-centos-8
+        - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
 
 # integration jobs
