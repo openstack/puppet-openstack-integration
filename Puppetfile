@@ -208,7 +208,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v10.0.0'
+  :ref => 'v10.0.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -236,7 +236,7 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
-  :ref => 'v4.0.0'
+  :ref => 'v4.1.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
