@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,143 +19,143 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'congress',
   :git => 'https://opendev.org/openstack/puppet-congress',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'ec2api',
   :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'monasca',
   :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'panko',
   :git => 'https://opendev.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'qdr',
   :git => 'https://opendev.org/openstack/puppet-qdr',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'sahara',
   :git => 'https://opendev.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'tacker',
   :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/ussuri'
 
 ## External modules
 mod 'powerdns',
