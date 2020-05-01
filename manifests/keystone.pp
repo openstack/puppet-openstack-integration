@@ -115,10 +115,10 @@ class openstack_integration::keystone (
   }
 
   class { 'openstack_extras::auth_file':
-    password       => 'a_big_secret',
-    project_domain => 'default',
-    user_domain    => 'default',
-    auth_url       => "${::openstack_integration::config::keystone_auth_uri}/v3/",
+    password            => 'a_big_secret',
+    project_domain_name => 'Default',
+    user_domain_name    => 'Default',
+    auth_url            => "${::openstack_integration::config::keystone_auth_uri}/v3/",
   }
 
   # We need tempest users to have the creator role to be able to store
