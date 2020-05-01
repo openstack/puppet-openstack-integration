@@ -236,7 +236,7 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
-  :ref => 'v4.1.0'
+  :ref => 'v4.1.1'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
