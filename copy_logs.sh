@@ -205,7 +205,7 @@ if [ `command -v dpkg` ]; then
 fi
 if [ `command -v rpm` ]; then
     rpm -qa |sort > $LOG_DIR/rpm-qa.txt
-    $YUM repolist -v > $LOG_DIR/repolist.txt
+    sudo $YUM repolist -v > $LOG_DIR/repolist.txt
 fi
 
 if [ `command -v gem` ]; then
