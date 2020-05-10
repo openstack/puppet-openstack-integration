@@ -9,7 +9,9 @@
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
 install_external() {
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile1 r10k -v DEBUG puppetfile install
+  r10k -v DEBUG puppetfile install \
+    --puppetfile ${SCRIPT_DIR}/Puppetfile1 \
+    --moduledir ${PUPPETFILE_DIR}
 }
 
 # Install Puppet OpenStack modules from zuul checkouts
@@ -54,11 +56,14 @@ install_openstack() {
 # Install all Puppet modules with r10k
 # Uses the following variables:
 #
+# - ``PUPPETFILE_DIR`` must be set to Puppet modules directory
 # - ``SCRIPT_DIR`` must be set to script path
 install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
-  PUPPETFILE=${SCRIPT_DIR}/Puppetfile r10k -v DEBUG puppetfile install
+  r10k -v DEBUG puppetfile install \
+    --puppetfile ${SCRIPT_DIR}/Puppetfile \
+    --moduledir ${PUPPETFILE_DIR}
   cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
 
