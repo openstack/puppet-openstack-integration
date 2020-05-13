@@ -5,83 +5,78 @@
         path: "{{ ansible_user_dir }}/workspace"
         state: directory
 
-    - name: Install python2-dnf(Fedora)
-      command: "dnf -y install python2-dnf python3-dnf yum"
-      become: true
+    - block:
+      - name: Install python2-dnf(Fedora)
+        command: "dnf -y install python2-dnf python3-dnf yum"
+        become: true
+
+      - name: Remove excludes from /etc/dnf/dnf.conf (Fedora)
+        lineinfile:
+          path: /etc/dnf/dnf.conf
+          state: absent
+          regexp: '^exclude='
+        become: true
+
+      - name: Reinstall python3-setuptools (Fedora)
+        command: "dnf -y reinstall python3-setuptools"
+        become: true
+
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution == "Fedora"
 
-    - name: Remove excludes from /etc/dnf/dnf.conf (Fedora)
-      lineinfile:
-        path: /etc/dnf/dnf.conf
-        state: absent
-        regexp: '^exclude='
-      become: true
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
+    - block:
+      - name: Clean-up system state (CentOS/RHEL<=7)
+        yum:
+          name: "{{ item }}"
+          state: absent
+        become: true
+        with_items:
+          - rdo-release
+          - centos-release-openstack-*
+          - centos-release-ceph-*
 
-    - name: Reinstall python3-setuptools (Fedora)
-      command: "dnf -y reinstall python3-setuptools"
-      become: true
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
+      - name: Install Ruby dependencies (CentOS/RHEL<=7)
+        yum:
+          name: "{{ item }}"
+        become: true
+        with_items:
+          - "@Development tools"
+          - libxml2-devel
+          - libxslt-devel
+          - ruby-devel
+          - zlib-devel
 
-    - name: Clean-up system state (non Fedora)
-      yum:
-        name: "{{ item }}"
-        state: absent
-      become: true
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution != "Fedora"
-      with_items:
-        - rdo-release
-        - centos-release-openstack-*
-        - centos-release-ceph-*
+        - ansible_distribution_major_version <= "7"
 
-    - name: Clean-up system state (Fedora)
-      dnf:
-        name: "{{ item }}"
-        state: absent
-      become: true
+    - block:
+      - name: Clean-up system state (Fedora or CentOS/RHEL>=8)
+        dnf:
+          name: "{{ item }}"
+          state: absent
+        become: true
+        with_items:
+          - rdo-release
+          - centos-release-openstack-*
+          - centos-release-ceph-*
+
+      - name: Install Ruby dependencies (Fedora or CentOS/RHEL>=8)
+        dnf:
+          name: "{{ item }}"
+        become: true
+        with_items:
+          - "@Development tools"
+          - libxml2-devel
+          - libxslt-devel
+          - ruby-devel
+          - zlib-devel
+
       when:
         - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
-      with_items:
-        - rdo-release
-        - centos-release-openstack-*
-        - centos-release-ceph-*
-
-    - name: Install Ruby dependencies (Fedora)
-      dnf:
-        name: "{{ item }}"
-      become: true
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
-      with_items:
-        - "@Development tools"
-        - libxml2-devel
-        - libxslt-devel
-        - ruby-devel
-        - zlib-devel
-
-    - name: Install Ruby dependencies (non Fedora)
-      yum:
-        name: "{{ item }}"
-      become: true
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution != "Fedora"
-      with_items:
-        - "@Development tools"
-        - libxml2-devel
-        - libxslt-devel
-        - ruby-devel
-        - zlib-devel
+        - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "8"
 
     - name: Install Ruby dependencies (Ubuntu)
       apt:
@@ -110,30 +105,53 @@
         - ruby-dev
         - zlib1g-dev
 
-    - name: Install puppetlabs puppet-agent
-      shell:
-        cmd: |
-          set -e
-          set -x
-          if type "dnf" 2>/dev/null;then
-              export YUM=dnf
-          else
-              export YUM=yum
-          fi
-          if [[ -f /usr/bin/yum || -f /usr/bin/dnf ]]; then
-              $YUM install -y https://yum.puppetlabs.com/puppet5-release-el-7.noarch.rpm
-              $YUM install -y puppet-agent
-          elif [ -f /usr/bin/apt-get ]; then
-              wget https://apt.puppetlabs.com/puppet5-release-{{ ansible_distribution_release }}.deb -O /tmp/puppet.deb
-              dpkg -i /tmp/puppet.deb
-              apt-get update
-              apt-get install puppet-agent
-              rm -rf /tmp/puppet.deb
-          fi
-        executable: /bin/bash
-        chdir: '{{ ansible_user_dir }}/workspace'
-      environment: '{{ zuul | zuul_legacy_vars }}'
-      become: true
+    - block:
+      - name: Set up puppetlabs repo (Fedora or CentOS/RHEL>=8)
+        dnf:
+          name: "https://yum.puppetlabs.com/puppet5-release-fedora-{{ ansible_distribution_major_version }}.noarch.rpm"
+        become: true
+
+      - name: Install puppetlabs puppet-agent (Fedora or CentOS/RHEL>=8)
+        dnf:
+          name: puppet-agent
+        become: true
+
       when:
         - use_puppetlabs is defined
         - use_puppetlabs|bool
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "8"
+
+    - block:
+      - name: Set up puppetlabs repo (CentOS/RHEL<=7)
+        yum:
+          name: "https://yum.puppetlabs.com/puppet5-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
+        become: true
+
+      - name: Install puppetlabs puppet-agent (CentOS/RHEL<=7)
+        yum:
+          name: puppet-agent
+        become: true
+
+      when:
+        - use_puppetlabs is defined
+        - use_puppetlabs|bool
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution != "Fedora"
+        - ansible_distribution_major_version <= "7"
+
+    - block:
+      - name: Set up puppetlabs repo (Ubuntu and Debian)
+        apt:
+          name: "https://apt.puppetlabs.com/puppet5-release-{{ ansible_distribution_release }}.deb"
+        become: true
+
+      - name: Install puppetlabs puppet-agent (Ubuntu and Debian)
+        apt:
+          name: puppet-agent
+        become: true
+
+      when:
+        - use_puppetlabs is defined
+        - use_puppetlabs|bool
+        - ansible_os_family == 'Debian'
