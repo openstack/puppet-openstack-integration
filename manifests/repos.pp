@@ -53,13 +53,13 @@ class openstack_integration::repos {
         centos_mirror_url => $::centos_mirror_host,
         repo_hash         => {
           'master-puppet-passed-ci' => {
-            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
+            'baseurl'  => pick($::rdo_mirror_host, "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/"),
             'descr'    => 'master puppet-passed-ci',
             'gpgcheck' => 'no',
             'priority' => 1,
           },
           'master-delorean-deps'    => {
-            'baseurl'  => pick($::deps_mirror_host, 'https://trunk.rdoproject.org/centos7-master/deps/latest/'),
+            'baseurl'  => pick($::deps_mirror_host, "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/deps/latest/"),
             'descr'    => 'master delorean-deps',
             'gpgcheck' => 'no',
           },
