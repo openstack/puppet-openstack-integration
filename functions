@@ -62,7 +62,7 @@ install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
   r10k -v DEBUG puppetfile install \
-    --puppetfile ${SCRIPT_DIR}/Puppetfile1 \
+    --puppetfile ${SCRIPT_DIR}/Puppetfile \
     --moduledir ${PUPPETFILE_DIR}
   cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
