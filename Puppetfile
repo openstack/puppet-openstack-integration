@@ -184,11 +184,11 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => '6.3.0'
+  :ref => 'v7.4.2'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => '5.3.0'
+  :ref => 'v6.2.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
@@ -240,7 +240,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '7.0.0'
+  :ref => '8.0.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
