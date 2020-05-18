@@ -67,8 +67,8 @@ class openstack_integration::repos {
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
-        'mimic' => 'https://trunk.rdoproject.org/centos7/deps/storage/storage7-ceph-mimic/x86_64/',
-        default => "${::centos_mirror_host}/centos/7/storage/x86_64/ceph-${ceph_version_real}/"
+        'mimic' => "https://trunk.rdoproject.org/centos${::os['release']['major']}/deps/storage/storage${::os['release']['major']}-ceph-mimic/x86_64/",
+        default => "${::centos_mirror_host}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
       }
       $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
