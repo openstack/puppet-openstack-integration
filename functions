@@ -168,17 +168,12 @@ install_puppet() {
     if uses_debs; then
         print_header 'Setup (Debian based)'
         if [ "${MANAGE_REPOS}" == "true" ] ; then
-            if [ $PUPPET_MAJ_VERSION == 4 ]; then
-                local PUPPET_APT_POOL="PC1"
-            else
-                local PUPPET_APT_POOL="puppet${PUPPET_MAJ_VERSION}"
-            fi
             PUPPET_CODENAME=$(lsb_release -s -c)
             if [ $PUPPET_CODENAME == "bionic" ]; then
                 # For some reason this directory does not exist in Bionic
                 $SUDO mkdir -p /etc/apt/sources.list.d
             fi
-            echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} ${PUPPET_APT_POOL}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+            echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
             $SUDO apt-key add files/GPG-KEY-puppetlabs
             $SUDO apt-key add files/GPG-KEY-ceph
             $SUDO apt-get update
@@ -192,17 +187,13 @@ install_puppet() {
         fi
 
         if [ "${MANAGE_REPOS}" == "true" ] ; then
-            if [ $PUPPET_MAJ_VERSION == 4 ]; then
-                local PUPPET_YUM_SUFFIX="/el/7/PC1/x86_64/"
-            else
-                local PUPPET_YUM_SUFFIX="/puppet${PUPPET_MAJ_VERSION}/el/7/x86_64/"
-            fi
+            source /etc/os-release
             $SUDO rpm --import files/GPG-KEY-puppetlabs
             $SUDO rpm --import files/GPG-KEY-puppet
             $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
-name=Puppet Labs Products El 7 - x86_64
-baseurl=${NODEPOOL_PUPPETLABS_MIRROR}${PUPPET_YUM_SUFFIX}
+name=Puppet Labs Products El ${REDHAT_SUPPORT_PRODUCT_VERSION} - x86_64
+baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${REDHAT_SUPPORT_PRODUCT_VERSION}/x86_64/
 gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
        file:///etc/pki/rpm-gpg/GPG-KEY-puppet
 enabled=1
