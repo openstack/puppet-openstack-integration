@@ -1,3 +1,4 @@
+---
 - project-template:
     name: puppet-openstack-beaker-jobs
     check:

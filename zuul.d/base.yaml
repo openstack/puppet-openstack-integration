@@ -1,3 +1,4 @@
+---
 - job:
     name: puppet-openstack-integration-base
     abstract: true

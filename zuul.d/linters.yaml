@@ -1,3 +1,4 @@
+---
 - job:
     name: puppet-openstack-lint-ubuntu-bionic
     parent: puppet-openstack-module-base
