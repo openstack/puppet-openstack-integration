@@ -22,8 +22,11 @@ class openstack_integration::gnocchi (
   class { 'gnocchi::logging':
     debug => true,
   }
-  class { 'gnocchi':
+  class { 'gnocchi::db':
     database_connection => 'mysql+pymysql://gnocchi:gnocchi@127.0.0.1/gnocchi?charset=utf8',
+  }
+  class { 'gnocchi':
+    coordination_url => $::openstack_integration::config::tooz_url,
   }
   class { 'gnocchi::db::mysql':
     password => 'gnocchi',
@@ -57,21 +60,19 @@ class openstack_integration::gnocchi (
   }
   class { 'gnocchi::client': }
   class { 'gnocchi::metricd':
-    workers       => 2,
+    workers                 => 2,
     # because we configure Keystone to expire tokens after 600s, we don't
     # want to rely on default value in Gnocchi which is 300s to cleanup old data.
     # Indeed, Gnocchi might use an old token that expired to clean up and then it would
     # fail. It happens when running Tempest tests in the gate with low resources.
     # Production value (300) shouldn't be changed by default.
-    cleanup_delay => 10,
-  }
-  class { 'gnocchi::storage':
+    cleanup_delay           => 10,
     # NOTE(sileht): Since we set the pipeline interval to 1 minutes instead
     # of 10, we must compute metrics more often too, otherwise Aodh alarms will
     # always missed data just because they are 'not yet' computed.
     metric_processing_delay => 5,
-    coordination_url        => $::openstack_integration::config::tooz_url,
   }
+  class { 'gnocchi::storage': }
   if $integration_enable {
     class { 'gnocchi::storage::ceph':
       ceph_username => 'openstack',
