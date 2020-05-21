@@ -97,10 +97,12 @@ class openstack_integration::repos {
     }
   }
 
-  class { 'ceph::repo':
-    enable_sig  => $enable_sig,
-    enable_epel => $enable_epel,
-    ceph_mirror => $ceph_mirror,
+  if $::osfamily == 'RedHat' or $::operatingsystem == 'Ubuntu' {
+    class { 'ceph::repo':
+      enable_sig  => $enable_sig,
+      enable_epel => $enable_epel,
+      ceph_mirror => $ceph_mirror,
+    }
   }
 
   if $::osfamily == 'RedHat' {
