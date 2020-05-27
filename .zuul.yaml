@@ -188,6 +188,13 @@
       ceph: luminous
 
 - job:
+    name: puppet-openstack-integration-5
+    parent: puppet-openstack-integration-run-base
+    abstract: true
+    vars:
+      puppet: 5
+
+- job:
     name: puppet-openstack-integration-5-scenario001
     parent: puppet-openstack-integration-5
     abstract: true
