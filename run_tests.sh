@@ -348,7 +348,8 @@ if uses_debs; then
 
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
-  $SUDO pip install neutron-tempest-plugin
+  $SUDO apt install -y python3-pip
+  $SUDO pip3 install neutron-tempest-plugin
 else
   # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
@@ -365,9 +366,9 @@ print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-    virtualenv --system-site-packages run_tempest
-    run_tempest/bin/pip install -c https://opendev.org/openstack/requirements/raw/branch/stable/ussuri/upper-constraints.txt -U -r requirements.txt
-    run_tempest/bin/python setup.py install
+    python3 -m virtualenv --system-site-packages run_tempest
+    run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/stable/ussuri/upper-constraints.txt -U -r requirements.txt
+    run_tempest/bin/python3 setup.py install
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
 elif [ $(lsb_release --id -s) = "Debian" ]; then
