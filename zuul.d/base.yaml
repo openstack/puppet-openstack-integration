@@ -89,9 +89,9 @@
       - name: openstack/puppet-zaqar
         override-checkout: stable/train
       - name: openstack/tempest
-        override-checkout: stable/train
+        override-checkout: 23.0.0
       - name: openstack/tempest-horizon
-        override-checkout: stable/train
+        override-checkout: 0.2.0
 
 - job:
     name: puppet-openstack-integration-run-base

@@ -109,7 +109,7 @@ if [ -d /home/zuul/src/opendev.org ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
         else
-            git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+            git clone -b 0.2.0 https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
         fi
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
@@ -117,7 +117,7 @@ if [ -d /home/zuul/src/opendev.org ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
         else
-            git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
+            git clone -b 23.0.0 https://opendev.org/openstack/tempest /tmp/openstack/tempest
         fi
         # Pin Tempest to TEMPEST_VERSION unless we're running inside the
         # openstack/tempest gate.
@@ -131,11 +131,11 @@ else
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         $SUDO rm -rf /tmp/openstack/tempest-horizon
-        git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        git clone -b 0.2.0 https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         $SUDO rm -rf /tmp/openstack/tempest
-        git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
+        git clone -b 23.0.0 https://opendev.org/openstack/tempest /tmp/openstack/tempest
         pushd /tmp/openstack/tempest
         git reset --hard origin/$TEMPEST_VERSION
         popd
@@ -338,7 +338,7 @@ if uses_debs; then
 
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
-  $SUDO pip install neutron-tempest-plugin
+  $SUDO pip install neutron-tempest-plugin==0.9.0
 else
   # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
@@ -356,7 +356,7 @@ cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
-    run_tempest/bin/pip install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
+    run_tempest/bin/pip install -c https://opendev.org/openstack/requirements/raw/branch/stable/train/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
