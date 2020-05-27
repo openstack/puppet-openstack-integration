@@ -112,7 +112,7 @@ if [ -d /home/zuul/src/opendev.org ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
         else
-            git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+            git clone -b 0.2.0 https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
         fi
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
@@ -120,7 +120,7 @@ if [ -d /home/zuul/src/opendev.org ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
         else
-            git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
+            git clone -b 22.1.0 https://opendev.org/openstack/tempest /tmp/openstack/tempest
         fi
         # Pin Tempest to TEMPEST_VERSION unless we're running inside the
         # openstack/tempest gate.
@@ -134,11 +134,11 @@ else
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         $SUDO rm -rf /tmp/openstack/tempest-horizon
-        git clone https://git.openstack.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+        git clone -b 0.2.0 https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
     fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         $SUDO rm -rf /tmp/openstack/tempest
-        git clone https://git.openstack.org/openstack/tempest /tmp/openstack/tempest
+        git clone -b 22.1.0 https://opendev.org/openstack/tempest /tmp/openstack/tempest
         pushd /tmp/openstack/tempest
         git reset --hard origin/$TEMPEST_VERSION
         popd
@@ -258,7 +258,7 @@ $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 # install from source now on ubuntu until packaged
 if uses_debs; then
     cd /tmp/openstack/tempest-horizon; $SUDO python setup.py install
-    $SUDO pip install -U stestr os-testr
+    $SUDO pip install -U stestr==2.6.0 os-testr==1.1.0
 fi
 
 set +e
@@ -329,7 +329,7 @@ cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     virtualenv --system-site-packages run_tempest
-    run_tempest/bin/pip install -c https://git.openstack.org/cgit/openstack/requirements/plain/upper-constraints.txt -U -r requirements.txt
+    run_tempest/bin/pip install -c https://opendev.org/openstack/requirements/raw/branch/stable/queens/upper-constraints.txt -U -r requirements.txt
     run_tempest/bin/python setup.py install
     export tempest_binary="run_tempest/bin/tempest"
 else

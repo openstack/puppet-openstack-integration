@@ -2,151 +2,151 @@
 
 ## OpenStack modules
 mod 'aodh',
-  :git => 'https://git.openstack.org/openstack/puppet-aodh',
+  :git => 'https://opendev.org/openstack/puppet-aodh',
   :ref => 'stable/queens'
 
 mod 'barbican',
-  :git => 'https://git.openstack.org/openstack/puppet-barbican',
+  :git => 'https://opendev.org/openstack/puppet-barbican',
   :ref => 'stable/queens'
 
 mod 'ceilometer',
-  :git => 'https://git.openstack.org/openstack/puppet-ceilometer',
+  :git => 'https://opendev.org/openstack/puppet-ceilometer',
   :ref => 'stable/queens'
 
 mod 'ceph',
-  :git => 'https://git.openstack.org/openstack/puppet-ceph',
+  :git => 'https://opendev.org/openstack/puppet-ceph',
   :ref => 'stable/luminous'
 
 mod 'cinder',
-  :git => 'https://git.openstack.org/openstack/puppet-cinder',
+  :git => 'https://opendev.org/openstack/puppet-cinder',
   :ref => 'stable/queens'
 
 mod 'cloudkitty',
-  :git => 'https://git.openstack.org/openstack/puppet-cloudkitty',
+  :git => 'https://opendev.org/openstack/puppet-cloudkitty',
   :ref => 'stable/queens'
 
 mod 'congress',
-  :git => 'https://git.openstack.org/openstack/puppet-congress',
+  :git => 'https://opendev.org/openstack/puppet-congress',
   :ref => 'stable/queens'
 
 mod 'designate',
-  :git => 'https://git.openstack.org/openstack/puppet-designate',
+  :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'stable/queens'
 
 mod 'ec2api',
-  :git => 'https://git.openstack.org/openstack/puppet-ec2api',
+  :git => 'https://opendev.org/openstack/puppet-ec2api',
   :ref => 'stable/queens'
 
 mod 'glance',
-  :git => 'https://git.openstack.org/openstack/puppet-glance',
+  :git => 'https://opendev.org/openstack/puppet-glance',
   :ref => 'stable/queens'
 
 mod 'gnocchi',
-  :git => 'https://git.openstack.org/openstack/puppet-gnocchi',
+  :git => 'https://opendev.org/openstack/puppet-gnocchi',
   :ref => 'stable/queens'
 
 mod 'heat',
-  :git => 'https://git.openstack.org/openstack/puppet-heat',
+  :git => 'https://opendev.org/openstack/puppet-heat',
   :ref => 'stable/queens'
 
 mod 'horizon',
-  :git => 'https://git.openstack.org/openstack/puppet-horizon',
+  :git => 'https://opendev.org/openstack/puppet-horizon',
   :ref => 'stable/queens'
 
 mod 'ironic',
-  :git => 'https://git.openstack.org/openstack/puppet-ironic',
+  :git => 'https://opendev.org/openstack/puppet-ironic',
   :ref => 'stable/queens'
 
 mod 'keystone',
-  :git => 'https://git.openstack.org/openstack/puppet-keystone',
+  :git => 'https://opendev.org/openstack/puppet-keystone',
   :ref => 'stable/queens'
 
 mod 'manila',
-  :git => 'https://git.openstack.org/openstack/puppet-manila',
+  :git => 'https://opendev.org/openstack/puppet-manila',
   :ref => 'stable/queens'
 
 mod 'mistral',
-  :git => 'https://git.openstack.org/openstack/puppet-mistral',
+  :git => 'https://opendev.org/openstack/puppet-mistral',
   :ref => 'stable/queens'
 
 mod 'monasca',
-  :git => 'https://git.openstack.org/openstack/puppet-monasca',
+  :git => 'https://opendev.org/openstack/puppet-monasca',
   :ref => 'stable/queens'
 
 mod 'murano',
-  :git => 'https://git.openstack.org/openstack/puppet-murano',
+  :git => 'https://opendev.org/openstack/puppet-murano',
   :ref => 'stable/queens'
 
 mod 'neutron',
-  :git => 'https://git.openstack.org/openstack/puppet-neutron',
+  :git => 'https://opendev.org/openstack/puppet-neutron',
   :ref => 'stable/queens'
 
 mod 'nova',
-  :git => 'https://git.openstack.org/openstack/puppet-nova',
+  :git => 'https://opendev.org/openstack/puppet-nova',
   :ref => 'stable/queens'
 
 mod 'octavia',
-  :git => 'https://git.openstack.org/openstack/puppet-octavia',
+  :git => 'https://opendev.org/openstack/puppet-octavia',
   :ref => 'stable/queens'
 
 mod 'openstack_extras',
-  :git => 'https://git.openstack.org/openstack/puppet-openstack_extras',
+  :git => 'https://opendev.org/openstack/puppet-openstack_extras',
   :ref => 'stable/queens'
 
 mod 'openstacklib',
-  :git => 'https://git.openstack.org/openstack/puppet-openstacklib',
+  :git => 'https://opendev.org/openstack/puppet-openstacklib',
   :ref => 'stable/queens'
 
 mod 'oslo',
-  :git => 'https://git.openstack.org/openstack/puppet-oslo',
+  :git => 'https://opendev.org/openstack/puppet-oslo',
   :ref => 'stable/queens'
 
 mod 'ovn',
-  :git => 'https://git.openstack.org/openstack/puppet-ovn',
+  :git => 'https://opendev.org/openstack/puppet-ovn',
   :ref => 'stable/queens'
 
 mod 'panko',
-  :git => 'https://git.openstack.org/openstack/puppet-panko',
+  :git => 'https://opendev.org/openstack/puppet-panko',
   :ref => 'stable/queens'
 
 mod 'qdr',
-  :git => 'https://git.openstack.org/openstack/puppet-qdr',
+  :git => 'https://opendev.org/openstack/puppet-qdr',
   :ref => 'stable/queens'
 
 mod 'sahara',
-  :git => 'https://git.openstack.org/openstack/puppet-sahara',
+  :git => 'https://opendev.org/openstack/puppet-sahara',
   :ref => 'stable/queens'
 
 mod 'swift',
-  :git => 'https://git.openstack.org/openstack/puppet-swift',
+  :git => 'https://opendev.org/openstack/puppet-swift',
   :ref => 'stable/queens'
 
 mod 'tacker',
-  :git => 'https://git.openstack.org/openstack/puppet-tacker',
+  :git => 'https://opendev.org/openstack/puppet-tacker',
   :ref => 'stable/queens'
 
 mod 'tempest',
-  :git => 'https://git.openstack.org/openstack/puppet-tempest',
+  :git => 'https://opendev.org/openstack/puppet-tempest',
   :ref => 'stable/queens'
 
 mod 'trove',
-  :git => 'https://git.openstack.org/openstack/puppet-trove',
+  :git => 'https://opendev.org/openstack/puppet-trove',
   :ref => 'stable/queens'
 
 mod 'vswitch',
-  :git => 'https://git.openstack.org/openstack/puppet-vswitch',
+  :git => 'https://opendev.org/openstack/puppet-vswitch',
   :ref => 'stable/queens'
 
 mod 'vitrage',
-  :git => 'https://git.openstack.org/openstack/puppet-vitrage',
+  :git => 'https://opendev.org/openstack/puppet-vitrage',
   :ref => 'stable/queens'
 
 mod 'watcher',
-  :git => 'https://git.openstack.org/openstack/puppet-watcher',
+  :git => 'https://opendev.org/openstack/puppet-watcher',
   :ref => 'stable/queens'
 
 mod 'zaqar',
-  :git => 'https://git.openstack.org/openstack/puppet-zaqar',
+  :git => 'https://opendev.org/openstack/puppet-zaqar',
   :ref => 'stable/queens'
 
 ## External modules
