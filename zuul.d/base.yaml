@@ -20,8 +20,6 @@
         override-checkout: stable/train
       - name: openstack/puppet-cloudkitty
         override-checkout: stable/train
-      - name: openstack/puppet-congress
-        override-checkout: stable/train
       - name: openstack/puppet-designate
         override-checkout: stable/train
       - name: openstack/puppet-ec2api
