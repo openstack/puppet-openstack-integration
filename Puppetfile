@@ -25,10 +25,6 @@ mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
   :ref => 'master'
 
-mod 'congress',
-  :git => 'https://opendev.org/openstack/puppet-congress',
-  :ref => 'master'
-
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'master'

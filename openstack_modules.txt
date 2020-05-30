@@ -4,7 +4,6 @@ ceilometer
 ceph
 cinder
 cloudkitty
-congress
 designate
 ec2api
 glance
