@@ -25,10 +25,6 @@ mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
   :ref => 'stable/rocky'
 
-mod 'congress',
-  :git => 'https://opendev.org/openstack/puppet-congress',
-  :ref => 'stable/rocky'
-
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'stable/rocky'
