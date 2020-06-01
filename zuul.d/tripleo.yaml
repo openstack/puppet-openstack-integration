@@ -42,13 +42,11 @@
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
-    voting: false
 
 - job:
     name: tripleo-puppet-ci-centos-8-standalone
     parent: tripleo-ci-centos-8-standalone
     irrelevant-files: *standalone_irrelevant_files
-    voting: false
 
 - project-template:
     name: tripleo-puppet-standalone
