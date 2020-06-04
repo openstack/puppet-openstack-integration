@@ -49,6 +49,7 @@ class openstack_integration::placement {
     database_connection => 'mysql+pymysql://placement:placement@127.0.0.1/placement?charset=utf8',
   }
   include placement::db::sync
+  include placement::api
   include apache
   if ($::os_package_type != 'debian') {
     class { 'placement::wsgi::apache':
