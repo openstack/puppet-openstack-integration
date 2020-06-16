@@ -34,6 +34,7 @@
         name: "{{ item }}"
         state: absent
       become: true
+      ignore_errors: true
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution != "Fedora"
