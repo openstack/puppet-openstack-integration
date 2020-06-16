@@ -58,6 +58,7 @@
           name: "{{ item }}"
           state: absent
         become: true
+        ignore_errors: true
         with_items:
           - rdo-release
           - centos-release-openstack-*
