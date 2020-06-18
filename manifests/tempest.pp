@@ -235,7 +235,6 @@ class openstack_integration::tempest (
     neutron_bgpvpn_available         => $bgpvpn,
     neutron_l2gw_available           => $l2gw,
     neutron_dr_available             => $dr,
-    neutron_fwaas_available          => true,
     ceilometer_available             => $ceilometer,
     aodh_available                   => $aodh,
     trove_available                  => $trove,

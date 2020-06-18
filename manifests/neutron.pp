@@ -122,16 +122,16 @@ class openstack_integration::neutron (
   if $l2gw_enabled {
     if ($::operatingsystem == 'Ubuntu') {
       class {'neutron::services::l2gw': }
-      $l2gw_provider = 'L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default'
+      $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
     }
     elsif ($::operatingsystem != 'Ubuntu') {
       class {'neutron::services::l2gw':
         service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
-      $l2gw_provider = undef
+      $providers_list = undef
     }
   } else {
-    $l2gw_provider = undef
+    $providers_list = undef
   }
   $l2gw_plugin = $l2gw_enabled ? {
     true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
@@ -141,7 +141,7 @@ class openstack_integration::neutron (
     true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
     default => undef,
   }
-  $plugins_list = delete_undef_values(['router', 'metering', 'firewall_v2', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
+  $plugins_list = delete_undef_values(['router', 'metering', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
 
   if $driver == 'linuxbridge' {
       $global_physnet_mtu    = '1450'
@@ -189,8 +189,6 @@ class openstack_integration::neutron (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  $providers_list = delete_undef_values(['FIREWALL_V2:fwaas_db:neutron_fwaas.services.firewall.service_drivers.agents.agents.FirewallAgentDriver:default',
-                                        $l2gw_provider])
 
   if $::osfamily == 'Debian' {
     Service<| title == 'neutron-server'|> -> Openstacklib::Service_validation<| title == 'neutron-server' |> -> Neutron_network<||>
@@ -238,7 +236,6 @@ class openstack_integration::neutron (
   class { 'neutron::agents::l3':
     interface_driver => $driver,
     debug            => true,
-    extensions       => 'fwaas_v2',
   }
   class { 'neutron::agents::dhcp':
     interface_driver => $driver,
@@ -251,12 +248,6 @@ class openstack_integration::neutron (
   class { 'neutron::server::notifications':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
-  }
-  class { 'neutron::services::fwaas':
-    enabled       => true,
-    agent_version => 'v2',
-    driver        => 'neutron_fwaas.services.firewall.service_drivers.agents.drivers.linux.iptables_fwaas_v2.IptablesFwaasDriver',
-
   }
   if $bgpvpn_enabled {
     class {'neutron::services::bgpvpn':
