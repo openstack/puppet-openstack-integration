@@ -196,8 +196,10 @@ class openstack_integration::neutron (
   } else {
     $validate_neutron_server_service = false
   }
+  class { 'neutron::db':
+    database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
+  }
   class { 'neutron::server':
-    database_connection      => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
     sync_db                  => true,
     api_workers              => 2,
     rpc_workers              => 2,
