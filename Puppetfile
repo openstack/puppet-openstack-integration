@@ -216,7 +216,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v3.1.0'
+  :ref => 'v3.1.1'
 
 mod 'git_resource',
   :git => 'https://github.com/voxpupuli/puppet-git_resource',
