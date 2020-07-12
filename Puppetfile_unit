@@ -18,3 +18,8 @@ mod 'yumrepo_core',
 mod 'mount_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_core',
   :ref => '1.0.4'
+
+# NOTE(tobias-urdin): Needed by p-o-i.
+mod 'selinux_core',
+  :git => 'https://github.com/puppetlabs/puppetlabs-selinux_core',
+  :ref => '1.0.4'

@@ -2,13 +2,6 @@
 # This file contains the puppet unit job configurations
 #
 - job:
-    name: puppet-openstack-unit-5.5-centos-8
-    parent: puppet-openstack-unit-base
-    nodeset: centos-8
-    vars:
-      puppet_gem_version: 5.5.0
-
-- job:
     name: puppet-openstack-unit-6.14-centos-8
     parent: puppet-openstack-unit-base
     nodeset: centos-8
@@ -37,12 +30,10 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-5.5-centos-8
         - puppet-openstack-unit-6.14-centos-8
         - puppet-openstack-unit-6.14-ubuntu-bionic
         - puppet-openstack-unit-latest-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-unit-5.5-centos-8
         - puppet-openstack-unit-6.14-centos-8
         - puppet-openstack-unit-6.14-ubuntu-bionic

@@ -1,0 +1,34 @@
+- hosts: all
+  tasks:
+    - name: Run Litmus
+      shell:
+        cmd: |
+          set -e
+          function trap_exit_sig() {
+            # NOTE(tobias-urdin): Litmus does not execute spec_clean rake task after a run.
+            $GEM_BIN_DIR/bundle exec rake spec_clean
+
+            {{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh
+          }
+          trap trap_exit_sig EXIT
+          export CEPH_VERSION={{ ceph }}
+          if [ "{{ puppet_gem_version }}" != "latest" ]; then
+            export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
+          fi
+          mkdir .bundled_gems
+          export GEM_HOME=`pwd`/.bundled_gems
+          export GEM_BIN_DIR=$GEM_HOME/bin
+          ruby <<EOF
+          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
+          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+              cmd += ' -v 1.17.3'
+          end
+          system(cmd)
+          EOF
+          $GEM_BIN_DIR/bundle install --without system_tests --retry 3
+          export RSPEC_DEBUG=true
+          $GEM_BIN_DIR/bundle exec rake litmus:acceptance:localhost
+        chdir: '{{ ansible_user_dir }}/workspace'
+        executable: /bin/bash
+      become: yes
+      environment: '{{ zuul | zuul_legacy_vars }}'
