@@ -257,7 +257,9 @@ class openstack_integration::tempest (
     db_flavor_ref                    => '42',
     image_ssh_user                   => 'cirros',
     image_alt_ssh_user               => 'cirros',
-    img_file                         => 'cirros-0.4.0-x86_64-disk.img',
+    # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
+    # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
+    img_file                         => '/tmp/openstack/image/cirros-0.4.0-x86_64-disk.img',
     compute_build_interval           => 10,
     ca_certificates_file             => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages            => true,
@@ -267,10 +269,6 @@ class openstack_integration::tempest (
     run_ssh                          => true,
     l2gw_switch                      => $l2gw_switch,
     disable_dashboard_ssl_validation => true,
-    # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
-    # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
-    # img_dir               => '/home/jenkins/cache/files',
-    img_dir                          => '/tmp/openstack/image',
     baremetal_driver                 => 'fake-hardware',
     baremetal_enabled_hardware_types => 'ipmi,fake-hardware',
     ec2api_tester_roles              => ['member'],
