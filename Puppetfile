@@ -204,7 +204,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v10.1.0'
+  :ref => 'v10.1.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
