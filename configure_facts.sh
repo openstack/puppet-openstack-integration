@@ -18,10 +18,18 @@ OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-master/puppet-passed-ci}
-export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
-export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
-export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
+if [ "${OS_NAME_VERS}" == "centos7" ]; then
+  # TODO(tkajinam): Remove this once we get rid of centos7 beaker job
+  export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-master/puppet-passed-ci}
+  export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
+  export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
+  export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
+else
+  export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-ussuri/current-passed-ci/}
+  export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-ussuri/deps/latest/}
+  export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-ussuri/current-passed-ci/delorean.repo}
+  export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-ussuri/delorean-deps.repo}
+fi
 export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
