@@ -16,7 +16,6 @@
     run: playbooks/run-libraries-beaker-tests.yaml
     timeout: 3600
     nodeset: centos-8
-    voting: false
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
