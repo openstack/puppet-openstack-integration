@@ -34,7 +34,6 @@
         - puppet-openstack-libraries-puppet-unit-6.14-centos-8
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
@@ -46,7 +45,7 @@
         - puppet-openstack-libraries-puppet-unit-5.5-centos-8
         - puppet-openstack-libraries-puppet-unit-6.14-centos-8
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
+        - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
 
 # integration jobs
 - project-template:
