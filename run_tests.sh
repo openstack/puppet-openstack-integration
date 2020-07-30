@@ -202,16 +202,8 @@ fi
 set +e
 if [ "${MANAGE_REPOS}" = true ]; then
     print_header 'Install repos'
-    if [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "8" ]]; then
-        $SUDO curl -o /etc/yum.repos.d/delorean.repo ${NODEPOOL_RDO_PROXY}/${DLRN_BASE_URL}
-        $SUDO sed -i "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|" /etc/yum.repos.d/delorean.repo
-        $SUDO curl -o /etc/yum.repos.d/delorean-deps.repo ${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_URL}
-        $SUDO sed -i "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|" /etc/yum.repos.d/delorean-deps.repo
-        RESULT=$?
-    else
-        $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include openstack_integration::repos"
-        RESULT=$?
-    fi
+    $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include openstack_integration::repos"
+    RESULT=$?
     if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
         print_header 'Puppet failed to install repositories.'
         exit 1

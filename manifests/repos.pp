@@ -51,19 +51,10 @@ class openstack_integration::repos {
         manage_rdo        => false,
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
-        repo_hash         => {
-          'master-puppet-passed-ci' => {
-            'baseurl'  => pick($::rdo_mirror_host, "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/"),
-            'descr'    => 'master puppet-passed-ci',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'master-delorean-deps'    => {
-            'baseurl'  => pick($::deps_mirror_host, "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/deps/latest/"),
-            'descr'    => 'master delorean-deps',
-            'gpgcheck' => 'no',
-          },
-        },
+        repo_source_hash  => {
+          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo",
+          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
+        }
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
