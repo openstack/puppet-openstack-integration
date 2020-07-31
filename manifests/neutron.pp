@@ -84,8 +84,8 @@ class openstack_integration::neutron (
         tunnel_types    => ['vxlan'],
         bridge_mappings => ['external:br-ex'],
         manage_vswitch  => false,
+        firewall_driver => 'iptables_hybrid',
       }
-      $firewall_driver  = 'iptables_hybrid'
     }
     'linuxbridge': {
       exec { 'create_dummy_iface':
@@ -98,8 +98,8 @@ class openstack_integration::neutron (
         local_ip                    => $::ipaddress,
         tunnel_types                => ['vxlan'],
         physical_interface_mappings => ['external:loop0'],
+        firewall_driver             => 'iptables',
       }
-      $firewall_driver         = 'iptables'
     }
     default: {
       fail("Unsupported neutron driver (${driver})")
@@ -214,7 +214,6 @@ class openstack_integration::neutron (
     tenant_network_types => ['vxlan', 'vlan', 'flat'],
     extension_drivers    => 'port_security,qos',
     mechanism_drivers    => $driver,
-    firewall_driver      => $firewall_driver,
   }
 
   if $::openstack_integration::config::ssl {
