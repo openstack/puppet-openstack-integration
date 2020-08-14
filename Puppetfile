@@ -180,7 +180,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v7.4.2'
+  :ref => 'v7.5.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -196,7 +196,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v10.6.0'
+  :ref => 'v10.7.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
