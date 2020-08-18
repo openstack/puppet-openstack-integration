@@ -47,7 +47,6 @@ class openstack_integration::keystone (
   }
 
   class { 'keystone::client': }
-  class { 'keystone::cron::token_flush': }
   class { 'keystone::cron::fernet_rotate':
     hour   => '*',
     minute => '*/30',
