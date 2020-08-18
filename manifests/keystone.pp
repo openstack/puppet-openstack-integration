@@ -58,6 +58,7 @@ class openstack_integration::keystone (
   class { 'keystone::logging':
     debug => true,
   }
+  include keystone::cache
   class { 'keystone':
     database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
     enabled                    => true,
