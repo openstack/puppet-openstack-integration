@@ -190,7 +190,7 @@
     nodeset: centos-8
     voting: false
     vars:
-      nodepool_type: centos7
+      nodepool_type: centos8
       puppet_gem_version: 5.5
 
 - job:
