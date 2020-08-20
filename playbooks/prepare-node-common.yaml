@@ -96,6 +96,7 @@
         - libxslt-dev
         - ruby-dev
         - zlib1g-dev
+        - python3-pip
 
     - name: Install Ruby dependencies (Debian)
       apt:
@@ -110,6 +111,7 @@
         - libxslt1-dev
         - ruby-dev
         - zlib1g-dev
+        - python3-pip
 
     - block:
       - name: Set up puppetlabs repo (Fedora or CentOS/RHEL>=8)
