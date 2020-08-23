@@ -54,7 +54,8 @@ class openstack_integration::repos {
         repo_source_hash  => {
           'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo",
           'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
-        }
+        },
+        update_packages   => true,
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
