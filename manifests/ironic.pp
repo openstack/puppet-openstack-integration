@@ -88,6 +88,7 @@ class openstack_integration::ironic {
       }
       class { 'ironic::pxe': }
       class { 'ironic::inspector':
+        listen_address        => $::openstack_integration::config::host,
         default_transport_url => os_transport_url({
           'transport' => $::openstack_integration::config::messaging_default_proto,
           'host'      => $::openstack_integration::config::host,
