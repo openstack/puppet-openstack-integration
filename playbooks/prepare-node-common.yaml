@@ -75,6 +75,11 @@
           - ruby-devel
           - zlib-devel
 
+      - name: Install yum (Fedora or CentOS/RHEL>=8)
+        dnf:
+          name: yum
+        become: true
+
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "8"
