@@ -183,6 +183,7 @@
     name: puppet-openstack-beaker-centos-8
     parent: puppet-openstack-beaker-run-base
     nodeset: centos-8
+    voting: false
     vars:
       nodepool_type: centos8
       puppet_gem_version: 5.5
