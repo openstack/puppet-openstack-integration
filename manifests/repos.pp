@@ -47,23 +47,21 @@ class openstack_integration::repos {
       $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
+      if versioncmp($::os['release']['major'], '8') < 0 {
+        $release   = 'master'
+        $namespace = 'puppet-passed-ci'
+      } else {
+        $release   = 'ussuri'
+        $namespace = 'current-passed-ci'
+      }
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
-        repo_hash         => {
-          'master-puppet-passed-ci' => {
-            'baseurl'  => pick($::rdo_mirror_host, 'https://trunk.rdoproject.org/centos7-master/puppet-passed-ci/'),
-            'descr'    => 'master puppet-passed-ci',
-            'gpgcheck' => 'no',
-            'priority' => 1,
-          },
-          'master-delorean-deps'    => {
-            'baseurl'  => pick($::deps_mirror_host, 'https://trunk.rdoproject.org/centos7-master/deps/latest/'),
-            'descr'    => 'master delorean-deps',
-            'gpgcheck' => 'no',
-          },
-        },
+        repo_source_hash  => {
+          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-${release}/${namespace}/delorean.repo",
+          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-${release}/delorean-deps.repo"
+        }
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
