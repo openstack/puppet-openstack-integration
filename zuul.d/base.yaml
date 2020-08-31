@@ -177,14 +177,6 @@
       - ^setup.py$
 
 - job:
-    name: puppet-openstack-beaker-centos-7
-    parent: puppet-openstack-beaker-run-base
-    nodeset: centos-7
-    vars:
-      nodepool_type: centos7
-      puppet_gem_version: 5.5
-
-- job:
     name: puppet-openstack-beaker-centos-8
     parent: puppet-openstack-beaker-run-base
     nodeset: centos-8
