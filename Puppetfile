@@ -208,7 +208,7 @@ mod 'rabbitmq',
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
-  :ref => '1.1.1'
+  :ref => '1.1.3'
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
