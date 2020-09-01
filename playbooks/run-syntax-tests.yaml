@@ -7,7 +7,7 @@
           export GEM_HOME=`pwd`/.bundled_gems
           export GEM_BIN_DIR=$GEM_HOME/bin
           ruby <<EOF
-          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
+          cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
           if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
               cmd += ' -v 1.17.3'
           end
