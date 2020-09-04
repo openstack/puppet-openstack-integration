@@ -228,7 +228,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v3.5.0'
+  :ref => 'v3.6.0'
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
