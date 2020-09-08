@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+    - shell:
+        cmd: |
+          set -e
+          set -x
+
+          if [ -d /home/zuul/src/opendev.org/$ZUUL_PROJECT ]; then
+              cp -dR /home/zuul/src/opendev.org/$ZUUL_PROJECT/. .
+          else
+              git clone https://opendev.org/$ZUUL_PROJECT .
+          fi
+          if [ -d /home/zuul/src/opendev.org/openstack/puppet-openstack-integration ]; then
+              [ ! -d puppet-openstack-integration ] && mkdir puppet-openstack-integration
+              cp -dR /home/zuul/src/opendev.org/openstack/puppet-openstack-integration/. puppet-openstack-integration
+          else
+              git clone https://opendev.org/openstack/puppet-openstack-integration puppet-openstack-integration
+          fi
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace'
+      environment: '{{ zuul | zuul_legacy_vars }}'
+
+    - include_role:
+        name: bindep

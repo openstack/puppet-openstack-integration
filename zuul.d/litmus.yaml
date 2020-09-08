@@ -1,0 +1,51 @@
+---
+- job:
+    name: puppet-openstack-litmus-run-base
+    parent: puppet-openstack-integration-base
+    abstract: true
+    pre-run: playbooks/prepare-node-litmus.yaml
+    post-run: playbooks/upload-logs.yaml
+    run: playbooks/run-litmus-tests.yaml
+    timeout: 5400
+    irrelevant-files:
+      - ^.*\.md$
+      - ^.*\.rst$
+      - ^doc/.*$
+      - ^releasenotes/.*$
+      - ^spec/unit/.*$
+      - ^spec/classes/.*$
+      - ^spec/defines/.*$
+      - ^requirements.txt$
+      - ^test-requirements.txt$
+      - ^metadata.json$
+      - ^LICENSE$
+      - ^.gitignore$
+      - ^setup.cfg$
+      - ^setup.py$
+
+- job:
+    name: puppet-openstack-litmus-centos-8
+    parent: puppet-openstack-litmus-run-base
+    nodeset: centos-8
+    vars:
+      puppet_gem_version: 6.16
+      ceph: nautilus
+
+- job:
+    name: puppet-openstack-litmus-ubuntu-bionic
+    parent: puppet-openstack-litmus-run-base
+    nodeset: ubuntu-bionic
+    vars:
+      puppet_gem_version: latest
+      ceph: nautilus
+
+- project-template:
+    name: puppet-openstack-litmus-jobs
+    check:
+      jobs:
+        - puppet-openstack-litmus-centos-8
+        - puppet-openstack-litmus-ubuntu-bionic
+    gate:
+      jobs:
+        - puppet-openstack-litmus-centos-8
+        - puppet-openstack-litmus-ubuntu-bionic

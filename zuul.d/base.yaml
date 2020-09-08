@@ -185,7 +185,7 @@
     nodeset: centos-8
     vars:
       nodepool_type: centos8
-      puppet_gem_version: 5.5
+      puppet_gem_version: 6.18
 
 - job:
     name: puppet-openstack-beaker-ubuntu-bionic

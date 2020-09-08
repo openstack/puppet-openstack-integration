@@ -1,10 +1,10 @@
 class openstack_integration::repos {
 
-  # To make beaker tests work.
-  if $::ceph_version != '' {
+  # To make litmus tests work.
+  if defined('$::ceph_version') and $::ceph_version != '' {
     $ceph_version_real = $::ceph_version
   } else {
-    $ceph_version_real = 'mimic'
+    $ceph_version_real = 'nautilus'
   }
   case $::osfamily {
     'Debian': {
@@ -30,7 +30,7 @@ class openstack_integration::repos {
       }
       # Ceph is both packaged on UCA and official download.ceph.com packages
       # which we mirror. We want to use the official packages or our mirror.
-      if $::nodepool_mirror_host != '' {
+      if defined('$::nodepool_mirror_host') and $::nodepool_mirror_host != '' {
         $ceph_version_cap = capitalize($ceph_version_real)
         apt::pin { 'ceph':
           priority   => 1001,
@@ -47,10 +47,15 @@ class openstack_integration::repos {
       $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
+      if defined('$::centos_mirror_host') and $::centos_mirror_host != '' {
+        $centos_mirror = $::centos_mirror_host
+      } else {
+        $centos_mirror = 'http://mirror.centos.org'
+      }
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
-        centos_mirror_url => $::centos_mirror_host,
+        centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
           'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo",
           'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
@@ -60,9 +65,13 @@ class openstack_integration::repos {
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
         'mimic' => "https://trunk.rdoproject.org/centos${::os['release']['major']}/deps/storage/storage${::os['release']['major']}-ceph-mimic/x86_64/",
-        default => "${::centos_mirror_host}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
+        default => "${centos_mirror}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
       }
-      $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
+      if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
+        $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
+      } else {
+        $ceph_mirror = $ceph_mirror_fallback
+      }
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
       # https://wiki.centos.org/SpecialInterestGroup/Storage/
       if $::operatingsystem == 'CentOS' {
