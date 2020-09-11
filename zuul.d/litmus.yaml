@@ -35,6 +35,7 @@
     name: puppet-openstack-litmus-ubuntu-bionic
     parent: puppet-openstack-litmus-run-base
     nodeset: ubuntu-bionic
+    voting: false
     vars:
       puppet_gem_version: latest
       ceph: nautilus
