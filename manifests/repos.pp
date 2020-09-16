@@ -107,10 +107,6 @@ class openstack_integration::repos {
   }
 
   if $::osfamily == 'RedHat' {
-    package { 'python2-chardet':
-      ensure => 'latest',
-    }
-    Yumrepo<||> -> Package<| title == 'python2-chardet' |>
     # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
     # that causes the puppet-openvswitch module to fail parsing the output.
     # This issue does not occur in integration testing but only beaker tests since some
