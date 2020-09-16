@@ -120,6 +120,12 @@ class openstack_integration::repos {
     package { 'libibverbs':
       ensure => 'present',
     }
+
+    # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
+    package { 'ruby-augeas':
+      ensure => 'present',
+    }
+    Yumrepo<||> -> Package<| title == 'ruby-augeas' |>
   }
 
   if $::operatingsystem == 'Ubuntu' {
@@ -131,5 +137,10 @@ class openstack_integration::repos {
       'tag'    => 'nova-python3-libs',
     })
     Apt::Source<||> -> Package<| tag == 'nova-python3-libs' |>
+
+    # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
+    package { 'ruby-augeas':
+      ensure => 'present',
+    }
   }
 }
