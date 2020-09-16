@@ -5,12 +5,12 @@
     abstract: true
     pre-run: playbooks/prepare-node-litmus.yaml
     post-run: playbooks/upload-logs.yaml
-    run: playbooks/run-litmus-tests.yaml
     timeout: 5400
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
       - ^doc/.*$
+      - ^etc/.*$
       - ^releasenotes/.*$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
@@ -24,8 +24,20 @@
       - ^setup.py$
 
 - job:
-    name: puppet-openstack-litmus-centos-8
+    name: puppet-openstack-litmus-module-base
     parent: puppet-openstack-litmus-run-base
+    abstract: true
+    run: playbooks/run-litmus-tests.yaml
+
+- job:
+    name: puppet-openstack-litmus-libraries-base
+    parent: puppet-openstack-litmus-run-base
+    abstract: true
+    run: playbooks/run-libraries-litmus-tests.yaml
+
+- job:
+    name: puppet-openstack-litmus-centos-8
+    parent: puppet-openstack-litmus-module-base
     nodeset: centos-8
     vars:
       puppet_gem_version: 6.16
@@ -33,12 +45,26 @@
 
 - job:
     name: puppet-openstack-litmus-ubuntu-bionic
-    parent: puppet-openstack-litmus-run-base
+    parent: puppet-openstack-litmus-module-base
     nodeset: ubuntu-bionic
     voting: false
     vars:
       puppet_gem_version: latest
       ceph: nautilus
+
+- job:
+    name: puppet-openstack-libraries-litmus-centos-8
+    parent: puppet-openstack-litmus-libraries-base
+    vars:
+      puppet_gem_version: 6.18.0
+
+- job:
+    name: puppet-openstack-libraries-litmus-ubuntu-bionic
+    parent: puppet-openstack-litmus-libraries-base
+    voting: false
+    nodeset: ubuntu-bionic
+    vars:
+      puppet_gem_version: latest
 
 - project-template:
     name: puppet-openstack-litmus-jobs
