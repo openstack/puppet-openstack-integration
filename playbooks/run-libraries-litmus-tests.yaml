@@ -1,0 +1,15 @@
+- hosts: all
+  tasks:
+    - shell:
+        cmd: |
+          set -e
+          set -x
+          trap "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh" EXIT
+          if [ "{{ puppet_gem_version }}" != "latest" ]; then
+            export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
+          fi
+          ./run_litmus_tests.sh
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace'
+      become: yes
+      environment: '{{ zuul | zuul_legacy_vars }}'
