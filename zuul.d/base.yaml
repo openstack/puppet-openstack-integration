@@ -72,7 +72,7 @@
       - ^setup.py$
     roles:
       - zuul: zuul/zuul-jobs
-    # NOTE(tobasco): The ceph variable must be provided with a default here
+    # NOTE(tobias-urdin): The ceph variable must be provided with a default here
     # or zuul will complain when it tries to render the run-integration-tests template.
     vars:
       ceph: luminous
@@ -154,44 +154,3 @@
     # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
     vars:
       rspec_puppet_version: '~> 2.3.0'
-
-- job:
-    name: puppet-openstack-beaker-run-base
-    parent: puppet-openstack-integration-base
-    abstract: true
-    pre-run: playbooks/prepare-node-beaker.yaml
-    post-run: playbooks/upload-logs.yaml
-    run: playbooks/run-beaker-tests.yaml
-    timeout: 5400
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^releasenotes/.*$
-      - ^spec/unit/.*$
-      - ^spec/classes/.*$
-      - ^spec/defines/.*$
-      - ^requirements.txt$
-      - ^test-requirements.txt$
-      - ^metadata.json$
-      - ^LICENSE$
-      - ^.gitignore$
-      - ^setup.cfg$
-      - ^setup.py$
-
-- job:
-    name: puppet-openstack-beaker-centos-8
-    parent: puppet-openstack-beaker-run-base
-    nodeset: centos-8
-    vars:
-      nodepool_type: centos8
-      puppet_gem_version: 6.18
-
-- job:
-    name: puppet-openstack-beaker-ubuntu-bionic
-    parent: puppet-openstack-beaker-run-base
-    nodeset: ubuntu-bionic
-    voting: false
-    vars:
-      nodepool_type: bionic
-      puppet_gem_version: latest

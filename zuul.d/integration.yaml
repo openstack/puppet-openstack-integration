@@ -46,7 +46,7 @@
     parent: puppet-openstack-integration-6-scenario002
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
       ceph: mimic
@@ -75,7 +75,7 @@
     parent: puppet-openstack-integration-6-scenario003
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
       ceph: mimic
@@ -105,7 +105,7 @@
     parent: puppet-openstack-integration-6-scenario004
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobasco): Should normally not really pass mimic ceph var here but since
+    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
     # luminous is not packaged for Bionic repos.pp will fail otherwise.
     vars:
       ceph: mimic
