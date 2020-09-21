@@ -60,6 +60,7 @@ class openstack_integration::repos {
           'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo",
           'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
         },
+        repo_replace      => false,
         update_packages   => true,
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
