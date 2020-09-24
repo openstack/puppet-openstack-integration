@@ -232,7 +232,7 @@ mod 'memcached',
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
-  :ref => 'v4.1.1'
+  :ref => 'v5.0.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
