@@ -10,11 +10,9 @@ if [ -n "${GEM_HOME}" ]; then
     GEM_INSTALL_CMD="${GEM_INSTALL_CMD} --install-dir=$GEM_HOME --bindir=${GEM_BIN_DIR}"
 fi
 
-
 # NOTE(aschultz): since puppet 3 is now EOL, and beaker-puppet_install_helper
 # version 0.6.0 has made the agent version the default, we need to symlink
 # puppet to the /opt/puppetlabs version when specifically not version 3.
-# Workaround to deploy puppet for beaker jobs
 if [ -e /opt/puppetlabs/bin/puppet ]; then
     export PUPPET_BASE_PATH=/etc/puppetlabs/code
     export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin

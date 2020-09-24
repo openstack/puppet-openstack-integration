@@ -35,9 +35,9 @@ if $::operatingsystem == 'Ubuntu' {
   $ipv6                = false
   # Watcher packages are not available in Ubuntu repository.
   $watcher_enabled     = false
-  # TODO(tobasco): No service plugin 'BGPVPN'
+  # TODO(tobias-urdin): No service plugin 'BGPVPN'
   $bgpvpn_enabled      = false
-  # TODO(tobasco): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
+  # TODO(tobias-urdin): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
   $l2gw_enabled        = false
   # FIXME(ykarel) Disable bgp_dragent until Ubuntu python3 stein(with stein packages) jobs are ready
   $bgp_dragent_enabled = false

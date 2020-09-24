@@ -1,7 +1,7 @@
 class openstack_integration::redis {
   include openstack_integration::config
 
-  # NOTE(tobasco): Manually manage redis until arioch/puppet-redis support
+  # NOTE(tobias-urdin): Manually manage redis until arioch/puppet-redis support
   # redis 4.x since that is used by Ubuntu Bionic.
   case $::osfamily {
     'Debian': {
@@ -28,7 +28,7 @@ class openstack_integration::redis {
     $service_enable = true
   }
 
-  # NOTE(tobasco): Manually manage redis until arioch/puppet-redis support
+  # NOTE(tobias-urdin): Manually manage redis until arioch/puppet-redis support
   # redis 4.x since that is used by Ubuntu Bionic.
   package { 'redis':
     ensure => 'present',

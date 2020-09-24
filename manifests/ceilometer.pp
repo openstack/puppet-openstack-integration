@@ -89,7 +89,7 @@ class openstack_integration::ceilometer (
       polling_interval  => 60,
     }
   } else {
-    # NOTE(tobasco): When running the beaker tests we need to exclude the
+    # NOTE(tobias-urdin): When running the module tests we need to exclude the
     # gnocchi resource types since the acceptance test does not setup gnocchi itself.
     class { 'ceilometer::db::sync':
       extra_params => '--skip-gnocchi-resource-types',
