@@ -166,8 +166,8 @@ class openstack_integration::nova (
     barbican_endpoint           => $barbican_endpoint,
   }
   class { 'nova::compute::libvirt':
-    libvirt_virt_type     => $libvirt_virt_type,
-    libvirt_cpu_mode      => $libvirt_cpu_mode,
+    virt_type             => $libvirt_virt_type,
+    cpu_mode              => $libvirt_cpu_mode,
     migration_support     => true,
     # virtlock and virtlog services resources are not idempotent
     # on Ubuntu, let's disable it for now.
