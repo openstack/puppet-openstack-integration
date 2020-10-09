@@ -3,155 +3,155 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'ec2api',
   :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'monasca',
   :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'panko',
   :git => 'https://opendev.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'qdr',
   :git => 'https://opendev.org/openstack/puppet-qdr',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'sahara',
   :git => 'https://opendev.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'tacker',
   :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/victoria'
 
 ## External modules
 mod 'powerdns',
