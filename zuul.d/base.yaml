@@ -55,6 +55,8 @@
         override-checkout: stable/ussuri
       - name: openstack/puppet-openstack_extras
         override-checkout: stable/ussuri
+      - name: openstack/puppet-openstack_spec_helper
+        override-checkout: stable/ussuri
       - name: openstack/puppet-openstacklib
         override-checkout: stable/ussuri
       - name: openstack/puppet-oslo
