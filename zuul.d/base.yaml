@@ -31,6 +31,7 @@
       - openstack/puppet-openstack-cookiecutter
       - openstack/puppet-openstack-integration
       - openstack/puppet-openstack_extras
+      - openstack/puppet-openstack_spec_helper
       - openstack/puppet-openstacklib
       - openstack/puppet-oslo
       - openstack/puppet-ovn
