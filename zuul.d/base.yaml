@@ -54,6 +54,8 @@
         override-checkout: stable/train
       - name: openstack/puppet-openstack_extras
         override-checkout: stable/train
+      - name: openstack/puppet-openstack_spec_helper
+        override-checkout: stable/train
       - name: openstack/puppet-openstacklib
         override-checkout: stable/train
       - name: openstack/puppet-oslo
