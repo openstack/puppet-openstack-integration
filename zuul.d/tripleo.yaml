@@ -48,6 +48,10 @@
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
+    vars:
+      featureset_override:
+        standalone_environment_files:
+          - 'environments/low-memory-usage.yaml'
 
 - project-template:
     name: tripleo-puppet-standalone
