@@ -67,9 +67,11 @@
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
     roles:
       - zuul: zuul/zuul-jobs
     # NOTE(tobias-urdin): The ceph variable must be provided with a default here
@@ -105,9 +107,11 @@
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
 
 - job:
     name: puppet-openstack-unit-base
@@ -126,9 +130,11 @@
       - ^test-requirements.txt$
       - ^spec/acceptance/.*$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
     # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
     vars:
       rspec_puppet_version: '~> 2.3.0'
@@ -146,11 +152,14 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
     # TODO(tobias-urdin): Remove when we use rspec-puppet 2.7.1
     vars:
       rspec_puppet_version: '~> 2.3.0'

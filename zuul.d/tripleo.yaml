@@ -11,11 +11,14 @@
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
 
 - project-template:
     name: tripleo-puppet-undercloud
@@ -37,11 +40,14 @@
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^spec/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
 
 - job:
     name: tripleo-puppet-ci-centos-8-standalone
