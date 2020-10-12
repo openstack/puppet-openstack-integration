@@ -15,7 +15,7 @@ mod 'ceilometer',
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
-  :ref => 'stable/victoria'
+  :ref => 'master'
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
