@@ -19,9 +19,11 @@
       - ^test-requirements.txt$
       - ^metadata.json$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
 
 - job:
     name: puppet-openstack-litmus-module-base
