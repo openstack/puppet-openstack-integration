@@ -83,7 +83,7 @@
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common.yaml
     abstract: true
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     vars:
       puppet: 6
       use_puppetlabs: false

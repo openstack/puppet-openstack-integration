@@ -9,19 +9,18 @@
       puppet_gem_version: 6.21.1
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-6.21-ubuntu-bionic
+    name: puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
     parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     vars:
       puppet_gem_version: 6.21.1
+      rspec_puppet_version: '= 2.8.0'
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
+    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
     parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
     vars:
       puppet_gem_version: latest
-      # TODO(tobias-urdin): Remove this when we 2.7.1 works without
-      # any issues and we can leave it not pinned to anything.
-      rspec_puppet_version: '= 2.7.1'
+      rspec_puppet_version: '= 2.8.0'

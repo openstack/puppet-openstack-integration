@@ -194,10 +194,7 @@ install_puppet() {
         print_header 'Setup (Debian based)'
         if [ "${MANAGE_REPOS}" == "true" ] ; then
             PUPPET_CODENAME=$(lsb_release -s -c)
-            if [ $PUPPET_CODENAME == "bionic" ]; then
-                # For some reason this directory does not exist in Bionic
-                $SUDO mkdir -p /etc/apt/sources.list.d
-            fi
+            $SUDO mkdir -p /etc/apt/sources.list.d
             echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
             $SUDO apt-key add files/GPG-KEY-puppetlabs
             $SUDO apt-key add files/GPG-KEY-ceph
