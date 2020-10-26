@@ -57,8 +57,8 @@ class openstack_integration::repos {
         manage_epel       => false,
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
-          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo",
-          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
+          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/puppet-passed-ci/delorean.repo",
+          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/delorean-deps.repo"
         },
         repo_replace      => false,
         update_packages   => true,
