@@ -97,11 +97,13 @@ class openstack_integration::nova (
   class { 'nova::logging':
     debug => true,
   }
+  class { 'nova::db':
+    database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
+    api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
+  }
   class { 'nova':
     default_transport_url      => $default_transport_url,
     notification_transport_url => $notification_transport_url,
-    database_connection        => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
-    api_database_connection    => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
     notification_driver        => 'messagingv2',

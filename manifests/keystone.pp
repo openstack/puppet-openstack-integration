@@ -54,12 +54,14 @@ class openstack_integration::keystone (
   class { 'keystone::db::mysql':
     password => 'keystone',
   }
+  class { 'keystone::db':
+    database_connection => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
+  }
   class { 'keystone::logging':
     debug => true,
   }
   include keystone::cache
   class { 'keystone':
-    database_connection        => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
     enabled                    => true,
     service_name               => 'httpd',
     default_domain             => $default_domain,

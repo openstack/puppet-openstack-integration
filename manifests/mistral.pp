@@ -22,6 +22,9 @@ class openstack_integration::mistral {
   class { 'mistral::logging':
     debug => true,
   }
+  class { 'mistral::db':
+    database_connection => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
+  }
   class { 'mistral':
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -30,7 +33,6 @@ class openstack_integration::mistral {
       'username'  => 'mistral',
       'password'  => 'an_even_bigger_secret',
     }),
-    database_connection   => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
   }
   class { 'mistral::keystone::auth':

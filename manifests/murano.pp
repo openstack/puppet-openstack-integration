@@ -45,6 +45,9 @@ class openstack_integration::murano {
   class { 'murano::logging':
     debug => true,
   }
+  class { 'murano::db':
+    database_connection => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
+  }
   class { 'murano':
     admin_password        => 'a_big_secret',
     default_transport_url => os_transport_url({
@@ -61,7 +64,6 @@ class openstack_integration::murano {
     rabbit_own_host       => $::openstack_integration::config::host,
     rabbit_own_port       => $::openstack_integration::config::rabbit_port,
     rabbit_own_use_ssl    => $::openstack_integration::config::ssl,
-    database_connection   => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
     identity_uri          => $::openstack_integration::config::keystone_admin_uri,
     www_authenticate_uri  => $::openstack_integration::config::keystone_auth_uri,
     use_ssl               => $::openstack_integration::config::ssl,

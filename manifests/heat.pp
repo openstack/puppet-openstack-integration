@@ -40,6 +40,9 @@ class openstack_integration::heat (
   class { 'heat::logging':
     debug => true,
   }
+  class { 'heat::db':
+    database_connection => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
+  }
   class { 'heat':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -57,7 +60,6 @@ class openstack_integration::heat (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    database_connection        => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }

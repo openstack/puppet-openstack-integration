@@ -37,9 +37,11 @@ class openstack_integration::sahara (
   class { 'sahara::logging':
     debug => true,
   }
+  class { 'sahara::db':
+    database_connection => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+  }
   class { 'sahara':
     host                  => $::openstack_integration::config::host,
-    database_connection   => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
     use_ssl               => $::openstack_integration::config::ssl,
     cert_file             => $::openstack_integration::params::cert_path,
     key_file              => "/etc/sahara/ssl/private/${::fqdn}.pem",
