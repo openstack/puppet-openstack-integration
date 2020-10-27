@@ -90,8 +90,6 @@ class openstack_integration::glance (
     bind_host           => $::openstack_integration::config::host,
     cert_file           => $crt_file,
     key_file            => $key_file,
-    enable_v1_api       => false,
-    enable_v2_api       => true,
   }
   class { 'glance::notify::rabbitmq':
     default_transport_url      => os_transport_url({
