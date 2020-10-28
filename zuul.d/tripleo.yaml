@@ -24,10 +24,21 @@
     name: tripleo-puppet-undercloud
     check:
       jobs:
-        - tripleo-puppet-ci-centos-8-undercloud-containers
+        - tripleo-ci-centos-8-content-provider
+        - tripleo-puppet-ci-centos-8-undercloud-containers:
+            vars: &undercloud_consumer_vars
+              consumer_job: true
+              remove_tags:
+                - build
+            dependencies:
+              - tripleo-ci-centos-8-content-provider
     gate:
       jobs:
-        - tripleo-puppet-ci-centos-8-undercloud-containers
+        - tripleo-ci-centos-8-content-provider
+        - tripleo-puppet-ci-centos-8-undercloud-containers:
+            vars: *undercloud_consumer_vars
+            dependencies:
+              - tripleo-ci-centos-8-content-provider
 
 - job:
     name: tripleo-puppet-ci-centos-8-standalone
@@ -57,7 +68,19 @@
     name: tripleo-puppet-standalone
     check:
       jobs:
-        - tripleo-puppet-ci-centos-8-standalone
+        - tripleo-ci-centos-8-content-provider
+        - tripleo-puppet-ci-centos-8-standalone:
+            vars: &standalone_consumer_vars
+              consumer_job: true
+              build_container_images: false
+              remove_tags:
+                - build
+            dependencies:
+              - tripleo-ci-centos-8-content-provider
     gate:
       jobs:
-        - tripleo-puppet-ci-centos-8-standalone
+        - tripleo-ci-centos-8-content-provider
+        - tripleo-puppet-ci-centos-8-standalone:
+            vars: *standalone_consumer_vars
+            dependencies:
+              - tripleo-ci-centos-8-content-provider
