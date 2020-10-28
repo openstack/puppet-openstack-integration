@@ -12,27 +12,25 @@
     abstract: true
     vars:
       scenario: scenario001
-      ceph: luminous
+      ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic-mimic
+    name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-6-scenario001
     nodeset: ubuntu-bionic
     voting: false
-    vars:
-      ceph: mimic
 
 - job:
     name: puppet-openstack-integration-6-scenario001-tempest-centos-8
     parent: puppet-openstack-integration-6-scenario001
     nodeset: centos-8
-    vars:
-      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
     parent: puppet-openstack-integration-6-scenario001
     nodeset: debian-stable
+    vars:
+      ceph: luminous
 
 - job:
     name: puppet-openstack-integration-6-scenario002
@@ -46,22 +44,18 @@
     parent: puppet-openstack-integration-6-scenario002
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
-    # luminous is not packaged for Bionic repos.pp will fail otherwise.
-    vars:
-      ceph: mimic
 
 - job:
     name: puppet-openstack-integration-6-scenario002-tempest-centos-8
     parent: puppet-openstack-integration-6-scenario002
     nodeset: centos-8
-    vars:
-      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-6-scenario002-tempest-debian-stable
     parent: puppet-openstack-integration-6-scenario002
     nodeset: debian-stable
+    vars:
+      ceph: luminous
 
 - job:
     name: puppet-openstack-integration-6-scenario003
@@ -75,22 +69,18 @@
     parent: puppet-openstack-integration-6-scenario003
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
-    # luminous is not packaged for Bionic repos.pp will fail otherwise.
-    vars:
-      ceph: mimic
 
 - job:
     name: puppet-openstack-integration-6-scenario003-tempest-centos-8
     parent: puppet-openstack-integration-6-scenario003
     nodeset: centos-8
-    vars:
-      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-6-scenario003-tempest-debian-stable
     parent: puppet-openstack-integration-6-scenario003
     nodeset: debian-stable
+    vars:
+      ceph: luminous
 
 - job:
     name: puppet-openstack-integration-6-scenario004
@@ -98,24 +88,18 @@
     abstract: true
     vars:
       scenario: scenario004
-      ceph: mimic
+      ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic-mimic
+    name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic
     parent: puppet-openstack-integration-6-scenario004
     nodeset: ubuntu-bionic
     voting: false
-    # NOTE(tobias-urdin): Should normally not really pass mimic ceph var here but since
-    # luminous is not packaged for Bionic repos.pp will fail otherwise.
-    vars:
-      ceph: mimic
 
 - job:
     name: puppet-openstack-integration-6-scenario004-tempest-centos-8
     parent: puppet-openstack-integration-6-scenario004
     nodeset: centos-8
-    vars:
-      ceph: nautilus
 
 - job:
     name: puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous

@@ -73,10 +73,8 @@
       - ^setup.py$
     roles:
       - zuul: zuul/zuul-jobs
-    # NOTE(tobias-urdin): The ceph variable must be provided with a default here
-    # or zuul will complain when it tries to render the run-integration-tests template.
     vars:
-      ceph: luminous
+      ceph: nautilus
 
 - job:
     name: puppet-openstack-base
