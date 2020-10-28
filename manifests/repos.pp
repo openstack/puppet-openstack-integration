@@ -47,13 +47,25 @@ class openstack_integration::repos {
       $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
+      if defined('$::delorean_repo_path') and $::delorean_repo_path != '' {
+        $delorean_repo = $::delorean_repo_path
+      } else {
+        $delorean_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-ussuri/current-passed-ci/delorean.repo"
+      }
+
+      if defined('$::delorean_deps_repo_path') and $::delorean_deps_repo_path != '' {
+        $delorean_deps_repo = $::delorean_deps_repo_path
+      } else {
+        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-ussuri/dlrn-deps.repo"
+      }
+
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
         centos_mirror_url => $::centos_mirror_host,
         repo_source_hash  => {
-          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-ussuri/current-passed-ci/delorean.repo",
-          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-ussuri/delorean-deps.repo"
+          'delorean.repo'      => $delorean_repo,
+          'delorean-deps.repo' => $delorean_deps_repo
         },
         repo_replace      => false,
         update_packages   => true,
