@@ -67,12 +67,19 @@ else
     fi
 fi
 
+curl -o /tmp/delorean.repo "${NODEPOOL_RDO_PROXY}/centos8-master/puppet-passed-ci/delorean.repo"
+sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean.repo
+curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/centos8-master/delorean-deps.repo"
+sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean-deps.repo
+
 export FACTER_nodepool_mirror_host=$NODEPOOL_MIRROR_HOST
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
 export FACTER_uca_mirror_host=$NODEPOOL_UCA_MIRROR
 export FACTER_deps_mirror_host=$DEPS_MIRROR_HOST
 export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
 export FACTER_ceph_version=$CEPH_VERSION
+export FACTER_delorean_repo_path="/tmp/delorean.repo"
+export FACTER_delorean_deps_repo_path="/tmp/delorean-deps.repo"
 
 MIRROR_FACTS="\
 nodepool_mirror_host=${FACTER_nodepool_mirror_host}
@@ -80,7 +87,9 @@ centos_mirror_host=${FACTER_centos_mirror_host}
 uca_mirror_host=${FACTER_uca_mirror_host}
 deps_mirror_host=${FACTER_deps_mirror_host}
 ceph_mirror_host=${FACTER_ceph_mirror_host}
-ceph_version=${FACTER_ceph_version}"
+ceph_version=${FACTER_ceph_version}
+delorean_repo_path=${FACTER_delorean_repo_path}
+delorean_deps_repo_path=${FACTER_delorean_deps_repo_path}"
 
 if [ "${WRITE_FACTS}" = true ]; then
     $SUDO mkdir -p /etc/facter/facts.d/
