@@ -62,7 +62,7 @@ class openstack_integration::repos {
       if defined('$::delorean_deps_repo_path') and $::delorean_deps_repo_path != '' {
         $delorean_deps_repo = $::delorean_deps_repo_path
       } else {
-        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo"
+        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
       }
 
       class { 'openstack_extras::repo::redhat::redhat':
