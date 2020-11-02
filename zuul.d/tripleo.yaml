@@ -21,10 +21,19 @@
     name: tripleo-puppet-undercloud
     check:
       jobs:
-        - tripleo-puppet-ci-centos-7-undercloud-containers
+        - tripleo-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-undercloud-containers: &consumer_job
+            vars: &consumer_vars
+              consumer_job: true
+              build_container_images: false
+              remove_tags:
+                - build
+            dependencies: &deps_cprovider
+              - tripleo-ci-centos-7-content-provider
     gate:
       jobs:
-        - tripleo-puppet-ci-centos-7-undercloud-containers
+        - tripleo-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-undercloud-containers: *consumer_job
 
 - job:
     name: tripleo-puppet-ci-centos-7-standalone
@@ -46,7 +55,9 @@
     name: tripleo-puppet-standalone
     check:
       jobs:
-        - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-standalone: *consumer_job
     gate:
       jobs:
-        - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-standalone: *consumer_job
