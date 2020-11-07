@@ -37,7 +37,11 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
     DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
+        if [ "$CEPH_VERSION" == "mimic" ]; then
+            CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
+        else
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
+        fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
         # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
