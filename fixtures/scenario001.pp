@@ -22,15 +22,6 @@ if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
   $ssl = true
 }
 
-# FIXME(ykarel) Enable ceph in CentOS8 once Ceph repos are available
-if ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  $backend = undef
-  $ceph    = false
-} else {
-  $backend = 'rbd'
-  $ceph    = true
-}
-
 case $::osfamily {
   'Debian': {
     $ipv6                    = false
@@ -75,18 +66,18 @@ class { 'openstack_integration::keystone':
   token_expiration => '2400',
 }
 class { 'openstack_integration::glance':
-  backend => $backend,
+  backend => 'rbd',
 }
 class { 'openstack_integration::neutron':
   notification_topics => $notification_topics,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
-  libvirt_rbd         => $ceph,
+  libvirt_rbd         => true,
   notification_topics => $notification_topics,
 }
 class { 'openstack_integration::cinder':
-  backend => $backend,
+  backend => 'rbd',
 }
 include openstack_integration::ceilometer
 class { 'openstack_integration::aodh':
@@ -95,16 +86,14 @@ class { 'openstack_integration::aodh':
 if $enable_vitrage {
   include openstack_integration::vitrage
 }
-if $ceph {
-  include openstack_integration::ceph
-}
+include openstack_integration::ceph
 class { 'openstack_integration::heat':
   notification_topics => $notification_topics,
 }
 include openstack_integration::provision
 include openstack_integration::redis
 class { 'openstack_integration::gnocchi':
-  integration_enable => $ceph,
+  integration_enable => true,
 }
 include openstack_integration::panko
 
