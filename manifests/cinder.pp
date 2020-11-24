@@ -67,6 +67,9 @@ class openstack_integration::cinder (
     $keymgr_encryption_api_url  = undef
     $keymgr_encryption_auth_url = undef
   }
+  class { 'cinder::db':
+    database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
+  }
   class { 'cinder':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -84,7 +87,6 @@ class openstack_integration::cinder (
     }),
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
-    database_connection        => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
     keymgr_backend             => $keymgr_backend,

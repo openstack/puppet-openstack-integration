@@ -27,6 +27,9 @@ class openstack_integration::aodh (
   class { 'aodh::logging':
     debug => true,
   }
+  class { 'aodh::db':
+    database_connection => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
+  }
   class { 'aodh':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -44,7 +47,6 @@ class openstack_integration::aodh (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    database_connection        => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }

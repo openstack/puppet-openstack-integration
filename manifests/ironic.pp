@@ -18,6 +18,9 @@ class openstack_integration::ironic {
   class { 'ironic::logging':
     debug => true,
   }
+  class { 'ironic::db':
+    database_connection => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
+  }
   class { 'ironic':
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -28,7 +31,6 @@ class openstack_integration::ironic {
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms  => 'PLAIN',
-    database_connection   => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
   }
   class { 'ironic::db::mysql':
     password => 'ironic',
@@ -87,6 +89,9 @@ class openstack_integration::ironic {
         password => 'a_big_secret',
       }
       class { 'ironic::pxe': }
+      class { 'ironic::inspector::db':
+        database_connection => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
+      }
       class { 'ironic::inspector':
         listen_address        => $::openstack_integration::config::host,
         default_transport_url => os_transport_url({
@@ -99,7 +104,6 @@ class openstack_integration::ironic {
         ironic_password       => 'a_big_secret',
         ironic_auth_url       => "${::openstack_integration::config::keystone_auth_uri}/v3",
         dnsmasq_interface     => 'eth0',
-        db_connection         => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
       }
     }
     default: {
