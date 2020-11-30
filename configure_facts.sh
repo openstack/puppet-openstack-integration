@@ -37,7 +37,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
     DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
-        if [ "$CEPH_VERSION" == "mimic" ]; then
+        if [ "$CEPH_VERSION" == "mimic" ] || [ "CEPH_VERSION" == "luminous" ] ; then
             CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
         else
             CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
