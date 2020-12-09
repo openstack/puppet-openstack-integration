@@ -91,6 +91,16 @@ class openstack_integration::repos {
         $enable_sig  = false
         $enable_epel = true
       }
+
+      # PowerTools is required on CentOS8 since Ussuri.
+      if $::operatingsystem == 'CentOS' {
+        exec { 'enable-powertools':
+          command => 'dnf config-manager --enable powertools',
+          path    => '/usr/bin/',
+          unless  => 'test 0 -ne $(dnf repolist --enabled powertools | wc -l)'
+        }
+      }
+
       # Remove Fedora Base repos as stable-base repo is configured which includes
       # all required packages
       if $::operatingsystem == 'Fedora' {
