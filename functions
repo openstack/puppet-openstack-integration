@@ -192,8 +192,8 @@ install_puppet() {
             $SUDO rpm --import files/GPG-KEY-puppet
             $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
-name=Puppet Labs Products El ${REDHAT_SUPPORT_PRODUCT_VERSION} - x86_64
-baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${REDHAT_SUPPORT_PRODUCT_VERSION}/x86_64/
+name=Puppet Labs Products El ${VERSION_ID} - x86_64
+baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
 gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
        file:///etc/pki/rpm-gpg/GPG-KEY-puppet
 enabled=1
@@ -227,7 +227,7 @@ function catch_selinux_alerts() {
             # glance https://bugs.launchpad.net/glance/+bug/1769006
             # nova https://bugs.launchpad.net/nova/+bug/1808975
             # mistral https://bugs.launchpad.net/mistral/+bug/1808953
-            elif [ -f /etc/fedora-release ] || [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "8" ]]; then
+            elif [ -f /etc/fedora-release ] || [[ "${ID,,}" = "centos" && ${VERSION_ID} = "8" ]]; then
                 echo "non ssl scenario, ignoring it now."
             else
                 echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."

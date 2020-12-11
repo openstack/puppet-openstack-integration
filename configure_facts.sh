@@ -14,7 +14,7 @@
 # under the License.
 
 source /etc/os-release
-OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
+OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
@@ -46,9 +46,9 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     else
         # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST="https://trunk.rdoproject.org/centos${REDHAT_SUPPORT_PRODUCT_VERSION}/deps/storage/storage${REDHAT_SUPPORT_PRODUCT_VERSION}-ceph-mimic/x86_64/"
+            CEPH_MIRROR_HOST="https://trunk.rdoproject.org/centos${VERSION_ID}/deps/storage/storage${VERSION_ID}-ceph-mimic/x86_64/"
         else
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${REDHAT_SUPPORT_PRODUCT_VERSION}/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
@@ -63,9 +63,9 @@ else
     else
         # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
         if [ "$CEPH_VERSION" == "mimic" ]; then
-            CEPH_MIRROR_HOST="https://trunk.rdoproject.org/centos${REDHAT_SUPPORT_PRODUCT_VERSION}/deps/storage/storage${REDHAT_SUPPORT_PRODUCT_VERSION}-ceph-mimic/x86_64/"
+            CEPH_MIRROR_HOST="https://trunk.rdoproject.org/centos${VERSION_ID}/deps/storage/storage${VERSION_ID}-ceph-mimic/x86_64/"
         else
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${REDHAT_SUPPORT_PRODUCT_VERSION}/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
