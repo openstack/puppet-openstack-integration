@@ -14,7 +14,7 @@
 # under the License.
 
 source /etc/os-release
-OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
+OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
