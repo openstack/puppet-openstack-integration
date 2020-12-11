@@ -14,7 +14,7 @@
 # under the License.
 
 source /etc/os-release
-OS_NAME_VERS=${REDHAT_SUPPORT_PRODUCT}${REDHAT_SUPPORT_PRODUCT_VERSION}
+OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
@@ -44,7 +44,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${REDHAT_SUPPORT_PRODUCT_VERSION}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
@@ -56,7 +56,7 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${REDHAT_SUPPORT_PRODUCT_VERSION}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi
