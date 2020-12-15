@@ -176,19 +176,19 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v5.7.0'
+  :ref => 'v5.8.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v7.6.0'
+  :ref => 'v7.7.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v6.3.0'
+  :ref => 'v6.4.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v2.7.0'
+  :ref => 'v2.8.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -200,11 +200,11 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v6.8.0'
+  :ref => 'v6.9.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v10.2.0'
+  :ref => 'v10.3.0'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
