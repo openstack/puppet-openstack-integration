@@ -10,7 +10,7 @@
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
 BASE_PUPPETFILE=Puppetfile
 source /etc/os-release
-if [[ "${REDHAT_SUPPORT_PRODUCT,,}" = "centos" && ${REDHAT_SUPPORT_PRODUCT_VERSION} = "8" ]]; then
+if [[ "${ID,,}" = "centos" && ${VERSION_ID} = "8" ]]; then
     BASE_PUPPETFILE=Puppetfile_centos8
 fi
 install_external() {
