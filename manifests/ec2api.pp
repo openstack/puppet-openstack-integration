@@ -31,6 +31,7 @@ class openstack_integration::ec2api {
       }
       class { 'ec2api::api':
         keystone_ec2_tokens_url => "${::openstack_integration::config::keystone_auth_uri}/v3/ec2tokens",
+        cinder_service_type     => 'volumev3',
         external_network        => 'public',
       }
       include ec2api::metadata
