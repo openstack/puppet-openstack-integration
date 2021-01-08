@@ -31,6 +31,13 @@ if ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) 
   $ceph    = true
 }
 
+if $::osfamily == 'RedHat' {
+  # (amoralej) - disable selinux defaults until
+  # https://tickets.puppetlabs.com/browse/PUP-7559 is fixed
+  Concat { selinux_ignore_defaults => true }
+  File { selinux_ignore_defaults => true }
+}
+
 if $::operatingsystem == 'Ubuntu' {
   $ipv6                = false
   # Watcher packages are not available in Ubuntu repository.

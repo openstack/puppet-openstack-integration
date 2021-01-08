@@ -31,6 +31,13 @@ if ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) 
   $ceph    = true
 }
 
+if $::osfamily == 'RedHat' {
+  # (amoralej) - disable selinux defaults until
+  # https://tickets.puppetlabs.com/browse/PUP-7559 is fixed
+  Concat { selinux_ignore_defaults => true }
+  File { selinux_ignore_defaults => true }
+}
+
 case $::osfamily {
   'Debian': {
     $ipv6                    = false
