@@ -196,7 +196,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v10.9.0'
+  :ref => 'v10.9.1'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
@@ -228,7 +228,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v4.0.0'
+  :ref => 'v5.0.0'
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
