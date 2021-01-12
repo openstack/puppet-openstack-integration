@@ -57,6 +57,7 @@
 - job:
     name: puppet-openstack-libraries-litmus-centos-8
     parent: puppet-openstack-litmus-libraries-base
+    nodeset: centos-8
     vars:
       puppet_gem_version: 6.18.0
 
