@@ -221,6 +221,7 @@ lsmod > $LOG_DIR/lsmod.txt
 cat /proc/cpuinfo > $LOG_DIR/cpuinfo.txt
 sudo ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
 sudo netstat -tulpn > $LOG_DIR/netstat.txt
+sudo systemctl status --all 2>/dev/null > $LOG_DIR/systemctl.txt
 
 for table in raw filter nat mangle ; do
     echo $table
