@@ -199,12 +199,14 @@ install_puppet() {
             fi
             $SUDO rpm --import files/GPG-KEY-puppetlabs
             $SUDO rpm --import files/GPG-KEY-puppet
+            $SUDO rpm --import files/GPG-KEY-puppet-20250406
             $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El 7 - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}${PUPPET_YUM_SUFFIX}
 gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
        file:///etc/pki/rpm-gpg/GPG-KEY-puppet
+       file:///etc/pki/rpm-gpg/GPG-KEY-puppet-20250406
 enabled=1
 gpgcheck=1
 EOF"
