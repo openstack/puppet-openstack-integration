@@ -114,12 +114,12 @@
         - python3-pip
 
     - block:
-      - name: Set up puppetlabs repo (Fedora or CentOS/RHEL>=8)
+      - name: Set up puppetlabs repo (Fedora)
         dnf:
           name: "https://yum.puppetlabs.com/puppet5-release-fedora-{{ ansible_distribution_major_version }}.noarch.rpm"
         become: true
 
-      - name: Install puppetlabs puppet-agent (Fedora or CentOS/RHEL>=8)
+      - name: Install puppetlabs puppet-agent (Fedora)
         dnf:
           name: puppet-agent
         become: true
@@ -128,15 +128,15 @@
         - use_puppetlabs is defined
         - use_puppetlabs|bool
         - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "8"
+        - ansible_distribution == "Fedora"
 
     - block:
-      - name: Set up puppetlabs repo (CentOS/RHEL<=7)
+      - name: Set up puppetlabs repo (CentOS/RHEL)
         yum:
           name: "https://yum.puppetlabs.com/puppet5-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
         become: true
 
-      - name: Install puppetlabs puppet-agent (CentOS/RHEL<=7)
+      - name: Install puppetlabs puppet-agent (CentOS/RHEL)
         yum:
           name: puppet-agent
         become: true
@@ -146,7 +146,6 @@
         - use_puppetlabs|bool
         - ansible_os_family == 'RedHat'
         - ansible_distribution != "Fedora"
-        - ansible_distribution_major_version <= "7"
 
     - block:
       - name: Set up puppetlabs repo (Ubuntu and Debian)
