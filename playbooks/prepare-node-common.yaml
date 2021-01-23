@@ -116,7 +116,7 @@
     - block:
       - name: Set up puppetlabs repo (Fedora)
         dnf:
-          name: "https://yum.puppetlabs.com/puppet5-release-fedora-{{ ansible_distribution_major_version }}.noarch.rpm"
+          name: "https://yum.puppetlabs.com/puppet{{ puppet }}-release-fedora-{{ ansible_distribution_major_version }}.noarch.rpm"
         become: true
 
       - name: Install puppetlabs puppet-agent (Fedora)
@@ -133,7 +133,7 @@
     - block:
       - name: Set up puppetlabs repo (CentOS/RHEL)
         yum:
-          name: "https://yum.puppetlabs.com/puppet5-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
+          name: "https://yum.puppetlabs.com/puppet{{ puppet }}-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
         become: true
 
       - name: Install puppetlabs puppet-agent (CentOS/RHEL)
@@ -150,7 +150,7 @@
     - block:
       - name: Set up puppetlabs repo (Ubuntu and Debian)
         apt:
-          name: "https://apt.puppetlabs.com/puppet5-release-{{ ansible_distribution_release }}.deb"
+          name: "https://apt.puppetlabs.com/puppet{{ puppet }}-release-{{ ansible_distribution_release }}.deb"
         become: true
 
       - name: Install puppetlabs puppet-agent (Ubuntu and Debian)
