@@ -188,16 +188,16 @@ install_puppet() {
 
         if [ "${MANAGE_REPOS}" == "true" ] ; then
             source /etc/os-release
-            $SUDO rpm --import files/GPG-KEY-puppetlabs
-            $SUDO rpm --import files/GPG-KEY-puppet
-            $SUDO rpm --import files/GPG-KEY-puppet-20250406
+            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
+            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
+            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
             $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El ${VERSION_ID} - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
-gpgkey=file:///etc/pki/rpm-gpg/GPG-KEY-puppetlabs
-       file:///etc/pki/rpm-gpg/GPG-KEY-puppet
-       file:///etc/pki/rpm-gpg/GPG-KEY-puppet-20250406
+gpgkey=${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
+       ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
+       ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
 enabled=1
 gpgcheck=1
 EOF"
