@@ -84,6 +84,7 @@
     abstract: true
     nodeset: ubuntu-bionic
     vars:
+      puppet: 6
       use_puppetlabs: false
 
 - job:
