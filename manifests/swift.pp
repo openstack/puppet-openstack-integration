@@ -114,6 +114,9 @@ class openstack_integration::swift {
   $swift_components = ['account', 'container', 'object']
   swift::storage::filter::recon { $swift_components : }
   swift::storage::filter::healthcheck { $swift_components : }
+  class { 'swift::objectexpirer':
+    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+  }
   # As of mitaka swift-ring-builder requires devices >= replica count
   # Default replica count is 3
   ring_object_device { ["${::openstack_integration::config::ip_for_url}:6000/1", "${::openstack_integration::config::ip_for_url}:6000/2", "${::openstack_integration::config::ip_for_url}:6000/3"]:
