@@ -9,6 +9,14 @@
       puppet_gem_version: 6.14.0
 
 - job:
+    name: puppet-openstack-libraries-puppet-unit-6.14-centos-8-stream
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-8-stream
+    voting: false
+    vars:
+      puppet_gem_version: 6.14.0
+
+- job:
     name: puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: ubuntu-bionic
