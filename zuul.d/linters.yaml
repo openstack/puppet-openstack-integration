@@ -66,6 +66,13 @@
       puppet: 5
 
 - job:
+    name: puppet-openstack-libraries-puppet-syntax-5-centos-8-stream
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-8-stream
+    vars:
+      puppet: 5
+
+- job:
     name: puppet-openstack-libraries-puppet-syntax-6-centos-8
     parent: puppet-openstack-libraries-puppet-syntax
     nodeset: centos-8

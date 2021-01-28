@@ -17,9 +17,25 @@
       puppet_gem_version: 5.5.0
 
 - job:
+    name: puppet-openstack-libraries-puppet-unit-5.5-centos-8-stream
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-8-stream
+    voting: false
+    vars:
+      puppet_gem_version: 5.5.0
+
+- job:
     name: puppet-openstack-libraries-puppet-unit-6.4-centos-8
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-8
+    voting: false
+    vars:
+      puppet_gem_version: 6.4.0
+
+- job:
+    name: puppet-openstack-libraries-puppet-unit-6.4-centos-8-stream
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-8-stream
     voting: false
     vars:
       puppet_gem_version: 6.4.0

@@ -29,12 +29,15 @@
         - puppet-openstack-libraries-puppet-lint-ubuntu-bionic
         - puppet-openstack-libraries-puppet-syntax-5-centos-7
         - puppet-openstack-libraries-puppet-syntax-5-centos-8
+        - puppet-openstack-libraries-puppet-syntax-5-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-centos-8
         - puppet-openstack-libraries-puppet-syntax-6-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-5.5-centos-7
         - puppet-openstack-libraries-puppet-unit-5.5-centos-8
+        - puppet-openstack-libraries-puppet-unit-5.5-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.4-centos-8
+        - puppet-openstack-libraries-puppet-unit-6.4-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.4-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-7
@@ -65,6 +68,10 @@
         - puppet-openstack-integration-5-scenario002-tempest-centos-8
         - puppet-openstack-integration-5-scenario003-tempest-centos-8
         - puppet-openstack-integration-5-scenario004-tempest-centos-8
+        - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
@@ -89,6 +96,7 @@
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
         - puppet-openstack-integration-5-scenario001-tempest-centos-8
+        - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-centos-7-luminous
@@ -104,6 +112,7 @@
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
         - puppet-openstack-integration-5-scenario002-tempest-centos-8
+        - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-centos-7
@@ -119,6 +128,7 @@
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
         - puppet-openstack-integration-5-scenario003-tempest-centos-8
+        - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-centos-7
@@ -134,6 +144,7 @@
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-nautilus
         - puppet-openstack-integration-5-scenario004-tempest-centos-8
+        - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     gate:
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-centos-7-nautilus
