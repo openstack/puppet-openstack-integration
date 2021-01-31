@@ -80,9 +80,9 @@ class openstack_integration::aodh (
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { 'aodh::auth':
-    auth_url      => $::openstack_integration::config::keystone_auth_uri,
-    auth_password => 'a_big_secret',
+  class { 'aodh::service_credentials':
+    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    password => 'a_big_secret',
   }
   class { 'aodh::client': }
   class { 'aodh::notifier': }
