@@ -14,12 +14,9 @@ class openstack_integration::glance (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'glance':
-      notify => Service['glance-api'],
     }
-    Package<| tag == 'glance-package' |> -> File['/etc/glance/ssl']
-    $key_file  = "/etc/glance/ssl/private/${::fqdn}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
-    Exec['update-ca-certificates'] ~> Service['glance-api']
+    $key_file = undef
+    $crt_file  = undef
   } else {
     $key_file = undef
     $crt_file  = undef
@@ -36,9 +33,9 @@ class openstack_integration::glance (
   include glance
   include glance::client
   class { 'glance::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:9292",
-    internal_url => "${::openstack_integration::config::base_url}:9292",
-    admin_url    => "${::openstack_integration::config::base_url}:9292",
+    public_url   => "http://${::openstack_integration::config::ip_for_url}:9292",
+    internal_url => "http://${::openstack_integration::config::ip_for_url}:9292",
+    admin_url    => "http://${::openstack_integration::config::ip_for_url}:9292",
     password     => 'a_big_secret',
   }
   class { 'glance::api::authtoken':

@@ -123,7 +123,7 @@ class openstack_integration::cinder (
   class { 'cinder::backup': }
   class { 'cinder::cron::db_purge': }
   class { 'cinder::glance':
-    glance_api_servers => "${::openstack_integration::config::base_url}:9292",
+    glance_api_servers => "http://${::openstack_integration::config::ip_for_url}:9292",
   }
   case $backend {
     'iscsi': {
