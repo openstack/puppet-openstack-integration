@@ -9,6 +9,7 @@
       - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
+      - ^examples/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^spec/.*$
