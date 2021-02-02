@@ -476,6 +476,7 @@
     nodeset: ubuntu-xenial
     vars:
       nodepool_type: xenial
+    voting: false
 
 - project-template:
     name: puppet-openstack-beaker-jobs
