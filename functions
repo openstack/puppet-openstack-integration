@@ -3,15 +3,39 @@
 # functions - puppet-openstack-integration specific functions
 #
 
+# To retry a command until it succeed for a given
+# number of retries(default to 3).
+retry_cmd() {
+  local cmd=$1
+  local total_tries=${2:-3}
+  local delay=${3:-5}
+  local retry_count=1
+  local ret_code=1
+  until [[ ${ret_code} -eq 0 || ${retry_count} -gt ${total_tries} ]]; do
+      echo Retry count:-${retry_count}, Command:-$cmd
+      set +e
+      $cmd
+      ret_code=$?
+      set -e
+      ((retry_count++))
+      sleep ${delay}
+  done
+  if [ ${ret_code} -ne 0 ]; then
+      echo Failed even after ${total_tries} retries, Exiting
+      exit ${ret_code}
+  fi
+}
+
 # Install external Puppet modules with r10k
 # Uses the following variables:
 #
 # - ``SCRIPT_DIR`` must be set to script path
 # - ``GEM_BIN_DIR`` must be set to Gem bin directory
 install_external() {
-  r10k -v DEBUG puppetfile install \
+  install_cmd="r10k -v DEBUG puppetfile install \
     --puppetfile ${SCRIPT_DIR}/Puppetfile1 \
-    --moduledir ${PUPPETFILE_DIR}
+    --moduledir ${PUPPETFILE_DIR}"
+  retry_cmd "${install_cmd}"
 }
 
 # Install Puppet OpenStack modules from zuul checkouts
@@ -61,9 +85,10 @@ install_openstack() {
 install_all() {
   # When installing from local source, we want to install the current source
   # we're working from.
-  r10k -v DEBUG puppetfile install \
+  install_cmd="r10k -v DEBUG puppetfile install \
     --puppetfile ${SCRIPT_DIR}/Puppetfile \
-    --moduledir ${PUPPETFILE_DIR}
+    --moduledir ${PUPPETFILE_DIR}"
+  retry_cmd "${install_cmd}"
   cp -a ${SCRIPT_DIR} ${PUPPETFILE_DIR}/openstack_integration
 }
 
@@ -224,7 +249,8 @@ function run_puppet() {
 
 function catch_selinux_alerts() {
     if is_fedora; then
-        $SUDO sealert -a /var/log/audit/audit.log
+        sealert_cmd="$SUDO sealert -a /var/log/audit/audit.log"
+        retry_cmd "$sealert_cmd"
         if $SUDO grep -iq 'type=AVC' /var/log/audit/audit.log; then
             echo "AVC detected in /var/log/audit/audit.log"
             source /etc/os-release
