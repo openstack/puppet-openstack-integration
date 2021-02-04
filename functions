@@ -234,7 +234,8 @@ function run_puppet() {
 
 function catch_selinux_alerts() {
     if is_fedora; then
-        $SUDO sealert -a /var/log/audit/audit.log
+        sealert_cmd="$SUDO sealert -a /var/log/audit/audit.log"
+        retry_cmd "$sealert_cmd"
         if $SUDO grep -iq 'type=AVC' /var/log/audit/audit.log; then
             echo "AVC detected in /var/log/audit/audit.log"
             source /etc/os-release
