@@ -13,11 +13,17 @@ retry_cmd() {
   local ret_code=1
   until [[ ${ret_code} -eq 0 || ${retry_count} -gt ${total_tries} ]]; do
       echo Retry count:-${retry_count}, Command:-$cmd
+      set +e
       $cmd
       ret_code=$?
+      set -e
       ((retry_count++))
       sleep ${delay}
   done
+  if [ ${ret_code} -ne 0 ]; then
+      echo Failed even after ${total_tries} retries, Exiting
+      exit ${ret_code}
+  fi
 }
 
 # Install external Puppet modules with r10k
