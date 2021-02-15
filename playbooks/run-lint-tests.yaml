@@ -7,7 +7,7 @@
             if [ -f Modulefile ]; then
               MODULE=$(awk '/^name/ {print $NF}' Modulefile |tr -d \"\')
             elif [ -f metadata.json ]; then
-              MODULE=$(python -c 'import json;print json.load(open("metadata.json"))["name"]')
+              MODULE=$(python3 -c 'import json;print(json.load(open("metadata.json"))["name"])')
             fi
             if [ -z "$MODULE" ]; then
               echo "Module name not defined in Modulefile or metadata.json"
