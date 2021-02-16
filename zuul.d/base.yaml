@@ -88,8 +88,6 @@
         override-checkout: stable/stein
       - name: openstack/tempest
         override-checkout: 23.0.0
-      - name: openstack/tempest-horizon
-        override-checkout: 0.2.0
 
 - job:
     name: puppet-openstack-integration-run-base
