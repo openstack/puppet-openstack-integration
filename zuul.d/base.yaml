@@ -46,7 +46,6 @@
       - openstack/puppet-watcher
       - openstack/puppet-zaqar
       - openstack/tempest
-      - openstack/tempest-horizon
 
 - job:
     name: puppet-openstack-integration-run-base
