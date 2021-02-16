@@ -98,8 +98,6 @@
         override-checkout: stable/rocky
       - name: openstack/tempest
         override-checkout: stable/rocky
-      - name: openstack/tempest-horizon
-        override-checkout: stable/rocky
 
 - job:
     name: puppet-openstack-integration-run-base
