@@ -1,53 +1,98 @@
 ---
+- pragma:
+    implied-branches:
+      - stable/victoria
+
 - job:
     name: puppet-openstack-integration-base
     abstract: true
     parent: puppet-openstack-base
     required-projects:
-      - openstack/openstack
-      - openstack/puppet-aodh
-      - openstack/puppet-barbican
-      - openstack/puppet-ceilometer
-      - openstack/puppet-ceph
-      - openstack/puppet-cinder
-      - openstack/puppet-cloudkitty
-      - openstack/puppet-designate
-      - openstack/puppet-ec2api
-      - openstack/puppet-glance
-      - openstack/puppet-gnocchi
-      - openstack/puppet-heat
-      - openstack/puppet-horizon
-      - openstack/puppet-ironic
-      - openstack/puppet-keystone
-      - openstack/puppet-magnum
-      - openstack/puppet-manila
-      - openstack/puppet-mistral
-      - openstack/puppet-monasca
-      - x/puppet-modulesync-configs
-      - openstack/puppet-murano
-      - openstack/puppet-neutron
-      - openstack/puppet-nova
-      - openstack/puppet-octavia
-      - openstack/puppet-openstack-cookiecutter
-      - openstack/puppet-openstack-integration
-      - openstack/puppet-openstack_extras
-      - openstack/puppet-openstack_spec_helper
-      - openstack/puppet-openstacklib
-      - openstack/puppet-oslo
-      - openstack/puppet-ovn
-      - openstack/puppet-panko
-      - openstack/puppet-placement
-      - openstack/puppet-qdr
-      - openstack/puppet-sahara
-      - openstack/puppet-swift
-      - openstack/puppet-tacker
-      - openstack/puppet-tempest
-      - openstack/puppet-trove
-      - openstack/puppet-vswitch
-      - openstack/puppet-vitrage
-      - openstack/puppet-watcher
-      - openstack/puppet-zaqar
-      - openstack/tempest
+      - name: openstack/openstack
+      - name: openstack/puppet-aodh
+        override-checkout: stable/victoria
+      - name: openstack/puppet-barbican
+        override-checkout: stable/victoria
+      - name: openstack/puppet-ceilometer
+        override-checkout: stable/victoria
+      - name: openstack/puppet-ceph
+      - name: openstack/puppet-cinder
+        override-checkout: stable/victoria
+      - name: openstack/puppet-cloudkitty
+        override-checkout: stable/victoria
+      - name: openstack/puppet-designate
+        override-checkout: stable/victoria
+      - name: openstack/puppet-ec2api
+        override-checkout: stable/victoria
+      - name: openstack/puppet-glance
+        override-checkout: stable/victoria
+      - name: openstack/puppet-gnocchi
+        override-checkout: stable/victoria
+      - name: openstack/puppet-heat
+        override-checkout: stable/victoria
+      - name: openstack/puppet-horizon
+        override-checkout: stable/victoria
+      - name: openstack/puppet-ironic
+        override-checkout: stable/victoria
+      - name: openstack/puppet-keystone
+        override-checkout: stable/victoria
+      - name: openstack/puppet-magnum
+        override-checkout: stable/victoria
+      - name: openstack/puppet-manila
+        override-checkout: stable/victoria
+      - name: openstack/puppet-mistral
+        override-checkout: stable/victoria
+      - name: openstack/puppet-monasca
+        override-checkout: stable/victoria
+      - name: x/puppet-modulesync-configs
+        override-checkout: stable/victoria
+      - name: openstack/puppet-murano
+        override-checkout: stable/victoria
+      - name: openstack/puppet-neutron
+        override-checkout: stable/victoria
+      - name: openstack/puppet-nova
+        override-checkout: stable/victoria
+      - name: openstack/puppet-octavia
+        override-checkout: stable/victoria
+      - name: openstack/puppet-openstack-cookiecutter
+      - name: openstack/puppet-openstack-integration
+        override-checkout: stable/victoria
+      - name: openstack/puppet-openstack_extras
+        override-checkout: stable/victoria
+      - name: openstack/puppet-openstack_spec_helper
+        override-checkout: stable/victoria
+      - name: openstack/puppet-openstacklib
+        override-checkout: stable/victoria
+      - name: openstack/puppet-oslo
+        override-checkout: stable/victoria
+      - name: openstack/puppet-ovn
+        override-checkout: stable/victoria
+      - name: openstack/puppet-panko
+        override-checkout: stable/victoria
+      - name: openstack/puppet-placement
+        override-checkout: stable/victoria
+      - name: openstack/puppet-qdr
+        override-checkout: stable/victoria
+      - name: openstack/puppet-sahara
+        override-checkout: stable/victoria
+      - name: openstack/puppet-swift
+        override-checkout: stable/victoria
+      - name: openstack/puppet-tacker
+        override-checkout: stable/victoria
+      - name: openstack/puppet-tempest
+        override-checkout: stable/victoria
+      - name: openstack/puppet-trove
+        override-checkout: stable/victoria
+      - name: openstack/puppet-vswitch
+        override-checkout: stable/victoria
+      - name: openstack/puppet-vitrage
+        override-checkout: stable/victoria
+      - name: openstack/puppet-watcher
+        override-checkout: stable/victoria
+      - name: openstack/puppet-zaqar
+        override-checkout: stable/victoria
+      - name: openstack/tempest
+        override-checkout: 25.0.0
 
 - job:
     name: puppet-openstack-integration-run-base
