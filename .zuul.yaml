@@ -94,8 +94,6 @@
         override-checkout: stable/queens
       - name: openstack/tempest
         override-checkout: 22.1.0
-      - name: openstack/tempest-horizon
-        override-checkout: 0.2.0
 
 - job:
     name: puppet-openstack-integration-run-base

@@ -106,6 +106,8 @@ if [[ "${ZUUL_PROJECT}" = "openstack/tempest" ]]; then
 fi
 
 if [ -d /home/zuul/src/opendev.org ]; then
+    # TODO(tkajinam): This should be fixed since the tempest-horizon repo
+    #                 has been retired.
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         if [ -d /home/zuul/src/opendev.org/openstack/tempest-horizon ]; then
@@ -131,6 +133,8 @@ if [ -d /home/zuul/src/opendev.org ]; then
         fi
     fi
 else
+    # TODO(tkajinam): This should be fixed since the tempest-horizon repo
+    #                 has been retired.
     # For ubuntu we always need to deploy tempest-horizon from source
     if uses_debs; then
         $SUDO rm -rf /tmp/openstack/tempest-horizon
