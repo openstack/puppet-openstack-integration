@@ -1,51 +1,95 @@
+- pragma:
+    implied-branches:
+      - stable/ussuri
+
 - job:
     name: puppet-openstack-integration-base
     abstract: true
     parent: puppet-openstack-base
     required-projects:
-      - openstack/openstack
-      - openstack/puppet-aodh
-      - openstack/puppet-barbican
-      - openstack/puppet-ceilometer
-      - openstack/puppet-ceph
-      - openstack/puppet-cinder
-      - openstack/puppet-cloudkitty
-      - openstack/puppet-designate
-      - openstack/puppet-ec2api
-      - openstack/puppet-glance
-      - openstack/puppet-gnocchi
-      - openstack/puppet-heat
-      - openstack/puppet-horizon
-      - openstack/puppet-ironic
-      - openstack/puppet-keystone
-      - openstack/puppet-magnum
-      - openstack/puppet-manila
-      - openstack/puppet-mistral
-      - openstack/puppet-monasca
-      - x/puppet-modulesync-configs
-      - openstack/puppet-murano
-      - openstack/puppet-neutron
-      - openstack/puppet-nova
-      - openstack/puppet-octavia
-      - openstack/puppet-openstack-cookiecutter
-      - openstack/puppet-openstack-integration
-      - openstack/puppet-openstack_extras
-      - openstack/puppet-openstacklib
-      - openstack/puppet-oslo
-      - openstack/puppet-ovn
-      - openstack/puppet-panko
-      - openstack/puppet-placement
-      - openstack/puppet-qdr
-      - openstack/puppet-sahara
-      - openstack/puppet-swift
-      - openstack/puppet-tacker
-      - openstack/puppet-tempest
-      - openstack/puppet-trove
-      - openstack/puppet-vswitch
-      - openstack/puppet-vitrage
-      - openstack/puppet-watcher
-      - openstack/puppet-zaqar
-      - openstack/tempest
+      - name: openstack/openstack
+      - name: openstack/puppet-aodh
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-barbican
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-ceilometer
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-ceph
+      - name: openstack/puppet-cinder
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-cloudkitty
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-designate
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-ec2api
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-glance
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-gnocchi
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-heat
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-horizon
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-ironic
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-keystone
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-magnum
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-manila
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-mistral
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-monasca
+        override-checkout: stable/ussuri
+      - name: x/puppet-modulesync-configs
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-murano
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-neutron
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-nova
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-octavia
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-openstack-cookiecutter
+      - name: openstack/puppet-openstack-integration
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-openstack_extras
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-openstacklib
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-oslo
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-ovn
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-panko
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-placement
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-qdr
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-sahara
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-swift
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-tacker
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-tempest
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-trove
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-vswitch
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-vitrage
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-watcher
+        override-checkout: stable/ussuri
+      - name: openstack/puppet-zaqar
+        override-checkout: stable/ussuri
+      - name: openstack/tempest
+        override-checkout: 24.0.0
 
 - job:
     name: puppet-openstack-integration-run-base
