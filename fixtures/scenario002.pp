@@ -14,6 +14,13 @@
 # limitations under the License.
 #
 
+if $::osfamily == 'RedHat' {
+  # (amoralej) - disable selinux defaults until
+  # https://tickets.puppetlabs.com/browse/PUP-7559 is fixed
+  Concat { selinux_ignore_defaults => true }
+  File { selinux_ignore_defaults => true }
+}
+
 if ($::os['family'] == 'Debian') {
   $wsgi_mod_package = 'libapache2-mod-wsgi-py3'
   $wsgi_mod_lib     = 'mod_wsgi.so'
@@ -42,13 +49,6 @@ if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
   $ssl = false
 } else {
   $ssl = true
-}
-
-if $::osfamily == 'RedHat' {
-  # (amoralej) - disable selinux defaults until
-  # https://tickets.puppetlabs.com/browse/PUP-7559 is fixed
-  Concat { selinux_ignore_defaults => true }
-  File { selinux_ignore_defaults => true }
 }
 
 case $::osfamily {
