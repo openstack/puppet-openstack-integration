@@ -176,7 +176,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v5.9.0'
+  :ref => 'v5.10.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
