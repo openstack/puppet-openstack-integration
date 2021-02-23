@@ -200,7 +200,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v6.10.1'
+  :ref => 'v6.10.2'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -216,7 +216,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v3.2.0'
+  :ref => 'v3.2.1'
 
 mod 'git_resource',
   :git => 'https://github.com/voxpupuli/puppet-git_resource',
