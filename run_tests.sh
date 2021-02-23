@@ -345,7 +345,11 @@ if uses_debs; then
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
   $SUDO apt install -y python3-pip
-  $SUDO pip3 install neutron-tempest-plugin
+  git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+  pushd /tmp/openstack/neutron-tempest-plugin
+  git reset --hard 1.1.0
+  $SUDO pip3 install .
+  popd
 else
   # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
