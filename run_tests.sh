@@ -141,7 +141,7 @@ else
         $SUDO rm -rf /tmp/openstack/tempest
         git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
         pushd /tmp/openstack/tempest
-        git reset --hard origin/$TEMPEST_VERSION
+        git reset --hard $TEMPEST_VERSION
         popd
     fi
 fi
