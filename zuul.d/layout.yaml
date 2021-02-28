@@ -31,6 +31,7 @@
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
         - puppet-openstack-libraries-litmus-centos-8
+        - puppet-openstack-libraries-litmus-centos-8-stream
         - puppet-openstack-libraries-litmus-ubuntu-bionic
     gate:
       jobs:
@@ -40,6 +41,7 @@
         - puppet-openstack-libraries-puppet-unit-6.14-centos-8
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-litmus-centos-8
+        - puppet-openstack-libraries-litmus-centos-8-stream
 
 # integration jobs
 - project-template:
