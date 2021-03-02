@@ -23,9 +23,7 @@
           if [ -f Gemfile ]; then
             ruby <<EOF
           cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
-          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
-              cmd += ' -v 1.17.3'
-          end
+          cmd += ' -v 2.2.11'
           system(cmd)
           EOF
             $GEM_BIN_DIR/bundle install --without system_tests --retry 3

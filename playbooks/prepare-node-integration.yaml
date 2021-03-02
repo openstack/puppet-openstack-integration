@@ -37,9 +37,7 @@
         cmd: |
           ruby <<EOF
           cmd = 'gem install bundler --no-document --verbose --no-user-install'
-          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
-              cmd += ' -v 1.17.3'
-          end
+          cmd += ' -v 2.2.11'
           system(cmd)
           EOF
       environment:
