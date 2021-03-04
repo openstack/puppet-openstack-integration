@@ -14,9 +14,7 @@
 # limitations under the License.
 #
 
-if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
-  ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  # FIXME(ykarel) Disable SSL until services are ready to work with SSL + Python3
+if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') {
   $ssl = false
 } else {
   $ssl = true

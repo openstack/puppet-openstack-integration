@@ -38,7 +38,7 @@ class openstack_integration::neutron (
       notify  => Service['neutron-server'],
       require => Package['neutron'],
     }
-    Exec['update-ca-certificates'] ~> Service['neutron-server']
+    Exec['update-ca-certificates'] ~> Service<| tag == 'neutron-service' |>
   }
 
   if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') == 0) {
