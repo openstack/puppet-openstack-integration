@@ -9,11 +9,26 @@
       puppet_gem_version: 6.21.1
 
 - job:
+    name: puppet-openstack-unit-7.5-centos-8-stream
+    parent: puppet-openstack-unit-base
+    nodeset: centos-8-stream
+    vars:
+      puppet_gem_version: 7.5.0
+
+- job:
     name: puppet-openstack-unit-6.21-ubuntu-focal
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-focal
     vars:
       puppet_gem_version: 6.21.1
+      rspec_puppet_version: '= 2.8.0'
+
+- job:
+    name: puppet-openstack-unit-7.5-ubuntu-focal
+    parent: puppet-openstack-unit-base
+    nodeset: ubuntu-focal
+    vars:
+      puppet_gem_version: 7.5.0
       rspec_puppet_version: '= 2.8.0'
 
 - job:
@@ -30,9 +45,13 @@
     check:
       jobs:
         - puppet-openstack-unit-6.21-centos-8-stream
+        - puppet-openstack-unit-7.5-centos-8-stream
         - puppet-openstack-unit-6.21-ubuntu-focal
+        - puppet-openstack-unit-7.5-ubuntu-focal
         - puppet-openstack-unit-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-unit-6.21-centos-8-stream
+        - puppet-openstack-unit-7.5-centos-8-stream
         - puppet-openstack-unit-6.21-ubuntu-focal
+        - puppet-openstack-unit-7.5-ubuntu-focal
