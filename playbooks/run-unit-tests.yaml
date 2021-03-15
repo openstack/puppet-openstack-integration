@@ -20,7 +20,12 @@
           export GEM_BIN_DIR=$GEM_HOME/bin
           ruby <<EOF
           cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
-          cmd += ' -v 2.2.11'
+          # NOTE(tkajinam) This is required for CentOS7 unit tests
+          if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
+              cmd += ' -v 1.17.3'
+          else
+              cmd += ' -v 2.2.11'
+          end
           system(cmd)
           EOF
           $GEM_BIN_DIR/bundle install --retry 3
