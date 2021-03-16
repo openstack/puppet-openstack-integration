@@ -42,7 +42,7 @@
     parent: puppet-openstack-litmus-module-base
     nodeset: centos-8-stream
     vars:
-      puppet_gem_version: 6.16
+      puppet_gem_version: 6.21.1
       ceph: nautilus
 
 - job:
@@ -59,7 +59,7 @@
     parent: puppet-openstack-litmus-libraries-base
     nodeset: centos-8-stream
     vars:
-      puppet_gem_version: 6.18.0
+      puppet_gem_version: 6.21.1
 
 - job:
     name: puppet-openstack-libraries-litmus-ubuntu-bionic
