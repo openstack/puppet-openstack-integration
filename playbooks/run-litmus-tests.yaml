@@ -19,7 +19,7 @@
           export GEM_HOME=`pwd`/.bundled_gems
           export GEM_BIN_DIR=$GEM_HOME/bin
           ruby <<EOF
-          cmd = 'gem install bundler --no-rdoc --no-ri --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
+          cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
           cmd += ' -v 2.2.11'
           system(cmd)
           EOF
