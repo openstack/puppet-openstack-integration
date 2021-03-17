@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+    - name: Collect logs if not already collected
+      shell:
+        cmd: |
+          set -ex
+          if [[ ! -d "${WORKSPACE}/logs/etc" ]]; then
+              ./copy_logs.sh
+          fi
+        executable: /bin/bash
+        chdir: '{{ ansible_user_dir }}/workspace/puppet-openstack-integration'
+      environment: '{{ zuul | zuul_legacy_vars }}'

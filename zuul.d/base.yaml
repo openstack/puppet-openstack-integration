@@ -55,7 +55,9 @@
     abstract: true
     pre-run: playbooks/prepare-node-integration.yaml
     run: playbooks/run-integration-tests.yaml
-    post-run: playbooks/upload-logs.yaml
+    post-run:
+      - playbooks/copy-logs.yaml
+      - playbooks/upload-logs.yaml
     timeout: 7200
     irrelevant-files:
       - ^.*\.md$
