@@ -53,11 +53,7 @@ class openstack_integration::ceilometer (
     memcache_servers           => $::openstack_integration::config::memcached_servers,
   }
   class { 'ceilometer::keystone::auth':
-    public_url         => "${::openstack_integration::config::base_url}:8777",
-    internal_url       => "${::openstack_integration::config::base_url}:8777",
-    admin_url          => "${::openstack_integration::config::base_url}:8777",
-    password           => 'a_big_secret',
-    configure_endpoint => false,
+    password => 'a_big_secret',
   }
 
   if $integration_enable {
