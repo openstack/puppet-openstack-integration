@@ -77,7 +77,7 @@
     roles:
       - zuul: zuul/zuul-jobs
     vars:
-      ceph: nautilus
+      ceph: octopus
 
 - job:
     name: puppet-openstack-base

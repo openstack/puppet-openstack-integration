@@ -43,7 +43,7 @@
     nodeset: centos-8-stream
     vars:
       puppet_gem_version: 6.21.1
-      ceph: nautilus
+      ceph: octopus
 
 - job:
     name: puppet-openstack-litmus-ubuntu-focal
@@ -52,7 +52,7 @@
     voting: false
     vars:
       puppet_gem_version: latest
-      ceph: nautilus
+      ceph: octopus
 
 - job:
     name: puppet-openstack-libraries-litmus-centos-8-stream
