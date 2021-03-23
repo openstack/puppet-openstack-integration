@@ -46,9 +46,9 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-litmus-ubuntu-bionic
+    name: puppet-openstack-litmus-ubuntu-focal
     parent: puppet-openstack-litmus-module-base
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
     vars:
       puppet_gem_version: latest
@@ -62,10 +62,10 @@
       puppet_gem_version: 6.21.1
 
 - job:
-    name: puppet-openstack-libraries-litmus-ubuntu-bionic
+    name: puppet-openstack-libraries-litmus-ubuntu-focal
     parent: puppet-openstack-litmus-libraries-base
     voting: false
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     vars:
       puppet_gem_version: latest
 
@@ -74,8 +74,8 @@
     check:
       jobs:
         - puppet-openstack-litmus-centos-8-stream
-        - puppet-openstack-litmus-ubuntu-bionic
+        - puppet-openstack-litmus-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-litmus-centos-8-stream
-        - puppet-openstack-litmus-ubuntu-bionic
+        - puppet-openstack-litmus-ubuntu-focal

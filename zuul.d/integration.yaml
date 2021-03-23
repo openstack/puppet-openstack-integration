@@ -15,9 +15,9 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic
+    name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-focal
     parent: puppet-openstack-integration-6-scenario001
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
 
 - job:
@@ -40,9 +40,9 @@
       scenario: scenario002
 
 - job:
-    name: puppet-openstack-integration-6-scenario002-tempest-ubuntu-bionic
+    name: puppet-openstack-integration-6-scenario002-tempest-ubuntu-focal
     parent: puppet-openstack-integration-6-scenario002
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
 
 - job:
@@ -65,9 +65,9 @@
       scenario: scenario003
 
 - job:
-    name: puppet-openstack-integration-6-scenario003-tempest-ubuntu-bionic
+    name: puppet-openstack-integration-6-scenario003-tempest-ubuntu-focal
     parent: puppet-openstack-integration-6-scenario003
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
 
 - job:
@@ -91,9 +91,9 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic
+    name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-focal
     parent: puppet-openstack-integration-6-scenario004
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
     voting: false
 
 - job:
