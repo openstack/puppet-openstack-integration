@@ -35,6 +35,7 @@
         - puppet-openstack-libraries-puppet-unit-6.11-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
+        - puppet-openstack-libraries-puppet-beaker-rspec-centos-8-stream
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
       jobs:
