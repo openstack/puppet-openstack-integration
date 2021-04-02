@@ -4,19 +4,11 @@
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
     irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
       - ^releasenotes/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-      - ^.gitreview$
-      - ^setup.cfg$
-      - ^setup.py$
-      - ^tox.ini$
 
 - job:
     name: puppet-openstack-syntax-6-ubuntu-focal
