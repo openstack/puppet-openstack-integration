@@ -325,6 +325,7 @@ if uses_debs; then
   $SUDO apt install -y python3-pip
   git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
   pushd /tmp/openstack/neutron-tempest-plugin
+  git reset --hard 1.4.0
   $SUDO pip3 install .
   popd
 else

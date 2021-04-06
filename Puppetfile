@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,139 +19,139 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'ec2api',
   :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'monasca',
   :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'panko',
   :git => 'https://opendev.org/openstack/puppet-panko',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'qdr',
   :git => 'https://opendev.org/openstack/puppet-qdr',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'sahara',
   :git => 'https://opendev.org/openstack/puppet-sahara',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'tacker',
   :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/wallaby'
 
 ## External modules
 mod 'powerdns',
