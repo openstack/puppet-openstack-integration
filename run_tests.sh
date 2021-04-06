@@ -103,17 +103,6 @@ if [[ "${ZUUL_PROJECT}" = "openstack/tempest" ]]; then
 fi
 
 if [ -d /home/zuul/src/opendev.org ]; then
-    # TODO(tkajinam): This should be fixed since the tempest-horizon repo
-    #                 has been retired.
-    # For ubuntu we always need to deploy tempest-horizon from source
-    if uses_debs; then
-        if [ -d /home/zuul/src/opendev.org/openstack/tempest-horizon ]; then
-            [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
-            cp -R /home/zuul/src/opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
-        else
-            git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
-        fi
-    fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         if [ -d /home/zuul/src/opendev.org/openstack/tempest ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
@@ -130,13 +119,6 @@ if [ -d /home/zuul/src/opendev.org ]; then
         fi
     fi
 else
-    # TODO(tkajinam): This should be fixed since the tempest-horizon repo
-    #                 has been retired.
-    # For ubuntu we always need to deploy tempest-horizon from source
-    if uses_debs; then
-        $SUDO rm -rf /tmp/openstack/tempest-horizon
-        git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
-    fi
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         $SUDO rm -rf /tmp/openstack/tempest
         git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
@@ -264,7 +246,6 @@ $SUDO touch /tmp/openstack/tempest/test-whitelist.txt /tmp/openstack/tempest/tes
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
 if uses_debs; then
-    cd /tmp/openstack/tempest-horizon;
     pkglist="tempest python3-stestr python3-os-testr python3-tempest"
     if [ $(lsb_release --id -s) = "Debian" ] ; then
         pkglist="${pkglist} python3-tempest-horizon"
@@ -350,6 +331,14 @@ if uses_debs; then
   git reset --hard 1.1.0
   $SUDO pip3 install .
   popd
+
+  # For ubuntu we always need to deploy tempest-horizon from source
+  git clone https://opendev.org/openstack/tempest-horizon /tmp/openstack/tempest-horizon
+  pushd /tmp/openstack/tempest-horizon
+  git reset --hard 1.0.0
+  $SUDO pip3 install .
+  popd
+
 else
   # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
