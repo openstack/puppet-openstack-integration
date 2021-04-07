@@ -228,6 +228,15 @@
       puppet_gem_version: 5.5
 
 - job:
+    name: puppet-openstack-beaker-centos-8-stream
+    parent: puppet-openstack-beaker-run-base
+    nodeset: centos-8-stream
+    voting: false
+    vars:
+      nodepool_type: centos8
+      puppet_gem_version: 5.5
+
+- job:
     name: puppet-openstack-beaker-ubuntu-bionic
     parent: puppet-openstack-beaker-run-base
     nodeset: ubuntu-bionic
