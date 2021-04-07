@@ -194,13 +194,23 @@ install_puppet() {
         print_header 'Setup (Debian based)'
         if [ "${MANAGE_REPOS}" == "true" ] ; then
             PUPPET_CODENAME=$(lsb_release -s -c)
-            $SUDO mkdir -p /etc/apt/sources.list.d
-            echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
-            $SUDO apt-key add files/GPG-KEY-puppetlabs
-            $SUDO apt-key add files/GPG-KEY-ceph
-            $SUDO apt-get update
+            DISTRIBUTION_VENDOR=$(lsb_release -s -i)
+            # In Debian, we use the distro packages
+            if [ "${DISTRIBUTION_VENDOR}" = "Ubuntu" ] ; then
+                $SUDO mkdir -p /etc/apt/sources.list.d
+                echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+                $SUDO apt-key add files/GPG-KEY-puppetlabs
+                $SUDO apt-key add files/GPG-KEY-ceph
+                $SUDO apt-get update
+            fi
         fi
-        $SUDO apt-get install -y ${PUPPET_PKG}
+        # In Debian, the distro package name is simply "puppet"
+        # and there's no reason to have it in a variable.
+        if [ "${DISTRIBUTION_VENDOR}" = "Debian" ] ; then
+            $SUDO apt-get install -y puppet
+        else
+            $SUDO apt-get install -y ${PUPPET_PKG}
+        fi
     elif is_fedora; then
         print_header 'Setup (RedHat based)'
         # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
