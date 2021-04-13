@@ -176,19 +176,19 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v5.10.0'
+  :ref => 'v6.0.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v7.7.1'
+  :ref => 'v8.0.2'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v6.4.0'
+  :ref => 'v7.0.1'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v2.8.1'
+  :ref => 'v3.0.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -196,11 +196,11 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v10.10.0'
+  :ref => 'v11.0.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v6.10.2'
+  :ref => 'v7.1.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -212,11 +212,11 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v6.6.0'
+  :ref => 'v7.0.1'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v3.2.1'
+  :ref => 'v4.0.1'
 
 mod 'git_resource',
   :git => 'https://github.com/voxpupuli/puppet-git_resource',
@@ -228,11 +228,11 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v5.0.0'
+  :ref => 'v6.0.0'
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
-  :ref => 'v5.0.0'
+  :ref => 'v6.0.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
