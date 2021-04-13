@@ -348,8 +348,6 @@ if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
     run_tempest/bin/python3 setup.py install
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
-elif [ $(lsb_release --id -s) = "Debian" ]; then
-    export tempest_binary="/usr/bin/python3-tempest"
 else
     export tempest_binary="/usr/bin/tempest"
 fi
