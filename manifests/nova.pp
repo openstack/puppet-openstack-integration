@@ -167,6 +167,11 @@ class openstack_integration::nova (
     barbican_auth_endpoint      => $keymgr_auth_endpoint,
     barbican_endpoint           => $barbican_endpoint,
   }
+
+  $images_type = $libvirt_rbd ? {
+    true  => 'rbd',
+    false => $::os_service_default
+  }
   class { 'nova::compute::libvirt':
     virt_type             => $libvirt_virt_type,
     cpu_mode              => $libvirt_cpu_mode,
@@ -176,6 +181,7 @@ class openstack_integration::nova (
     # https://tickets.puppetlabs.com/browse/PUP-6370
     virtlock_service_name => false,
     virtlog_service_name  => false,
+    images_type           => $images_type,
   }
   if $libvirt_rbd {
     class { 'nova::compute::rbd':
