@@ -12,3 +12,4 @@
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace/puppet-openstack-integration'
       environment: '{{ zuul | zuul_legacy_vars }}'
+
