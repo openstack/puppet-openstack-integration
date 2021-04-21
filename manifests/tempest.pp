@@ -112,6 +112,14 @@
 #   (optional) Define if Encrypted Volumes need to be tested.
 #   Default to false.
 #
+# [*configure_images*]
+#   (optional) Define if images are configured for tempest.
+#   Default to true.
+#
+# [*configure_networks*]
+#   (optional) Define if networks are configured for tempest.
+#   Default to true.
+#
 # [*neutron_api_extensions*]
 #   (optional) Define list of neutron API extensions to test.
 #   The list is known to work with the repo; this reflects extensions enabled
@@ -146,6 +154,8 @@ class openstack_integration::tempest (
   $vitrage                 = false,
   $zaqar                   = false,
   $attach_encrypted_volume = false,
+  $configure_images        = true,
+  $configure_networks      = true,
   $neutron_api_extensions  = [
     'address-scope',
     'agent',
@@ -211,8 +221,8 @@ class openstack_integration::tempest (
     tempest_clone_path               => '/tmp/openstack/tempest',
     lock_path                        => '/tmp/openstack/tempest',
     tempest_config_file              => '/tmp/openstack/tempest/etc/tempest.conf',
-    configure_images                 => true,
-    configure_networks               => true,
+    configure_images                 => $configure_images,
+    configure_networks               => $configure_networks,
     identity_uri_v3                  => "${::openstack_integration::config::keystone_auth_uri}/v3",
     admin_username                   => 'admin',
     admin_project_name               => 'openstack',
