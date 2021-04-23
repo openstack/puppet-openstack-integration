@@ -25,7 +25,6 @@
     check:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-6-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-6.21-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
@@ -35,7 +34,6 @@
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-6-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
         - puppet-openstack-libraries-litmus-centos-8-stream
