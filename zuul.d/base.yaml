@@ -48,6 +48,7 @@
       - openstack/puppet-watcher
       - openstack/puppet-zaqar
       - openstack/tempest
+      - openstack/neutron-tempest-plugin
 
 - job:
     name: puppet-openstack-integration-run-base
