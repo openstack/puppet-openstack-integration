@@ -323,9 +323,16 @@ if uses_debs; then
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
   $SUDO apt install -y python3-pip
-  git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+
+  if [ -d /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin ]; then
+    cp -R /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+  else
+    git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+    pushd /tmp/openstack/neutron-tempest-plugin
+    git reset --hard 1.4.0
+    popd
+  fi
   pushd /tmp/openstack/neutron-tempest-plugin
-  git reset --hard 1.4.0
   $SUDO pip3 install .
   popd
 else
