@@ -313,7 +313,6 @@ echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/t
 
 if uses_debs; then
   echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-blacklist.txt
-  echo "ceilometer.tests.tempest.api.test_telemetry_notification_api.TelemetryNotificationAPITest.test_check_glance_v2_notifications" >> /tmp/openstack/tempest/test-blacklist.txt
   echo "tempest.*.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-blacklist.txt
   echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-blacklist.txt
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
