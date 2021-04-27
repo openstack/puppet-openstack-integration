@@ -53,13 +53,15 @@ class openstack_integration::swift {
     proxy_local_net_ip => $::openstack_integration::config::host,
     workers            => '2',
     pipeline           => [
-  'catch_errors', 'healthcheck', 'cache', 'tempurl', 'ratelimit',
-  'authtoken', 'keystone', 'formpost', 'staticweb', 'container_quotas',
-  'account_quotas', 'proxy-logging', 'proxy-server'
+  'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
+  'listing_formats', 'tempurl', 'ratelimit', 'authtoken', 'keystone',
+  'copy', 'formpost', 'staticweb', 'container_quotas', 'account_quotas',
+  'proxy-logging', 'proxy-server'
     ],
     node_timeout       => 30,
   }
   include swift::proxy::catch_errors
+  include swift::proxy::gatekeeper
   include swift::proxy::healthcheck
   include swift::proxy::proxy_logging
   # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
@@ -67,6 +69,7 @@ class openstack_integration::swift {
   class { 'swift::proxy::cache':
     memcache_servers => $::openstack_integration::config::swift_memcached_servers
   }
+  include swift::proxy::listing_formats
   include swift::proxy::tempurl
   include swift::proxy::ratelimit
   class { 'swift::proxy::authtoken':
@@ -77,11 +80,11 @@ class openstack_integration::swift {
   class { 'swift::proxy::keystone':
     operator_roles => ['member', 'admin', 'SwiftOperator']
   }
+  include swift::proxy::copy
   include swift::proxy::formpost
   include swift::proxy::staticweb
   include swift::proxy::container_quotas
   include swift::proxy::account_quotas
-  include swift::proxy::tempauth
   class { 'swift::keystone::auth':
     public_url     => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
     admin_url      => "http://${::openstack_integration::config::ip_for_url}:8080",
