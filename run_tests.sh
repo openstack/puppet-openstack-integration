@@ -119,14 +119,14 @@ if [ -d /home/zuul/src/opendev.org ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
         else
-            git clone -b 23.0.0 https://opendev.org/openstack/tempest /tmp/openstack/tempest
-        fi
-        # Pin Tempest to TEMPEST_VERSION unless we're running inside the
-        # openstack/tempest gate.
-        if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
-            pushd /tmp/openstack/tempest
-            git reset --hard $TEMPEST_VERSION
-            popd
+            git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
+            # Pin Tempest to TEMPEST_VERSION unless we're running inside the
+            # openstack/tempest gate.
+            if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
+                pushd /tmp/openstack/tempest
+                git reset --hard $TEMPEST_VERSION
+                popd
+            fi
         fi
     fi
 else
