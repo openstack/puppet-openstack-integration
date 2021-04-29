@@ -25,10 +25,8 @@
     check:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-syntax-6-centos-8
         - puppet-openstack-libraries-puppet-syntax-6-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-unit-6.14-centos-8
         - puppet-openstack-libraries-puppet-unit-6.14-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
@@ -38,9 +36,9 @@
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-syntax-6-centos-8
+        - puppet-openstack-libraries-puppet-syntax-6-centos-8-stream
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-unit-6.14-centos-8
+        - puppet-openstack-libraries-puppet-unit-6.14-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.14-ubuntu-bionic
         - puppet-openstack-libraries-litmus-centos-8
         - puppet-openstack-libraries-litmus-centos-8-stream
