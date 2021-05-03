@@ -1,4 +1,12 @@
-class openstack_integration::horizon {
+# Configure the Horizon service
+#
+# [*heat_enabled*]
+#  (optional) Flag to enable heat dashboard
+#  Defaults to false.
+#
+class openstack_integration::horizon (
+  $heat_enabled = false,
+) {
 
   include openstack_integration::config
   include openstack_integration::params
@@ -44,5 +52,7 @@ class openstack_integration::horizon {
     compress_offline  => false,
   }
 
-  horizon::dashboard { 'heat': }
+  if $heat_enabled {
+    class { 'horizon::dashboards::heat': }
+  }
 }

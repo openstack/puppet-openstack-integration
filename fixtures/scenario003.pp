@@ -96,7 +96,9 @@ include openstack_integration::nova
 if $trove_enabled {
   include openstack_integration::trove
 }
-include openstack_integration::horizon
+class { 'openstack_integration::horizon':
+  heat_enabled => true
+}
 include openstack_integration::heat
 class { 'openstack_integration::sahara':
   integration_enable => $sahara_integration_enable,
