@@ -28,6 +28,7 @@
         selinux:
           policy: targeted
           state: permissive
+        become: true
       when:
         - ansible_os_family == 'RedHat'
         - ansible_distribution != "Fedora"
