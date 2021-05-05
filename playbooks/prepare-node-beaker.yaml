@@ -22,3 +22,14 @@
 
     - include_role:
         name: bindep
+
+    - block:
+      - name: Disable selinux (CentOS/RHEL<=7) (bug/1927210)
+        selinux:
+          policy: targeted
+          state: permissive
+        become: true
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution != "Fedora"
+        - ansible_distribution_major_version <= "7"
