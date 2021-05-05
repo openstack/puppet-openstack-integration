@@ -26,6 +26,7 @@
     - block:
       - name: Disable selinux (CentOS/RHEL<=7) (bug/1927210)
         selinux:
+          policy: targeted
           state: permissive
       when:
         - ansible_os_family == 'RedHat'
