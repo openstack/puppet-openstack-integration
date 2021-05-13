@@ -670,6 +670,7 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+    voting: false
 
 - job:
     name: tripleo-puppet-ci-centos-7-undercloud-oooq
@@ -684,14 +685,11 @@
       - ^test-requirements.txt$
       - ^LICENSE$
       - ^.gitignore$
+    voting: false
 
 - project-template:
     name: tripleo-puppet-undercloud
     check:
-      jobs:
-        - tripleo-puppet-ci-centos-7-undercloud-oooq
-        - tripleo-puppet-ci-centos-7-undercloud-containers
-    gate:
       jobs:
         - tripleo-puppet-ci-centos-7-undercloud-oooq
         - tripleo-puppet-ci-centos-7-undercloud-containers
