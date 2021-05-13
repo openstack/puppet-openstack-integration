@@ -70,7 +70,7 @@ class openstack_integration::ironic {
   class { 'ironic::drivers::interfaces':
     enabled_management_interfaces => ['fake', 'ipmitool'],
     enabled_boot_interfaces       => ['fake', 'pxe'],
-    enabled_deploy_interfaces     => ['fake', 'iscsi', 'direct'],
+    enabled_deploy_interfaces     => ['fake', 'direct'],
     enabled_power_interfaces      => ['fake', 'ipmitool'],
     enabled_vendor_interfaces     => ['fake', 'ipmitool', 'no-vendor'],
   }
