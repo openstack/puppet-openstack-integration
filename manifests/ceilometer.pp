@@ -58,7 +58,7 @@ class openstack_integration::ceilometer (
 
   if $integration_enable {
     # Ensure Gnocchi and creads are ready before running ceilometer-upgrade
-    # We use Gnocchi/Panko instead of local database, db::sync is required to populate
+    # We use Gnocchi instead of local database, db::sync is required to populate
     # gnocchi resource types.
     include ceilometer::db::sync
     Service['httpd'] -> Exec['ceilometer-upgrade']
@@ -66,9 +66,8 @@ class openstack_integration::ceilometer (
     Class['ceilometer::keystone::auth'] -> Exec['ceilometer-upgrade']
     Class['gnocchi::keystone::auth'] -> Exec['ceilometer-upgrade']
 
-    # The default pipeline doesn't have Panko
     $sample_pipeline_publishers = ['gnocchi://']
-    $event_pipeline_publishers = ['gnocchi://', 'panko://']
+    $event_pipeline_publishers = ['gnocchi://']
 
     class { 'ceilometer::agent::notification':
       notification_workers      => '2',

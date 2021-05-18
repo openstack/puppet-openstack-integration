@@ -105,10 +105,6 @@ mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
   :ref => 'master'
 
-mod 'panko',
-  :git => 'https://opendev.org/openstack/puppet-panko',
-  :ref => 'master'
-
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
   :ref => 'master'
