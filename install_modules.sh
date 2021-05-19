@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -ex
-
 GEM_INSTALL_CMD="gem install --no-user-install --minimal-dep --verbose --no-document"
 
 if [ -n "${GEM_HOME}" ]; then
@@ -27,16 +26,21 @@ source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
+
 # fast_gettext 1.2.0+ requires ruby 2.1.0
-$GEM_INSTALL_CMD fast_gettext -v '< 1.2.0'
 # gettext 3.3.0+ requires ruby 2.5.0
-$GEM_INSTALL_CMD gettext -v '< 3.3.0'
 # multipart-post 2.2.0 requires ruby 2.3.0
-$GEM_INSTALL_CMD multipart-post -v '< 2.2.0'
-# puppet_forge 2.2.7 has a dependency on semantic_puppet ~> 1.0
-# which is not compatible with dependency of latest r10k on semantic_puppet ~> 0.1.0
-$GEM_INSTALL_CMD puppet_forge -v '= 2.2.6'
-$GEM_INSTALL_CMD r10k -v 2.6.4
+# semantic_puppet >= 1.1.0 requires Ruby >= 2.7.0
+cat <<EOF >/tmp/Gemfile
+source 'http://rubygems.org'
+
+gem 'fast_gettext', '<1.2.0'
+gem 'gettext', '< 3.3.0'
+gem 'multipart-post', '<2.2.0'
+gem 'semantic_puppet', '<1.1.0'
+gem 'r10k', '= 2.6.4'
+EOF
+$GEM_INSTALL_CMD -g /tmp/Gemfile
 
 # make sure there is no puppet module pre-installed
 rm -rf "${PUPPETFILE_DIR:?}/"*
