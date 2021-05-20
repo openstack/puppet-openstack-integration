@@ -12,7 +12,11 @@ class openstack_integration::redis {
     'RedHat': {
       $redis_package_name = 'redis'
       $redis_service_name = 'redis'
-      $redis_config       = '/etc/redis.conf'
+      if versioncmp($::operatingsystemmajrelease, '8') > 0 {
+        $redis_config       = '/etc/redis/redis.conf'
+      } else {
+        $redis_config       = '/etc/redis.conf'
+      }
     }
     default: {
       fail("redis.pp manifest does not support family: ${::osfamily}")
