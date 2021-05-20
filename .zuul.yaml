@@ -11,6 +11,7 @@
     abstract: true
     vars:
       use_puppetlabs: false
+    nodeset: ubuntu-bionic
 
 - job:
     name: puppet-openstack-integration-base
