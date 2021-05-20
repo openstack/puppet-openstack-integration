@@ -8,6 +8,7 @@
     pre-run: playbooks/prepare-node-common.yaml
     vars:
       use_puppetlabs: false
+    nodeset: ubuntu-bionic
 
 - job:
     name: puppet-openstack-integration-base
