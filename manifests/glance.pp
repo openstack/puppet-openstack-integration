@@ -89,6 +89,7 @@ class openstack_integration::glance (
     cert_file           => $crt_file,
     key_file            => $key_file,
   }
+  class { 'glance::cron::db_purge': }
   class { 'glance::notify::rabbitmq':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
