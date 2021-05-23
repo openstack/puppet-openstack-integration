@@ -90,5 +90,6 @@ class openstack_integration::aodh (
   class { 'aodh::evaluator':
     evaluation_interval => 10,
   }
+  class { 'aodh::expirer': }
 
 }
