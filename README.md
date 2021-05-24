@@ -45,6 +45,7 @@ scenario](#all-in-one).
 | keystone   |      X      |       X     |       X     |      X      |      X       |
 | glance     |     rbd     |     swift   |     file    |  swift+rgw  |    file      |
 | nova       |     rbd     |       X     |       X     |     rbd     |      X       |
+| placement  |      X      |       X     |       X     |      X      |      X       |
 | neutron    |     ovs     |      ovs    | linuxbridge |     ovs     |     ovs      |
 | cinder     |     rbd     |     iscsi   |             |             |   iscsi      |
 | ceilometer |      X      |             |             |             |              |
