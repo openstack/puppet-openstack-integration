@@ -187,6 +187,10 @@ if [ -d /var/log/audit/ ]; then
     sudo cp /var/log/audit/audit.log $LOG_DIR/audit.log.txt || true
 fi
 
+if [ -d /var/spool/cron/ ]; then
+    sudo cp -r /var/spool/cron $LOG_DIR/
+fi
+
 if [ -d /tmp/openstack/tempest ]; then
     sudo cp /tmp/openstack/tempest/etc/tempest.conf $LOG_DIR/tempest.conf.txt
 fi
