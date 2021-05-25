@@ -12,7 +12,7 @@ mod 'sshkeys_core',
 
 mod 'yumrepo_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
-  :ref => '1.0.6'
+  :ref => '1.0.7'
 
 # NOTE(tobias-urdin): Needed by puppet-swift.
 mod 'mount_core',
