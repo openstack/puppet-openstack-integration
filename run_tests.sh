@@ -48,8 +48,14 @@ export WRITE_FACTS=false
 source ${SCRIPT_DIR}/configure_facts.sh
 
 export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-export PUPPET_BASE_PATH=/etc/puppetlabs/code
-export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
+# TODO In CentOS9 there is no puppetlabs package yet, so we use RDO one.
+if [ "${OS_NAME_VERS}" == "centos9" ]; then
+    export PUPPET_BASE_PATH=/etc/puppet
+    export PUPPET_PKG="puppet"
+else
+    export PUPPET_BASE_PATH=/etc/puppetlabs/code
+    export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
+fi
 
 print_header 'Start (run_tests.sh)'
 
@@ -144,7 +150,7 @@ if uses_debs; then
     $SUDO apt-get install -y dstat ebtables iotop sysstat
 elif is_fedora; then
     $SUDO $YUM install -y dstat setools setroubleshoot audit iotop sysstat
-    $SUDO service auditd start
+    $SUDO systemctl start auditd
     # SElinux in permissive mode so later we can catch alerts
     $SUDO selinuxenabled && $SUDO setenforce 0
 fi
