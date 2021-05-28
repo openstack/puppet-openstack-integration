@@ -658,44 +658,6 @@
     vars:
       puppet_gem_version: 5.5
 
-- job:
-    name: tripleo-puppet-ci-centos-7-undercloud-containers
-    parent: tripleo-ci-centos-7-undercloud-containers
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-    voting: false
-
-- job:
-    name: tripleo-puppet-ci-centos-7-undercloud-oooq
-    parent: tripleo-ci-centos-7-undercloud-oooq
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-    voting: false
-
-- project-template:
-    name: tripleo-puppet-undercloud
-    check:
-      jobs:
-        - tripleo-puppet-ci-centos-7-undercloud-oooq
-        - tripleo-puppet-ci-centos-7-undercloud-containers
-
-
 - project-template:
     name: puppet-openstack-library-jobs
     check:
