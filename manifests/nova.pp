@@ -191,6 +191,9 @@ class openstack_integration::nova (
     }
     # make sure ceph pool exists before running nova-compute
     Exec['create-nova'] -> Service['nova-compute']
+  } else {
+    include openstacklib::iscsid
+    Service['iscsid'] -> Service['nova-compute']
   }
   class { 'nova::scheduler': }
   class { 'nova::scheduler::filter': }

@@ -132,6 +132,8 @@ class openstack_integration::cinder (
         target_ip_address  => '127.0.0.1',
         manage_volume_type => true,
       }
+      include openstacklib::iscsid
+      Service['iscsid'] -> Service['cinder-volume']
     }
     'rbd': {
       cinder::backend::rbd { 'BACKEND_1':
