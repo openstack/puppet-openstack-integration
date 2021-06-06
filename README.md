@@ -33,6 +33,10 @@ OpenStack Infrastructure is deploying four jobs per supported Operating System
 (Ubuntu and CentOS): scenario001, scenario002, scenario003 and scenario004.
 For CentOS it is also deploying a job(scenario000) with very tiny installation.
 
+The manifest files under the fixtures directory is used to compose the required
+services for each senario. The manifest files under the manifests directory
+is used to set up basic set of a single component (like nova, cinder and so on).
+
 OpenStack services are balanced between four scenarios because OpenStack
 Infastructure Jenkins slaves can not afford the load of running everything on
 the same node.
