@@ -100,7 +100,6 @@ include openstack_integration::redis
 class { 'openstack_integration::gnocchi':
   integration_enable => true,
 }
-include openstack_integration::panko
 
 class { 'openstack_integration::tempest':
   cinder     => true,
@@ -108,6 +107,5 @@ class { 'openstack_integration::tempest':
   ceilometer => true,
   aodh       => true,
   heat       => true,
-  panko      => true,
   vitrage    => $enable_vitrage,
 }

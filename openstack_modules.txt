@@ -24,7 +24,6 @@ openstack_extras
 openstacklib
 oslo
 ovn
-panko
 placement
 qdr
 sahara
