@@ -2,8 +2,8 @@
 # This file contains the tripleo jobs for the puppet modules
 #
 - job:
-    name: tripleo-puppet-ci-centos-8-undercloud-containers
-    parent: tripleo-ci-centos-8-undercloud-containers
+    name: tripleo-puppet-ci-centos-7-undercloud-containers
+    parent: tripleo-ci-centos-7-undercloud-containers
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
@@ -21,23 +21,14 @@
     name: tripleo-puppet-undercloud
     check:
       jobs:
-        - tripleo-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-undercloud-containers: &consumer_job
-            vars: &consumer_vars
-              consumer_job: true
-              build_container_images: false
-              remove_tags:
-                - build
-            dependencies: &deps_cprovider
-              - tripleo-ci-centos-8-content-provider
+        - tripleo-puppet-ci-centos-7-undercloud-containers
     gate:
       jobs:
-        - tripleo-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-undercloud-containers: *consumer_job
+        - tripleo-puppet-ci-centos-7-undercloud-containers
 
 - job:
-    name: tripleo-puppet-ci-centos-8-standalone
-    parent: tripleo-ci-centos-8-standalone
+    name: tripleo-puppet-ci-centos-7-standalone
+    parent: tripleo-ci-centos-7-standalone
     irrelevant-files: &standalone_irrelevant_files
       - ^.*\.md$
       - ^.*\.rst$
@@ -61,9 +52,9 @@
     name: tripleo-puppet-standalone
     check:
       jobs:
-        - tripleo-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-standalone: *consumer_job
+        - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-puppet-ci-centos-8-standalone
     gate:
       jobs:
-        - tripleo-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-standalone: *consumer_job
+        - tripleo-puppet-ci-centos-7-standalone
+        - tripleo-puppet-ci-centos-8-standalone
