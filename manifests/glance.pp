@@ -80,14 +80,16 @@ class openstack_integration::glance (
   class { 'glance::api::logging':
     debug => true,
   }
-  class { 'glance::api':
+  class { 'glance::api::db':
     database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
-    workers             => 2,
-    enabled_backends    => $enabled_backends,
-    default_backend     => $default_backend,
-    bind_host           => $::openstack_integration::config::host,
-    cert_file           => $crt_file,
-    key_file            => $key_file,
+  }
+  class { 'glance::api':
+    workers          => 2,
+    enabled_backends => $enabled_backends,
+    default_backend  => $default_backend,
+    bind_host        => $::openstack_integration::config::host,
+    cert_file        => $crt_file,
+    key_file         => $key_file,
   }
   class { 'glance::cron::db_purge': }
   class { 'glance::notify::rabbitmq':
