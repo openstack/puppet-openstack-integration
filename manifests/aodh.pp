@@ -91,5 +91,6 @@ class openstack_integration::aodh (
     coordination_url    => $::openstack_integration::config::tooz_url,
     evaluation_interval => 10,
   }
+  class { 'aodh::expirer': }
 
 }
