@@ -211,6 +211,9 @@ if [ `command -v rpm` ]; then
     rpm -qa |sort > $LOG_DIR/rpm-qa.txt
     sudo $YUM repolist -v > $LOG_DIR/repolist.txt
 fi
+if [ `command -v dnf` ]; then
+    sudo dnf module list > $LOG_DIR/modulelist.txt
+fi
 
 if [ `command -v gem` ]; then
     gem list |sort > $LOG_DIR/gem-list.txt
