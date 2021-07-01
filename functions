@@ -205,7 +205,7 @@ install_puppet() {
         print_header 'Setup (RedHat based)'
         # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
         if rpm --quiet -q epel-release; then
-            $SUDO rpm -e epel-release
+            $SUDO $YUM remove -y epel-release
         fi
 
         if [ "${MANAGE_REPOS}" == "true" ] ; then
