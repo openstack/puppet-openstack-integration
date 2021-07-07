@@ -20,5 +20,5 @@ saz/puppet-memcached
 voxpupuli/puppet-python
 theforeman/puppet-dns
 voxpupuli/puppet-archive
-voxpupuli/puppet-corosync,v5.0.0
+voxpupuli/puppet-corosync,v8.0.0
 voxpupuli/puppet-ssh_keygen,v2.0.1
