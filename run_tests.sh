@@ -96,12 +96,6 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # the local directory but works needs to be added into puppet to properly find
 # the path.
 
-# If it's running in tempest gate, we need to deploy it from source to test the
-# patch.
-if [[ "${ZUUL_PROJECT}" = "openstack/tempest" ]]; then
-    TEMPEST_FROM_SOURCE=true
-fi
-
 if [ -d /home/zuul/src/opendev.org ]; then
     if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
         if [ -d /home/zuul/src/opendev.org/openstack/tempest ]; then
@@ -109,13 +103,9 @@ if [ -d /home/zuul/src/opendev.org ]; then
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
         else
             git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
-            # Pin Tempest to TEMPEST_VERSION unless we're running inside the
-            # openstack/tempest gate.
-            if [[ "${ZUUL_PROJECT}" != "openstack/tempest" ]]; then
-                pushd /tmp/openstack/tempest
-                git reset --hard $TEMPEST_VERSION
-                popd
-            fi
+            pushd /tmp/openstack/tempest
+            git reset --hard $TEMPEST_VERSION
+            popd
         fi
     fi
 else
