@@ -156,7 +156,7 @@ mod 'powerdns',
 
 mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => '2.5.0'
+  :ref => 'v3.0.0'
 
 mod 'sysctl',
   :git => 'https://github.com/duritong/puppet-sysctl',
@@ -172,7 +172,7 @@ mod 'staging',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v6.2.0'
+  :ref => 'v6.3.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -180,11 +180,11 @@ mod 'apt',
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v7.0.1'
+  :ref => 'v7.0.2'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v3.0.0'
+  :ref => 'v3.0.1'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -192,7 +192,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v11.0.1'
+  :ref => 'v11.1.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
@@ -212,7 +212,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v4.0.0'
+  :ref => 'v5.0.0'
 
 mod 'git_resource',
   :git => 'https://github.com/voxpupuli/puppet-git_resource',
@@ -224,7 +224,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v6.0.0'
+  :ref => 'v7.0.0'
 
 mod 'python',
   :git => 'https://github.com/voxpupuli/puppet-python',
