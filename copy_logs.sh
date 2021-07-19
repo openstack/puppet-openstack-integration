@@ -135,6 +135,20 @@ fi
 if [ -d /var/log/libvirt ] ; then
     sudo cp -r /var/log/libvirt $LOG_DIR/
 fi
+if [ -d /etc/libvirt ]; then
+    sudo cp -r /etc/libvirt $LOG_DIR/etc/
+fi
+if use_debs; then
+    if [ -f /etc/default/libvirtd ]; then
+        mkdir $LOG_DIR/etc/default
+        sudo cp /etc/default/libvirtd $LOG_DIR/etc/default/
+    fi
+elif is_fedora; then
+    if [ -f /etc/sysconfig/libvirtd ]; then
+        mkdir $LOG_DIR/etc/sysconfig
+        sudo cp /etc/sysconfig/libvirtd $LOG_DIR/etc/sysconfig/
+    fi
+fi
 
 # openvswitch
 if [ -d /var/log/openvswitch ] ; then
