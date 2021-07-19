@@ -63,6 +63,7 @@
       - ^.*\.md$
       - ^.*\.rst$
       - ^doc/.*$
+      - ^examples/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^spec/.*$
@@ -125,6 +126,7 @@
       - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
+      - ^examples/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^requirements.txt$
@@ -151,6 +153,7 @@
       - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
+      - ^examples/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
       - ^requirements.txt$

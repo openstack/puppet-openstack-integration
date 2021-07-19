@@ -11,6 +11,7 @@
       - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
+      - ^examples/.*$
       - ^releasenotes/.*$
       - ^spec/unit/.*$
       - ^spec/classes/.*$
