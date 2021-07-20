@@ -184,7 +184,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v3.0.1'
+  :ref => 'v3.0.2'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -240,7 +240,7 @@ mod 'archive',
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => 'v5.0.0'
+  :ref => 'v8.0.0'
 
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
