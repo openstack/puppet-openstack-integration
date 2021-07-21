@@ -162,7 +162,17 @@ fi
 # use dstat to monitor system activity during integration testing
 if type "dstat" 2>/dev/null; then
     print_header 'Start dstat'
-    $SUDO dstat -tcmndrylpg --top-cpu-adv --top-io-adv --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
+    DSTAT_OPTS=""
+    set -e
+    if dstat --help 2>&1 | grep -q "top-io-adv"; then
+        DSTAT_OPTS="${DSTAT_OPTS} --top-io-adv"
+    fi
+
+    if dstat --help 2>&1 | grep -q "top-cpu-adv"; then
+        DSTAT_OPTS="${DSTAT_OPTS} --top-cpu-adv"
+    fi
+    set +e
+    $SUDO dstat -tcmndrylpg $DSTAT_OPTS --nocolor | $SUDO tee --append /var/log/dstat.log > /dev/null &
 fi
 
 if type "iostat" 2>/dev/null; then
