@@ -38,14 +38,14 @@ class openstack_integration::qdr {
       notify   => Service['qdrouterd'],
     }
     class { 'qdr':
-      listener_require_ssl   => 'yes',
+      listener_require_ssl   => true,
       listener_ssl_cert_db   => $::openstack_integration::params::ca_bundle_cert_path,
       listener_ssl_cert_file => $::openstack_integration::params::cert_path,
       listener_ssl_key_file  => "/etc/qpid-dispatch/ssl/private/${::fqdn}.pem",
       listener_addr          => $::openstack_integration::config::host,
       listener_port          => $::openstack_integration::config::messaging_default_port,
       listener_sasl_mech     => 'PLAIN',
-      listener_auth_peer     => 'yes',
+      listener_auth_peer     => true,
       extra_addresses        => $extra_addresses,
     }
   } else {
@@ -53,7 +53,7 @@ class openstack_integration::qdr {
       listener_addr      => $::openstack_integration::config::host,
       listener_port      => $::openstack_integration::config::messaging_default_port,
       listener_sasl_mech => 'PLAIN',
-      listener_auth_peer => 'yes',
+      listener_auth_peer => true,
       extra_addresses    => $extra_addresses,
     }
   }
