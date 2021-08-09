@@ -4,60 +4,74 @@
 - job:
     name: tripleo-puppet-ci-centos-7-undercloud-containers
     parent: tripleo-ci-centos-7-undercloud-containers
-    irrelevant-files:
+    irrelevant-files: &irrelevant_files
       - ^.*\.md$
       - ^.*\.rst$
       - ^doc/.*$
       - ^etc/.*$
       - ^metadata.json$
       - ^releasenotes/.*$
+      - ^spec/.*$
+      - ^requirements.txt$
       - ^test-requirements.txt$
       - ^LICENSE$
+      - ^.gitreview$
       - ^.gitignore$
       - ^setup.cfg$
       - ^setup.py$
+      - ^tox.ini$
+
+- job:
+    name: tripleo-puppet-ci-centos-7-content-provider
+    parent: tripleo-ci-centos-7-content-provider
+    irrelevant-files: *irrelevant_files
 
 - project-template:
     name: tripleo-puppet-undercloud
     check:
       jobs:
-        - tripleo-ci-centos-7-content-provider
-        - tripleo-puppet-ci-centos-7-undercloud-containers: &consumer_job
-            vars: &consumer_vars
+        - tripleo-puppet-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-undercloud-containers:
+            vars: &undercloud_consumer_vars
               consumer_job: true
-              build_container_images: false
               remove_tags:
                 - build
-            dependencies: &deps_cprovider
-              - tripleo-ci-centos-7-content-provider
+            dependencies:
+              - tripleo-puppet-ci-centos-7-content-provider
     gate:
       jobs:
-        - tripleo-ci-centos-7-content-provider
-        - tripleo-puppet-ci-centos-7-undercloud-containers: *consumer_job
+        - tripleo-puppet-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-undercloud-containers:
+            vars: *undercloud_consumer_vars
+            dependencies:
+              - tripleo-puppet-ci-centos-7-content-provider
 
 - job:
     name: tripleo-puppet-ci-centos-7-standalone
     parent: tripleo-ci-centos-7-standalone
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-      - ^setup.cfg$
-      - ^setup.py$
+    irrelevant-files: *irrelevant_files
+    vars:
+      featureset_override:
+        standalone_environment_files:
+          - 'environments/low-memory-usage.yaml'
 
 - project-template:
     name: tripleo-puppet-standalone
     check:
       jobs:
-        - tripleo-ci-centos-7-content-provider
-        - tripleo-puppet-ci-centos-7-standalone: *consumer_job
+        - tripleo-puppet-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-standalone:
+            vars: &standalone_consumer_vars
+              consumer_job: true
+              build_container_images: false
+              remove_tags:
+                - build
+            dependencies:
+              - tripleo-puppet-ci-centos-7-content-provider
     gate:
       jobs:
-        - tripleo-ci-centos-7-content-provider
-        - tripleo-puppet-ci-centos-7-standalone: *consumer_job
+        - tripleo-puppet-ci-centos-7-content-provider
+        - tripleo-puppet-ci-centos-7-standalone:
+            vars: *standalone_consumer_vars
+            dependencies:
+              - tripleo-puppet-ci-centos-7-content-provider
