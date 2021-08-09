@@ -70,7 +70,7 @@ class openstack_integration::ceilometer (
     $event_pipeline_publishers = ['gnocchi://']
 
     class { 'ceilometer::agent::notification':
-      notification_workers      => '2',
+      workers                   => '2',
       manage_pipeline           => true,
       pipeline_publishers       => $sample_pipeline_publishers,
       manage_event_pipeline     => true,
