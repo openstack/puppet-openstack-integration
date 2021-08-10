@@ -26,13 +26,6 @@
     nodeset: centos-8-stream
 
 - job:
-    name: puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-6-scenario001
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
-
-- job:
     name: puppet-openstack-integration-6-scenario002
     parent: puppet-openstack-integration-6
     abstract: true
@@ -49,13 +42,6 @@
     name: puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
     parent: puppet-openstack-integration-6-scenario002
     nodeset: centos-8-stream
-
-- job:
-    name: puppet-openstack-integration-6-scenario002-tempest-debian-stable
-    parent: puppet-openstack-integration-6-scenario002
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
 
 - job:
     name: puppet-openstack-integration-6-scenario003
@@ -76,13 +62,6 @@
     nodeset: centos-8-stream
 
 - job:
-    name: puppet-openstack-integration-6-scenario003-tempest-debian-stable
-    parent: puppet-openstack-integration-6-scenario003
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
-
-- job:
     name: puppet-openstack-integration-6-scenario004
     parent: puppet-openstack-integration-6
     abstract: true
@@ -100,10 +79,3 @@
     name: puppet-openstack-integration-6-scenario004-tempest-centos-8-stream
     parent: puppet-openstack-integration-6-scenario004
     nodeset: centos-8-stream
-
-- job:
-    name: puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-6-scenario004
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
