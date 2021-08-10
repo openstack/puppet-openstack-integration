@@ -36,11 +36,6 @@
           label: centos-8
 
 - job:
-    name: puppet-openstack-integration-5-scenario001-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-5-scenario001
-    nodeset: debian-stable
-
-- job:
     name: puppet-openstack-integration-5-scenario002
     parent: puppet-openstack-integration-5
     abstract: true
@@ -71,11 +66,6 @@
           label: centos-8
 
 - job:
-    name: puppet-openstack-integration-5-scenario002-tempest-debian-stable
-    parent: puppet-openstack-integration-5-scenario002
-    nodeset: debian-stable
-
-- job:
     name: puppet-openstack-integration-5-scenario003
     parent: puppet-openstack-integration-5
     abstract: true
@@ -104,11 +94,6 @@
       nodes:
         - name: centos8
           label: centos-8
-
-- job:
-    name: puppet-openstack-integration-5-scenario003-tempest-debian-stable
-    parent: puppet-openstack-integration-5-scenario003
-    nodeset: debian-stable
 
 - job:
     name: puppet-openstack-integration-5-scenario004
@@ -146,13 +131,6 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-5-scenario004-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-5-scenario004
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
-
-- job:
     name: puppet-openstack-integration-6
     parent: puppet-openstack-integration-run-base
     abstract: true
@@ -180,11 +158,6 @@
     nodeset: centos-7
 
 - job:
-    name: puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-6-scenario001
-    nodeset: debian-stable
-
-- job:
     name: puppet-openstack-integration-6-scenario002
     parent: puppet-openstack-integration-6
     abstract: true
@@ -204,11 +177,6 @@
     name: puppet-openstack-integration-6-scenario002-tempest-centos-7
     parent: puppet-openstack-integration-6-scenario002
     nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-6-scenario002-tempest-debian-stable
-    parent: puppet-openstack-integration-6-scenario002
-    nodeset: debian-stable
 
 - job:
     name: puppet-openstack-integration-6-scenario003
@@ -231,11 +199,6 @@
     name: puppet-openstack-integration-6-scenario003-tempest-centos-7
     parent: puppet-openstack-integration-6-scenario003
     nodeset: centos-7
-
-- job:
-    name: puppet-openstack-integration-6-scenario003-tempest-debian-stable
-    parent: puppet-openstack-integration-6-scenario003
-    nodeset: debian-stable
 
 - job:
     name: puppet-openstack-integration-6-scenario004
@@ -261,10 +224,3 @@
     nodeset: centos-7
     vars:
       ceph: nautilus
-
-- job:
-    name: puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
-    parent: puppet-openstack-integration-6-scenario004
-    nodeset: debian-stable
-    vars:
-      ceph: luminous
