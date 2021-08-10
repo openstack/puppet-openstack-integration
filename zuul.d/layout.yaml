@@ -72,12 +72,6 @@
         - puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
         - puppet-openstack-integration-6-scenario003-tempest-centos-8-stream
         - puppet-openstack-integration-6-scenario004-tempest-centos-8-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
-        - puppet-openstack-integration-6-scenario002-tempest-debian-stable
-        - puppet-openstack-integration-6-scenario003-tempest-debian-stable
-        - puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario001
@@ -89,9 +83,6 @@
     gate:
       jobs:
         - puppet-openstack-integration-6-scenario001-tempest-centos-8-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-debian-stable-luminous
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario002
@@ -103,9 +94,6 @@
     gate:
       jobs:
         - puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-6-scenario002-tempest-debian-stable
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario003
@@ -117,9 +105,6 @@
     gate:
       jobs:
         - puppet-openstack-integration-6-scenario003-tempest-centos-8-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-6-scenario003-tempest-debian-stable
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario004
@@ -131,6 +116,3 @@
     gate:
       jobs:
         - puppet-openstack-integration-6-scenario004-tempest-centos-8-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-6-scenario004-tempest-debian-stable-luminous
