@@ -77,8 +77,7 @@ class openstack_integration::gnocchi (
     class { 'gnocchi::storage::ceph':
       ceph_username => 'openstack',
       ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
-      manage_cradox => ($::osfamily == 'RedHat'),
-      manage_rados  => ($::osfamily == 'Debian'),
+      manage_rados  => true,
     }
     # make sure ceph pool exists before running gnocchi (dbsync & services)
     Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
