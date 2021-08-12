@@ -33,6 +33,7 @@ class openstack_integration::ironic {
     amqp_sasl_mechanisms  => 'PLAIN',
   }
   class { 'ironic::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'ironic',
   }
   class { 'ironic::keystone::auth':
@@ -83,6 +84,7 @@ class openstack_integration::ironic {
     }
     'RedHat': {
       class { 'ironic::inspector::db::mysql':
+        charset  => $::openstack_integration::params::mysql_charset,
         password => 'a_big_secret',
       }
       class { 'ironic::inspector::authtoken':

@@ -42,6 +42,7 @@ class openstack_integration::cinder (
   }
   include cinder::client
   class { 'cinder::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'cinder',
   }
   class { 'cinder::keystone::auth':

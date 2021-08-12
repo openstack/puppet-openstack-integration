@@ -57,6 +57,7 @@ class openstack_integration::magnum (
   }
 
   class { 'magnum::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'magnum',
   }
 

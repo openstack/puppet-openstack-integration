@@ -40,6 +40,7 @@ class openstack_integration::murano {
   }
 
   class { 'murano::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'a_big_secret',
   }
   class { 'murano::logging':
