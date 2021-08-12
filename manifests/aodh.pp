@@ -51,6 +51,7 @@ class openstack_integration::aodh (
     notification_driver        => 'messagingv2',
   }
   class { 'aodh::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'aodh',
   }
   class { 'aodh::keystone::auth':

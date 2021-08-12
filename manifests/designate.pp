@@ -13,6 +13,7 @@ class openstack_integration::designate {
   }
 
   class { 'designate::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'designate',
   }
   class { 'designate::logging':

@@ -28,6 +28,7 @@ class openstack_integration::glance (
   }
 
   class { 'glance::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'glance',
   }
   include glance

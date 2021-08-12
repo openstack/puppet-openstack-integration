@@ -52,6 +52,7 @@ class openstack_integration::keystone (
     minute => '*/30',
   }
   class { 'keystone::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'keystone',
   }
   class { 'keystone::db':

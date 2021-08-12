@@ -45,6 +45,7 @@ class openstack_integration::trove {
     nova_proxy_admin_pass      => 'a_big_secret',
   }
   class { 'trove::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'trove',
   }
   class { 'trove::keystone::auth':

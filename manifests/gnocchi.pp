@@ -29,6 +29,7 @@ class openstack_integration::gnocchi (
     coordination_url => $::openstack_integration::config::tooz_url,
   }
   class { 'gnocchi::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'gnocchi',
   }
   class { 'gnocchi::keystone::auth':

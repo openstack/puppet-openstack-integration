@@ -12,6 +12,7 @@ class openstack_integration::ec2api {
     password     => 'a_big_secret',
   }
   class { 'ec2api::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'ec2api',
   }
   case $::osfamily {

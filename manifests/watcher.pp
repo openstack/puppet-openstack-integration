@@ -16,6 +16,7 @@ class openstack_integration::watcher {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
   class { 'watcher::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'watcher',
   }
   class { 'watcher::db':

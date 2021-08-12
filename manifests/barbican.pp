@@ -18,6 +18,7 @@ class openstack_integration::barbican {
 
   include barbican
   class { 'barbican::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'barbican',
   }
   class { 'barbican::db':

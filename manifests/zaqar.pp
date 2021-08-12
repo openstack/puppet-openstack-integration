@@ -13,6 +13,7 @@ class openstack_integration::zaqar {
     debug => true,
   }
   class { 'zaqar::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'zaqar',
   }
   class { 'zaqar::keystone::auth':

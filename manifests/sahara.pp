@@ -25,6 +25,7 @@ class openstack_integration::sahara (
   }
 
   class { 'sahara::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'sahara',
   }
 
