@@ -30,20 +30,20 @@
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-7.5-centos-8-stream
-        - puppet-openstack-libraries-puppet-unit-7.5-ubuntu-focal
+        - puppet-openstack-libraries-puppet-unit-7.8-centos-8-stream
+        - puppet-openstack-libraries-puppet-unit-7.8-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
         - puppet-openstack-libraries-litmus-6.21-ubuntu-focal
-        - puppet-openstack-libraries-litmus-7.5-centos-8-stream
-        - puppet-openstack-libraries-litmus-7.5-ubuntu-focal
+        - puppet-openstack-libraries-litmus-7.8-centos-8-stream
+        - puppet-openstack-libraries-litmus-7.8-ubuntu-focal
         - puppet-openstack-libraries-litmus-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-focal
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-7.5-centos-8-stream
+        - puppet-openstack-libraries-puppet-unit-7.8-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
-        - puppet-openstack-libraries-litmus-7.5-centos-8-stream
+        - puppet-openstack-libraries-litmus-7.8-centos-8-stream
 
 # integration jobs
 - project-template:
