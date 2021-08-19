@@ -22,7 +22,6 @@
       - openstack/puppet-magnum
       - openstack/puppet-manila
       - openstack/puppet-mistral
-      - openstack/puppet-monasca
       - x/puppet-modulesync-configs
       - openstack/puppet-murano
       - openstack/puppet-neutron
