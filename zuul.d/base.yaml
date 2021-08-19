@@ -40,8 +40,6 @@
         override-checkout: stable/train
       - name: openstack/puppet-mistral
         override-checkout: stable/train
-      - name: openstack/puppet-monasca
-        override-checkout: stable/train
       - name: x/puppet-modulesync-configs
       - name: openstack/puppet-murano
         override-checkout: stable/train
