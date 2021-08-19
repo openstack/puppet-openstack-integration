@@ -69,10 +69,6 @@ mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
   :ref => 'stable/ussuri'
 
-mod 'monasca',
-  :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'stable/ussuri'
-
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
   :ref => 'stable/ussuri'
