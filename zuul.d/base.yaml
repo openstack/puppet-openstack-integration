@@ -42,8 +42,6 @@
         override-checkout: stable/victoria
       - name: openstack/puppet-mistral
         override-checkout: stable/victoria
-      - name: openstack/puppet-monasca
-        override-checkout: stable/victoria
       - name: x/puppet-modulesync-configs
         override-checkout: stable/victoria
       - name: openstack/puppet-murano
