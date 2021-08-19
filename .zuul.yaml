@@ -51,8 +51,6 @@
         override-checkout: stable/rocky
       - name: openstack/puppet-mistral
         override-checkout: stable/rocky
-      - name: openstack/puppet-monasca
-        override-checkout: stable/rocky
       - name: x/puppet-modulesync-configs
         override-checkout: stable/rocky
       - name: openstack/puppet-murano
