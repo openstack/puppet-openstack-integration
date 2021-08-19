@@ -47,8 +47,6 @@
         override-checkout: stable/queens
       - name: openstack/puppet-mistral
         override-checkout: stable/queens
-      - name: openstack/puppet-monasca
-        override-checkout: stable/queens
       - name: x/puppet-modulesync-configs
         override-checkout: stable/queens
       - name: openstack/puppet-murano

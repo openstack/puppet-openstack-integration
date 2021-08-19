@@ -65,10 +65,6 @@ mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
   :ref => 'stable/queens'
 
-mod 'monasca',
-  :git => 'https://opendev.org/openstack/puppet-monasca',
-  :ref => 'stable/queens'
-
 mod 'murano',
   :git => 'https://opendev.org/openstack/puppet-murano',
   :ref => 'stable/queens'
