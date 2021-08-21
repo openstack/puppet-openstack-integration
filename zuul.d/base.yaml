@@ -38,8 +38,6 @@
         override-checkout: stable/wallaby
       - name: openstack/puppet-mistral
         override-checkout: stable/wallaby
-      - name: openstack/puppet-monasca
-        override-checkout: stable/wallaby
       - name: x/puppet-modulesync-configs
         override-checkout: stable/wallaby
       - name: openstack/puppet-murano
