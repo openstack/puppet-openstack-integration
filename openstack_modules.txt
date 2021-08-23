@@ -15,7 +15,6 @@ keystone
 magnum
 manila
 mistral
-monasca
 murano
 neutron
 nova
