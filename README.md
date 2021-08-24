@@ -44,7 +44,7 @@ One manifest (scenario-aio) is used for people who want to [run a simple All-In-
 scenario](#all-in-one).
 
 |     -      | scenario000 | scenario001 | scenario002 | scenario003 | scenario004 | scenario-aio |
-|:----------:|:-----------:|------------:|:-----------:|:-----------:|:-----------:|:------------:|
+|:----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
 | ssl        |     yes     |     yes     |      yes    |      yes    |     yes     |     no       |
 | ipv6       |   centos8   |   centos8   |    centos8  |    centos8  |   centos8   |     no       |
 | keystone   |      X      |      X      |       X     |       X     |      X      |      X       |
