@@ -153,21 +153,18 @@ class openstack_integration::nova (
   class { 'nova::conductor': }
   class { 'nova::cron::archive_deleted_rows': }
   if $volume_encryption {
-    $keymgr_backend       = 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
-    $keymgr_auth_endpoint = "${::openstack_integration::config::keystone_auth_uri}/v3"
-    $barbican_endpoint    = "${::openstack_integration::config::base_url}:9311"
-  } else {
-    $keymgr_backend       = undef
-    $keymgr_auth_endpoint = undef
-    $barbican_endpoint    = undef
+    class { 'nova::key_manager':
+      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    }
+    class { 'nova::key_manager::barbican':
+      auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3",
+      barbican_endpoint => "${::openstack_integration::config::base_url}:9311"
+    }
   }
   class { 'nova::compute':
     vnc_enabled                 => true,
     instance_usage_audit        => true,
     instance_usage_audit_period => 'hour',
-    keymgr_backend              => $keymgr_backend,
-    barbican_auth_endpoint      => $keymgr_auth_endpoint,
-    barbican_endpoint           => $barbican_endpoint,
   }
 
   $images_type = $libvirt_rbd ? {
