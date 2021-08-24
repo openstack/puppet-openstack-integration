@@ -42,6 +42,7 @@ class openstack_integration::mistral {
     password     => 'a_big_secret',
   }
   class { 'mistral::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'mistral',
   }
   class { 'mistral::api':

@@ -64,6 +64,7 @@ class openstack_integration::heat (
     notification_driver        => 'messagingv2',
   }
   class { 'heat::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'heat',
   }
   class { 'heat::keystone::auth':
