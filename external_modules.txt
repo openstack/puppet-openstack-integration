@@ -17,7 +17,6 @@ puppetlabs/puppetlabs-vcsrepo
 voxpupuli/puppet-git_resource
 puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
-voxpupuli/puppet-python,v5.0.0
 theforeman/puppet-dns
 voxpupuli/puppet-archive
 voxpupuli/puppet-corosync,v8.0.0
