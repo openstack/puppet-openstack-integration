@@ -75,12 +75,3 @@
             vars: *standalone_consumer_vars
             dependencies:
               - tripleo-puppet-ci-centos-8-content-provider
-
-- job:
-    name: tripleo-puppet-ci-centos-7-standalone
-    parent: tripleo-ci-centos-7-standalone
-    irrelevant-files: *irrelevant_files
-    vars:
-      featureset_override:
-        standalone_environment_files:
-          - 'environments/low-memory-usage.yaml'
