@@ -65,6 +65,7 @@ curl -o /tmp/delorean.repo "${NODEPOOL_RDO_PROXY}/centos8-master/puppet-passed-c
 sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean.repo
 curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/centos8-master/delorean-deps.repo"
 sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean-deps.repo
+sed -i -e "s|http://mirror.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
 
 export FACTER_nodepool_mirror_host=$NODEPOOL_MIRROR_HOST
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
