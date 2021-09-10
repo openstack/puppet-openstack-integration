@@ -52,13 +52,26 @@ class openstack_integration::repos {
       } else {
         $centos_mirror = 'http://mirror.centos.org'
       }
+
+      if defined('$::delorean_repo_path') and $::delorean_repo_path != '' {
+        $delorean_repo = $::delorean_repo_path
+      } else {
+        $delorean_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/puppet-passed-ci/delorean.repo"
+      }
+
+      if defined('$::delorean_deps_repo_path') and $::delorean_deps_repo_path != '' {
+        $delorean_deps_repo = $::delorean_deps_repo_path
+      } else {
+        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/puppet-passed-ci/delorean.repo"
+      }
+
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
-          'delorean.repo'      => "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/puppet-passed-ci/delorean.repo",
-          'delorean-deps.repo' => "https://trunk.rdoproject.org/centos${::os['release']['major']}-victoria/delorean-deps.repo"
+          'delorean.repo'      => $delorean_repo,
+          'delorean-deps.repo' => $delorean_deps_repo
         },
         repo_replace      => false,
         update_packages   => true,
