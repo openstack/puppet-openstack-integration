@@ -4,7 +4,7 @@ class openstack_integration::repos {
   if defined('$::ceph_version') and $::ceph_version != '' {
     $ceph_version_real = $::ceph_version
   } else {
-    $ceph_version_real = 'octopus'
+    $ceph_version_real = 'pacific'
   }
   case $::osfamily {
     'Debian': {

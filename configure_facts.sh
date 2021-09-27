@@ -22,7 +22,7 @@ export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-master/puppet-passed-ci}
 export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
 export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
 export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
-export CEPH_VERSION=${CEPH_VERSION:-octopus}
+export CEPH_VERSION=${CEPH_VERSION:-pacific}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
