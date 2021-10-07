@@ -42,7 +42,6 @@
       - name: openstack/puppet-mistral
         override-checkout: stable/ussuri
       - name: x/puppet-modulesync-configs
-        override-checkout: stable/ussuri
       - name: openstack/puppet-murano
         override-checkout: stable/ussuri
       - name: openstack/puppet-neutron
