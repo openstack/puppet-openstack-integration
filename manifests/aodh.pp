@@ -88,8 +88,10 @@ class openstack_integration::aodh (
   class { 'aodh::client': }
   class { 'aodh::notifier': }
   class { 'aodh::listener': }
+  class { 'aodh::coordination':
+    backend_url => $::openstack_integration::config::tooz_url,
+  }
   class { 'aodh::evaluator':
-    coordination_url    => $::openstack_integration::config::tooz_url,
     evaluation_interval => 10,
   }
   class { 'aodh::expirer': }
