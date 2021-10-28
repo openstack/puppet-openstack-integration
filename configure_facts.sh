@@ -18,10 +18,10 @@ OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-master/puppet-passed-ci}
-export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
-export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
-export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
+export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-xena/current-passed-ci}
+export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-xena/deps/latest/}
+export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-xena/puppet-passed-ci/delorean.repo}
+export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-xena/delorean-deps.repo}
 export CEPH_VERSION=${CEPH_VERSION:-pacific}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
@@ -61,9 +61,9 @@ else
     fi
 fi
 
-curl -o /tmp/delorean.repo "${NODEPOOL_RDO_PROXY}/centos8-master/puppet-passed-ci/delorean.repo"
+curl -o /tmp/delorean.repo "${NODEPOOL_RDO_PROXY}/centos8-xena/current-passed-ci/delorean.repo"
 sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean.repo
-curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/centos8-master/delorean-deps.repo"
+curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/centos8-xena/delorean-deps.repo"
 sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean-deps.repo
 sed -i -e "s|http://mirror.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
 
