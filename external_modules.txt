@@ -7,7 +7,7 @@ puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
 puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
-puppetlabs/puppetlabs-inifile,2.2.0
+puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mysql
 puppetlabs/puppetlabs-postgresql
 voxpupuli/puppet-rabbitmq
