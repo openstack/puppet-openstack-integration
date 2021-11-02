@@ -35,12 +35,11 @@ class openstack_integration::designate {
 
   include 'designate::client'
 
-  # TODO: Support SSL
   class { 'designate::keystone::auth':
     password     => 'a_big_secret',
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:9001",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:9001",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:9001",
+    public_url   => "${::openstack_integration::config::base_url}:9001",
+    internal_url => "${::openstack_integration::config::base_url}:9001",
+    admin_url    => "${::openstack_integration::config::base_url}:9001",
   }
   class { 'designate::keystone::authtoken':
     password             => 'a_big_secret',
@@ -52,11 +51,19 @@ class openstack_integration::designate {
   }
 
   class { 'designate::api':
-    listen           => "${::openstack_integration::config::ip_for_url}:9001",
-    api_base_uri     => "http://${::openstack_integration::config::ip_for_url}:9001",
+    api_base_uri     => "${::openstack_integration::config::base_url}:9001",
     auth_strategy    => 'keystone',
     enable_api_v2    => true,
-    enable_api_admin => true
+    enable_api_admin => true,
+    service_name     => 'httpd',
+  }
+  include apache
+  class { 'designate::wsgi::apache':
+    bind_host => $::openstack_integration::config::ip_for_url,
+    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl       => $::openstack_integration::config::ssl,
+    workers   => '2',
   }
 
   # IPv6 doesn't work for mdns ? https://bugs.launchpad.net/designate/+bug/1501396
