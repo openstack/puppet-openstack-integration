@@ -179,7 +179,6 @@ class openstack_integration::neutron (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    allow_overlapping_ips      => true,
     core_plugin                => 'ml2',
     service_plugins            => $plugins_list,
     bind_host                  => $::openstack_integration::config::host,
