@@ -131,15 +131,16 @@ class openstack_integration::neutron (
   }
   if $l2gw_enabled {
     if ($::operatingsystem == 'Ubuntu') {
-      class {'neutron::services::l2gw': }
+      class { 'neutron::services::l2gw': }
       $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
     }
     elsif ($::operatingsystem != 'Ubuntu') {
-      class {'neutron::services::l2gw':
+      class { 'neutron::services::l2gw':
         service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
       $providers_list = undef
     }
+    class { 'neutron::agents::l2gw': }
   } else {
     $providers_list = undef
   }
