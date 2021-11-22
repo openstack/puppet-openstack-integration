@@ -74,7 +74,6 @@
         - puppet-openstack-integration-6-scenario001-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic
         - puppet-openstack-integration-6-scenario001-tempest-centos-8
 
 - project-template:
@@ -86,7 +85,6 @@
         - puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-6-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-6-scenario002-tempest-centos-8
 
 - project-template:
