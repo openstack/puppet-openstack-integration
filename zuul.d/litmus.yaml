@@ -36,18 +36,9 @@
     run: playbooks/run-libraries-litmus-tests.yaml
 
 - job:
-    name: puppet-openstack-litmus-centos-8
-    parent: puppet-openstack-litmus-module-base
-    nodeset: centos-8
-    vars:
-      puppet_gem_version: 6.16
-      ceph: nautilus
-
-- job:
     name: puppet-openstack-litmus-centos-8-stream
     parent: puppet-openstack-litmus-module-base
     nodeset: centos-8-stream
-    voting: false
     vars:
       puppet_gem_version: 6.16
       ceph: nautilus
@@ -62,15 +53,8 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-libraries-litmus-centos-8
-    parent: puppet-openstack-litmus-libraries-base
-    vars:
-      puppet_gem_version: 6.18.0
-
-- job:
     name: puppet-openstack-libraries-litmus-centos-8-stream
     parent: puppet-openstack-litmus-libraries-base
-    voting: false
     nodeset: centos-8-stream
     vars:
       puppet_gem_version: 6.18.0
@@ -87,11 +71,9 @@
     name: puppet-openstack-litmus-jobs
     check:
       jobs:
-        - puppet-openstack-litmus-centos-8
         - puppet-openstack-litmus-centos-8-stream
         - puppet-openstack-litmus-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-litmus-centos-8
         - puppet-openstack-litmus-centos-8-stream
         - puppet-openstack-litmus-ubuntu-bionic
