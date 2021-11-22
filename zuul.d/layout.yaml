@@ -33,7 +33,6 @@
         - puppet-openstack-libraries-puppet-unit-6.11-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.11-ubuntu-bionic
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
         - puppet-openstack-libraries-puppet-beaker-rspec-centos-8-stream
         - puppet-openstack-libraries-puppet-beaker-rspec-ubuntu-bionic
     gate:
@@ -44,7 +43,7 @@
         - puppet-openstack-libraries-puppet-unit-5.5-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.11-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-6.11-ubuntu-bionic
-        - puppet-openstack-libraries-puppet-beaker-rspec-centos-8
+        - puppet-openstack-libraries-puppet-beaker-rspec-centos-8-stream
 
 # integration jobs
 - project-template:
@@ -55,26 +54,18 @@
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-5-scenario001-tempest-centos-8
-        - puppet-openstack-integration-5-scenario002-tempest-centos-8
-        - puppet-openstack-integration-5-scenario003-tempest-centos-8
-        - puppet-openstack-integration-5-scenario004-tempest-centos-8
         - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
         - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
         - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
         - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario001-tempest-centos-8
-        - puppet-openstack-integration-5-scenario002-tempest-centos-8
-        - puppet-openstack-integration-5-scenario003-tempest-centos-8
-        - puppet-openstack-integration-5-scenario004-tempest-centos-8
+        - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
+        - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     experimental:
       jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-centos-8
-        - puppet-openstack-integration-6-scenario002-tempest-centos-8
-        - puppet-openstack-integration-6-scenario003-tempest-centos-8
-        - puppet-openstack-integration-6-scenario004-tempest-centos-8
         - puppet-openstack-integration-6-scenario001-tempest-centos-8-stream
         - puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
         - puppet-openstack-integration-6-scenario003-tempest-centos-8-stream
@@ -89,15 +80,13 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario001-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-5-scenario001-tempest-centos-8
         - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario001-tempest-centos-8
+        - puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
     experimental:
       jobs:
         - puppet-openstack-integration-6-scenario001-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-6-scenario001-tempest-centos-8
         - puppet-openstack-integration-6-scenario001-tempest-centos-8-stream
 
 - project-template:
@@ -105,15 +94,13 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario002-tempest-ubuntu-bionic
-        - puppet-openstack-integration-5-scenario002-tempest-centos-8
         - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario002-tempest-centos-8
+        - puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
     experimental:
       jobs:
         - puppet-openstack-integration-6-scenario002-tempest-ubuntu-bionic
-        - puppet-openstack-integration-6-scenario002-tempest-centos-8
         - puppet-openstack-integration-6-scenario002-tempest-centos-8-stream
 
 - project-template:
@@ -121,15 +108,13 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario003-tempest-ubuntu-bionic
-        - puppet-openstack-integration-5-scenario003-tempest-centos-8
         - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario003-tempest-centos-8
+        - puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
     experimental:
       jobs:
         - puppet-openstack-integration-6-scenario003-tempest-ubuntu-bionic
-        - puppet-openstack-integration-6-scenario003-tempest-centos-8
         - puppet-openstack-integration-6-scenario003-tempest-centos-8-stream
 
 - project-template:
@@ -137,13 +122,11 @@
     check:
       jobs:
         - puppet-openstack-integration-5-scenario004-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-5-scenario004-tempest-centos-8
         - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     gate:
       jobs:
-        - puppet-openstack-integration-5-scenario004-tempest-centos-8
+        - puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     experimental:
       jobs:
         - puppet-openstack-integration-6-scenario004-tempest-ubuntu-bionic-mimic
-        - puppet-openstack-integration-6-scenario004-tempest-centos-8
         - puppet-openstack-integration-6-scenario004-tempest-centos-8-stream

@@ -2,34 +2,11 @@
     name: puppet-openstack-beaker-jobs
     check:
       jobs:
-        - puppet-openstack-beaker-centos-8
         - puppet-openstack-beaker-centos-8-stream
         - puppet-openstack-beaker-ubuntu-bionic
     gate:
       jobs:
-        - puppet-openstack-beaker-centos-8
-
-- job:
-    name: puppet-openstack-libraries-puppet-beaker-rspec-centos-8
-    parent: puppet-openstack-integration-base
-    pre-run: playbooks/prepare-node-beaker.yaml
-    post-run: playbooks/upload-logs.yaml
-    run: playbooks/run-libraries-beaker-tests.yaml
-    timeout: 3600
-    nodeset: centos-8
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-    vars:
-      nodepool_type: centos8
-      puppet_gem_version: 5.5.0
+        - puppet-openstack-beaker-centos-8-stream
 
 - job:
     name: puppet-openstack-libraries-puppet-beaker-rspec-centos-8-stream
@@ -39,7 +16,6 @@
     run: playbooks/run-libraries-beaker-tests.yaml
     timeout: 3600
     nodeset: centos-8-stream
-    voting: false
     irrelevant-files:
       - ^.*\.md$
       - ^.*\.rst$
