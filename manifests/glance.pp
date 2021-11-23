@@ -17,16 +17,12 @@ class openstack_integration::glance (
   include openstack_integration::config
   include openstack_integration::params
 
-  # TODO(tkajinam): Glance no longer supports native ssl since Ussuri release,
-  #                 so these parameters are unused now.
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'glance':
+      notify  => Service['httpd'],
+      require => Anchor['glance::install::end'],
     }
-    $key_file = undef
-    $crt_file = undef
-  } else {
-    $key_file = undef
-    $crt_file = undef
+    Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
   openstack_integration::mq_user { 'glance':
@@ -43,9 +39,9 @@ class openstack_integration::glance (
   include glance
   include glance::client
   class { 'glance::keystone::auth':
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:9292",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:9292",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:9292",
+    public_url   => "${::openstack_integration::config::base_url}:9292",
+    internal_url => "${::openstack_integration::config::base_url}:9292",
+    admin_url    => "${::openstack_integration::config::base_url}:9292",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -113,10 +109,17 @@ class openstack_integration::glance (
     }),
   }
   class { 'glance::api':
-    workers          => 2,
     enabled_backends => $enabled_backends,
     default_backend  => $default_backend,
     bind_host        => $::openstack_integration::config::host,
+    service_name     => 'httpd',
+  }
+  class { 'glance::wsgi::apache':
+    bind_host => $::openstack_integration::config::host,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/glance/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    workers   => 2,
   }
   class { 'glance::cron::db_purge': }
   class { 'glance::notify::rabbitmq':

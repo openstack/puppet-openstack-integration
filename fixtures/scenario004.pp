@@ -56,8 +56,9 @@ include openstack_integration::mysql
 include openstack_integration::redis
 include openstack_integration::keystone
 class { 'openstack_integration::glance':
-  backend => 'swift',
+  backend => 'rbd',
 }
+
 class { 'openstack_integration::neutron':
   vpnaas_enabled      => $vpnaas_enabled,
   taas_enabled        => $taas_enabled,
@@ -84,7 +85,11 @@ class { 'openstack_integration::manila':
 }
 include openstack_integration::octavia
 
-include openstack_integration::provision
+class { 'openstack_integration::provision':
+  # NOTE(tkajinam): Use raw format to use rbd image cloning when creating
+  #                 a volume from an image.
+  image_format => 'raw',
+}
 
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
@@ -102,4 +107,5 @@ class { 'openstack_integration::tempest':
   # RADOS Gateway does not support ResellerAdmin role by default
   reseller_admin_role => 'admin',
   swift               => true,
+  image_format        => 'raw',
 }

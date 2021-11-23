@@ -48,7 +48,7 @@ scenario](#all-in-one).
 | ssl        |     yes     |      yes    |      yes    |     yes     |     yes     |     no       |
 | ipv6       |   centos9   |    centos9  |    centos9  |   centos9   |   centos9   |     no       |
 | keystone   |      X      |       X     |       X     |      X      |      X      |      X       |
-| glance     |     rbd     |     swift   |     file    |  swift+rgw  |   cinder    |    file      |
+| glance     |     rbd     |     swift   |     file    |     rbd     |   cinder    |    file      |
 | nova       |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
 | placement  |      X      |       X     |       X     |      X      |      X      |      X       |
 | neutron    |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |

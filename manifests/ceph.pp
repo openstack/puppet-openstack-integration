@@ -185,6 +185,5 @@ test -b /dev/ceph_vg/lv_data
     }
 
     class { 'ceph::profile::rgw': }
-    Service<| tag == 'ceph-radosgw' |> -> Service <| tag == 'glance-service' |>
   }
 }
