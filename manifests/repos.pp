@@ -47,6 +47,14 @@ class openstack_integration::repos {
       $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
     }
     'RedHat': {
+      # Set specific variables for CentOS Stream 9
+      if $::os['release']['major'] >= '9' {
+        $powertools_repo = 'crb'
+        $manage_virt     = false
+      } else {
+        $powertools_repo = 'powertools'
+        $manage_virt     = true
+      }
       if defined('$::centos_mirror_host') and $::centos_mirror_host != '' {
         $centos_mirror = $::centos_mirror_host
       } else {
@@ -68,6 +76,7 @@ class openstack_integration::repos {
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
+        manage_virt       => $manage_virt,
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
           'delorean.repo'      => $delorean_repo,
@@ -95,9 +104,9 @@ class openstack_integration::repos {
       # PowerTools is required on CentOS8 since Ussuri.
       if $::operatingsystem == 'CentOS' {
         exec { 'enable-powertools':
-          command => 'dnf config-manager --enable powertools',
+          command => "dnf config-manager --enable ${powertools_repo}",
           path    => '/usr/bin/',
-          unless  => 'test 0 -ne $(dnf repolist --enabled powertools | wc -l)'
+          unless  => "test 0 -ne $(dnf repolist --enabled ${powertools_repo} | wc -l)"
         }
       }
 

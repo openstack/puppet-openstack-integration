@@ -34,6 +34,14 @@
     nodeset: centos-8-stream
 
 - job:
+    name: puppet-openstack-integration-7-scenario000-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario000
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+- job:
     name: puppet-openstack-integration-6-scenario001
     parent: puppet-openstack-integration-6
     abstract: true
@@ -61,6 +69,15 @@
     nodeset: centos-8-stream
 
 - job:
+    name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario001
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: puppet-openstack-integration-6-scenario002
     parent: puppet-openstack-integration-6
     abstract: true
@@ -84,6 +101,15 @@
     name: puppet-openstack-integration-7-scenario002-tempest-centos-8-stream
     parent: puppet-openstack-integration-7-scenario002
     nodeset: centos-8-stream
+
+- job:
+    name: puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario002
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
 
 - job:
     name: puppet-openstack-integration-6-scenario003
@@ -111,6 +137,15 @@
     nodeset: centos-8-stream
 
 - job:
+    name: puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario003
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream
+
+- job:
     name: puppet-openstack-integration-6-scenario004
     parent: puppet-openstack-integration-6
     abstract: true
@@ -136,3 +171,12 @@
     name: puppet-openstack-integration-7-scenario004-tempest-centos-8-stream
     parent: puppet-openstack-integration-7-scenario004
     nodeset: centos-8-stream
+
+- job:
+    name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario004
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream

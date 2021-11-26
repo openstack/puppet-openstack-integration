@@ -217,13 +217,13 @@ install_puppet() {
         if rpm --quiet -q epel-release; then
             $SUDO $YUM remove -y epel-release
         fi
-
+        source /etc/os-release
         if [ "${MANAGE_REPOS}" == "true" ] ; then
-            source /etc/os-release
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
-            $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
+            if [ ${VERSION_ID} -ne 9 ] ; then
+                $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
+                $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
+                $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
+                $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El ${VERSION_ID} - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
@@ -233,6 +233,16 @@ gpgkey=${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
 enabled=1
 gpgcheck=1
 EOF"
+            else
+                # TODO we are using puppet from RDO in CS9 until there el9 in puppetlabs repo
+                $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppet-rdo.repo
+[puppet-rdo]
+name=Puppet from RDO repo for CentOS ${VERSION_ID} - x86_64
+baseurl=https://trunk.rdoproject.org/centos9-master/deps/latest/
+enabled=1
+gpgcheck=0
+EOF"
+            fi
         fi
         $SUDO $YUM install -y ${PUPPET_PKG}
     fi
