@@ -7,6 +7,14 @@ class openstack_integration::designate {
   include openstack_integration::params
   include openstack_integration::bind
 
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'designate':
+      notify  => Service['httpd'],
+      require => Package['designate-common'],
+    }
+    Exec['update-ca-certificates'] ~> Service['httpd']
+  }
+
   openstack_integration::mq_user { 'designate':
     password => 'an_even_bigger_secret',
     before   => Anchor['designate::service::begin'],
@@ -60,7 +68,7 @@ class openstack_integration::designate {
   include apache
   class { 'designate::wsgi::apache':
     bind_host => $::openstack_integration::config::ip_for_url,
-    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/designate/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
