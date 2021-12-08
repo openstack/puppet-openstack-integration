@@ -256,10 +256,11 @@ class openstack_integration::neutron (
     interface_driver => $driver,
     debug            => true,
   }
-  class { 'neutron::server::notifications':
+  class { 'neutron::server::notifications::nova':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
+  class { 'neutron::server::notifications': }
   if $bgpvpn_enabled {
     class {'neutron::services::bgpvpn':
       service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
