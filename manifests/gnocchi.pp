@@ -67,7 +67,7 @@ class openstack_integration::gnocchi (
     # Indeed, Gnocchi might use an old token that expired to clean up and then it would
     # fail. It happens when running Tempest tests in the gate with low resources.
     # Production value (300) shouldn't be changed by default.
-    cleanup_delay           => 10,
+    metric_cleanup_delay    => 10,
     # NOTE(sileht): Since we set the pipeline interval to 1 minutes instead
     # of 10, we must compute metrics more often too, otherwise Aodh alarms will
     # always missed data just because they are 'not yet' computed.
