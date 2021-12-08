@@ -20,20 +20,11 @@ class openstack_integration::placement {
     password => 'placement',
   }
 
-  if ($::os_package_type == 'debian') {
-    class { 'placement::keystone::auth':
-      public_url   => "${::openstack_integration::config::base_url}:8778",
-      internal_url => "${::openstack_integration::config::base_url}:8778",
-      admin_url    => "${::openstack_integration::config::base_url}:8778",
-      password     => 'a_big_secret',
-    }
-  } else {
-    class { 'placement::keystone::auth':
-      public_url   => "${::openstack_integration::config::base_url}:8778/placement",
-      internal_url => "${::openstack_integration::config::base_url}:8778/placement",
-      admin_url    => "${::openstack_integration::config::base_url}:8778/placement",
-      password     => 'a_big_secret',
-    }
+  class { 'placement::keystone::auth':
+    public_url   => "${::openstack_integration::config::base_url}:8778",
+    internal_url => "${::openstack_integration::config::base_url}:8778",
+    admin_url    => "${::openstack_integration::config::base_url}:8778",
+    password     => 'a_big_secret',
   }
   class { 'placement::keystone::authtoken':
     password             => 'a_big_secret',
@@ -56,6 +47,7 @@ class openstack_integration::placement {
     class { 'placement::wsgi::apache':
       bind_host => $::openstack_integration::config::ip_for_url,
       api_port  => '8778',
+      path      => '/',
       ssl_key   => "/etc/placement/ssl/private/${::fqdn}.pem",
       ssl_cert  => $::openstack_integration::params::cert_path,
       ssl       => $::openstack_integration::config::ssl,
