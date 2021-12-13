@@ -201,11 +201,19 @@ class openstack_integration::neutron (
   }
 
   if $::osfamily == 'Debian' {
-    Service<| title == 'neutron-server'|> -> Openstacklib::Service_validation<| title == 'neutron-server' |> -> Neutron_network<||>
-    $validate_neutron_server_service = true
-  } else {
-    $validate_neutron_server_service = false
+    $auth_url = $::openstack_integration::config::keystone_auth_uri
+    exec { 'check-neutron-server':
+      command     => "openstack --os-auth-url ${auth_url} --os-project-name services --os-username neutron --os-identity-api-version 3 network list",
+      environment => ['OS_PASSWORD=a_big_secret'],
+      path        => '/usr/bin:/bin:/usr/sbin:/sbin',
+      provider    => shell,
+      timeout     => 60,
+      tries       => 10,
+      try_sleep   => 2,
+    }
+    Anchor['neutron::service::end'] -> Exec['check-neutron-server'] -> Neutron_network<||>
   }
+
   class { 'neutron::db':
     database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
   }
@@ -214,7 +222,6 @@ class openstack_integration::neutron (
     api_workers              => 2,
     rpc_workers              => 2,
     rpc_response_max_timeout => 300,
-    validate                 => $validate_neutron_server_service,
     service_providers        => $providers_list,
     ensure_dr_package        => $bgp_dragent_enabled,
   }
