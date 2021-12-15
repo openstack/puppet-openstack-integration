@@ -38,14 +38,6 @@ class openstack_integration::keystone (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  # Keystone credential setup is not packaged in UCA yet.
-  # It should be done when Newton is released.
-  if $::osfamily == 'RedHat' {
-    $enable_credential_setup = true
-  } else {
-    $enable_credential_setup = false
-  }
-
   class { 'keystone::client': }
   class { 'keystone::cron::fernet_rotate':
     hour   => '*',
@@ -70,7 +62,6 @@ class openstack_integration::keystone (
     enable_ssl                 => $::openstack_integration::config::ssl,
     public_endpoint            => $::openstack_integration::config::keystone_auth_uri,
     manage_policyrcd           => true,
-    enable_credential_setup    => $enable_credential_setup,
     fernet_key_repository      => '/etc/keystone/fernet-keys/',
     fernet_max_active_keys     => '5',
     token_expiration           => $token_expiration,
