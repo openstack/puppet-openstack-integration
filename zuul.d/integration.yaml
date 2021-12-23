@@ -28,18 +28,9 @@
     nodeset: centos-7
 
 - job:
-    name: puppet-openstack-integration-5-scenario001-tempest-centos-8
-    parent: puppet-openstack-integration-5-scenario001
-    nodeset:
-      nodes:
-        - name: centos8
-          label: centos-8
-
-- job:
     name: puppet-openstack-integration-5-scenario001-tempest-centos-8-stream
     parent: puppet-openstack-integration-5-scenario001
     nodeset: centos-8-stream
-    voting: false
 
 - job:
     name: puppet-openstack-integration-5-scenario002
@@ -64,18 +55,9 @@
     nodeset: centos-7
 
 - job:
-    name: puppet-openstack-integration-5-scenario002-tempest-centos-8
-    parent: puppet-openstack-integration-5-scenario002
-    nodeset:
-      nodes:
-        - name: centos8
-          label: centos-8
-
-- job:
     name: puppet-openstack-integration-5-scenario002-tempest-centos-8-stream
     parent: puppet-openstack-integration-5-scenario002
     nodeset: centos-8-stream
-    voting: false
 
 - job:
     name: puppet-openstack-integration-5-scenario003
@@ -100,18 +82,9 @@
     nodeset: centos-7
 
 - job:
-    name: puppet-openstack-integration-5-scenario003-tempest-centos-8
-    parent: puppet-openstack-integration-5-scenario003
-    nodeset:
-      nodes:
-        - name: centos8
-          label: centos-8
-
-- job:
     name: puppet-openstack-integration-5-scenario003-tempest-centos-8-stream
     parent: puppet-openstack-integration-5-scenario003
     nodeset: centos-8-stream
-    voting: false
 
 - job:
     name: puppet-openstack-integration-5-scenario004
@@ -139,20 +112,9 @@
       ceph: nautilus
 
 - job:
-    name: puppet-openstack-integration-5-scenario004-tempest-centos-8
-    parent: puppet-openstack-integration-5-scenario004
-    nodeset:
-      nodes:
-        - name: centos8
-          label: centos-8
-    vars:
-      ceph: nautilus
-
-- job:
     name: puppet-openstack-integration-5-scenario004-tempest-centos-8-stream
     parent: puppet-openstack-integration-5-scenario004
     nodeset: centos-8-stream
-    voting: false
 
 - job:
     name: puppet-openstack-integration-6
