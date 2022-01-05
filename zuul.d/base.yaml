@@ -86,6 +86,8 @@
         override-checkout: stable/wallaby
       - name: openstack/tempest
         override-checkout: 27.0.0
+      - name: openstack/neutron-tempest-plugin
+        override-checkout: 1.4.0
 
 - job:
     name: puppet-openstack-integration-run-base
