@@ -43,7 +43,7 @@ class openstack_integration::placement {
   include placement::db::sync
   include placement::api
   include apache
-  if ($::os_package_type != 'debian') {
+  if ($::operatingsystem != 'Debian') {
     class { 'placement::wsgi::apache':
       bind_host => $::openstack_integration::config::ip_for_url,
       ssl_key   => "/etc/placement/ssl/private/${::fqdn}.pem",

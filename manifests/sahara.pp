@@ -64,8 +64,8 @@ class openstack_integration::sahara (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  $service_name = $::os_package_type ? {
-    'debian' => $::sahara::params::api_service_name,
+  $service_name = $::operatingsystem ? {
+    'Debian' => $::sahara::params::api_service_name,
     default  => 'httpd',
   }
   class { 'sahara::service::api':

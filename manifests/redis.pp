@@ -26,7 +26,7 @@ class openstack_integration::redis {
   # due to issues in OpenStack CI with the redis package, we need to disable
   # the service enable flag. The service still starts but the management of
   # the service with systemd errors.
-  if ($::os_package_type == 'debian') {
+  if ($::operatingsystem == 'Debian') {
     $service_enable = false
   } else {
     $service_enable = true

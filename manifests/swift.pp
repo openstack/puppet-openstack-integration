@@ -13,7 +13,7 @@ class openstack_integration::swift {
     require => Package['rsyslog'],
   }
 
-  if ($::os_package_type == 'debian') {
+  if ($::operatingsystem == 'Debian') {
     file { '/var/log/swift':
       ensure => directory,
       mode   => '0750',
@@ -33,7 +33,7 @@ class openstack_integration::swift {
 
   # Ubuntu/Debian requires particular permissions for rsyslog to work
   if $::osfamily == 'Debian' {
-    if $::os_package_type == 'debian' {
+    if $::operatingsystem == 'Debian' {
       File<| title == '/var/log/swift' |> {
         owner => 'swift',
         group => 'adm'

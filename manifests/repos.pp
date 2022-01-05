@@ -8,8 +8,8 @@ class openstack_integration::repos {
   }
   case $::osfamily {
     'Debian': {
-      case $::os_package_type {
-        'ubuntu': {
+      case $::operatingsystem {
+        'Ubuntu': {
           include apt
           class { 'openstack_extras::repo::debian::ubuntu':
             release         => 'wallaby',
@@ -17,7 +17,7 @@ class openstack_integration::repos {
             uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }
         }
-        'debian': {
+        'Debian': {
           include apt
           class { 'openstack_extras::repo::debian::debian':
             release         => 'ussuri',
@@ -25,7 +25,7 @@ class openstack_integration::repos {
           }
         }
         default: {
-          fail("Unsupported package type (${::os_package_type})")
+          fail("Unsupported package type (${::operatingsystem})")
         }
       }
       # Ceph is both packaged on UCA and official download.ceph.com packages

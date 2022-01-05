@@ -25,7 +25,7 @@ class openstack_integration::ceph (
 
   # FIXME(ykarel) python2-rbd is installed as a indirect dependency for 'ceph' package,
   # but we need to install python3-rbd in Fedora until 'ceph' package is fixed.
-  if ($::os_package_type == 'debian') or ($::operatingsystem == 'Fedora') or
+  if ($::operatingsystem == 'Debian') or ($::operatingsystem == 'Fedora') or
     ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
 
     ensure_resource('package', 'python3-rbd', {
