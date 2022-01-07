@@ -204,7 +204,7 @@ mod 'rabbitmq',
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
-  :ref => '1.1.3'
+  :ref => 'ea6397ef55273b7e20d8eccece493cceb795f5eb'
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
@@ -232,7 +232,7 @@ mod 'python',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '8.1.0'
+  :ref => '70f5b28cf847d3033a418c0d2776218698a4025a'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
