@@ -42,7 +42,6 @@ class openstack_integration::trove {
     database_connection        => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    nova_proxy_admin_pass      => 'a_big_secret',
   }
   class { 'trove::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
@@ -62,6 +61,10 @@ class openstack_integration::trove {
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
+  class { 'trove::api::service_credentials':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_auth_uri,
+  }
   class { 'trove::api':
     bind_host => $::openstack_integration::config::host,
     workers   => 2,
@@ -69,14 +72,24 @@ class openstack_integration::trove {
     key_file  => $key_file,
   }
   class { 'trove::client': }
+  class { 'trove::conductor::service_credentials':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_auth_uri
+  }
   class { 'trove::conductor':
-    debug    => true,
-    workers  => 2,
-    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    debug   => true,
+    workers => 2,
+  }
+  class { 'trove::taskmanager::service_credentials':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_auth_uri
+  }
+  class { 'trove::guestagent::service_credentials':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_auth_uri
   }
   class { 'trove::taskmanager':
     debug                   => true,
-    auth_url                => $::openstack_integration::config::keystone_auth_uri,
     use_guestagent_template => false,
   }
   class { 'trove::quota': }
