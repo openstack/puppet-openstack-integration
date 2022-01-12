@@ -47,12 +47,19 @@ class openstack_integration::magnum (
     password     => 'a_big_secret',
   }
 
+  class { 'magnum::keystone::keystone_auth':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $::openstack_integration::config::keystone_admin_uri,
+  }
+
   class { 'magnum::keystone::authtoken':
     password             => 'a_big_secret',
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
-    auth_url             => "${::openstack_integration::config::base_url}:35357/v3",
-    www_authenticate_uri => "${::openstack_integration::config::base_url}:5000/v3",
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
 
