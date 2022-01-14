@@ -209,6 +209,13 @@ if [ "${MANAGE_REPOS}" = true ]; then
     fi
 fi
 
+# NOTE(tkajinam): This is required to fix unprivileged ping, until
+#                 the following change is shipped
+#                 https://github.com/redhat-plumbers/systemd-rhel8/pull/246
+if is_fedora; then
+    sudo sysctl -w net.ipv4.ping_group_range='0 2147483647'
+fi
+
 print_header "Running Puppet Scenario: ${SCENARIO} (1st time)"
 run_puppet $SCENARIO
 RESULT=$?
