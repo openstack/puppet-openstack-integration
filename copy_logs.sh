@@ -234,6 +234,11 @@ free -m > $LOG_DIR/free.txt
 lsmod > $LOG_DIR/lsmod.txt
 cat /proc/cpuinfo > $LOG_DIR/cpuinfo.txt
 sudo ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
+sudo ip -d address > $LOG_DIR/ip_-d_address.txt
+sudo brctl show > $LOG_DIR/brctl_show.txt
+if [ `command -v ovs-vsctl` ]; then
+    sudo ovs-vsctl show > $LOG_DIR/ovs-vsctl_show.txt
+fi
 sudo netstat -tulpn > $LOG_DIR/netstat.txt
 sudo systemctl status --all 2>/dev/null > $LOG_DIR/systemctl.txt
 
