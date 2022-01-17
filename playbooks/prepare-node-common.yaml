@@ -6,54 +6,7 @@
         state: directory
 
     - block:
-      - name: Install python2-dnf(Fedora)
-        command: "dnf -y install python2-dnf python3-dnf yum"
-        become: true
-
-      - name: Remove excludes from /etc/dnf/dnf.conf (Fedora)
-        lineinfile:
-          path: /etc/dnf/dnf.conf
-          state: absent
-          regexp: '^exclude='
-        become: true
-
-      - name: Reinstall python3-setuptools (Fedora)
-        command: "dnf -y reinstall python3-setuptools"
-        become: true
-
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
-
-    - block:
-      - name: Clean-up system state (CentOS/RHEL<=7)
-        yum:
-          name: "{{ item }}"
-          state: absent
-        become: true
-        with_items:
-          - rdo-release
-          - centos-release-openstack-*
-          - centos-release-ceph-*
-
-      - name: Install Ruby dependencies (CentOS/RHEL<=7)
-        yum:
-          name: "{{ item }}"
-        become: true
-        with_items:
-          - "@Development tools"
-          - libxml2-devel
-          - libxslt-devel
-          - ruby-devel
-          - zlib-devel
-
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution != "Fedora"
-        - ansible_distribution_major_version <= "7"
-
-    - block:
-      - name: Clean-up system state (Fedora or CentOS/RHEL>=8)
+      - name: Clean-up system state (CentOS/RHEL)
         dnf:
           name: "{{ item }}"
           state: absent
@@ -64,7 +17,7 @@
           - centos-release-openstack-*
           - centos-release-ceph-*
 
-      - name: Install Ruby dependencies (Fedora or CentOS/RHEL>=8)
+      - name: Install Ruby dependencies (CentOS/RHEL)
         dnf:
           name: "{{ item }}"
         become: true
@@ -75,17 +28,16 @@
           - ruby-devel
           - zlib-devel
 
-      - name: Install yum (Fedora or CentOS/RHEL>=8)
+      - name: Install yum (CentOS/RHEL)
         dnf:
           name: yum
         become: true
 
       when:
         - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "8"
 
     - block:
-      - name: install required packages for CentOS 9
+      - name: install required packages (CentOS/RHEL>=9)
         dnf:
           name: "{{ item }}"
           state: present
@@ -95,7 +47,7 @@
           - rubygem-rexml
       when:
         - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora" or ansible_distribution_major_version >= "9"
+        - ansible_distribution_major_version >= "9"
 
     - name: Install Ruby dependencies (Ubuntu)
       apt:
@@ -127,23 +79,6 @@
         - python3-pip
 
     - block:
-      - name: Set up puppetlabs repo (Fedora)
-        dnf:
-          name: "https://yum.puppetlabs.com/puppet{{ puppet }}-release-fedora-{{ ansible_distribution_major_version }}.noarch.rpm"
-        become: true
-
-      - name: Install puppetlabs puppet-agent (Fedora)
-        dnf:
-          name: puppet-agent
-        become: true
-
-      when:
-        - use_puppetlabs is defined
-        - use_puppetlabs|bool
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == "Fedora"
-
-    - block:
       - name: Set up puppetlabs repo (CentOS/RHEL)
         yum:
           name: "https://yum.puppetlabs.com/puppet{{ puppet }}-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
@@ -158,7 +93,6 @@
         - use_puppetlabs is defined
         - use_puppetlabs|bool
         - ansible_os_family == 'RedHat'
-        - ansible_distribution != "Fedora"
 
     - block:
       - name: Set up puppetlabs repo (Ubuntu and Debian)
