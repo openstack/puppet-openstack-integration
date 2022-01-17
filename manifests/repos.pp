@@ -154,15 +154,6 @@ class openstack_integration::repos {
   }
 
   if $::operatingsystem == 'Ubuntu' {
-    # TODO(tobias-urdin): Something changed in packages that was installed in puppet-nova
-    # on Ubuntu so the rbd and rados python libs are not installed anymore.
-    # Need to figure out a good place to add them back in, until then just testing with this.
-    ensure_packages(['python3-rados', 'python3-rbd'], {
-      'ensure' => 'present',
-      'tag'    => 'nova-python3-libs',
-    })
-    Apt::Source<||> -> Package<| tag == 'nova-python3-libs' |>
-
     # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
     package { 'ruby-augeas':
       ensure => 'present',
