@@ -157,6 +157,7 @@
       - ^releasenotes/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
+      - ^spec/acceptance/.*$
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
