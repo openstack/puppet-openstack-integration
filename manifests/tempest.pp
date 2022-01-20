@@ -233,7 +233,6 @@ class openstack_integration::tempest (
     glance_available                 => $glance,
     glance_v1                        => false,
     glance_v2                        => true,
-    keystone_v2                      => false,
     horizon_available                => $horizon,
     nova_available                   => $nova,
     neutron_available                => $neutron,
