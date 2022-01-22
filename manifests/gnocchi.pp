@@ -1,10 +1,16 @@
 # Configure the Gnocchi service
 #
+# [*backend*]
+#   (optional) Backend storage to be used. This is overridden by 'file' when
+#   integration_enable is false.
+#   Defaults to 'ceph'.
+#
 # [*integration_enable*]
 #   (optional) Boolean to run integration tests.
 #   Defaults to true.
 #
 class openstack_integration::gnocchi (
+  $backend            = 'ceph',
   $integration_enable = true,
 ){
 
@@ -17,6 +23,12 @@ class openstack_integration::gnocchi (
       require => Package['gnocchi'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
+  }
+
+  if ! $integration_enable  {
+    $backend_real = 'file'
+  } else {
+    $backend_real = $backend
   }
 
   class { 'gnocchi::logging':
@@ -32,6 +44,20 @@ class openstack_integration::gnocchi (
     charset  => $::openstack_integration::params::mysql_charset,
     password => 'gnocchi',
   }
+
+  # TODO(tkajinam): We need to find a way to enforce swift is up before
+  #                 starting all services. Currently it results in dependency
+  #                 cycle, caused by multiple usage of httpd. In the mean time
+  #                 skip initializing storage for swift, because the current
+  #                 implementation only validates connection to swift.
+  $db_sync_extra_opts = $backend_real ? {
+    'swift' => '--skip-storage',
+    default => undef,
+  }
+  class { 'gnocchi::db::sync':
+    extra_opts => $db_sync_extra_opts,
+  }
+
   class { 'gnocchi::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8041",
     internal_url => "${::openstack_integration::config::base_url}:8041",
@@ -49,7 +75,6 @@ class openstack_integration::gnocchi (
   class { 'gnocchi::api':
     enabled      => true,
     service_name => 'httpd',
-    sync_db      => true,
   }
   include apache
   class { 'gnocchi::wsgi::apache':
@@ -74,16 +99,34 @@ class openstack_integration::gnocchi (
     metric_processing_delay => 5,
   }
   class { 'gnocchi::storage': }
-  if $integration_enable {
-    class { 'gnocchi::storage::ceph':
-      ceph_username => 'openstack',
-      ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
-      manage_rados  => true,
+
+  case $backend_real {
+    'ceph': {
+      class { 'gnocchi::storage::ceph':
+        ceph_username => 'openstack',
+        ceph_keyring  => '/etc/ceph/ceph.client.openstack.keyring',
+        manage_rados  => true,
+      }
+      # make sure ceph pool exists before running gnocchi (dbsync & services)
+      Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
     }
-    # make sure ceph pool exists before running gnocchi (dbsync & services)
-    Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
-  } else {
-    class { 'gnocchi::storage::file': }
+    'swift': {
+      class { 'gnocchi::storage::swift':
+        swift_auth_version => '2',
+        swift_authurl      => $::openstack_integration::config::keystone_admin_uri,
+        swift_user         => 'services:gnocchi',
+        swift_key          => 'a_big_secret',
+      }
+      class { 'gnocchi::storage::incoming::redis':
+        redis_url => $::openstack_integration::config::tooz_url,
+      }
+    }
+    'file': {
+      class { 'gnocchi::storage::file': }
+    }
+    default: {
+      fail("Unsupported backend (${backend})")
+    }
   }
   class { 'gnocchi::statsd':
     archive_policy_name => 'high',
