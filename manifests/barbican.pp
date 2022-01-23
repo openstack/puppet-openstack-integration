@@ -31,7 +31,9 @@ class openstack_integration::barbican {
     password     => 'a_big_secret',
   }
   include barbican::quota
-  include barbican::keystone::notification
+  class { 'barbican::keystone::notification':
+    enable_keystone_notification => true,
+  }
   class { 'barbican::api::logging':
     debug => true,
   }
