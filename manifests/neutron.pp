@@ -2,7 +2,7 @@
 #
 # [*driver*]
 #   (optional) Neutron Driver to test
-#   Can be: openvswitch or linuxbridge.
+#   Can be: openvswitch, linuxbridge or ovn.
 #   Defaults to 'openvswitch'.
 #
 # [*bgpvpn_enabled*]
@@ -68,7 +68,7 @@ class openstack_integration::neutron (
   }
 
   case $driver {
-    'openvswitch': {
+    'openvswitch', 'ovn': {
       include vswitch::ovs
       # In CentOS8 puppet-vswitch requires network-scripts package until it's ported to NM.
       if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') == 0) {
@@ -100,13 +100,6 @@ class openstack_integration::neutron (
         command     => 'ip addr add 172.24.5.1/24 dev br-ex && ip link set br-ex up',
         refreshonly => true,
       }
-      class { 'neutron::agents::ml2::ovs':
-        local_ip        => '127.0.0.1',
-        tunnel_types    => ['vxlan'],
-        bridge_mappings => ['external:br-ex'],
-        manage_vswitch  => false,
-        firewall_driver => 'iptables_hybrid',
-      }
     }
     'linuxbridge': {
       exec { 'create_dummy_iface':
@@ -114,12 +107,6 @@ class openstack_integration::neutron (
         provider => shell,
         unless   => 'ip l show loop0',
         command  => 'ip link add name loop0 type dummy && ip addr add 172.24.5.1/24 dev loop0 && ip link set loop0 up',
-      }
-      class { 'neutron::agents::ml2::linuxbridge':
-        local_ip                    => $::ipaddress,
-        tunnel_types                => ['vxlan'],
-        physical_interface_mappings => ['external:loop0'],
-        firewall_driver             => 'iptables',
       }
     }
     default: {
@@ -137,39 +124,46 @@ class openstack_integration::neutron (
     admin_url    => "${::openstack_integration::config::base_url}:9696",
     password     => 'a_big_secret',
   }
-  $bgpvpn_plugin = $bgpvpn_enabled ? {
-    true => 'bgpvpn',
-    default => undef,
-  }
-  if $l2gw_enabled {
-    if ($::operatingsystem == 'Ubuntu') {
-      class { 'neutron::services::l2gw': }
-      $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+
+  if $driver == 'ovn' {
+    $plugins_list = ['qos', 'ovn-router', 'trunk']
+
+  } else {
+    $bgpvpn_plugin = $bgpvpn_enabled ? {
+      true    => 'bgpvpn',
+      default => undef,
     }
-    elsif ($::operatingsystem != 'Ubuntu') {
-      class { 'neutron::services::l2gw':
-        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+    if $l2gw_enabled {
+      if ($::operatingsystem == 'Ubuntu') {
+        class { 'neutron::services::l2gw': }
+        $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
+      elsif ($::operatingsystem != 'Ubuntu') {
+        class { 'neutron::services::l2gw':
+          service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+        }
+        $providers_list = undef
+      }
+      class { 'neutron::agents::l2gw': }
+    } else {
       $providers_list = undef
     }
-    class { 'neutron::agents::l2gw': }
-  } else {
-    $providers_list = undef
+    $l2gw_plugin = $l2gw_enabled ? {
+      true    => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
+      default => undef,
+    }
+    $bgp_dr_plugin = $bgp_dragent_enabled ? {
+      true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
+      default => undef,
+    }
+
+    $plugins_list = delete_undef_values(['router', 'metering', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
   }
-  $l2gw_plugin = $l2gw_enabled ? {
-    true => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
-    default => undef,
-  }
-  $bgp_dr_plugin = $bgp_dragent_enabled ? {
-    true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
-    default => undef,
-  }
-  $plugins_list = delete_undef_values(['router', 'metering', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
 
   if $driver == 'linuxbridge' {
-      $global_physnet_mtu    = '1450'
+    $global_physnet_mtu = '1450'
   } else {
-      $global_physnet_mtu    = undef
+    $global_physnet_mtu = undef
   }
 
   class { 'neutron::logging':
@@ -239,11 +233,60 @@ class openstack_integration::neutron (
     ensure_dr_package        => $bgp_dragent_enabled,
   }
 
+  $overlay_network_type = $driver ? {
+    'ovn'   => 'geneve',
+    default => 'vxlan'
+  }
+  $max_header_size = $driver ? {
+    'ovn'   => 38,
+    default => $::os_service_default
+  }
   class { 'neutron::plugins::ml2':
-    type_drivers         => ['vxlan', 'vlan', 'flat'],
-    tenant_network_types => ['vxlan', 'vlan', 'flat'],
+    type_drivers         => [$overlay_network_type, 'vlan', 'flat'],
+    tenant_network_types => [$overlay_network_type, 'vlan', 'flat'],
     extension_drivers    => 'port_security,qos',
     mechanism_drivers    => $driver,
+    max_header_size      => $max_header_size,
+  }
+
+  case $driver {
+    'openvswitch': {
+      class { 'neutron::agents::ml2::ovs':
+        local_ip        => '127.0.0.1',
+        tunnel_types    => ['vxlan'],
+        bridge_mappings => ['external:br-ex'],
+        manage_vswitch  => false,
+        firewall_driver => 'iptables_hybrid',
+      }
+    }
+    'ovn': {
+      class { 'ovn::northd': }
+      class { 'ovn::controller':
+        ovn_remote          => 'tcp:127.0.0.1:6642',
+        ovn_encap_ip        => '127.0.0.1',
+        ovn_bridge_mappings => ['external:br-ex'],
+        ovn_cms_options     => 'enable-chassis-as-gw',
+        manage_ovs_bridge   => false,
+      }
+      # NOTE(tkajinam): neutron::plugins::ml2::ovn requires neutron::plugins::ml2,
+      #                 thus it should be included after neutron::plugins::ml2.
+      class { 'neutron::plugins::ml2::ovn':
+        ovn_nb_connection    => 'tcp:127.0.0.1:6641',
+        ovn_sb_connection    => 'tcp:127.0.0.1:6642',
+        ovn_metadata_enabled => true,
+      }
+    }
+    'linuxbridge': {
+      class { 'neutron::agents::ml2::linuxbridge':
+        local_ip                    => $::ipaddress,
+        tunnel_types                => ['vxlan'],
+        physical_interface_mappings => ['external:loop0'],
+        firewall_driver             => 'iptables',
+      }
+    }
+    default: {
+      fail("Unsupported neutron driver (${driver})")
+    }
   }
 
   if $::openstack_integration::config::ssl {
@@ -257,24 +300,33 @@ class openstack_integration::neutron (
     $metadata_protocol = 'http'
   }
 
-  class { 'neutron::agents::metadata':
-    debug             => true,
-    shared_secret     => 'a_big_secret',
-    metadata_workers  => 2,
-    metadata_host     => $metadata_host,
-    metadata_protocol => $metadata_protocol,
-  }
-  class { 'neutron::agents::l3':
-    interface_driver => $driver,
-    debug            => true,
-  }
-  class { 'neutron::agents::dhcp':
-    interface_driver => $driver,
-    debug            => true,
-  }
-  class { 'neutron::agents::metering':
-    interface_driver => $driver,
-    debug            => true,
+  if $driver == 'ovn' {
+    class { 'neutron::agents::ovn_metadata':
+      debug             => true,
+      shared_secret     => 'a_big_secret',
+      metadata_host     => $metadata_host,
+      metadata_protocol => $metadata_protocol,
+    }
+  } else {
+    class { 'neutron::agents::metadata':
+      debug             => true,
+      shared_secret     => 'a_big_secret',
+      metadata_workers  => 2,
+      metadata_host     => $metadata_host,
+      metadata_protocol => $metadata_protocol,
+    }
+    class { 'neutron::agents::l3':
+      interface_driver => $driver,
+      debug            => true,
+    }
+    class { 'neutron::agents::dhcp':
+      interface_driver => $driver,
+      debug            => true,
+    }
+    class { 'neutron::agents::metering':
+      interface_driver => $driver,
+      debug            => true,
+    }
   }
   class { 'neutron::server::notifications::nova':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
