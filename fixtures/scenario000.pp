@@ -31,19 +31,14 @@ if $::osfamily == 'RedHat' {
 
 case $::osfamily {
   'Debian': {
-    $ipv6                    = false
-    # vitrage are not packaged yet in debian/ubuntu
-    $enable_vitrage          = false
-    $om_rpc                  = 'rabbit'
-    $om_notify               = 'rabbit'
-    $notification_topics     = $::os_service_default
+    $ipv6      = false
+    $om_rpc    = 'rabbit'
+    $om_notify = 'rabbit'
   }
   'RedHat': {
-    $ipv6                    = true
-    $enable_vitrage          = false
-    $om_rpc                  = 'amqp'
-    $om_notify               = 'rabbit'
-    $notification_topics     = ['notifications', 'vitrage_notifications']
+    $ipv6      = true
+    $om_rpc    = 'amqp'
+    $om_notify = 'rabbit'
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
