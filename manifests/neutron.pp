@@ -210,8 +210,9 @@ class openstack_integration::neutron (
       timeout     => 60,
       tries       => 10,
       try_sleep   => 2,
+      refreshonly => true,
     }
-    Anchor['neutron::service::end'] -> Exec['check-neutron-server'] -> Neutron_network<||>
+    Anchor['neutron::service::end'] ~> Exec['check-neutron-server'] -> Neutron_network<||>
   }
 
   class { 'neutron::db':
