@@ -69,6 +69,9 @@ class openstack_integration::ceilometer (
     $sample_pipeline_publishers = ['gnocchi://']
     $event_pipeline_publishers = ['gnocchi://']
 
+    class { 'ceilometer::coordination':
+      backend_url => $::openstack_integration::config::tooz_url,
+    }
     class { 'ceilometer::agent::notification':
       workers                   => '2',
       manage_pipeline           => true,
