@@ -9,11 +9,11 @@
       puppet_gem_version: 6.21.1
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-7.8-centos-8-stream
+    name: puppet-openstack-libraries-puppet-unit-7.10-centos-8-stream
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-8-stream
     vars:
-      puppet_gem_version: 7.8.0
+      puppet_gem_version: 7.10.0
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
@@ -24,11 +24,11 @@
       rspec_puppet_version: '= 2.8.0'
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-7.8-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-unit-7.10-ubuntu-focal
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: ubuntu-focal
     vars:
-      puppet_gem_version: 7.8.0
+      puppet_gem_version: 7.10.0
       rspec_puppet_version: '= 2.8.0'
 
 - job:
