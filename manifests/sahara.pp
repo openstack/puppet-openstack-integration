@@ -72,18 +72,6 @@ class openstack_integration::sahara (
     service_name => $service_name,
   }
   if $service_name == 'httpd' {
-    # NOTE(tobias-urdin): The sahara-api package in Ubuntu installs this apache vhosts which we
-    # do not need since we create them using the puppetlabs-apache module. Set them as empty
-    # so that package upgrades still work.
-    if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '18') >= 0) {
-      ensure_resource('file', '/etc/apache2/sites-available/sahara-api.conf', {
-        'ensure'  => 'present',
-        'content' => '',
-      })
-
-      Package['sahara-api'] -> File['/etc/apache2/sites-available/sahara-api.conf'] ~> Anchor['sahara::install::end']
-    }
-
     include apache
     class { 'sahara::wsgi::apache':
       bind_host => $::openstack_integration::config::ip_for_url,
