@@ -115,4 +115,3 @@
     gate:
       jobs:
         - puppet-openstack-litmus-7.8-centos-8-stream
-        - puppet-openstack-litmus-6.21-ubuntu-focal
