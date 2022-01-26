@@ -54,8 +54,9 @@ class openstack_integration::swift {
     workers            => '2',
     pipeline           => [
   'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
-  'listing_formats', 'tempurl', 'ratelimit', 'authtoken', 'keystone',
-  'copy', 'formpost', 'staticweb', 'container_quotas', 'account_quotas',
+  'listing_formats', 'container_sync', 'bulk', 'tempurl', 'ratelimit',
+  'authtoken', 'keystone', 'copy', 'formpost', 'staticweb', 'container_quotas',
+  'account_quotas', 'slo', 'dlo', 'versioned_writes', 'symlink',
   'proxy-logging', 'proxy-server'
     ],
     node_timeout       => 30,
@@ -85,6 +86,12 @@ class openstack_integration::swift {
   include swift::proxy::staticweb
   include swift::proxy::container_quotas
   include swift::proxy::account_quotas
+  include swift::proxy::bulk
+  include swift::proxy::container_sync
+  include swift::proxy::dlo
+  include swift::proxy::slo
+  include swift::proxy::symlink
+  include swift::proxy::versioned_writes
   class { 'swift::keystone::auth':
     public_url     => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
     admin_url      => "http://${::openstack_integration::config::ip_for_url}:8080",
