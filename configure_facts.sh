@@ -40,7 +40,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
@@ -52,7 +52,7 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi

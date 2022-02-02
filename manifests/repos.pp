@@ -76,7 +76,7 @@ class openstack_integration::repos {
         repo_replace      => false,
         update_packages   => true,
       }
-      $ceph_mirror_fallback = "${centos_mirror}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
+      $ceph_mirror_fallback = "${centos_mirror}/centos/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
       if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
         $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
       } else {
