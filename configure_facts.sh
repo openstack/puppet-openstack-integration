@@ -44,7 +44,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
         if [ "${OS_NAME_VERS}" == "centos9" ]; then
             CEPH_MIRROR_HOST="https://buildlogs.centos.org/centos/9-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         else
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
             NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
         fi
     fi
