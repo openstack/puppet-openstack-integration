@@ -75,11 +75,12 @@ class openstack_integration::repos {
         },
         repo_replace      => false,
         update_packages   => true,
+        stream            => true,
       }
       # NOTE(tobias-urdin): Mimic was never released by Storage SIG to official mirros.
       $ceph_mirror_fallback = $ceph_version_real ? {
         'mimic' => "https://trunk.rdoproject.org/centos${::os['release']['major']}/deps/storage/storage${::os['release']['major']}-ceph-mimic/x86_64/",
-        default => "${centos_mirror}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
+        default => "${centos_mirror}/centos/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
       }
       if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
         $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
