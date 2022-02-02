@@ -17,7 +17,7 @@ export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source ${SCRIPT_DIR}/functions
 
 export WORKSPACE=${WORKSPACE:-/tmp}
-export CEPH_VERSION=${CEPH_VERSION:-octopus}
+export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-5}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}

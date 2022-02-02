@@ -22,7 +22,7 @@ export DLRN_BASE=${DLRN_BASE:-${OS_NAME_VERS}-wallaby/puppet-passed-ci}
 export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-wallaby/deps/latest/}
 export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-wallaby/puppet-passed-ci/delorean.repo}
 export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-wallaby/delorean-deps.repo}
-export CEPH_VERSION=${CEPH_VERSION:-octopus}
+export CEPH_VERSION=${CEPH_VERSION:-nautilus}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
@@ -39,12 +39,15 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     if uses_debs; then
         if [ "$CEPH_VERSION" == "mimic" ] || [ "CEPH_VERSION" == "luminous" ] ; then
             CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
-        else
             CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        if [ "$CEPH_VERSION" == "nautilus" ]; then
+            CEPH_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/centos${VERSION_ID}-master/deps/storage/${CEPH_VERSION}/"
+        else 
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+        fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
@@ -56,7 +59,11 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}/storage/x86_64/ceph-${CEPH_VERSION}/"
+        if [ "$CEPH_VERSION" == "nautilus" ]; then
+            CEPH_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/centos${VERSION_ID}-master/deps/storage/${CEPH_VERSION}/"
+        else
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+        fi
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi

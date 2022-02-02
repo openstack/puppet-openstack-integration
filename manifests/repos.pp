@@ -4,7 +4,7 @@ class openstack_integration::repos {
   if defined('$::ceph_version') and $::ceph_version != '' {
     $ceph_version_real = $::ceph_version
   } else {
-    $ceph_version_real = 'octopus'
+    $ceph_version_real = 'nautilus'
   }
   case $::osfamily {
     'Debian': {
@@ -75,8 +75,9 @@ class openstack_integration::repos {
         },
         repo_replace      => false,
         update_packages   => true,
+        stream            => true,
       }
-      $ceph_mirror_fallback = "${centos_mirror}/centos/${::os['release']['major']}/storage/x86_64/ceph-${ceph_version_real}/"
+      $ceph_mirror_fallback = "${centos_mirror}/centos/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
       if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
         $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
       } else {
