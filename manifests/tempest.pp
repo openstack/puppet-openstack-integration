@@ -231,8 +231,6 @@ class openstack_integration::tempest (
     cinder_backup_available          => $cinder_backup,
     designate_available              => $designate,
     glance_available                 => $glance,
-    glance_v1                        => false,
-    glance_v2                        => true,
     horizon_available                => $horizon,
     nova_available                   => $nova,
     neutron_available                => $neutron,
