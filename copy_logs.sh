@@ -227,6 +227,9 @@ if [ `command -v rpm` ]; then
 fi
 if [ `command -v dnf` ]; then
     sudo dnf module list > $LOG_DIR/modulelist.txt
+    mkdir $LOG_DIR/dnf
+    sudo cp /var/log/dnf.log $LOG_DIR/dnf
+    sudo cp /var/log/dnf.rpm.log $LOG_DIR/dnf
 fi
 
 if [ `command -v gem` ]; then
