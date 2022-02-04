@@ -152,7 +152,7 @@ mod 'powerdns',
 
 mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => 'v3.0.0'
+  :ref => 'v3.1.0'
 
 mod 'ipaclient',
   :git => 'https://github.com/joshuabaird/puppet-ipaclient',
@@ -216,7 +216,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.1.0'
+  :ref => '9.2.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
