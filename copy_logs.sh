@@ -189,6 +189,12 @@ if [ -f ${redis_logs} ]; then
     sudo cp ${redis_logs} $LOG_DIR/redis.log.txt
 fi
 
+if [ -d /etc/redis ]; then
+    sudo cp -r /etc/redis $LOG_DIR/etc/redis
+elif [ -f /etc/redis.conf ]; then
+    sudo cp /etc/redis.conf $LOG_DIR/etc/
+fi
+
 if [ -f /var/log/qdrouterd/qdrouterd.log ]; then
     sudo cp /var/log/qdrouterd/qdrouterd.log $LOG_DIR/qdrouterd.log.txt
     if [ -f /etc/qpid-dispatch/qdrouterd.conf ]; then
