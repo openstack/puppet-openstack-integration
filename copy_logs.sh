@@ -226,6 +226,10 @@ if [ `command -v gem` ]; then
     gem list |sort > $LOG_DIR/gem-list.txt
 fi
 
+if is_fedora; then
+    sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
+fi
+
 # system status & informations
 sudo cp /root/openrc $LOG_DIR/openrc.txt
 sudo chmod 777 $LOG_DIR/openrc.txt
