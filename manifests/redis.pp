@@ -1,21 +1,16 @@
 class openstack_integration::redis {
   include openstack_integration::config
 
-  # NOTE(tobias-urdin): Manually manage redis until arioch/puppet-redis support
-  # redis 4.x since that is used by Ubuntu Bionic.
+  # TODO(tkajinam): Remove this once puppet-redis supports CentOS 9
   case $::osfamily {
     'Debian': {
-      $redis_package_name = 'redis-server'
-      $redis_service_name = 'redis-server'
-      $redis_config       = '/etc/redis/redis.conf'
+      $redis_config   = '/etc/redis/redis.conf'
     }
     'RedHat': {
-      $redis_package_name = 'redis'
-      $redis_service_name = 'redis'
       if versioncmp($::operatingsystemmajrelease, '8') > 0 {
-        $redis_config       = '/etc/redis/redis.conf'
+        $redis_config = '/etc/redis/redis.conf'
       } else {
-        $redis_config       = '/etc/redis.conf'
+        $redis_config = '/etc/redis.conf'
       }
     }
     default: {
@@ -23,26 +18,10 @@ class openstack_integration::redis {
     }
   }
 
-  # NOTE(tobias-urdin): Manually manage redis until arioch/puppet-redis support
-  # redis 4.x since that is used by Ubuntu Bionic.
-  package { 'redis':
-    ensure => 'present',
-    name   => $redis_package_name,
-  }
-
-  file_line { 'redis_config':
-    ensure  => 'present',
-    path    => $redis_config,
-    line    => "bind ${::openstack_integration::config::host}",
-    match   => '^bind\ ',
-    require => Package['redis'],
-    notify  => Service['redis'],
-  }
-
-  service { 'redis':
-    ensure  => 'running',
-    name    => $redis_service_name,
-    enable  => true,
-    require => File_line['redis_config'],
+  class { 'redis':
+    bind             => $::openstack_integration::config::host,
+    config_file      => $redis_config,
+    config_file_orig => "${redis_config}.puppet",
+    ulimit_managed   => false,
   }
 }
