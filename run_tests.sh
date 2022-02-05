@@ -255,7 +255,7 @@ print_header 'Prepare Tempest'
 # FIXME: Since tempest create tempest workspace which is owned by root user.
 # We need to fix it in puppet-tempest, as a workaround we are changing the mode
 # of tempest workspace and run tempest command using root.
-$SUDO touch /tmp/openstack/tempest/test-whitelist.txt /tmp/openstack/tempest/test-blacklist.txt
+$SUDO touch /tmp/openstack/tempest/test-include-list.txt /tmp/openstack/tempest/test-exclude-list.txt
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
 
 if uses_debs; then
@@ -266,32 +266,32 @@ fi
 set +e
 # Select what to test:
 # Smoke suite
-echo "smoke" > /tmp/openstack/tempest/test-whitelist.txt
+echo "smoke" > /tmp/openstack/tempest/test-include-list.txt
 
 # Horizon
-echo "dashboard" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "dashboard" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Aodh
-echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Gnocchi
-echo "telemetry_tempest_plugin.gnocchi" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "telemetry_tempest_plugin.gnocchi" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Vitrage
-echo "TestEvents" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "TestEvents" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Test Autoscaling with Telemetry (need panko, ubuntu doesn't ship it)
-uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-whitelist.txt
+uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Ironic
 # Note: running all Ironic tests under SSL is not working
 # https://bugs.launchpad.net/ironic/+bug/1554237
-echo "ironic_tempest_plugin.tests.api.admin.test_drivers" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "ironic_tempest_plugin.tests.api.admin.test_drivers" >> /tmp/openstack/tempest/test-include-list.txt
 
 # NOTE(tobias-urdin): Disabled because magnum network access from inside instance to
 # deploy docker for example.
 # Magnum
-#echo "test_create_list_sign_delete_clusters" >> /tmp/openstack/tempest/test-whitelist.txt
+#echo "test_create_list_sign_delete_clusters" >> /tmp/openstack/tempest/test-include-list.txt
 # Below is here just for testing in ci, would be removed soon, at least below version of werkzeug is required for magnum tls to work
 #if is_fedora; then
 #    $SUDO yum -y install http://cbs.centos.org/kojifiles/packages/python-werkzeug/0.11.6/1.el7/noarch/python-werkzeug-0.11.6-1.el7.noarch.rpm
@@ -299,38 +299,38 @@ echo "ironic_tempest_plugin.tests.api.admin.test_drivers" >> /tmp/openstack/temp
 #fi
 
 # Zaqar
-echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-include-list.txt
 
 # ec2api
 # VPN tests require VPNaaS, which doesn't work yet in puppet-tempest.
 # As soon as enabling neutron_vpnaas_available works there, the VPN tests can
 # be included.
-echo "ec2api_tempest_plugin.api.*test_create_delete(?!.*_vpn_connection)" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "ec2api_tempest_plugin.api.*test_create_delete(?!.*_vpn_connection)" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Cinder Backup
-echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Cinder encrypted volumes
-echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Mistral
 # We have to ignore a smoke test because of:
 # https://bugs.launchpad.net/mistral/+bug/1654555
-echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-include-list.txt
 
 # BGPVPN
-echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-include-list.txt
 
 # L2GW
-echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-whitelist.txt
+echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-include-list.txt
 
 if uses_debs; then
-  echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-blacklist.txt
-  echo "tempest.*.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-blacklist.txt
-  echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-blacklist.txt
+  echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-exclude-list.txt
+  echo "tempest.*.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-exclude-list.txt
+  echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
-  echo "tempest.api.object_storage" >> /tmp/openstack/tempest/test-blacklist.txt
-  EXCLUDES="--blacklist-file=/tmp/openstack/tempest/test-blacklist.txt"
+  echo "tempest.api.object_storage" >> /tmp/openstack/tempest/test-exclude-list.txt
+  EXCLUDES="--exclude-list=/tmp/openstack/tempest/test-exclude-list.txt"
 
   # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
   # vpnaas and dynamic routing projects.
@@ -345,16 +345,16 @@ if uses_debs; then
   $SUDO pip3 install .
   popd
 else
-  # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --whitelist-file
+  # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --include-list-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
   # we need to remove this regex option and implement https://review.opendev.org/#/c/547278 when ready.
   # Note these tests were disabled in https://review.opendev.org/#/c/461969/ and hopefully it's more stable now and allows
-  # us to run it until we can implement --blacklist-file in a stable way.
+  # us to run it until we can implement --exclude-list-file in a stable way.
   #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
 
-  # Note(chandankumar): Blacklist tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
+  # Note(chandankumar): exclude-list tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
   # Adding it to skip list will help till we find the correct solution
-  EXCLUDES="--black-regex=^tempest.*.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
+  EXCLUDES="--exclude-regex=^tempest.*.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
@@ -379,10 +379,10 @@ $tempest_binary list-plugins
 $tempest_binary workspace list
 
 # list tempest tests before running tempest
-$tempest_binary run -l --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt
+$tempest_binary run -l --include-list=/tmp/openstack/tempest/test-include-list.txt
 
 # Run tempest tests
-$tempest_binary run --whitelist_file=/tmp/openstack/tempest/test-whitelist.txt --concurrency=2 $EXCLUDES
+$tempest_binary run --include-list=/tmp/openstack/tempest/test-include-list.txt --concurrency=2 $EXCLUDES
 
 RESULT=$?
 set -e
