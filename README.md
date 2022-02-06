@@ -53,11 +53,11 @@ scenario](#all-in-one).
 | placement  |             |      X      |       X     |       X     |      X      |      X       |
 | neutron    |             |     ovs     |      ovs    | linuxbridge |     ovs     |     ovs      |
 | cinder     |             |     rbd     |     iscsi   |             |             |   iscsi      |
-| ceilometer |             |      X      |             |             |             |              |
-| aodh       |             |      X      |             |             |             |              |
+| ceilometer |             |      X      |       X     |             |             |              |
+| aodh       |             |      X      |       X     |             |             |              |
 | designate  |             |             |             |     bind    |             |              |
 | backup     |             |             |    swift    |             |             |              |
-| gnocchi    |             |     rbd     |             |             |             |              |
+| gnocchi    |             |     rbd     |    swift    |             |             |              |
 | ec2api     |             |             |       X     |             |             |              |
 | heat       |             |      X      |             |       X     |             |              |
 | swift      |             |             |       X     |             |             |              |
@@ -76,7 +76,7 @@ scenario](#all-in-one).
 | watcher    |             |             |             |             |      X      |              |
 | bgpvpn-api |             |             |             |             |      X      |              |
 | bgp-dr     |             |             |             |             |      X      |              |
-| redis      |             |      X      |             |             |             |              |
+| redis      |             |      X      |       X     |             |             |              |
 | l2gw       |             |             |             |             |      X      |              |
 | om rpc     |    amqp1    |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |

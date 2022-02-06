@@ -75,9 +75,20 @@ if $ec2api_enabled {
   include openstack_integration::ec2api
 }
 
+include openstack_integration::ceilometer
+include openstack_integration::aodh
+include openstack_integration::redis
+class { 'openstack_integration::gnocchi':
+  integration_enable => true,
+  backend            => 'swift'
+}
+
 class { 'openstack_integration::tempest':
+  aodh                    => true,
+  ceilometer              => true,
   cinder                  => true,
   cinder_backup           => true,
+  gnocchi                 => true,
   swift                   => true,
   ironic                  => true,
   zaqar                   => true,
