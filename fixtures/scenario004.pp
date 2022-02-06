@@ -72,6 +72,7 @@ class { 'openstack_integration::ceph':
 if $watcher_enabled {
   include openstack_integration::watcher
 }
+include openstack_integration::octavia
 
 include openstack_integration::provision
 
@@ -83,4 +84,5 @@ class { 'openstack_integration::tempest':
   l2gw        => $l2gw_enabled,
   l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
   dr          => $bgp_dragent_enabled,
+  octavia     => true,
 }

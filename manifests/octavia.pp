@@ -68,6 +68,40 @@ class openstack_integration::octavia (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
+
+  File { '/etc/octavia/certs':
+    ensure => directory,
+    owner  => 'octavia',
+    group  => 'octavia',
+    mode   => '0700',
+    tag    => 'octavia-certs',
+  }
+
+  [
+    'server_ca.cert.pem',
+    'server_ca.key.pem',
+    'client_ca.cert.pem',
+    'client.cert-and-key.pem'
+  ].each |String $cert | {
+    File { "/etc/octavia/certs/${cert}":
+      ensure => present,
+      owner  => 'octavia',
+      group  => 'octavia',
+      mode   => '0700',
+      source => "puppet:///modules/${module_name}/octavia-certs/${cert}",
+      tag    => 'octavia-certs',
+    }
+  }
+  Anchor['octavia::config::begin'] -> File<| tag == 'octavia-certs' |> -> Anchor['octavia::config::end']
+
+  class { 'octavia::certificates':
+    ca_private_key_passphrase => 'not-secure-passphrase',
+    ca_certificate            => '/etc/octavia/certs/server_ca.cert.pem',
+    ca_private_key            => '/etc/octavia/certs/server_ca.key.pem',
+    client_ca                 => '/etc/octavia/certs/client_ca.cert.pem',
+    client_cert               => '/etc/octavia/certs/client.cert-and-key.pem',
+  }
+
   class { 'octavia::api':
     enabled      => true,
     service_name => 'httpd',
