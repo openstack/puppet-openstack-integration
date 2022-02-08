@@ -50,6 +50,18 @@ class openstack_integration::neutron (
     }
   }
 
+  if $::operatingsystem == 'Ubuntu' {
+    file { '/etc/neutron/fwaas_driver.ini':
+      ensure  => present,
+      replace => false,
+      mode    => '0644',
+      owner   => 'neutron',
+      group   => 'neutron',
+      require => Anchor['neutron::install::end'],
+      before  => Anchor['neutron::config::begin']
+    }
+  }
+
   openstack_integration::mq_user { 'neutron':
     password => 'an_even_bigger_secret',
     before   => Anchor['neutron::service::begin'],
