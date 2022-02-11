@@ -152,7 +152,7 @@ mod 'powerdns',
 
 mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
-  :ref => 'v3.1.0'
+  :ref => 'v3.1.1'
 
 mod 'ipaclient',
   :git => 'https://github.com/joshuabaird/puppet-ipaclient',
