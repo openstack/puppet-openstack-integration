@@ -11,39 +11,35 @@ class openstack_integration::swift {
     ensure  => running,
     enable  => true,
     require => Package['rsyslog'],
+    before  => Anchor['swift::service::begin'],
   }
 
   if ($::operatingsystem == 'Debian') {
+    # Ubuntu/Debian requires particular permissions for rsyslog to work
+    $log_dir_owner = $::operatingsystem ? {
+      'Debian' => 'swift',
+      default  => 'syslog'
+    }
+
     file { '/var/log/swift':
       ensure => directory,
       mode   => '0750',
+      owner  => $log_dir_owner,
+      group  => 'adm'
     }
+
   } else {
     file { '/var/log/swift':
       ensure => directory,
       mode   => '0755',
     }
   }
+
   file { '/etc/rsyslog.d/10-swift.conf':
     ensure  => present,
     source  => "puppet:///modules/${module_name}/rsyslog-swift.conf",
     require => [Package['rsyslog'], File['/var/log/swift']],
     notify  => Service['rsyslog'],
-  }
-
-  # Ubuntu/Debian requires particular permissions for rsyslog to work
-  if $::osfamily == 'Debian' {
-    if $::operatingsystem == 'Debian' {
-      File<| title == '/var/log/swift' |> {
-        owner => 'swift',
-        group => 'adm'
-      }
-    } else {
-      File<| title == '/var/log/swift' |> {
-        owner => 'syslog',
-        group => 'adm'
-      }
-    }
   }
 
   class { 'swift':
