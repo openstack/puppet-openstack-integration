@@ -20,7 +20,7 @@ class openstack_integration::repos {
         'debian': {
           include apt
           class { 'openstack_extras::repo::debian::debian':
-            release         => 'ussuri',
+            release         => 'xena',
             package_require => true,
           }
         }
