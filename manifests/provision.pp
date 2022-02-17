@@ -60,7 +60,7 @@ class openstack_integration::provision (
 
   if $neutron {
     neutron_network { 'public':
-      tenant_name               => 'openstack',
+      project_name              => 'openstack',
       router_external           => true,
       provider_physical_network => 'external',
       provider_network_type     => 'flat',
@@ -74,7 +74,7 @@ class openstack_integration::provision (
       gateway_ip       => '172.24.5.1',
       enable_dhcp      => false,
       network_name     => 'public',
-      tenant_name      => 'openstack',
+      project_name     => 'openstack',
     }
   }
 
