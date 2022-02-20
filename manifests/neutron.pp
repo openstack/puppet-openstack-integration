@@ -41,7 +41,7 @@ class openstack_integration::neutron (
     Exec['update-ca-certificates'] ~> Service<| tag == 'neutron-service' |>
   }
 
-  if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') == 0) {
+  if ($::operatingsystem == 'CentOS') and (versioncmp($::operatingsystemmajrelease, '8') >= 0) {
     # os_neutron_dac_override should be on to start privsep-helper
     # See https://bugzilla.redhat.com/show_bug.cgi?id=1850973
     selboolean { 'os_neutron_dac_override':
