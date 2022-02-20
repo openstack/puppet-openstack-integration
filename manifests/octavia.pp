@@ -133,14 +133,8 @@ class openstack_integration::octavia (
   }
   class { 'octavia::driver_agent':
   }
-  # TODO(tkajinam): Consider using some of these values by defaults.
   class { 'octavia::service_auth':
-    auth_url            => $::openstack_integration::config::keystone_admin_uri,
-    username            => 'octavia',
-    user_domain_name    => 'Default',
-    project_name        => 'services',
-    project_domain_name => 'Default',
-    password            => 'a_big_secret',
-    auth_type           => 'password'
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
   }
 }
