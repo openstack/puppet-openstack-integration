@@ -324,6 +324,11 @@ echo "test_create_bgpvpn" >> /tmp/openstack/tempest/test-include-list.txt
 # L2GW
 echo "test_create_show_list_update_delete_l2gateway" >> /tmp/openstack/tempest/test-include-list.txt
 
+# Octavia
+# We have to enable additional tests because no smoke tests will be run with
+# noop drivers.
+echo "octavia_tempest_plugin.tests.scenario.*standalone_CRUD" >> /tmp/openstack/tempest/test-include-list.txt
+
 if uses_debs; then
   echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-exclude-list.txt
   echo "tempest.*.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-exclude-list.txt
