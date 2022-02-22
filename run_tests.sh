@@ -216,8 +216,8 @@ set -e
 if [ $RESULT -ne 0 ] && [ $RESULT -ne 2 ]; then
     print_header 'First Puppet run contains errors in catalog.'
     catch_puppet_failures
-    print_header 'SELinux Alerts (1st time)'
-    catch_selinux_alerts
+    #print_header 'SELinux Alerts (1st time)'
+    #catch_selinux_alerts
     exit 1
 fi
 timestamp_puppet_log
@@ -231,8 +231,8 @@ set -e
 if [ $RESULT -ne 0 ]; then
     print_header 'Second Puppet run is not idempotent.'
     catch_puppet_failures
-    print_header 'SELinux Alerts (2nd time)'
-    catch_selinux_alerts
+    #print_header 'SELinux Alerts (2nd time)'
+    #catch_selinux_alerts
     exit 1
 fi
 timestamp_puppet_log
@@ -384,7 +384,7 @@ elif [ -d .stestr ]; then
 fi
 subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
-catch_selinux_alerts
+#catch_selinux_alerts
 
 print_header 'Done (run_tests.sh)'
 exit $RESULT
