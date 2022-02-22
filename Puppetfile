@@ -233,3 +233,4 @@ mod 'ssh_keygen',
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
   :ref => 'v8.2.0'
+
