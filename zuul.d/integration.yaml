@@ -71,6 +71,7 @@
 - job:
     name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario001
+    voting: false
     nodeset:
       nodes:
         - name: centos-9-stream
@@ -104,6 +105,7 @@
 - job:
     name: puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario002
+    voting: false
     nodeset:
       nodes:
         - name: centos-9-stream
@@ -137,6 +139,7 @@
 - job:
     name: puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario003
+    voting: false
     nodeset:
       nodes:
         - name: centos-9-stream
@@ -172,6 +175,7 @@
 - job:
     name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario004
+    voting: false
     nodeset:
       nodes:
         - name: centos-9-stream
