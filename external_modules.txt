@@ -1,4 +1,3 @@
-antonlindstrom/puppet-powerdns
 voxpupuli/puppet-kmod
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
