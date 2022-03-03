@@ -49,7 +49,11 @@ include openstack_integration::apache
 include openstack_integration::memcached
 include openstack_integration::rabbitmq
 include openstack_integration::mysql
-include openstack_integration::keystone
+class { 'openstack_integration::keystone':
+  # NOTE(sileht): Telemetry autoscaling tempest tests can't renew token, so we
+  # use a long one
+  token_expiration => '2400',
+}
 class { 'openstack_integration::glance':
   backend => 'swift',
 }
