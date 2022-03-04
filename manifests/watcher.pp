@@ -60,7 +60,7 @@ class openstack_integration::watcher {
     amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'watcher::api':
-    watcher_api_bind_host              => $::openstack_integration::config::host,
+    bind_host                          => $::openstack_integration::config::host,
     watcher_client_password            => 'a_big_secret',
     watcher_client_project_domain_name => 'Default',
     watcher_client_user_domain_name    => 'Default',
