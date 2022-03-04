@@ -32,6 +32,9 @@ class openstack_integration::ceilometer (
   class { 'ceilometer::logging':
     debug => true,
   }
+  class { 'ceilometer::cache':
+    memcache_servers => $::openstack_integration::config::memcached_servers,
+  }
   class { 'ceilometer':
     telemetry_secret           => 'secrete',
     default_transport_url      => os_transport_url({
@@ -50,7 +53,6 @@ class openstack_integration::ceilometer (
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
-    memcache_servers           => $::openstack_integration::config::memcached_servers,
   }
   class { 'ceilometer::keystone::auth':
     password => 'a_big_secret',
