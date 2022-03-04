@@ -72,17 +72,9 @@ class openstack_integration::trove {
     key_file  => $key_file,
   }
   class { 'trove::client': }
-  class { 'trove::conductor::service_credentials':
-    password => 'a_big_secret',
-    auth_url => $::openstack_integration::config::keystone_auth_uri
-  }
   class { 'trove::conductor':
     debug   => true,
     workers => 2,
-  }
-  class { 'trove::taskmanager::service_credentials':
-    password => 'a_big_secret',
-    auth_url => $::openstack_integration::config::keystone_auth_uri
   }
   class { 'trove::guestagent::service_credentials':
     password => 'a_big_secret',
