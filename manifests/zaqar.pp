@@ -24,7 +24,6 @@ class openstack_integration::zaqar {
     admin_url    => "${::openstack_integration::config::base_url}:8888",
   }
   class { 'zaqar::keystone::auth_websocket':
-    password     => 'a_big_secret',
     public_url   => "ws://${::openstack_integration::config::ip_for_url}:8888",
     internal_url => "ws://${::openstack_integration::config::ip_for_url}:8888",
     admin_url    => "ws://${::openstack_integration::config::ip_for_url}:8888",
