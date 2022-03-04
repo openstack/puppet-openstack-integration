@@ -95,9 +95,9 @@ class openstack_integration::vitrage {
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }
-  class { 'vitrage::auth':
-    auth_url      => $::openstack_integration::config::keystone_auth_uri,
-    auth_password => 'a_big_secret',
+  class { 'vitrage::service_credentials':
+    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    password => 'a_big_secret',
   }
   class { 'vitrage::graph': }
   class { 'vitrage::notifier':
