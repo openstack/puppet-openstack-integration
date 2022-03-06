@@ -176,7 +176,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v3.3.0'
+  :ref => 'v3.4.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -188,7 +188,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v7.5.0'
+  :ref => 'v8.0.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
