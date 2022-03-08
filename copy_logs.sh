@@ -85,7 +85,10 @@ if which journalctl &> /dev/null; then
     sudo journalctl --no-pager > $LOG_DIR/syslog.txt
 fi
 
-# rabbitmq logs
+# rabbitmq
+if [ -d /etc/rabbitmq ]; then
+    sudo cp -r /etc/rabbitmq $LOG_DIR/etc/
+fi
 if [ -d /var/log/rabbitmq ]; then
     sudo cp -r /var/log/rabbitmq $LOG_DIR
 fi
