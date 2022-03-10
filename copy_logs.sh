@@ -282,12 +282,61 @@ for table in raw filter nat mangle ; do
     echo ""
 done > $LOG_DIR/iptables.txt
 
+mkdir -p $LOG_DIR/openstack_resources
+
 # keystone resources
-source $LOG_DIR/openrc.txt
-openstack endpoint list >> $LOG_DIR/keystone-resources.txt
-openstack service list --long >> $LOG_DIR/keystone-resources.txt
-openstack project list --long >> $LOG_DIR/keystone-resources.txt
-openstack user list --long >> $LOG_DIR/keystone-resources.txt
+if [ -d $LOG_DIR/keystone ]; then
+    source $LOG_DIR/openrc.txt
+    openstack >> $LOG_DIR/openstack_resources/keystone.txt <<-EOC
+endpoint list
+service list --long
+project list --long
+user list --long
+role list
+role assignment list
+EOC
+fi
+
+# nova resources
+if [ -d $LOG_DIR/nova ]; then
+    source $LOG_DIR/openrc.txt
+    openstack >> $LOG_DIR/openstack_resources/nova.txt <<-EOC
+compute service list
+flavor list --all --long
+server list --all --long
+EOC
+fi
+
+# cinder resources
+if [ -d $LOG_DIR/cinder ]; then
+    source $LOG_DIR/openrc.txt
+    openstack >> $LOG_DIR/openstack_resources/cinder.txt <<-EOC
+volume service list
+volume type list --long
+volume list --all --long
+EOC
+fi
+
+# glance resources
+if [ -d $LOG_DIR/glance ]; then
+    source $LOG_DIR/openrc.txt
+    openstack >> $LOG_DIR/openstack_resources/glance.txt <<-EOC
+image list --long
+EOC
+fi
+
+# neutron resources
+if [ -d $LOG_DIR/neutron ]; then
+    source $LOG_DIR/openrc.txt
+    openstack >> $LOG_DIR/openstack_resources/neutron.txt <<-EOC
+network agent list
+network list --long
+subnet list --long
+port list --long
+router list --long
+floating ip list --long
+EOC
+fi
 
 # end of log capture
 set -e
