@@ -94,16 +94,30 @@ if [ -d /var/log/rabbitmq ]; then
 fi
 
 # db logs
+# postgresql
 if [ -d /var/log/postgresql ] ; then
     # Rename log so it doesn't have an additional '.' so it won't get
     # deleted
     sudo cp /var/log/postgresql/*log $LOG_DIR/postgres.log
 fi
-if [ -f /var/log/mysql.err ] ; then
-    sudo cp /var/log/mysql.err $LOG_DIR/mysql_err.log
-fi
-if [ -f /var/log/mysql.log ] ; then
-    sudo cp /var/log/mysql.log $LOG_DIR/
+# mysql/mariadb
+if use_debs; then
+    if [ -d /etc/mysql ] ; then
+        sudo cp -r /etc/mysql $LOG_DIR/etc/
+    fi
+    if [ -d /var/log/mysql ] ; then
+        sudo cp -r /var/log/mysql $LOG_DIR/
+    fi
+else
+    if [ -f /etc/my.cnf ] ; then
+        sudo cp /etc/my.cnf $LOG_DIR/etc/
+    fi
+    if [ -d /etc/my.cnf.d ] ; then
+        sudo cp -r /etc/my.cnf.d $LOG_DIR/etc/
+    fi
+    if [ -d /var/log/mariadb ] ; then
+        sudo cp -r /var/log/mariadb $LOG_DIR/
+    fi
 fi
 
 # tempest logs
