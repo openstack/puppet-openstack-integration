@@ -158,10 +158,6 @@ mod 'ipaclient',
   :git => 'https://github.com/joshuabaird/puppet-ipaclient',
   :ref => '2.5.2'
 
-mod 'staging',
-  :git => 'https://github.com/nanliu/puppet-staging',
-  :ref => '1.0.4'
-
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
   :ref => 'v7.0.0'
