@@ -1,7 +1,6 @@
 antonlindstrom/puppet-powerdns
 camptocamp/puppet-kmod
 joshuabaird/puppet-ipaclient
-nanliu/puppet-staging
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt
 puppetlabs/puppetlabs-concat
