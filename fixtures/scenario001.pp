@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') {
+if $::os['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true

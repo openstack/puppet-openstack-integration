@@ -14,9 +14,7 @@
 # limitations under the License.
 #
 
-if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
-  ($::os['family'] == 'RedHat' and Integer.new($::os['release']['major']) > 7) {
-  # FIXME(ykarel) Disable SSL until services are ready to work with SSL + Python3
+if $::os['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
@@ -24,13 +22,13 @@ if ($::os['name'] == 'Ubuntu') or ($::os['name'] == 'Fedora') or
 
 case $::osfamily {
   'Debian': {
-    $ipv6             = false
+    $ipv6           = false
     # ec2api is not packaged on UCA
-    $ec2api_enabled   = false
+    $ec2api_enabled = false
   }
   'RedHat': {
-    $ipv6               = true
-    $ec2api_enabled     = true
+    $ipv6           = true
+    $ec2api_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")

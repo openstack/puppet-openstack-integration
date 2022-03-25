@@ -102,24 +102,10 @@ class openstack_integration::repos {
       }
 
       # PowerTools is required on CentOS8 since Ussuri.
-      if $::operatingsystem == 'CentOS' {
-        exec { 'enable-powertools':
-          command => "dnf config-manager --enable ${powertools_repo}",
-          path    => '/usr/bin/',
-          unless  => "test 0 -ne $(dnf repolist --enabled ${powertools_repo} | wc -l)"
-        }
-      }
-
-      # Remove Fedora Base repos as stable-base repo is configured which includes
-      # all required packages
-      if $::operatingsystem == 'Fedora' {
-        tidy { 'delete-fedora-base-repos':
-          path    => '/etc/yum.repos.d',
-          recurse => true,
-          matches => [ 'fedora*.repo' ],
-          rmdirs  => false,
-          require => Class['openstack_extras::repo::redhat::redhat'],
-        }
+      exec { 'enable-powertools':
+        command => "dnf config-manager --enable ${powertools_repo}",
+        path    => '/usr/bin/',
+        unless  => "test 0 -ne $(dnf repolist --enabled ${powertools_repo} | wc -l)"
       }
     }
     default: {
