@@ -112,7 +112,7 @@ class openstack_integration::gnocchi (
     }
     'swift': {
       class { 'gnocchi::storage::swift':
-        swift_auth_version => '2',
+        swift_auth_version => '3',
         swift_authurl      => $::openstack_integration::config::keystone_admin_uri,
         swift_user         => 'services:gnocchi',
         swift_key          => 'a_big_secret',
