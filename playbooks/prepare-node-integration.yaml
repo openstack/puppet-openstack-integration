@@ -42,3 +42,12 @@
           EOF
       environment:
         GEM_HOME: "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/.bundled_gems"
+
+    - name: Prepare swap
+      shell:
+        cmd: |
+          dd if=/dev/zero of=/tmp/swapfile bs=1GiB count=4 && \
+          chmod 0600 /tmp/swapfile && \
+          mkswap /tmp/swapfile && \
+          swapon /tmp/swapfile
+      become: yes
