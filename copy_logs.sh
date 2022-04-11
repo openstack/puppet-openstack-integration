@@ -285,9 +285,9 @@ done > $LOG_DIR/iptables.txt
 # keystone resources
 source $LOG_DIR/openrc.txt
 openstack endpoint list >> $LOG_DIR/keystone-resources.txt
-openstack service list >> $LOG_DIR/keystone-resources.txt
-openstack project list >> $LOG_DIR/keystone-resources.txt
-openstack user list >> $LOG_DIR/keystone-resources.txt
+openstack service list --long >> $LOG_DIR/keystone-resources.txt
+openstack project list --long >> $LOG_DIR/keystone-resources.txt
+openstack user list --long >> $LOG_DIR/keystone-resources.txt
 
 # end of log capture
 set -e
