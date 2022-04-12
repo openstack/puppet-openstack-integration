@@ -28,12 +28,6 @@
       scenario: scenario000
 
 - job:
-    name: puppet-openstack-integration-7-scenario000-tempest-centos-8-stream
-    parent: puppet-openstack-integration-7-scenario000
-    voting: false
-    nodeset: centos-8-stream
-
-- job:
     name: puppet-openstack-integration-7-scenario000-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario000
     voting: false
@@ -64,11 +58,6 @@
     voting: false
 
 - job:
-    name: puppet-openstack-integration-7-scenario001-tempest-centos-8-stream
-    parent: puppet-openstack-integration-7-scenario001
-    nodeset: centos-8-stream
-
-- job:
     name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario001
     nodeset:
@@ -95,11 +84,6 @@
     parent: puppet-openstack-integration-6-scenario002
     nodeset: ubuntu-focal
     voting: false
-
-- job:
-    name: puppet-openstack-integration-7-scenario002-tempest-centos-8-stream
-    parent: puppet-openstack-integration-7-scenario002
-    nodeset: centos-8-stream
 
 - job:
     name: puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
@@ -130,11 +114,6 @@
     voting: false
 
 - job:
-    name: puppet-openstack-integration-7-scenario003-tempest-centos-8-stream
-    parent: puppet-openstack-integration-7-scenario003
-    nodeset: centos-8-stream
-
-- job:
     name: puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario003
     nodeset:
@@ -163,11 +142,6 @@
     parent: puppet-openstack-integration-6-scenario004
     nodeset: ubuntu-focal
     voting: false
-
-- job:
-    name: puppet-openstack-integration-7-scenario004-tempest-centos-8-stream
-    parent: puppet-openstack-integration-7-scenario004
-    nodeset: centos-8-stream
 
 - job:
     name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
