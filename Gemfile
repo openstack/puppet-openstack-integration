@@ -11,7 +11,6 @@ group :development, :test, :system_tests do
         :ref => 'stable/wallaby',
         :require => 'false'
   end
-  gem 'fast_gettext', ['< 1.2.0']
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
