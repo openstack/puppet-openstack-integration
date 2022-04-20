@@ -2,13 +2,6 @@
 # This file contains the jobs for the puppet openstack libraries
 #
 - job:
-    name: puppet-openstack-libraries-puppet-unit-6.21-centos-8-stream
-    parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: centos-8-stream
-    vars:
-      puppet_gem_version: 6.21.1
-
-- job:
     name: puppet-openstack-libraries-puppet-unit-7.10-centos-8-stream
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: centos-8-stream
