@@ -180,7 +180,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v12.0.1'
+  :ref => 'v12.0.2'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
@@ -212,7 +212,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.2.0'
+  :ref => '9.3.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
