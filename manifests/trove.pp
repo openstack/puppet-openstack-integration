@@ -73,7 +73,6 @@ class openstack_integration::trove {
   }
   class { 'trove::client': }
   class { 'trove::conductor':
-    debug   => true,
     workers => 2,
   }
   class { 'trove::guestagent::service_credentials':
@@ -81,7 +80,6 @@ class openstack_integration::trove {
     auth_url => $::openstack_integration::config::keystone_auth_uri
   }
   class { 'trove::taskmanager':
-    debug                   => true,
     use_guestagent_template => false,
   }
   class { 'trove::quota': }
