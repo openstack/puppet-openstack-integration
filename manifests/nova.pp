@@ -167,6 +167,18 @@ class openstack_integration::nova (
     instance_usage_audit_period => 'hour',
   }
 
+  # NOTE(tkajinam): In Ubuntu, libvirtd-tcp.socket fails to start because of
+  #                 libvirtd.service running, though we stop the service in
+  #                 puppet-nova. Until we fix the failure, use ssh transport
+  #                 which does not require socket services.
+  $migration_transport = $::osfamily ? {
+    'Debian' => 'ssh',
+    default  => 'tcp'
+  }
+  class { 'nova::migration::libvirt':
+    transport => $migration_transport
+  }
+
   $images_type = $libvirt_rbd ? {
     true  => 'rbd',
     false => $::os_service_default
@@ -174,7 +186,6 @@ class openstack_integration::nova (
   class { 'nova::compute::libvirt':
     virt_type             => $libvirt_virt_type,
     cpu_mode              => $libvirt_cpu_mode,
-    migration_support     => true,
     # virtlock and virtlog services resources are not idempotent
     # on Ubuntu, let's disable it for now.
     # https://tickets.puppetlabs.com/browse/PUP-6370
