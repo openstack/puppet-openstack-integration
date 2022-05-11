@@ -37,6 +37,11 @@ class openstack_integration::heat (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
+  class { 'heat::trustee':
+    password         => 'a_big_secret',
+    auth_url         => $::openstack_integration::config::keystone_admin_uri,
+    user_domain_name => 'Default',
+  }
   class { 'heat::logging':
     debug => true,
   }
