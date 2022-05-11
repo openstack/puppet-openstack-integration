@@ -50,10 +50,8 @@ class openstack_integration::repos {
       # Set specific variables for CentOS Stream 9
       if $::os['release']['major'] >= '9' {
         $powertools_repo = 'crb'
-        $manage_virt     = false
       } else {
         $powertools_repo = 'powertools'
-        $manage_virt     = true
       }
       if defined('$::centos_mirror_host') and $::centos_mirror_host != '' {
         $centos_mirror = $::centos_mirror_host
@@ -76,7 +74,6 @@ class openstack_integration::repos {
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
         manage_epel       => false,
-        manage_virt       => $manage_virt,
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
           'delorean.repo'      => $delorean_repo,
