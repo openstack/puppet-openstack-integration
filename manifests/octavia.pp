@@ -117,6 +117,8 @@ class openstack_integration::octavia (
   }
   class { 'octavia::client': }
 
+  class { 'octavia::networking':
+  }
   class { 'octavia::controller':
     amp_flavor_id  => '65',
     amphora_driver => 'amphora_noop_driver',
