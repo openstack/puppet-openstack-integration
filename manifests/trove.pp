@@ -24,6 +24,9 @@ class openstack_integration::trove {
   class { 'trove::logging':
     debug => true,
   }
+  class { 'trove::db':
+    database_connection => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
+  }
   class { 'trove':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
@@ -39,7 +42,6 @@ class openstack_integration::trove {
       'username'  => 'trove',
       'password'  => 'an_even_bigger_secret',
     }),
-    database_connection        => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
     amqp_sasl_mechanisms       => 'PLAIN',
   }
