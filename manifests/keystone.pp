@@ -59,7 +59,6 @@ class openstack_integration::keystone (
     service_name               => 'httpd',
     default_domain             => $default_domain,
     using_domain_config        => $using_domain_config,
-    enable_ssl                 => $::openstack_integration::config::ssl,
     public_endpoint            => $::openstack_integration::config::keystone_auth_uri,
     manage_policyrcd           => true,
     fernet_key_repository      => '/etc/keystone/fernet-keys/',
