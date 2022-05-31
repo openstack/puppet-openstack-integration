@@ -238,7 +238,7 @@ EOF"
                 $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppet-rdo.repo
 [puppet-rdo]
 name=Puppet from RDO repo for CentOS ${VERSION_ID} - x86_64
-baseurl=https://trunk.rdoproject.org/centos9-master/deps/latest/
+baseurl=https://trunk.rdoproject.org/centos9-yoga/deps/latest/
 enabled=1
 gpgcheck=0
 EOF"
