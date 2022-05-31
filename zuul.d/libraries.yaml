@@ -2,11 +2,13 @@
 # This file contains the jobs for the puppet openstack libraries
 #
 - job:
-    name: puppet-openstack-libraries-puppet-unit-7.10-centos-8-stream
+    name: puppet-openstack-libraries-puppet-unit-7.10-centos-9-stream
     parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: centos-8-stream
+    nodeset: centos-9-stream
     vars:
       puppet_gem_version: 7.10.0
+      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
+      rspec_puppet_version: '= 2.10.0'
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal

@@ -2,11 +2,13 @@
 # This file contains the puppet unit job configurations
 #
 - job:
-    name: puppet-openstack-unit-7.10-centos-8-stream
+    name: puppet-openstack-unit-7.10-centos-9-stream
     parent: puppet-openstack-unit-base
-    nodeset: centos-8-stream
+    nodeset: centos-9-stream
     vars:
       puppet_gem_version: 7.10.0
+      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
+      rspec_puppet_version: '= 2.10.0'
 
 - job:
     name: puppet-openstack-unit-6.21-ubuntu-focal
@@ -37,12 +39,12 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-7.10-centos-8-stream
+        - puppet-openstack-unit-7.10-centos-9-stream
         - puppet-openstack-unit-6.21-ubuntu-focal
         - puppet-openstack-unit-7.10-ubuntu-focal
         - puppet-openstack-unit-latest-ubuntu-focal
     gate:
       jobs:
-        - puppet-openstack-unit-7.10-centos-8-stream
+        - puppet-openstack-unit-7.10-centos-9-stream
         - puppet-openstack-unit-6.21-ubuntu-focal
         - puppet-openstack-unit-7.10-ubuntu-focal
