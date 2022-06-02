@@ -125,11 +125,11 @@ class openstack_integration::octavia (
     compute_driver => 'compute_noop_driver',
     image_driver   => 'image_noop_driver',
     network_driver => 'network_noop_driver',
+    heartbeat_key  => 'abcdefghijkl',
   }
   class { 'octavia::worker':
   }
   class { 'octavia::health_manager':
-    heartbeat_key => 'abcdefghijkl',
   }
   class { 'octavia::housekeeping':
   }
