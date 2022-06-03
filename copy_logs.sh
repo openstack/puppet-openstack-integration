@@ -291,6 +291,7 @@ mkdir -p $LOG_DIR/openstack_resources
 if [ -d $LOG_DIR/keystone ]; then
     source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/keystone.txt <<-EOC
+extension list --identity
 endpoint list
 service list --long
 project list --long
@@ -304,6 +305,7 @@ fi
 if [ -d $LOG_DIR/nova ]; then
     source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/nova.txt <<-EOC
+extension list --compute
 compute service list
 flavor list --all --long
 server list --all --long
@@ -314,6 +316,7 @@ fi
 if [ -d $LOG_DIR/cinder ]; then
     source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/cinder.txt <<-EOC
+extension list --volume
 volume service list
 volume type list --long
 volume list --all --long
@@ -332,6 +335,7 @@ fi
 if [ -d $LOG_DIR/neutron ]; then
     source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/neutron.txt <<-EOC
+extension list --network
 network agent list
 network list --long
 subnet list --long
