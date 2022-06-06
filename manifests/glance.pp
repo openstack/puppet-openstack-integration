@@ -2,7 +2,7 @@
 #
 # [*backend*]
 #   (optional) Glance backend to use.
-#   Can be 'file', 'swift' or 'rbd'.
+#   Can be 'file', 'swift', 'rbd' or 'cinder'.
 #   Defaults to 'file'.
 #
 class openstack_integration::glance (
@@ -70,6 +70,15 @@ class openstack_integration::glance (
         swift_store_auth_version            => '3',
       }
       $default_backend = 'swift1'
+    }
+    'cinder': {
+      glance::backend::multistore::cinder { 'cinder1':
+        cinder_store_auth_address => "${::openstack_integration::config::keystone_auth_uri}/v3",
+        cinder_store_project_name => 'services',
+        cinder_store_user_name    => 'glance',
+        cinder_store_password     => 'a_big_secret',
+      }
+      $default_backend = 'cinder1'
     }
     default: {
       fail("Unsupported backend (${backend})")

@@ -1,5 +1,19 @@
 - hosts: all
   tasks:
+    - name: Install the qemu-img command (CentOS/RHEL)
+      dnf:
+        name: qemu-img
+      become: true
+      when:
+        - ansible_os_family == 'RedHat'
+
+    - name: Install the qemu-img command (Ubuntu/Debian)
+      apt:
+        name: qemu-utils
+      become: true
+      when:
+        - ansible_os_family == 'Debian'
+
     - shell:
         cmd: |
           set -e

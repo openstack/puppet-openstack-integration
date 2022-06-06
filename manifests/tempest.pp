@@ -130,6 +130,11 @@
 #   The list is known to work with the repo; this reflects extensions enabled
 #   in neutron gate, for the most part (minus features not configured like
 #   trunk, dns-integration, qos, or port_security support)
+#
+# [*image_format*]
+#   (optional) Format of glance images to be created.
+#   Defaults to 'qcow2'
+#
 class openstack_integration::tempest (
   $aodh                    = false,
   $bgpvpn                  = false,
@@ -163,6 +168,7 @@ class openstack_integration::tempest (
   $configure_networks      = true,
   $neutron_driver          = 'openvswitch',
   $neutron_api_extensions  = undef,
+  $image_format            = 'qcow2',
 ) {
 
   include openstack_integration::config
@@ -303,7 +309,8 @@ class openstack_integration::tempest (
     image_alt_ssh_user                 => 'cirros',
     # TODO(emilien) optimization by 1/ using Hiera to configure Glance image source
     # and 2/ if running in the gate, use /home/jenkins/cache/files/ cirros image.
-    img_file                           => '/tmp/openstack/image/cirros-0.5.1-x86_64-disk.img',
+    img_file                           => "/tmp/openstack/image/cirros-0.5.1-x86_64-disk-${image_format}.img",
+    img_disk_format                    => $image_format,
     compute_build_interval             => 10,
     ca_certificates_file               => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages              => true,
