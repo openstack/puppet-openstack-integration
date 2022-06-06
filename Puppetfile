@@ -154,10 +154,6 @@ mod 'kmod',
   :git => 'https://github.com/camptocamp/puppet-kmod',
   :ref => 'v3.2.0'
 
-mod 'ipaclient',
-  :git => 'https://github.com/joshuabaird/puppet-ipaclient',
-  :ref => '2.5.2'
-
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
   :ref => 'v7.0.0'
