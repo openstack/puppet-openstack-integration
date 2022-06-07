@@ -160,7 +160,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v8.3.0'
+  :ref => 'v8.4.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
