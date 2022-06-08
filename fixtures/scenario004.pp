@@ -34,7 +34,7 @@ if $::operatingsystem == 'Ubuntu' {
   $ipv6                = true
   $watcher_enabled     = true
   $bgpvpn_enabled      = true
-  $l2gw_enabled        = true
+  $l2gw_enabled        = false
   $bgp_dragent_enabled = true
 }
 
