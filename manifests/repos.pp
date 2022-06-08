@@ -28,9 +28,11 @@ class openstack_integration::repos {
           fail("Unsupported package type (${::operatingsystem})")
         }
       }
+
+      $ceph_mirror_fallback = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
       # Ceph is both packaged on UCA and official download.ceph.com packages
       # which we mirror. We want to use the official packages or our mirror.
-      if defined('$::nodepool_mirror_host') and $::nodepool_mirror_host != '' {
+      if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
         $ceph_version_cap = capitalize($ceph_version_real)
         apt::pin { 'ceph':
           priority   => 1001,
@@ -42,9 +44,10 @@ class openstack_integration::repos {
           origin   => 'download.ceph.com',
         }
       }
+
       $enable_sig  = false
       $enable_epel = false
-      $ceph_mirror = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
+      $ceph_mirror = $ceph_mirror_fallback
     }
     'RedHat': {
       # Set specific variables for CentOS Stream 9
