@@ -242,11 +242,15 @@ fi
 # package status and repository list
 if [ `command -v dpkg` ]; then
     dpkg -l> $LOG_DIR/dpkg-l.txt
+fi
+if [ `command -v apt` ]; then
     apt-cache policy > $LOG_DIR/apt-cache-policy.txt
+    sudo cp -r /etc/apt $LOG_DIR/etc/apt
 fi
 if [ `command -v rpm` ]; then
     rpm -qa |sort > $LOG_DIR/rpm-qa.txt
     sudo $YUM repolist -v > $LOG_DIR/repolist.txt
+    sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
 fi
 if [ `command -v dnf` ]; then
     sudo dnf module list > $LOG_DIR/modulelist.txt
@@ -254,10 +258,6 @@ fi
 
 if [ `command -v gem` ]; then
     gem list |sort > $LOG_DIR/gem-list.txt
-fi
-
-if is_fedora; then
-    sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
 fi
 
 # system status & informations
