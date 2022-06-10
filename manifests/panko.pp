@@ -22,6 +22,7 @@ class openstack_integration::panko {
   }
 
   class { 'panko::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
     password => 'panko',
   }
   class { 'panko::keystone::auth':
