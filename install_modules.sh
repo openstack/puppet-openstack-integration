@@ -31,6 +31,8 @@ print_header 'Install r10k'
 $GEM_INSTALL_CMD fast_gettext -v '< 1.2.0'
 # gettext 3.3.0+ requires ruby 2.5.0
 $GEM_INSTALL_CMD gettext -v '< 3.3.0'
+# multipart-post 2.2.0 requires ruby 2.3.0
+$GEM_INSTALL_CMD multipart-post -v '< 2.2.0'
 # puppet_forge 2.2.7 has a dependency on semantic_puppet ~> 1.0
 # which is not compatible with dependency of latest r10k on semantic_puppet ~> 0.1.0
 $GEM_INSTALL_CMD puppet_forge -v '= 2.2.6'
