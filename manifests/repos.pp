@@ -48,15 +48,19 @@ class openstack_integration::repos {
     }
     'RedHat': {
       # Set specific variables for CentOS Stream 9
-      if $::os['release']['major'] >= '9' {
+      if versioncmp($::os['release']['major'], '9') >= 0 {
         $powertools_repo = 'crb'
       } else {
         $powertools_repo = 'powertools'
       }
+
       if defined('$::centos_mirror_host') and $::centos_mirror_host != '' {
         $centos_mirror = $::centos_mirror_host
       } else {
-        $centos_mirror = 'http://mirror.centos.org'
+        $centos_mirror = $::os['release']['major'] ? {
+          '9'     => 'http://mirror.stream.centos.org',
+          default => 'http://mirror.centos.org',
+        }
       }
 
       if defined('$::delorean_repo_path') and $::delorean_repo_path != '' {
@@ -82,7 +86,12 @@ class openstack_integration::repos {
         repo_replace      => false,
         update_packages   => true,
       }
-      $ceph_mirror_fallback = "${centos_mirror}/centos/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
+
+      $ceph_mirror_fallback = $::os['release']['major'] ? {
+        '9'     => "${centos_mirror}/SIGs/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/",
+        default => "${centos_mirror}/centos/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/",
+      }
+
       if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
         $ceph_mirror = pick($::ceph_mirror_host, $ceph_mirror_fallback)
       } else {

@@ -27,29 +27,33 @@ export CEPH_VERSION=${CEPH_VERSION:-pacific}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
-if [ -f /etc/fedora-release ]; then
-    DLRN_BASE="fedora/puppet-passed-ci"
-    DLRN_DEPS_BASE="fedora/stable-base/latest/"
-fi
-
 if [ -f /etc/ci/mirror_info.sh ]; then
     source /etc/ci/mirror_info.sh
-    CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
+
+    if [ "${OS_NAME_VERS}" == "centos9" ]; then
+        CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
+    else
+        CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
+    fi
+
     DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
         CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        # TODO centos9 content is still not mirrored
         if [ "${OS_NAME_VERS}" == "centos9" ]; then
-            CEPH_MIRROR_HOST="https://buildlogs.centos.org/centos/9-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         else
             CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         fi
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
-    CENTOS_MIRROR_HOST='http://mirror.centos.org'
+    if [ "${OS_NAME_VERS}" == "centos9" ]; then
+        CENTOS_MIRROR_HOST='http://mirror.stream.centos.org'
+    else
+        CENTOS_MIRROR_HOST='http://mirror.centos.org'
+    fi
     DEPS_MIRROR_HOST="https://trunk.rdoproject.org/${DLRN_DEPS_BASE}/"
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
@@ -57,7 +61,11 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+        if [ "${OS_NAME_VERS}" == "centos9" ]; then
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+        else
+            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
+        fi
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi
@@ -67,6 +75,7 @@ sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean
 curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/${OS_NAME_VERS}-master/delorean-deps.repo"
 sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean-deps.repo
 sed -i -e "s|http://mirror.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
+sed -i -e "s|http://mirror.stream.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
 
 export FACTER_nodepool_mirror_host=$NODEPOOL_MIRROR_HOST
 export FACTER_centos_mirror_host=$CENTOS_MIRROR_HOST
