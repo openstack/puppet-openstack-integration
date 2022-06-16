@@ -105,7 +105,9 @@ class { 'openstack_integration::tempest':
   sahara         => $sahara_integration_enable,
   horizon        => true,
   murano         => $murano_enabled,
-  heat           => true,
+  # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
+  #                 enabled in this scenario.
+  heat           => false,
   # NOTE(tobias-urdin): We have tempest disabled because we cannot
   # run it when instances does not have internet acces to
   # deploy for example Docker.
