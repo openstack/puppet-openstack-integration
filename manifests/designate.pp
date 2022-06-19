@@ -86,7 +86,6 @@ class openstack_integration::designate {
   class { 'designate::worker': }
 
   class { 'designate::backend::bind9':
-    rndc_host        => '127.0.0.1',
     dns_port         => 5322,
     rndc_config_file => '/etc/rndc.conf',
     rndc_key_file    => $::dns::params::rndckeypath,
