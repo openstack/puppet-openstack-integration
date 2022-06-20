@@ -120,6 +120,11 @@
 #   (optional) Define if networks are configured for tempest.
 #   Default to true.
 #
+# [*neutron_driver*]
+#   (optional) Neutron Driver to test
+#   Can be: openvswitch, linuxbridge or ovn.
+#   Defaults to 'openvswitch'.
+#
 # [*neutron_api_extensions*]
 #   (optional) Define list of neutron API extensions to test.
 #   The list is known to work with the repo; this reflects extensions enabled
@@ -156,53 +161,76 @@ class openstack_integration::tempest (
   $attach_encrypted_volume = false,
   $configure_images        = true,
   $configure_networks      = true,
-  $neutron_api_extensions  = [
-    'address-scope',
-    'agent',
-    'allowed-address-pairs',
-    'auto-allocated-topology',
-    'availability_zone',
-    'binding',
-    'default-subnetpools',
-    'dhcp_agent_scheduler',
-    'dns-domain-ports',
-    'dns-integration',
-    'dvr',
-    'ext-gw-mode,external-net',
-    'extra_dhcp_opt',
-    'extraroute',
-    'flavors',
-    'l3-flavors',
-    'l3-ha',
-    'l3_agent_scheduler',
-    'metering',
-    'multi-provider',
-    'net-mtu',
-    'network-ip-availability',
-    'network_availability_zone',
-    'pagination',
-    'project-id',
-    'provider',
-    'quotas',
-    'rbac-policies',
-    'router',
-    'router_availability_zone',
-    'security-group',
-    'service-type',
-    'sorting',
-    'standard-attr-description',
-    'standard-attr-revisions',
-    'standard-attr-timestamp',
-    'subnet_allocation',
-    'tag',
-    'tag-ext',
-    'l2-gateway',
-    'l2-gateway-connection',
-  ],
+  $neutron_driver          = 'openvswitch',
+  $neutron_api_extensions  = undef,
 ) {
 
   include openstack_integration::config
   include openstack_integration::params
+
+  if $neutron_api_extensions != undef {
+    $neutron_api_extensions_real = $neutron_api_extensions
+  } else {
+    $neutron_base_extensions = [
+      'address-scope',
+      'agent',
+      'allowed-address-pairs',
+      'auto-allocated-topology',
+      'availability_zone',
+      'binding',
+      'default-subnetpools',
+      'dns-domain-ports',
+      'dns-integration',
+      'ext-gw-mode',
+      'external-net',
+      'extra_dhcp_opt',
+      'extraroute',
+      'flavors',
+      'multi-provider',
+      'net-mtu',
+      'network-ip-availability',
+      'network_availability_zone',
+      'pagination',
+      'project-id',
+      'provider',
+      'quotas',
+      'rbac-policies',
+      'router',
+      'router_availability_zone',
+      'security-group',
+      'service-type',
+      'sorting',
+      'standard-attr-description',
+      'standard-attr-revisions',
+      'standard-attr-timestamp',
+      'subnet_allocation',
+      'tag',
+      'tag-ext',
+    ]
+
+    if $neutron_driver == 'ovn' {
+      $neutron_agent_scheduler_extensions = []
+      $neutron_l3_extensions = []
+      $neutron_metering_extensions = []
+    } else {
+      $neutron_agent_scheduler_extensions = ['dhcp_agent_scheduler', 'l3_agent_scheduler']
+      $neutron_l3_extensions = ['dvr', 'l3-flavors', 'l3-ha']
+      $neutron_metering_extensions = ['metering']
+    }
+
+    $neutron_l2gw_extensions = $l2gw ? {
+      true    => ['l2-gateway', 'l2gateway-connection'],
+      default => []
+    }
+
+    $neutron_extensions_real = sort(
+      $neutron_base_extensions +
+      $neutron_agent_scheduler_extensions +
+      $neutron_l3_extensions +
+      $neutron_metering_extensions +
+      $neutron_l2gw_extensions
+    )
+  }
 
   # Install missed dependency for neutron tests
   # https://github.com/openstack/neutron/blob/master/test-requirements.txt#L20
@@ -266,7 +294,7 @@ class openstack_integration::tempest (
     ec2api_available                   => $ec2api,
     watcher_available                  => $watcher,
     public_network_name                => 'public',
-    neutron_api_extensions             => join(any2array($neutron_api_extensions), ','),
+    neutron_api_extensions             => join(any2array($neutron_api_extensions_real), ','),
     dashboard_url                      => $::openstack_integration::config::base_url,
     flavor_ref                         => '42',
     flavor_ref_alt                     => '84',

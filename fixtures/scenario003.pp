@@ -107,15 +107,16 @@ class { 'openstack_integration::magnum':
 }
 
 class { 'openstack_integration::tempest':
-  designate => $designate_enabled,
-  trove     => $trove_enabled,
-  mistral   => $mistral_enabled,
-  sahara    => $sahara_integration_enable,
-  horizon   => true,
-  murano    => $murano_enabled,
-  heat      => true,
+  designate      => $designate_enabled,
+  trove          => $trove_enabled,
+  mistral        => $mistral_enabled,
+  sahara         => $sahara_integration_enable,
+  horizon        => true,
+  murano         => $murano_enabled,
+  heat           => true,
   # NOTE(tobias-urdin): We have tempest disabled because we cannot
   # run it when instances does not have internet acces to
   # deploy for example Docker.
-  magnum    => false,
+  magnum         => false,
+  neutron_driver => 'linuxbridge',
 }

@@ -150,3 +150,39 @@
       nodes:
         - name: centos-9-stream
           label: centos-9-stream
+
+- job:
+    name: puppet-openstack-integration-6-scenario005
+    parent: puppet-openstack-integration-6
+    abstract: true
+    vars:
+      scenario: scenario005
+      ceph: pacific
+
+- job:
+    name: puppet-openstack-integration-7-scenario005
+    parent: puppet-openstack-integration-7
+    abstract: true
+    vars:
+      scenario: scenario005
+      ceph: pacific
+
+- job:
+    name: puppet-openstack-integration-6-scenario005-tempest-ubuntu-focal
+    parent: puppet-openstack-integration-6-scenario005
+    nodeset: ubuntu-focal
+    voting: false
+
+- job:
+    name: puppet-openstack-integration-7-scenario005-tempest-centos-8-stream
+    parent: puppet-openstack-integration-7-scenario005
+    nodeset: centos-8-stream
+
+- job:
+    name: puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+    parent: puppet-openstack-integration-7-scenario005
+    voting: false
+    nodeset:
+      nodes:
+        - name: centos-9-stream
+          label: centos-9-stream

@@ -172,6 +172,12 @@ if [ -d /var/log/openvswitch ] ; then
     sudo cp -r /var/log/openvswitch $LOG_DIR/
 fi
 
+# ovn
+if [ -d /var/log/ovn ] ; then
+    sudo ovn-nbctl show > $LOG_DIR/ovn-nbctl_show.txt
+    sudo ovn-sbctl show > $LOG_DIR/ovn-sbctl_show.txt
+fi
+
 # sudo config
 sudo cp -r /etc/sudoers.d $LOG_DIR/
 sudo cp /etc/sudoers $LOG_DIR/sudoers.txt
@@ -275,6 +281,7 @@ sudo ip -d address > $LOG_DIR/ip_-d_address.txt
 sudo brctl show > $LOG_DIR/brctl_show.txt
 if [ `command -v ovs-vsctl` ]; then
     sudo ovs-vsctl show > $LOG_DIR/ovs-vsctl_show.txt
+    sudo ovs-vsctl list open_vswitch > $LOG_DIR/ovs-vsctl_list_open_vswitch.txt
 fi
 sudo netstat -tulpn > $LOG_DIR/netstat.txt
 sudo systemctl status --all 2>/dev/null > $LOG_DIR/systemctl.txt
@@ -342,6 +349,8 @@ subnet list --long
 port list --long
 router list --long
 floating ip list --long
+network show public
+subnet show public-subnet
 EOC
 fi
 
