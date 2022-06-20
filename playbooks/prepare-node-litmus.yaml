@@ -1,5 +1,12 @@
 - hosts: all
   tasks:
+    - name: Put SELinux in permissive mode
+      shell:
+        selinuxenabled && setenforce 0
+      become: yes
+      when:
+        - ansible_os_family == 'RedHat'
+
     - shell:
         cmd: |
           set -e
