@@ -50,7 +50,6 @@
     name: puppet-openstack-litmus-7.10-centos-9-stream
     parent: puppet-openstack-litmus-module-base
     nodeset: centos-9-stream
-    voting: false
     vars:
       puppet_gem_version: 7.10.0
       ceph: pacific
@@ -93,7 +92,6 @@
     name: puppet-openstack-libraries-litmus-7.10-centos-9-stream
     parent: puppet-openstack-litmus-libraries-base
     nodeset: centos-9-stream
-    voting: false
     vars:
       puppet_gem_version: 7.10.0
 
