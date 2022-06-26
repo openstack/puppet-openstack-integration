@@ -193,6 +193,7 @@ class openstack_integration::nova (
     virtlog_service_name  => false,
     images_type           => $images_type,
   }
+  class { 'nova::compute::libvirt::networks': }
   if $libvirt_rbd {
     class { 'nova::compute::rbd':
       libvirt_rbd_user        => 'openstack',
