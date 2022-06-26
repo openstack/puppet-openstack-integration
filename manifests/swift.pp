@@ -33,20 +33,6 @@ class openstack_integration::swift {
       ensure => directory,
       mode   => '0755',
     }
-
-    # TODO(tkajinam): Remove this once fixed version of openstack-selinux is
-    #                 released.
-    #                 https://bugzilla.redhat.com/show_bug.cgi?id=2050636
-    file { '/var/cache/swift':
-      ensure  => directory,
-      owner   => 'swift',
-      group   => 'swift',
-      mode    => '0755',
-      seltype => 'swift_var_cache_t'
-    }
-    Anchor['swift::install::end']
-      -> File['/var/cache/swift']
-      -> Anchor['swift::config::begin']
   }
 
   file { '/etc/rsyslog.d/10-swift.conf':
