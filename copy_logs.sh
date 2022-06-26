@@ -284,7 +284,7 @@ if [ `command -v ovs-vsctl` ]; then
     sudo ovs-vsctl list open_vswitch > $LOG_DIR/ovs-vsctl_list_open_vswitch.txt
 fi
 sudo netstat -tulpn > $LOG_DIR/netstat.txt
-sudo systemctl status --all 2>/dev/null > $LOG_DIR/systemctl.txt
+sudo LC_CTYPE=C SYSTEMD_COLORS=false systemctl status --all --no-pager 2>/dev/null > $LOG_DIR/systemctl.txt
 
 for table in raw filter nat mangle ; do
     echo $table
