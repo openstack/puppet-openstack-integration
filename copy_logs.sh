@@ -273,6 +273,8 @@ fi
 # system status & informations
 sudo cp /root/openrc $LOG_DIR/openrc.txt
 sudo chmod 777 $LOG_DIR/openrc.txt
+sudo cp -r /etc/openstack $LOG_DIR/etc
+sudo chmod 777 $LOG_DIR/etc/admin-clouds.yaml
 df -h > $LOG_DIR/df.txt
 free -m > $LOG_DIR/free.txt
 lsmod > $LOG_DIR/lsmod.txt
@@ -295,9 +297,10 @@ done > $LOG_DIR/iptables.txt
 
 mkdir -p $LOG_DIR/openstack_resources
 
+export OS_CLOUD=project
+export OS_CLIENT_CONFIG_FILE=$LOG_DIR/etc/admin-clouds.yaml
 # keystone resources
 if [ -d $LOG_DIR/keystone ]; then
-    source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/keystone.txt <<-EOC
 extension list --identity
 endpoint list
@@ -311,7 +314,6 @@ fi
 
 # nova resources
 if [ -d $LOG_DIR/nova ]; then
-    source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/nova.txt <<-EOC
 extension list --compute
 compute service list
@@ -322,7 +324,6 @@ fi
 
 # cinder resources
 if [ -d $LOG_DIR/cinder ]; then
-    source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/cinder.txt <<-EOC
 extension list --volume
 volume service list
@@ -333,7 +334,6 @@ fi
 
 # glance resources
 if [ -d $LOG_DIR/glance ]; then
-    source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/glance.txt <<-EOC
 image list --long
 EOC
@@ -341,7 +341,6 @@ fi
 
 # neutron resources
 if [ -d $LOG_DIR/neutron ]; then
-    source $LOG_DIR/openrc.txt
     openstack >> $LOG_DIR/openstack_resources/neutron.txt <<-EOC
 extension list --network
 network agent list
@@ -354,6 +353,9 @@ network show public
 subnet show public-subnet
 EOC
 fi
+
+unset OS_CLOUD
+unset OS_CLIENT_CONFIG_FILE
 
 # end of log capture
 set -e
