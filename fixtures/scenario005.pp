@@ -51,8 +51,14 @@ class { 'openstack_integration::neutron':
 }
 include openstack_integration::placement
 include openstack_integration::nova
+
+class { 'openstack_integration::octavia':
+  provider_driver => 'ovn'
+}
+
 include openstack_integration::provision
 
 class { 'openstack_integration::tempest':
+  octavia        => true,
   neutron_driver => 'ovn',
 }
