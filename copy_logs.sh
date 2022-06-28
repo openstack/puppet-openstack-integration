@@ -151,6 +151,7 @@ fi
 # libvirt
 if [ -d /var/log/libvirt ] ; then
     sudo cp -r /var/log/libvirt $LOG_DIR/
+    sudo virsh net-list --all > $LOG_DIR/virsh-net-list.txt
 fi
 if [ -d /etc/libvirt ]; then
     sudo cp -r /etc/libvirt $LOG_DIR/etc/
