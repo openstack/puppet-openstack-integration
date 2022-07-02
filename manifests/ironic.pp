@@ -88,7 +88,12 @@ class openstack_integration::ironic {
         password => 'a_big_secret',
       }
       class { 'ironic::inspector::authtoken':
-        password => 'a_big_secret',
+        password             => 'a_big_secret',
+        user_domain_name     => 'Default',
+        project_domain_name  => 'Default',
+        auth_url             => $::openstack_integration::config::keystone_admin_uri,
+        www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+        memcached_servers    => $::openstack_integration::config::memcached_servers,
       }
       class { 'ironic::pxe': }
       class { 'ironic::inspector::db':
