@@ -260,14 +260,6 @@ class openstack_integration::neutron (
       }
     }
     'ovn': {
-      class { 'ovn::northd': }
-      class { 'ovn::controller':
-        ovn_remote          => 'tcp:127.0.0.1:6642',
-        ovn_encap_ip        => '127.0.0.1',
-        ovn_bridge_mappings => ['external:br-ex'],
-        ovn_cms_options     => 'enable-chassis-as-gw',
-        manage_ovs_bridge   => false,
-      }
       # NOTE(tkajinam): neutron::plugins::ml2::ovn requires neutron::plugins::ml2,
       #                 thus it should be included after neutron::plugins::ml2.
       class { 'neutron::plugins::ml2::ovn':
