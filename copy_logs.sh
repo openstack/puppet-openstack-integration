@@ -274,7 +274,7 @@ fi
 sudo cp /root/openrc $LOG_DIR/openrc.txt
 sudo chmod 777 $LOG_DIR/openrc.txt
 sudo cp -r /etc/openstack $LOG_DIR/etc
-sudo chmod 777 $LOG_DIR/etc/admin-clouds.yaml
+sudo chmod 777 $LOG_DIR/etc/openstack/puppet/admin-clouds.yaml
 df -h > $LOG_DIR/df.txt
 free -m > $LOG_DIR/free.txt
 lsmod > $LOG_DIR/lsmod.txt
@@ -298,7 +298,7 @@ done > $LOG_DIR/iptables.txt
 mkdir -p $LOG_DIR/openstack_resources
 
 export OS_CLOUD=project
-export OS_CLIENT_CONFIG_FILE=$LOG_DIR/etc/admin-clouds.yaml
+export OS_CLIENT_CONFIG_FILE=$LOG_DIR/etc/openstack/puppet/admin-clouds.yaml
 # keystone resources
 if [ -d $LOG_DIR/keystone ]; then
     openstack >> $LOG_DIR/openstack_resources/keystone.txt <<-EOC
