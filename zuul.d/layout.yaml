@@ -7,14 +7,12 @@
     name: puppet-openstack-check-jobs
     check:
       jobs:
-        - puppet-openstack-lint-ubuntu-focal
-        - puppet-openstack-syntax-6-ubuntu-focal
-        - puppet-openstack-syntax-7-ubuntu-focal
+        - puppet-openstack-lint-ubuntu-jammy
+        - puppet-openstack-syntax-7-ubuntu-jammy
     gate:
       jobs:
-        - puppet-openstack-lint-ubuntu-focal
-        - puppet-openstack-syntax-6-ubuntu-focal
-        - puppet-openstack-syntax-7-ubuntu-focal
+        - puppet-openstack-lint-ubuntu-jammy
+        - puppet-openstack-syntax-7-ubuntu-jammy
 
 - project:
     templates:
@@ -26,24 +24,20 @@
     name: puppet-openstack-library-jobs
     check:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-6.28-ubuntu-focal
+        - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
         - puppet-openstack-libraries-puppet-unit-7.16-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.16-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
-        - puppet-openstack-libraries-litmus-6.28-ubuntu-focal
+        - puppet-openstack-libraries-puppet-unit-7.16-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.16-centos-9-stream
-        - puppet-openstack-libraries-litmus-7.16-ubuntu-focal
-        - puppet-openstack-libraries-litmus-latest-ubuntu-focal
+        - puppet-openstack-libraries-litmus-7.16-ubuntu-jammy
+        - puppet-openstack-libraries-litmus-latest-ubuntu-jammy
     gate:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
-        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-6.28-ubuntu-focal
+        - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
         - puppet-openstack-libraries-puppet-unit-7.16-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.16-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.16-centos-9-stream
 
 # integration jobs
@@ -51,11 +45,11 @@
     name: puppet-openstack-integration-jobs-all
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-ubuntu-focal
-        - puppet-openstack-integration-6-scenario002-tempest-ubuntu-focal
-        - puppet-openstack-integration-6-scenario003-tempest-ubuntu-focal
-        - puppet-openstack-integration-6-scenario004-tempest-ubuntu-focal
-        - puppet-openstack-integration-6-scenario005-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
+        - puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
+        - puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
+        - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
+        - puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario000-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
@@ -74,7 +68,7 @@
     name: puppet-openstack-integration-jobs-scenario001
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario001-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
     gate:
       jobs:
@@ -84,7 +78,7 @@
     name: puppet-openstack-integration-jobs-scenario002
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario002-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
     gate:
       jobs:
@@ -94,7 +88,7 @@
     name: puppet-openstack-integration-jobs-scenario003
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario003-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
     gate:
       jobs:
@@ -104,7 +98,7 @@
     name: puppet-openstack-integration-jobs-scenario004
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario004-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
     gate:
       jobs:
@@ -114,7 +108,7 @@
     name: puppet-openstack-integration-jobs-scenario005
     check:
       jobs:
-        - puppet-openstack-integration-6-scenario005-tempest-ubuntu-focal
+        - puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
     gate:
       jobs:

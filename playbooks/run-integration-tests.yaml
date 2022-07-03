@@ -5,6 +5,7 @@
           set -ex
           trap "./copy_logs.sh" EXIT
           export CEPH_VERSION={{ ceph }}
+          export ENABLE_CEPH_REPO={{ enable_ceph_repo | default(true) }}
           export PUPPET_MAJ_VERSION={{ puppet }}
           export SCENARIO={{ scenario }}
           export GEM_HOME=`pwd`/.bundled_gems
