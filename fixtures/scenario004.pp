@@ -69,6 +69,9 @@ class { 'openstack_integration::ceph':
   deploy_rgw   => true,
   swift_dropin => true,
 }
+class { 'openstack_integration::horizon':
+  octavia_enabled => true
+}
 if $watcher_enabled {
   include openstack_integration::watcher
 }
@@ -79,6 +82,7 @@ include openstack_integration::provision
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
+  horizon     => true,
   watcher     => $watcher_enabled,
   bgpvpn      => $bgpvpn_enabled,
   l2gw        => $l2gw_enabled,

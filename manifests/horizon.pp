@@ -4,8 +4,13 @@
 #  (optional) Flag to enable heat dashboard
 #  Defaults to false.
 #
+# [*octavia_enabled*]
+#  (optional) Flag to enable octavia dashboard
+#  Defaults to false.
+#
 class openstack_integration::horizon (
-  $heat_enabled = false,
+  $heat_enabled    = false,
+  $octavia_enabled = false,
 ) {
 
   include openstack_integration::config
@@ -56,5 +61,8 @@ class openstack_integration::horizon (
 
   if $heat_enabled {
     class { 'horizon::dashboards::heat': }
+  }
+  if $octavia_enabled {
+    class { 'horizon::dashboards::octavia': }
   }
 }
