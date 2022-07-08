@@ -76,7 +76,7 @@ include openstack_integration::keystone
 include openstack_integration::glance
 
 class { 'openstack_integration::neutron':
-  driver => 'linuxbridge',
+  driver => 'ovn',
 }
 include openstack_integration::placement
 include openstack_integration::nova
@@ -118,5 +118,5 @@ class { 'openstack_integration::tempest':
   # run it when instances does not have internet acces to
   # deploy for example Docker.
   magnum         => false,
-  neutron_driver => 'linuxbridge',
+  neutron_driver => 'ovn',
 }
