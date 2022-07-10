@@ -41,6 +41,7 @@
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-focal
         - puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
+        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-7.10-centos-9-stream
         - puppet-openstack-libraries-litmus-7.10-centos-9-stream
