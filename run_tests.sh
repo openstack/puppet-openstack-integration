@@ -331,7 +331,6 @@ echo "octavia_tempest_plugin.tests.scenario.*standalone_CRUD" >> /tmp/openstack/
 
 if uses_debs; then
   echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-exclude-list.txt
-  echo "tempest.*.scenario.test_dashboard_basic_ops.TestDashboardBasicOps.test_basic_scenario" >> /tmp/openstack/tempest/test-exclude-list.txt
   echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
   # TODO (amoralej) tempest tests for object_storage are not working in master with current version of tempest in uca (16.1.0).
   echo "tempest.api.object_storage" >> /tmp/openstack/tempest/test-exclude-list.txt
@@ -355,11 +354,7 @@ else
   # we need to remove this regex option and implement https://review.opendev.org/#/c/547278 when ready.
   # Note these tests were disabled in https://review.opendev.org/#/c/461969/ and hopefully it's more stable now and allows
   # us to run it until we can implement --exclude-list-file in a stable way.
-  #EXCLUDES="--regex=^(?!tempest.scenario.gnocchi.test.live_assert_vcpus_metric_is_really_expurged.test_request.*$)(?!tempest.scenario.gnocchi.test.live_assert_no_delete_metrics_have_the_gabbilive_policy.test_request.*$).*"
-
-  # Note(chandankumar): exclude-list tempest_horizon.tests.scenario.test_dashboard_basic_ops test as they are currently flacky in CI on CentOS
-  # Adding it to skip list will help till we find the correct solution
-  EXCLUDES="--exclude-regex=^tempest.*.scenario.test_dashboard_basic_ops|telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
+  EXCLUDES="--exclude-regex=^telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest

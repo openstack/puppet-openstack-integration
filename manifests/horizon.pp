@@ -38,6 +38,8 @@ class openstack_integration::horizon (
 
   class { 'horizon':
     secret_key        => 'big_secret',
+    cache_backend     => 'django.core.cache.backends.memcached.MemcachedCache',
+    cache_server_ip   => $::openstack_integration::config::host,
     allowed_hosts     => $::openstack_integration::config::ip_for_url,
     listen_ssl        => $::openstack_integration::config::ssl,
     ssl_redirect      => $::openstack_integration::config::ssl,
