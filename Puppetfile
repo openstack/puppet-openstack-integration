@@ -192,7 +192,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v8.2.0'
+  :ref => 'v8.3.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
@@ -204,7 +204,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v8.0.0'
+  :ref => 'v8.1.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
