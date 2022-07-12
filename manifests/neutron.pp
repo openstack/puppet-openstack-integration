@@ -127,7 +127,7 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' {
     $plugins_list = ['qos', 'ovn-router', 'trunk']
-
+    $providers_list = undef
   } else {
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
