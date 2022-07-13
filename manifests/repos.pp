@@ -47,6 +47,7 @@ class openstack_integration::repos {
 
       $enable_sig  = false
       $enable_epel = false
+      $ceph_mirror = $ceph_mirror_fallback
     }
     'RedHat': {
       # Set specific variables for CentOS Stream 9
