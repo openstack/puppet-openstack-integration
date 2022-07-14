@@ -51,7 +51,7 @@ scenario](#all-in-one).
 | glance     |             |     rbd     |     swift   |     file    |  swift+rgw  |    file     |    file      |
 | nova       |             |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
 | placement  |             |      X      |       X     |       X     |      X      |      X      |      X       |
-| neutron    |             |     ovs     |      ovs    | linuxbridge |     ovs     |     ovn     |     ovs      |
+| neutron    |             |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
 | cinder     |             |     rbd     |     iscsi   |             |             |             |   iscsi      |
 | ceilometer |             |      X      |       X     |             |             |             |              |
 | aodh       |             |      X      |       X     |             |             |             |              |
