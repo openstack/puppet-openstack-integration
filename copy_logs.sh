@@ -85,6 +85,12 @@ if which journalctl &> /dev/null; then
     sudo journalctl --no-pager > $LOG_DIR/syslog.txt
 fi
 
+# network interfaces
+if [ -d /etc/sysconfig/network-scripts ]; then
+    mkdir -p $LOG_DIR/etc/sysconfig
+    sudo cp -r /etc/sysconfig/network-scripts $LOG_DIR/etc/sysconfig/
+fi
+
 # rabbitmq
 if [ -d /etc/rabbitmq ]; then
     sudo cp -r /etc/rabbitmq $LOG_DIR/etc/
