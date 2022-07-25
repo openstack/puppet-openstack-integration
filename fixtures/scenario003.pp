@@ -52,14 +52,6 @@ case $::osfamily {
   }
 }
 
-if ($::operatingsystem == 'Ubuntu') and (versioncmp($::operatingsystemmajrelease, '16') >= 0) {
-  # Disable Designate MDS on Ubuntu until we find why Puppet run is not
-  # idempotent sometimes.
-  $designate_enabled = false
-} else {
-  $designate_enabled = true
-}
-
 include openstack_integration
 class { 'openstack_integration::config':
   ssl  => $ssl,
@@ -90,9 +82,7 @@ include openstack_integration::heat
 class { 'openstack_integration::sahara':
   integration_enable => $sahara_integration_enable,
 }
-if $designate_enabled {
-  include openstack_integration::designate
-}
+include openstack_integration::designate
 if $murano_enabled {
   include openstack_integration::murano
 }
@@ -107,7 +97,7 @@ class { 'openstack_integration::magnum':
 }
 
 class { 'openstack_integration::tempest':
-  designate      => $designate_enabled,
+  designate      => true,
   trove          => $trove_enabled,
   mistral        => $mistral_enabled,
   sahara         => $sahara_integration_enable,
