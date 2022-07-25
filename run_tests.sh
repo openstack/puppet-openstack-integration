@@ -48,14 +48,8 @@ export WRITE_FACTS=false
 source ${SCRIPT_DIR}/configure_facts.sh
 
 export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-# TODO In CentOS9 there is no puppetlabs package yet, so we use RDO one.
-if [ "${OS_NAME_VERS}" == "centos9" ]; then
-    export PUPPET_BASE_PATH=/etc/puppet
-    export PUPPET_PKG="puppet"
-else
-    export PUPPET_BASE_PATH=/etc/puppetlabs/code
-    export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
-fi
+export PUPPET_BASE_PATH=/etc/puppetlabs/code
+export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
 
 print_header 'Start (run_tests.sh)'
 
