@@ -223,7 +223,7 @@ class openstack_integration::tempest (
       default => []
     }
 
-    $neutron_extensions_real = sort(
+    $neutron_api_extensions_real = sort(
       $neutron_base_extensions +
       $neutron_agent_scheduler_extensions +
       $neutron_l3_extensions +
