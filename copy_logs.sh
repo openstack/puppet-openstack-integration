@@ -34,12 +34,12 @@ LOG_DIR=$WORKSPACE/logs
 #
 # For right now, we populate our projects with a guess from those that
 # have puppet modules installed.  revisit this if needs change
-if [ -d /etc/puppetlabs/code ]; then
-    # puppet4
-    PUPPET_MODULES_PATH='/etc/puppetlabs/code/modules'
+if [ -d "${WORKSPACE}/spec/fixtures/modules" ]; then
+    # Litmus job
+    PUPPET_MODULES_PATH="${WORKSPACE}/spec/fixtures/modules"
 else
-    # puppet3
-    PUPPET_MODULES_PATH='/etc/puppet/modules'
+    # Integration job
+    PUPPET_MODULES_PATH='/etc/puppetlabs/code/modules'
 fi
 
 for project in $PUPPET_MODULES_PATH/*; do
