@@ -30,6 +30,7 @@ class openstack_integration::gnocchi (
   }
   class { 'gnocchi::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'gnocchi',
   }
   class { 'gnocchi::keystone::auth':

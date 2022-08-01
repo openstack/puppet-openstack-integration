@@ -64,10 +64,12 @@ class openstack_integration::nova (
 
   class { 'nova::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'nova',
   }
   class { 'nova::db::mysql_api':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'nova',
   }
   include nova::cell_v2::simple_setup
