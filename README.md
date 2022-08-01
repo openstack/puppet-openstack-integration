@@ -30,7 +30,8 @@ Description
 -----------
 
 OpenStack Infrastructure is deploying four jobs per supported Operating System
-(Ubuntu and CentOS): scenario001, scenario002, scenario003 and scenario004.
+(Ubuntu and CentOS): scenario001, scenario002, scenario003, scenario004, and
+scenario005.
 For CentOS it is also deploying a job(scenario000) with very tiny installation.
 
 The manifest files under the fixtures directory is used to compose the required
@@ -46,7 +47,7 @@ scenario](#all-in-one).
 |     -      | scenario000 | scenario001 | scenario002 | scenario003 | scenario004 | scenario005 | scenario-aio |
 |:----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
 | ssl        |     yes     |     yes     |      yes    |      yes    |     yes     |     yes     |     no       |
-| ipv6       |   centos8   |   centos8   |    centos8  |    centos8  |   centos8   |   centos8   |     no       |
+| ipv6       |   centos9   |   centos9   |    centos9  |    centos9  |   centos9   |   centos9   |     no       |
 | keystone   |      X      |      X      |       X     |       X     |      X      |      X      |      X       |
 | glance     |             |     rbd     |     swift   |     file    |  swift+rgw  |    file     |    file      |
 | nova       |             |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
