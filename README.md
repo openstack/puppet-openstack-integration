@@ -79,7 +79,7 @@ scenario](#all-in-one).
 | bgp-dr     |             |             |             |             |      X      |             |              |
 | redis      |             |      X      |       X     |             |             |             |              |
 | l2gw       |             |             |             |             |      X      |             |              |
-| octavia    |             |             |             |             |      X      |             |              |
+| octavia    |             |             |             |             |      X      |      X      |              |
 | om rpc     |    amqp1    |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 
