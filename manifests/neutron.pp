@@ -116,6 +116,7 @@ class openstack_integration::neutron (
 
   class { 'neutron::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'neutron',
   }
   class { 'neutron::keystone::auth':

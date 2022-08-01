@@ -52,6 +52,7 @@ class openstack_integration::aodh (
   }
   class { 'aodh::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'aodh',
   }
   class { 'aodh::keystone::auth':

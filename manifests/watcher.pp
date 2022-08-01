@@ -17,6 +17,7 @@ class openstack_integration::watcher {
   }
   class { 'watcher::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'watcher',
   }
   class { 'watcher::db':
