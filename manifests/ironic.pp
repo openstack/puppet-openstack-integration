@@ -34,6 +34,7 @@ class openstack_integration::ironic {
   }
   class { 'ironic::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'ironic',
   }
   class { 'ironic::keystone::auth':
@@ -85,6 +86,7 @@ class openstack_integration::ironic {
     'RedHat': {
       class { 'ironic::inspector::db::mysql':
         charset  => $::openstack_integration::params::mysql_charset,
+        collate  => $::openstack_integration::params::mysql_collate,
         password => 'a_big_secret',
       }
       class { 'ironic::inspector::authtoken':

@@ -18,6 +18,7 @@ class openstack_integration::vitrage {
 
   class { 'vitrage::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'vitrage',
   }
 
