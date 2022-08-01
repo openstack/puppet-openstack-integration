@@ -76,7 +76,7 @@ class openstack_integration::ironic {
     enabled_vendor_interfaces     => ['fake', 'ipmitool', 'no-vendor'],
   }
   class { 'ironic::drivers::ipmi': }
-  Rabbitmq_user_permissions['ironic@/'] -> Service<| tag == 'ironic-service' |>
+
   # Ironic inspector resources
   case $::osfamily {
     'Debian': {
