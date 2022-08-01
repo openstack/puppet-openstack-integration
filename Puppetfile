@@ -151,7 +151,7 @@ mod 'powerdns',
   :ref => '0.0.5'
 
 mod 'kmod',
-  :git => 'https://github.com/camptocamp/puppet-kmod',
+  :git => 'https://github.com/voxpupuli/puppet-kmod',
   :ref => 'v3.2.0'
 
 mod 'apache',
