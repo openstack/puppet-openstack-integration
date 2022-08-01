@@ -78,45 +78,35 @@ class openstack_integration::ironic {
   class { 'ironic::drivers::ipmi': }
 
   # Ironic inspector resources
-  case $::osfamily {
-    'Debian': {
-      warning("Ironic inspector packaging is not ready on ${::osfamily}.")
-    }
-    'RedHat': {
-      class { 'ironic::inspector::db::mysql':
-        charset  => $::openstack_integration::params::mysql_charset,
-        password => 'a_big_secret',
-      }
-      class { 'ironic::inspector::authtoken':
-        password             => 'a_big_secret',
-        user_domain_name     => 'Default',
-        project_domain_name  => 'Default',
-        auth_url             => $::openstack_integration::config::keystone_admin_uri,
-        www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-        memcached_servers    => $::openstack_integration::config::memcached_servers,
-      }
-      class { 'ironic::pxe': }
-      class { 'ironic::inspector::db':
-        database_connection => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
-      }
-      class { 'ironic::inspector::ironic':
-        password => 'a_big_secret',
-        auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
-      }
-      class { 'ironic::inspector':
-        listen_address        => $::openstack_integration::config::host,
-        default_transport_url => os_transport_url({
-          'transport' => $::openstack_integration::config::messaging_default_proto,
-          'host'      => $::openstack_integration::config::host,
-          'port'      => $::openstack_integration::config::messaging_default_port,
-          'username'  => 'ironic',
-          'password'  => 'an_even_bigger_secret',
-        }),
-        dnsmasq_interface     => 'eth0',
-      }
-    }
-    default: {
-      fail("Unsupported osfamily (${::osfamily})")
-    }
+  class { 'ironic::inspector::db::mysql':
+    charset  => $::openstack_integration::params::mysql_charset,
+    password => 'a_big_secret',
+  }
+  class { 'ironic::inspector::authtoken':
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
+  }
+  class { 'ironic::pxe': }
+  class { 'ironic::inspector::db':
+    database_connection => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
+  }
+  class { 'ironic::inspector::ironic':
+    password => 'a_big_secret',
+    auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
+  }
+  class { 'ironic::inspector':
+    listen_address        => $::openstack_integration::config::host,
+    default_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_default_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_default_port,
+      'username'  => 'ironic',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    dnsmasq_interface     => 'eth0',
   }
 }
