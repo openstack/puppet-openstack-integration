@@ -249,6 +249,11 @@ class openstack_integration::tempest (
     $ssh_key_type = 'rsa'
   }
 
+  $dashboard_url = $::osfamily ? {
+    'RedHat' => "${::openstack_integration::config::base_url}/dashboard",
+    default  => "${::openstack_integration::config::base_url}/horizon"
+  }
+
   class { 'tempest':
     debug                              => true,
     use_stderr                         => false,
@@ -295,7 +300,7 @@ class openstack_integration::tempest (
     watcher_available                  => $watcher,
     public_network_name                => 'public',
     neutron_api_extensions             => join(any2array($neutron_api_extensions_real), ','),
-    dashboard_url                      => $::openstack_integration::config::base_url,
+    dashboard_url                      => $dashboard_url,
     flavor_ref                         => '42',
     flavor_ref_alt                     => '84',
     db_flavor_ref                      => '42',
