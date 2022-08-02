@@ -13,10 +13,15 @@
 #   (optional) Define if Nova Resources needs to be created.
 #   Default to true.
 #
+# [*image_format*]
+#   (optional) Format of glance images to be created.
+#   Defaults to 'qcow2'
+#
 class openstack_integration::provision (
-  $glance  = true,
-  $nova    = true,
-  $neutron = true,
+  $glance       = true,
+  $nova         = true,
+  $neutron      = true,
+  $image_format = 'qcow2',
 ){
 
   include openstack_integration::config
@@ -79,19 +84,21 @@ class openstack_integration::provision (
   }
 
   if $glance {
+    $image_path = "/tmp/openstack/image/cirros-0.5.1-x86_64-disk-${image_format}.img"
+
     glance_image { 'cirros':
       ensure           => present,
       container_format => 'bare',
-      disk_format      => 'qcow2',
+      disk_format      => $image_format,
       is_public        => 'yes',
-      source           => '/tmp/openstack/image/cirros-0.5.1-x86_64-disk.img'
+      source           => $image_path,
     }
     glance_image { 'cirros_alt':
       ensure           => present,
       container_format => 'bare',
-      disk_format      => 'qcow2',
+      disk_format      => $image_format,
       is_public        => 'yes',
-      source           => '/tmp/openstack/image/cirros-0.5.1-x86_64-disk.img'
+      source           => $image_path,
     }
     Keystone_user_role['admin@openstack'] -> Glance_image<||>
   }

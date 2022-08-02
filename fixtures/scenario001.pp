@@ -88,17 +88,22 @@ include openstack_integration::ceph
 class { 'openstack_integration::heat':
   notification_topics => $notification_topics,
 }
-include openstack_integration::provision
+class { 'openstack_integration::provision':
+  # NOTE(tkajinam): Use raw format to use rbd image cloning when creating
+  #                 a volume from an image.
+  image_format => 'raw',
+}
 include openstack_integration::redis
 class { 'openstack_integration::gnocchi':
   integration_enable => true,
 }
 
 class { 'openstack_integration::tempest':
-  cinder     => true,
-  gnocchi    => true,
-  ceilometer => true,
-  aodh       => true,
-  heat       => true,
-  vitrage    => $enable_vitrage,
+  cinder       => true,
+  gnocchi      => true,
+  ceilometer   => true,
+  aodh         => true,
+  heat         => true,
+  vitrage      => $enable_vitrage,
+  image_format => 'raw',
 }

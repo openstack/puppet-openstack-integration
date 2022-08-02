@@ -46,7 +46,10 @@ include openstack_integration::rabbitmq
 include openstack_integration::mysql
 include openstack_integration::ovn
 include openstack_integration::keystone
-include openstack_integration::glance
+include openstack_integration::cinder
+class { 'openstack_integration::glance':
+  backend => 'cinder',
+}
 class { 'openstack_integration::neutron':
   driver => 'ovn',
 }
@@ -57,9 +60,15 @@ class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
 }
 
-include openstack_integration::provision
+class { 'openstack_integration::provision':
+  # NOTE(tkajinam): Use raw format to use volume cloning when creating a volume
+  #                 from an image.
+  image_format => 'raw',
+}
 
 class { 'openstack_integration::tempest':
+  cinder         => true,
   octavia        => true,
   neutron_driver => 'ovn',
+  image_format   => 'raw',
 }

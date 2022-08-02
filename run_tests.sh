@@ -133,6 +133,9 @@ if [ -f ~/cache/files/cirros-0.5.1-x86_64-disk.img ]; then
 else
     wget http://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img -P $IMG_DIR
 fi
+ln -s $IMG_DIR/cirros-0.5.1-x86_64-disk.img $IMG_DIR/cirros-0.5.1-x86_64-disk-qcow2.img
+# NOTE(tkajinam): Prepare raw format image
+qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-0.5.1-x86_64-disk.img $IMG_DIR/cirros-0.5.1-x86_64-disk-raw.img
 
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)
