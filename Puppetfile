@@ -160,7 +160,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v8.4.1'
+  :ref => 'v8.5.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -208,7 +208,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.3.0'
+  :ref => '9.4.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
