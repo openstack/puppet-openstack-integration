@@ -146,10 +146,6 @@ mod 'zaqar',
   :ref => 'master'
 
 ## External modules
-mod 'powerdns',
-  :git => 'https://github.com/antonlindstrom/puppet-powerdns',
-  :ref => '0.0.5'
-
 mod 'kmod',
   :git => 'https://github.com/voxpupuli/puppet-kmod',
   :ref => 'v3.2.0'
