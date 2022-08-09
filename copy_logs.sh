@@ -37,9 +37,12 @@ LOG_DIR=$WORKSPACE/logs
 if [ -d "${WORKSPACE}/spec/fixtures/modules" ]; then
     # Litmus job
     PUPPET_MODULES_PATH="${WORKSPACE}/spec/fixtures/modules"
-else
+elif [ -d "/etc/puppetlabs/code/modules" ]; then
     # Integration job
     PUPPET_MODULES_PATH='/etc/puppetlabs/code/modules'
+else
+    # Integration tests with RDO puppet package
+    PUPPET_MODULES_PATH='/etc/puppet/modules'
 fi
 
 for project in $PUPPET_MODULES_PATH/*; do
