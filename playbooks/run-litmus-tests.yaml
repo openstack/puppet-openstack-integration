@@ -6,6 +6,9 @@
           set -e
           function trap_exit_sig() {
             {{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh
+
+            # NOTE(tobias-urdin): Litmus does not execute spec_clean rake task after a run.
+            $GEM_BIN_DIR/bundle exec rake spec_clean
           }
           trap trap_exit_sig EXIT
           export CEPH_VERSION={{ ceph }}
