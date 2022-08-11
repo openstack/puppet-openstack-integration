@@ -34,7 +34,7 @@ class openstack_integration::octavia (
     ensure  => directory,
     owner   => 'octavia',
     group   => 'octavia',
-    mode    => '0750',
+    mode    => '0770',
     require => Anchor['octavia::config::begin'],
     before  => Anchor['octavia::config::end']
   }
