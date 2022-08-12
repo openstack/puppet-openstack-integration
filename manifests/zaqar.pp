@@ -14,6 +14,7 @@ class openstack_integration::zaqar {
   }
   class { 'zaqar::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'zaqar',
   }
   class { 'zaqar::keystone::auth':

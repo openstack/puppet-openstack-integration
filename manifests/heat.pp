@@ -70,6 +70,7 @@ class openstack_integration::heat (
   }
   class { 'heat::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'heat',
   }
   class { 'heat::keystone::auth':
