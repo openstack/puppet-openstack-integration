@@ -120,6 +120,18 @@ else
     fi
 fi
 
+# iscsi
+if [ -d /etc/iscsi ]; then
+    sudo cp -r /etc/iscsi $LOG_DIR/etc/
+fi
+
+# tgt
+if uses_debs; then
+    if [ -d /etc/tgt ]; then
+        sudo cp -r /etc/tgt $LOG_DIR/etc/
+    fi
+fi
+
 # tempest logs
 if [ -f /tmp/openstack/tempest/tempest.log ] ; then
     sudo cp /tmp/openstack/tempest/tempest.log $LOG_DIR/
