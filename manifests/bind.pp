@@ -23,7 +23,7 @@ class openstack_integration::bind {
   # Contribute this in upstream ::dns ?
   file { '/etc/rndc.conf':
     ensure  => present,
-    owner   => $::dns::params::owner,
+    owner   => $::dns::params::user,
     group   => $::dns::params::group,
     content => template("${module_name}/rndc.conf.erb"),
     require => Package[$dns::params::dns_server_package]
