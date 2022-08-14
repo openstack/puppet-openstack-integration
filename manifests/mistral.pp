@@ -50,7 +50,7 @@ class openstack_integration::mistral {
   }
   include apache
   class { 'mistral::wsgi::apache':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/mistral/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,

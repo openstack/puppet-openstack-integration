@@ -67,7 +67,7 @@ class openstack_integration::designate {
   }
   include apache
   class { 'designate::wsgi::apache':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/designate/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
