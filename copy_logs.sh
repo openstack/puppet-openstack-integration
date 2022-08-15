@@ -107,7 +107,7 @@ if [ -d /var/log/postgresql ] ; then
     sudo cp /var/log/postgresql/*log $LOG_DIR/postgres.log
 fi
 # mysql/mariadb
-if use_debs; then
+if uses_debs; then
     if [ -d /etc/mysql ] ; then
         sudo cp -r /etc/mysql $LOG_DIR/etc/
     fi
@@ -162,7 +162,7 @@ fi
 if [ -d /etc/libvirt ]; then
     sudo cp -r /etc/libvirt $LOG_DIR/etc/
 fi
-if use_debs; then
+if uses_debs; then
     if [ -f /etc/default/libvirtd ]; then
         mkdir $LOG_DIR/etc/default
         sudo cp /etc/default/libvirtd $LOG_DIR/etc/default/
