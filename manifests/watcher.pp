@@ -68,7 +68,6 @@ class openstack_integration::watcher {
     auth_url            => "${::openstack_integration::config::keystone_admin_uri}/v3",
   }
   class { 'watcher::api':
-    bind_host    => $::openstack_integration::config::host,
     upgrade_db   => true,
     service_name => 'httpd',
   }
