@@ -134,14 +134,14 @@ class openstack_integration::nova (
   }
   include apache
   class { 'nova::wsgi::apache_api':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
   }
   class { 'nova::wsgi::apache_metadata':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,

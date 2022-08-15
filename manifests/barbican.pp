@@ -69,7 +69,7 @@ class openstack_integration::barbican {
   }
   include apache
   class { 'barbican::wsgi::apache':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/barbican/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,

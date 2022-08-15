@@ -136,7 +136,7 @@ class openstack_integration::octavia (
   }
   include apache
   class { 'octavia::wsgi::apache':
-    bind_host => $::openstack_integration::config::ip_for_url,
+    bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_key   => "/etc/octavia/ssl/private/${::fqdn}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
