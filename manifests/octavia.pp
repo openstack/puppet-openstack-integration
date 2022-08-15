@@ -29,16 +29,6 @@ class openstack_integration::octavia (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  # TODO(tkajinam): This directory should be created by the package.
-  file { '/var/run/octavia':
-    ensure  => directory,
-    owner   => 'octavia',
-    group   => 'octavia',
-    mode    => '0770',
-    require => Anchor['octavia::config::begin'],
-    before  => Anchor['octavia::config::end']
-  }
-
   class { 'octavia::logging':
     debug => true,
   }
