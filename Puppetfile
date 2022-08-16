@@ -216,7 +216,7 @@ mod 'corosync',
 
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
-  :ref => 'v2.0.1'
+  :ref => 'v5.0.2'
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
