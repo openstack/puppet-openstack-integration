@@ -152,7 +152,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v7.0.0'
+  :ref => 'v8.0.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -180,7 +180,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v12.0.1'
+  :ref => 'v12.0.2'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
