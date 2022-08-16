@@ -27,6 +27,7 @@
           - libxslt-devel
           - ruby-devel
           - zlib-devel
+          - rubygem-rexml
 
       - name: Install yum (CentOS/RHEL)
         dnf:
@@ -35,19 +36,6 @@
 
       when:
         - ansible_os_family == 'RedHat'
-
-    - block:
-      - name: install required packages (CentOS/RHEL>=9)
-        dnf:
-          name: "{{ item }}"
-          state: present
-        become: true
-        ignore_errors: true
-        with_items:
-          - rubygem-rexml
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution_major_version >= "9"
 
     - block:
       - name: install required packages (CentOS)
