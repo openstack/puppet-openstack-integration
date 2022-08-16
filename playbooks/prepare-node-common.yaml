@@ -49,6 +49,19 @@
         - ansible_os_family == 'RedHat'
         - ansible_distribution_major_version >= "9"
 
+    - block:
+      - name: install required packages (CentOS)
+        dnf:
+          name: "{{ item }}"
+          state: present
+        become: true
+        ignore_errors: true
+        with_items:
+          - python3-pip
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution == 'CentOS'
+
     - name: Install Ruby dependencies (Ubuntu)
       apt:
         name: "{{ item }}"
