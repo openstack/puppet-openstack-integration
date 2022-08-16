@@ -113,8 +113,6 @@ class openstack_integration::swift {
   include swift::ringbuilder
   class { 'swift::storage::all':
     storage_local_net_ip => $::openstack_integration::config::host,
-    incoming_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
-    outgoing_chmod       => 'Du=rwx,g=rx,o=rx,Fu=rw,g=r,o=r',
     mount_check          => false,
   }
   $swift_components = ['account', 'container', 'object']
