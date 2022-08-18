@@ -43,6 +43,7 @@ class openstack_integration::mistral {
   }
   class { 'mistral::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'mistral',
   }
   class { 'mistral::api':

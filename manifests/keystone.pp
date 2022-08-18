@@ -53,6 +53,7 @@ class openstack_integration::keystone (
   }
   class { 'keystone::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'keystone',
   }
   class { 'keystone::db':
