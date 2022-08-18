@@ -45,6 +45,7 @@ class openstack_integration::trove {
   }
   class { 'trove::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'trove',
   }
   class { 'trove::keystone::auth':

@@ -43,6 +43,7 @@ class openstack_integration::cinder (
   include cinder::client
   class { 'cinder::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'cinder',
   }
   class { 'cinder::keystone::auth':

@@ -52,6 +52,7 @@ class openstack_integration::octavia (
   }
   class { 'octavia::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'octavia',
   }
   class { 'octavia::keystone::auth':

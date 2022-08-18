@@ -17,6 +17,7 @@ class openstack_integration::placement {
 
   class { 'placement::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'placement',
   }
 

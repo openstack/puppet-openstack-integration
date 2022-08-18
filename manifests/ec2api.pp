@@ -13,6 +13,7 @@ class openstack_integration::ec2api {
   }
   class { 'ec2api::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
+    collate  => $::openstack_integration::params::mysql_collate,
     password => 'ec2api',
   }
   case $::osfamily {
