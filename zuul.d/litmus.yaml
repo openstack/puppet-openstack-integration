@@ -44,7 +44,7 @@
     nodeset: centos-9-stream
     vars:
       puppet_gem_version: 7.16.0
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-litmus-6.28-ubuntu-focal
@@ -53,7 +53,7 @@
     voting: false
     vars:
       puppet_gem_version: 6.28.0
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-litmus-7.16-ubuntu-focal
@@ -62,7 +62,7 @@
     voting: false
     vars:
       puppet_gem_version: 7.16.0
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-litmus-latest-ubuntu-focal
@@ -71,7 +71,7 @@
     voting: false
     vars:
       puppet_gem_version: latest
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-libraries-litmus-7.16-centos-9-stream

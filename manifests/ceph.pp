@@ -43,6 +43,11 @@ test -b /dev/ceph_vg/lv_data
 
   Exec['lvm_create'] -> Class['Ceph::Osds']
 
+  class { 'ceph::params':
+    # Since Quincy, the ceph-volume command is provided by the separate package
+    packages => ['ceph', 'ceph-volume']
+  }
+
   class { 'ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo

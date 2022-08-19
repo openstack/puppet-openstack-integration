@@ -41,7 +41,7 @@
     abstract: true
     vars:
       scenario: scenario001
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario001
@@ -49,7 +49,7 @@
     abstract: true
     vars:
       scenario: scenario001
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-6-scenario001-tempest-ubuntu-focal
@@ -127,7 +127,7 @@
     abstract: true
     vars:
       scenario: scenario004
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario004
@@ -135,7 +135,7 @@
     abstract: true
     vars:
       scenario: scenario004
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-6-scenario004-tempest-ubuntu-focal
@@ -157,7 +157,7 @@
     abstract: true
     vars:
       scenario: scenario005
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario005
@@ -165,7 +165,7 @@
     abstract: true
     vars:
       scenario: scenario005
-      ceph: pacific
+      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-6-scenario005-tempest-ubuntu-focal
