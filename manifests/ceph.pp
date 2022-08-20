@@ -81,8 +81,8 @@ test -b /dev/ceph_vg/lv_data
     },
     # Configure Ceph RadosGW
     # These could be always set in the above call to ceph::profile::params
-    frontend_type                => 'civetweb',
-    rgw_frontends                => "civetweb port=${::openstack_integration::config::ip_for_url}:8080",
+    frontend_type                => 'beast',
+    rgw_frontends                => "beast frontend=${::openstack_integration::config::ip_for_url}:8080 port=8080",
     rgw_user                     => 'ceph',
     rbd_default_features         => '15',
   }
