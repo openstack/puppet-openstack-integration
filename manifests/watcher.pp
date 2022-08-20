@@ -23,7 +23,6 @@ class openstack_integration::watcher {
   class { 'watcher::db':
     database_connection => 'mysql+pymysql://watcher:watcher@127.0.0.1/watcher?charset=utf8',
   }
-  # TODO: Support SSL
   class { 'watcher::keystone::auth':
     password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:9322",
