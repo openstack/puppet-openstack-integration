@@ -50,10 +50,10 @@ install_openstack() {
   ZUUL_BRANCH=${ZUUL_BRANCH:-master}
 
   if [ "$ZUUL_PROJECT" != "openstack/puppet-ceph" ] && [ -n "$CEPH_VERSION" ]; then
-    if [ "$CEPH_VERSION" == "octopus" ] || [ "$CEPH_VERSION" == "pacific" ]; then
-      ZUUL_BRANCH="master"
-    else
+    if [ "$CEPH_VERSION" == "jewel" ] || [ "$CEPH_VERSION" == "luminous" ] || [ "$CEPH_VERSION" == "mimic" ]; then
       ZUUL_BRANCH="stable/$CEPH_VERSION"
+    else
+      ZUUL_BRANCH="master"
     fi
   fi
 
