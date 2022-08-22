@@ -53,7 +53,8 @@ class { 'openstack_integration::keystone':
   token_expiration => '2400',
 }
 class { 'openstack_integration::glance':
-  backend => 'swift',
+  backend          => 'swift',
+  image_encryption => true,
 }
 include openstack_integration::neutron
 include openstack_integration::swift
@@ -87,6 +88,7 @@ class { 'openstack_integration::gnocchi':
 
 class { 'openstack_integration::tempest':
   aodh                    => true,
+  barbican                => true,
   ceilometer              => true,
   cinder                  => true,
   cinder_backup           => true,

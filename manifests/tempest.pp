@@ -4,6 +4,10 @@
 #   (optional) Define if Aodh needs to be tested.
 #   Default to false.
 #
+# [*barbican*]
+#   (optional) Define if Barbican needs to be tested.
+#   Default to false.
+#
 # [*bgpvpn*]
 #   (optional) Define if BGPVPN needs to be tested.
 #   Default to false.
@@ -137,6 +141,7 @@
 #
 class openstack_integration::tempest (
   $aodh                    = false,
+  $barbican                = false,
   $bgpvpn                  = false,
   $ceilometer              = false,
   $cinder                  = false,
@@ -291,6 +296,7 @@ class openstack_integration::tempest (
     neutron_bgpvpn_available           => $bgpvpn,
     neutron_l2gw_available             => $l2gw,
     neutron_dr_available               => $dr,
+    barbican_available                 => $barbican,
     ceilometer_available               => $ceilometer,
     aodh_available                     => $aodh,
     trove_available                    => $trove,

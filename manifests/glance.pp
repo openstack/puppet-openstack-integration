@@ -5,8 +5,13 @@
 #   Can be 'file', 'swift', 'rbd' or 'cinder'.
 #   Defaults to 'file'.
 #
+# [*image_encryption*]
+#   (optional) Boolean to configure or not image encryption
+#   Defaults to false.
+#
 class openstack_integration::glance (
-  $backend = 'file',
+  $backend          = 'file',
+  $image_encryption = false,
 ) {
 
   include openstack_integration::config
@@ -122,4 +127,13 @@ class openstack_integration::glance (
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
   }
 
+  if $image_encryption {
+    class { 'glance::key_manager':
+      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+    }
+    class { 'glance::key_manager::barbican':
+      barbican_endpoint => "${::openstack_integration::config::base_url}:9311",
+      auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3"
+    }
+  }
 }
