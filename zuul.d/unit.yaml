@@ -11,11 +11,11 @@
       rspec_puppet_version: '= 2.10.0'
 
 - job:
-    name: puppet-openstack-unit-6.21-ubuntu-focal
+    name: puppet-openstack-unit-6.28-ubuntu-focal
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-focal
     vars:
-      puppet_gem_version: 6.21.1
+      puppet_gem_version: 6.28.0
       rspec_puppet_version: '= 2.9.0'
 
 - job:
@@ -40,11 +40,11 @@
     check:
       jobs:
         - puppet-openstack-unit-7.16-centos-9-stream
-        - puppet-openstack-unit-6.21-ubuntu-focal
+        - puppet-openstack-unit-6.28-ubuntu-focal
         - puppet-openstack-unit-7.16-ubuntu-focal
         - puppet-openstack-unit-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-unit-7.16-centos-9-stream
-        - puppet-openstack-unit-6.21-ubuntu-focal
+        - puppet-openstack-unit-6.28-ubuntu-focal
         - puppet-openstack-unit-7.16-ubuntu-focal

@@ -47,12 +47,12 @@
       ceph: pacific
 
 - job:
-    name: puppet-openstack-litmus-6.21-ubuntu-focal
+    name: puppet-openstack-litmus-6.28-ubuntu-focal
     parent: puppet-openstack-litmus-module-base
     nodeset: ubuntu-focal
     voting: false
     vars:
-      puppet_gem_version: 6.21.1
+      puppet_gem_version: 6.28.0
       ceph: pacific
 
 - job:
@@ -81,12 +81,12 @@
       puppet_gem_version: 7.16.0
 
 - job:
-    name: puppet-openstack-libraries-litmus-6.21-ubuntu-focal
+    name: puppet-openstack-libraries-litmus-6.28-ubuntu-focal
     parent: puppet-openstack-litmus-libraries-base
     voting: false
     nodeset: ubuntu-focal
     vars:
-      puppet_gem_version: 6.21.1
+      puppet_gem_version: 6.28.0
 
 - job:
     name: puppet-openstack-libraries-litmus-7.16-ubuntu-focal
@@ -108,7 +108,7 @@
     name: puppet-openstack-litmus-jobs
     check:
       jobs:
-        - puppet-openstack-litmus-6.21-ubuntu-focal
+        - puppet-openstack-litmus-6.28-ubuntu-focal
         - puppet-openstack-litmus-7.16-centos-9-stream
         - puppet-openstack-litmus-7.16-ubuntu-focal
         - puppet-openstack-litmus-latest-ubuntu-focal

@@ -11,11 +11,11 @@
       rspec_puppet_version: '= 2.10.0'
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-unit-6.28-ubuntu-focal
     parent: puppet-openstack-libraries-puppet-unit-base
     nodeset: ubuntu-focal
     vars:
-      puppet_gem_version: 6.21.1
+      puppet_gem_version: 6.28.0
       rspec_puppet_version: '= 2.9.0'
 
 - job:
