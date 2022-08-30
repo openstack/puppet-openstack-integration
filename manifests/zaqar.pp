@@ -37,9 +37,12 @@ class openstack_integration::zaqar {
     uri      => 'swift://zaqar:a_big_secret@/services',
   }
   class {'zaqar::keystone::authtoken':
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
     auth_url             => $::openstack_integration::config::keystone_admin_uri,
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    password             => 'a_big_secret',
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class {'zaqar':
     unreliable       => true,

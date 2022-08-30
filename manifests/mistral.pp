@@ -16,8 +16,11 @@ class openstack_integration::mistral {
   }
   class { 'mistral::keystone::authtoken':
     password             => 'a_big_secret',
-    www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    auth_url             => $::openstack_integration::config::keystone_auth_uri,
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
+    auth_url             => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { 'mistral::logging':
     debug => true,
