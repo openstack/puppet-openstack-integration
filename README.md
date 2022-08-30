@@ -77,7 +77,7 @@ scenario](#all-in-one).
 | watcher    |             |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |             |      X      |             |              |
 | bgp-dr     |             |             |             |             |      X      |             |              |
-| redis      |             |      X      |       X     |             |             |             |              |
+| redis      |             |      X      |       X     |       X     |             |             |              |
 | l2gw       |             |             |             |             |      X      |             |              |
 | octavia    |             |             |             |             |      X      |      X      |              |
 | om rpc     |    amqp1    |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |

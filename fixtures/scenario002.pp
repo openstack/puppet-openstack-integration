@@ -47,6 +47,7 @@ include openstack_integration::apache
 include openstack_integration::memcached
 include openstack_integration::rabbitmq
 include openstack_integration::mysql
+include openstack_integration::redis
 class { 'openstack_integration::keystone':
   # NOTE(sileht): Telemetry autoscaling tempest tests can't renew token, so we
   # use a long one
@@ -80,7 +81,6 @@ if $ec2api_enabled {
 
 include openstack_integration::ceilometer
 include openstack_integration::aodh
-include openstack_integration::redis
 class { 'openstack_integration::gnocchi':
   integration_enable => true,
   backend            => 'swift'
