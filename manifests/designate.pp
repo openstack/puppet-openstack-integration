@@ -41,6 +41,9 @@ class openstack_integration::designate {
   class { 'designate::db':
     database_connection => 'mysql+pymysql://designate:designate@127.0.0.1/designate?charset=utf8'
   }
+  class { 'designate::coordination':
+    backend_url => $::openstack_integration::config::tooz_url,
+  }
 
   include 'designate::client'
 

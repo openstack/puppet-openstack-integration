@@ -58,6 +58,7 @@ if ($om_rpc == 'amqp') {
   include openstack_integration::qdr
 }
 include openstack_integration::mysql
+include openstack_integration::redis
 class { 'openstack_integration::keystone':
   # NOTE(sileht): Telemetry autoscaling tempest tests can't renew token, so we
   # use a long one
@@ -93,7 +94,6 @@ class { 'openstack_integration::provision':
   #                 a volume from an image.
   image_format => 'raw',
 }
-include openstack_integration::redis
 class { 'openstack_integration::gnocchi':
   integration_enable => true,
 }
