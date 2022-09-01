@@ -51,9 +51,12 @@ class openstack_integration::murano {
     database_connection => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
   }
   class { 'murano::keystone::authtoken':
+    password             => 'a_big_secret',
+    user_domain_name     => 'Default',
+    project_domain_name  => 'Default',
     auth_url             => $::openstack_integration::config::keystone_admin_uri,
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    password             => 'a_big_secret'
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { 'murano':
     default_transport_url => os_transport_url({

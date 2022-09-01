@@ -44,6 +44,7 @@ class openstack_integration::barbican {
     www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
     user_domain_name     => 'Default',
     project_domain_name  => 'Default',
+    memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { 'barbican::api':
     default_transport_url       => os_transport_url({
