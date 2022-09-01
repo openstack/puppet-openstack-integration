@@ -54,6 +54,7 @@ scenario](#all-in-one).
 | placement  |             |      X      |       X     |       X     |      X      |      X      |      X       |
 | neutron    |             |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
 | cinder     |             |     rbd     |     iscsi   |             |             |    iscsi    |   iscsi      |
+| manila     |             |             |             |             |             |     lvm     |              |
 | ceilometer |             |      X      |       X     |             |             |             |              |
 | aodh       |             |      X      |       X     |             |             |             |              |
 | designate  |             |             |             |     bind    |             |             |              |
