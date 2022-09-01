@@ -251,15 +251,6 @@ class openstack_integration::tempest (
     }
   }
 
-  if ($::osfamily == 'RedHat') and (versioncmp($::operatingsystemmajrelease, '9') >= 0) {
-    # NOTE(tkajinam): The latest openssl in c9s repo doesn't accept SHA1 by
-    #                 default, which is causing ssh with rsa keys to fail.
-    #                 See bug 1962507 for details.
-    $ssh_key_type = 'ecdsa'
-  } else {
-    $ssh_key_type = 'rsa'
-  }
-
   $dashboard_url = $::osfamily ? {
     'RedHat' => "${::openstack_integration::config::base_url}/dashboard",
     default  => "${::openstack_integration::config::base_url}/horizon"
@@ -329,7 +320,10 @@ class openstack_integration::tempest (
     murano_available                   => $murano,
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,
-    ssh_key_type                       => $ssh_key_type,
+    # NOTE(tkajinam): The recent openssl doesn't accept SHA1 by default, which
+    #                 is causing ssh with rsa keys to fail.
+    #                 See bug 1962507 for details.
+    ssh_key_type                       => 'ecdsa',
     l2gw_switch                        => $l2gw_switch,
     disable_dashboard_ssl_validation   => true,
     baremetal_driver                   => 'fake-hardware',
