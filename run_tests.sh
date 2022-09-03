@@ -27,16 +27,19 @@ export SWAP_SIZE_GB=${SWAP_SIZE_GB:-8}
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --summarize --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
-export DISTRO=$(lsb_release -c -s)
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
 # For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
 # In Ubuntu, Tempest packages are not maintained so installing from source
-if [ $(lsb_release --id -s) = "Ubuntu" ]; then
-   export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+if is_fedora; then
+    export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
 else
-   export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+    if [ $(lsb_release --id -s) = "Ubuntu" ]; then
+       export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+    else
+       export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+    fi
 fi
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
