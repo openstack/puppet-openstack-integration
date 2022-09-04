@@ -295,7 +295,7 @@ echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-include-lis
 echo "ec2api_tempest_plugin.api.*test_create_delete(?!.*_vpn_connection)" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Cinder Backup
-echo "VolumesBackupsAdminV2Test" >> /tmp/openstack/tempest/test-include-list.txt
+echo "VolumesBackupsAdminTest" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Cinder encrypted volumes
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-include-list.txt
