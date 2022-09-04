@@ -378,6 +378,13 @@ fi
 unset OS_CLOUD
 unset OS_CLIENT_CONFIG_FILE
 
+# swift rings
+if [ -d $LOG_DIR/swift ]; then
+    sudo swift-ring-builder /etc/swift/account.builder >> $LOG_DIR/swift-rings.txt
+    sudo swift-ring-builder /etc/swift/container.builder >> $LOG_DIR/swift-rings.txt
+    sudo swift-ring-builder /etc/swift/object.builder >> $LOG_DIR/swift-rings.txt
+fi
+
 # end of log capture
 set -e
 
