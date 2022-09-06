@@ -22,8 +22,6 @@ if $::os['name'] == 'Ubuntu' {
 
 if $::operatingsystem == 'Ubuntu' {
   $ipv6                = false
-  # Watcher packages are not available in Ubuntu repository.
-  $watcher_enabled     = false
   # TODO(tobias-urdin): No service plugin 'BGPVPN'
   $bgpvpn_enabled      = false
   # TODO(tobias-urdin): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
@@ -32,7 +30,6 @@ if $::operatingsystem == 'Ubuntu' {
   $bgp_dragent_enabled = false
 } else {
   $ipv6                = true
-  $watcher_enabled     = true
   $bgpvpn_enabled      = true
   $l2gw_enabled        = true
   $bgp_dragent_enabled = true
@@ -69,9 +66,7 @@ class { 'openstack_integration::ceph':
   deploy_rgw   => true,
   swift_dropin => true,
 }
-if $watcher_enabled {
-  include openstack_integration::watcher
-}
+include openstack_integration::watcher
 include openstack_integration::octavia
 
 include openstack_integration::provision
@@ -79,7 +74,7 @@ include openstack_integration::provision
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
-  watcher     => $watcher_enabled,
+  watcher     => true,
   bgpvpn      => $bgpvpn_enabled,
   l2gw        => $l2gw_enabled,
   l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
