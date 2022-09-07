@@ -30,30 +30,17 @@ source $SCRIPT_DIR/functions
 if [ -f /etc/ci/mirror_info.sh ]; then
     source /etc/ci/mirror_info.sh
 
-    if [ "${OS_NAME_VERS}" == "centos9" ]; then
-        CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
-    else
-        CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}"
-    fi
-
+    CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
     DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
         CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        if [ "${OS_NAME_VERS}" == "centos9" ]; then
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
-        else
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
-        fi
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
-    if [ "${OS_NAME_VERS}" == "centos9" ]; then
-        CENTOS_MIRROR_HOST='http://mirror.stream.centos.org'
-    else
-        CENTOS_MIRROR_HOST='http://mirror.centos.org'
-    fi
+    CENTOS_MIRROR_HOST='http://mirror.stream.centos.org'
     DEPS_MIRROR_HOST="https://trunk.rdoproject.org/${DLRN_DEPS_BASE}/"
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
@@ -61,11 +48,7 @@ else
         CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        if [ "${OS_NAME_VERS}" == "centos9" ]; then
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
-        else
-            CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/centos/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
-        fi
+        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi
