@@ -68,6 +68,10 @@
 #   (optional) Define if Magmum needs to be tested.
 #   Default to false.
 #
+# [*manila*]
+#   (optional) Define if Manila needs to be tested.
+#   Default to false.
+#
 # [*mistral*]
 #   (optional) Define if Mistral needs to be tested.
 #   Default to false.
@@ -139,6 +143,10 @@
 #   (optional) Format of glance images to be created.
 #   Defaults to 'qcow2'
 #
+# [*share_protocol*]
+#   (optional) Protocol used in Manila shares
+#   Defaults to 'NFS'
+#
 class openstack_integration::tempest (
   $aodh                    = false,
   $barbican                = false,
@@ -157,6 +165,7 @@ class openstack_integration::tempest (
   $l2gw_switch             = undef,
   $dr                      = false,
   $magnum                  = false,
+  $manila                  = false,
   $mistral                 = false,
   $murano                  = false,
   $neutron                 = true,
@@ -174,6 +183,7 @@ class openstack_integration::tempest (
   $neutron_driver          = 'openvswitch',
   $neutron_api_extensions  = undef,
   $image_format            = 'qcow2',
+  $share_protocol          = 'NFS',
 ) {
 
   include openstack_integration::config
@@ -296,6 +306,7 @@ class openstack_integration::tempest (
     swift_available                    => $swift,
     ironic_available                   => $ironic,
     zaqar_available                    => $zaqar,
+    manila_available                   => $manila,
     mistral_available                  => $mistral,
     vitrage_available                  => $vitrage,
     gnocchi_available                  => $gnocchi,
@@ -334,6 +345,9 @@ class openstack_integration::tempest (
     load_balancer_observer_role        => 'member',
     load_balancer_global_observer_role => 'admin',
     load_balancer_test_with_noop       => true,
+    share_multitenancy_enabled         => false,
+    share_enable_protocols             => [downcase($share_protocol)],
+    share_capability_storage_protocol  => $share_protocol,
   }
 
   if $magnum {

@@ -60,6 +60,8 @@ class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
 }
 
+include openstack_integration::manila
+
 class { 'openstack_integration::provision':
   # NOTE(tkajinam): Use raw format to use volume cloning when creating a volume
   #                 from an image.
@@ -68,6 +70,7 @@ class { 'openstack_integration::provision':
 
 class { 'openstack_integration::tempest':
   cinder         => true,
+  manila         => true,
   octavia        => true,
   neutron_driver => 'ovn',
   image_format   => 'raw',

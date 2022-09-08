@@ -326,6 +326,9 @@ echo "octavia_tempest_plugin.tests.scenario.*standalone_CRUD" >> /tmp/openstack/
 echo 'barbican_tempest_plugin.tests.scenario.test_volume_encryption.VolumeEncryptionTest' >> /tmp/openstack/tempest/test-include-list.txt
 echo 'barbican_tempest_plugin.tests.scenario.test_image_signing.ImageSigningTest.test_signed_image_upload_and_boot' >> /tmp/openstack/tempest/test-include-list.txt
 
+# Manila
+echo 'manila_tempest_tests.tests.api.test_shares.SharesNFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
+
 if uses_debs; then
   echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-exclude-list.txt
   echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
