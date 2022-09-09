@@ -42,6 +42,12 @@ class openstack_integration::placement {
     database_connection => 'mysql+pymysql://placement:placement@127.0.0.1/placement?charset=utf8',
   }
   include placement::db::sync
+  # TODO(tkajinam): Remove this once lp bug 1987984 is fixed.
+  if $::operatingsystem == 'Ubuntu' {
+    class { 'placement::policy':
+      purge_config => true
+    }
+  }
   include placement::api
   include apache
   if ($::operatingsystem != 'Debian') {
