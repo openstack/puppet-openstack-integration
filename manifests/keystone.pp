@@ -98,13 +98,28 @@ class openstack_integration::keystone (
     public_url => $::openstack_integration::config::keystone_auth_uri,
     admin_url  => $::openstack_integration::config::keystone_admin_uri,
   }
+
   keystone_tenant { 'openstack':
-    ensure  => 'present',
+    ensure  => present,
     enabled => true,
   }
   keystone_user_role { "${::keystone::bootstrap::username}@openstack":
-    ensure => 'present',
+    ensure => present,
     roles  => [$::keystone::bootstrap::role_name],
+  }
+
+  keystone_user { 'demo':
+    ensure   => present,
+    enabled  => true,
+    password => 'secrete'
+  }
+  keystone_tenant { 'demo':
+    ensure  => present,
+    enabled => true,
+  }
+  keystone_user_role { 'demo@demo':
+    ensure => 'present',
+    roles  => ['member'],
   }
 
   class { 'openstack_extras::auth_file':
