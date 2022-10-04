@@ -160,15 +160,15 @@ mod 'apt',
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v7.2.0'
+  :ref => 'v7.3.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v3.5.0'
+  :ref => 'v3.6.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => 'v5.3.0'
+  :ref => 'v5.4.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
