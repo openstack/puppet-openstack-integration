@@ -15,6 +15,7 @@
     post-run: playbooks/upload-logs.yaml
     run: playbooks/run-libraries-beaker-tests.yaml
     timeout: 3600
+    voting: false
     nodeset: centos-8-stream
     irrelevant-files:
       - ^.*\.md$
