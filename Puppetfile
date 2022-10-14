@@ -188,7 +188,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v8.4.0'
+  :ref => 'v8.5.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
