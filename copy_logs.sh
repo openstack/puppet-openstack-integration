@@ -316,6 +316,16 @@ for table in raw filter nat mangle ; do
     echo ""
 done > $LOG_DIR/iptables.txt
 
+sudo cp /etc/fstab $LOG_DIR/etc/
+sudo mount > $LOG_DIR/mount.txt
+sudo losetup -al > $LOG_DIR/losetup_-al.txt
+echo "== pvs ==" >> $LOG_DIR/lvm.txt
+sudo pvs >> $LOG_DIR/lvm.txt
+echo "== vgs ==" >> $LOG_DIR/lvm.txt
+sudo vgs >> $LOG_DIR/lvm.txt
+echo "== lvs ==" >> $LOG_DIR/lvm.txt
+sudo lvs >> $LOG_DIR/lvm.txt
+
 mkdir -p $LOG_DIR/openstack_resources
 
 export OS_CLOUD=project
