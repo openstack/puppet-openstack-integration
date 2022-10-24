@@ -33,7 +33,7 @@ if [ -f /etc/ci/mirror_info.sh ]; then
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
     DEPS_MIRROR_HOST="${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_BASE}/"
     if uses_debs; then
-        CEPH_MIRROR_HOST="http://download.ceph.com/debian-${CEPH_VERSION}"
+        CEPH_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
         CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
