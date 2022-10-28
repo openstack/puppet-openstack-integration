@@ -282,6 +282,7 @@ class openstack_integration::tempest (
     baremetal_driver                 => 'fake-hardware',
     baremetal_enabled_hardware_types => 'ipmi,fake-hardware',
     ec2api_tester_roles              => ['member'],
+    designate_nameservers            => "${::openstack_integration::config::ip_for_url}:5322",
   }
 
   if $magnum {
