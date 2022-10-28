@@ -293,6 +293,7 @@ class openstack_integration::tempest (
     load_balancer_observer_role        => 'member',
     load_balancer_global_observer_role => 'admin',
     load_balancer_test_with_noop       => true,
+    designate_nameservers              => "${::openstack_integration::config::ip_for_url}:5322",
   }
 
   if $magnum {
