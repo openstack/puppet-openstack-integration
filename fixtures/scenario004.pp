@@ -31,7 +31,7 @@ if $::operatingsystem == 'Ubuntu' {
 } else {
   $ipv6                = true
   $bgpvpn_enabled      = true
-  $l2gw_enabled        = false
+  $l2gw_enabled        = true
   $bgp_dragent_enabled = true
 }
 
