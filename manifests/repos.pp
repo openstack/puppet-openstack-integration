@@ -6,6 +6,13 @@ class openstack_integration::repos {
   } else {
     $ceph_version_real = 'quincy'
   }
+
+  if defined('$::enable_ceph_repo') and $::enable_ceph_repo != '' {
+    $enable_ceph_repository = Boolean($::enable_ceph_repo)
+  } else {
+    $enable_ceph_repository = true
+  }
+
   case $::osfamily {
     'Debian': {
       case $::operatingsystem {
@@ -30,18 +37,20 @@ class openstack_integration::repos {
       }
 
       $ceph_mirror_fallback = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
-      # Ceph is both packaged on UCA and official download.ceph.com packages
-      # which we mirror. We want to use the official packages or our mirror.
-      if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
-        $ceph_version_cap = capitalize($ceph_version_real)
-        apt::pin { 'ceph':
-          priority   => 1001,
-          originator => "Ceph ${ceph_version_cap}",
-        }
-      } else {
-        apt::pin { 'ceph':
-          priority => 1001,
-          origin   => 'download.ceph.com',
+      if $enable_ceph_repository {
+        # Ceph is both packaged on UCA and official download.ceph.com packages
+        # which we mirror. We want to use the official packages or our mirror.
+        if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
+          $ceph_version_cap = capitalize($ceph_version_real)
+          apt::pin { 'ceph':
+            priority   => 1001,
+            originator => "Ceph ${ceph_version_cap}",
+          }
+        } else {
+          apt::pin { 'ceph':
+            priority => 1001,
+            origin   => 'download.ceph.com',
+          }
         }
       }
 
@@ -122,7 +131,7 @@ class openstack_integration::repos {
     }
   }
 
-  if $::osfamily == 'RedHat' or $::operatingsystem == 'Ubuntu' {
+  if $enable_ceph_repository {
     class { 'ceph::repo':
       enable_sig  => $enable_sig,
       enable_epel => $enable_epel,
