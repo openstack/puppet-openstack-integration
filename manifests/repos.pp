@@ -130,6 +130,11 @@ class openstack_integration::repos {
     }
   }
 
+  # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
+  package { 'ruby-augeas':
+    ensure => 'present',
+  }
+
   if $::osfamily == 'RedHat' {
     # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
     # that causes the puppet-openvswitch module to fail parsing the output.
@@ -141,17 +146,6 @@ class openstack_integration::repos {
       ensure => 'present',
     }
 
-    # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
-    package { 'ruby-augeas':
-      ensure => 'present',
-    }
     Yumrepo<||> -> Package<| title == 'ruby-augeas' |>
-  }
-
-  if $::operatingsystem == 'Ubuntu' {
-    # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
-    package { 'ruby-augeas':
-      ensure => 'present',
-    }
   }
 }
