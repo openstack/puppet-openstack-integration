@@ -292,6 +292,8 @@ if [ `command -v gem` ]; then
 fi
 
 # system status & informations
+sudo cp /etc/passwd $LOG_DIR/etc
+sudo cp /etc/group $LOG_DIR/etc
 sudo cp /root/openrc $LOG_DIR/openrc.txt
 sudo chmod 777 $LOG_DIR/openrc.txt
 sudo cp -r /etc/openstack $LOG_DIR/etc
