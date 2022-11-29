@@ -17,14 +17,16 @@ class openstack_integration::glance (
   include openstack_integration::config
   include openstack_integration::params
 
+  # TODO(tkajinam): Glance no longer supports native ssl since Ussuri release,
+  #                 so these parameters are unused now.
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'glance':
     }
     $key_file = undef
-    $crt_file  = undef
+    $crt_file = undef
   } else {
     $key_file = undef
-    $crt_file  = undef
+    $crt_file = undef
   }
 
   openstack_integration::mq_user { 'glance':
@@ -104,8 +106,6 @@ class openstack_integration::glance (
     enabled_backends => $enabled_backends,
     default_backend  => $default_backend,
     bind_host        => $::openstack_integration::config::host,
-    cert_file        => $crt_file,
-    key_file         => $key_file,
   }
   class { 'glance::cron::db_purge': }
   class { 'glance::notify::rabbitmq':
