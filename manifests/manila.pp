@@ -118,14 +118,4 @@ class openstack_integration::manila (
   class { 'manila::network::neutron': }
   class { 'manila::volume::cinder': }
   class { 'manila::cron::db_purge': }
-
-  # TODO(tkajinam): This should be fixed in the RDO package
-  if $::osfamily == 'RedHat' {
-    file_line { 'manila-sudoers-privsep-helper':
-      path    => '/etc/sudoers.d/manila',
-      line    => 'manila ALL = (root) NOPASSWD: /usr/bin/privsep-helper *',
-      require => Anchor['manila::config::begin'],
-      notify  => Anchor['manila::config::end']
-    }
-  }
 }
