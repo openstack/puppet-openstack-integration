@@ -112,6 +112,7 @@ class openstack_integration::manila (
       fail("Unsupported backend (${backend})")
     }
   }
+  class { 'manila::data': }
 
   class { 'manila::compute::nova': }
   class { 'manila::network::neutron': }
