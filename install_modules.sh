@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -ex
-
+source /etc/os-release
+export OS_NAME_VERS=${ID}${VERSION_ID}
 GEM_INSTALL_CMD="gem install --no-user-install --minimal-dep --verbose --no-document"
 
 if [ -n "${GEM_HOME}" ]; then
@@ -25,7 +26,17 @@ source $SCRIPT_DIR/functions
 
 print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
-$GEM_INSTALL_CMD r10k
+
+if [ "${OS_NAME_VERS}" == "centos8" ]; then
+    # faraday-net_http >= 3.0.0 supports only Ruby 2.6.0 but CentOS 8 provides
+    # Ruby 2.5.0
+    $GEM_INSTALL_CMD faraday-net_http -v '< 3.0.0'
+    # Pin a few more packages to avoid updating faraday-net_http
+    $GEM_INSTALL_CMD faraday -v '< 2.0.0'
+    $GEM_INSTALL_CMD r10k -v '< 3.15.0'
+else
+    $GEM_INSTALL_CMD r10k
+fi
 
 # make sure there is no puppet module pre-installed
 rm -rf "${PUPPETFILE_DIR:?}/"*
