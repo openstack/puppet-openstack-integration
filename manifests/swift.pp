@@ -133,6 +133,9 @@ class openstack_integration::swift {
   class { 'swift::storage::all':
     storage_local_net_ip => $::openstack_integration::config::host,
     mount_check          => false,
+    account_pipeline     => ['healthcheck', 'recon', 'account-server'],
+    container_pipeline   => ['healthcheck', 'recon', 'container-server'],
+    object_pipeline      => ['healthcheck', 'recon', 'object-server'],
   }
   $swift_components = ['account', 'container', 'object']
   swift::storage::filter::recon { $swift_components : }
