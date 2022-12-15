@@ -2,7 +2,7 @@
 
 set -ex
 
-GEM_INSTALL_CMD="gem install --no-user-install --minimal-dep --verbose --no-document"
+GEM_INSTALL_CMD="gem install --no-user-install --minimal-deps --verbose --no-document"
 
 if [ -n "${GEM_HOME}" ]; then
     GEM_BIN_DIR=${GEM_HOME}/bin/
