@@ -2,8 +2,9 @@
 # This file contains the tripleo jobs for the puppet modules
 #
 - job:
-    name: tripleo-puppet-ci-centos-8-undercloud-containers
-    parent: tripleo-ci-centos-8-undercloud-containers
+    name: tripleo-puppet-ci-centos-9-undercloud-containers
+    voting: false
+    parent: tripleo-ci-centos-9-undercloud-containers
     irrelevant-files: &irrelevant_files
       - ^.*\.md$
       - ^.*\.rst$
@@ -22,17 +23,6 @@
       - ^tox.ini$
 
 - job:
-    name: tripleo-puppet-ci-centos-9-undercloud-containers
-    voting: false
-    parent: tripleo-ci-centos-9-undercloud-containers
-    irrelevant-files: *irrelevant_files
-
-- job:
-    name: tripleo-puppet-ci-centos-8-content-provider
-    parent: tripleo-ci-centos-8-content-provider
-    irrelevant-files: *irrelevant_files
-
-- job:
     name: tripleo-puppet-ci-centos-9-content-provider
     voting: false
     parent: tripleo-ci-centos-9-content-provider
@@ -42,50 +32,32 @@
     name: tripleo-puppet-undercloud
     check:
       jobs:
-        - tripleo-puppet-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-undercloud-containers: &c8_consumer
+        - tripleo-puppet-ci-centos-9-content-provider
+        - tripleo-puppet-ci-centos-9-undercloud-containers:
             vars: &undercloud_consumer_vars
               consumer_job: true
               build_container_images: false
               remove_tags:
                 - build
             dependencies:
-              - tripleo-puppet-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-9-content-provider
-        - tripleo-puppet-ci-centos-9-undercloud-containers: &c9_consumer
-            vars: *undercloud_consumer_vars
-            dependencies:
               - tripleo-puppet-ci-centos-9-content-provider
-    gate:
-      jobs:
-        - tripleo-puppet-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-undercloud-containers: *c8_consumer
-
-- job:
-    name: tripleo-puppet-ci-centos-8-standalone
-    parent: tripleo-ci-centos-8-standalone
-    irrelevant-files: *irrelevant_files
-    vars: &standalone_vars
-      featureset_override:
-        standalone_environment_files:
-          - 'environments/low-memory-usage.yaml'
 
 - job:
     name: tripleo-puppet-ci-centos-9-standalone
-    parent: tripleo-ci-centos-9-standalone
     voting: false
+    parent: tripleo-ci-centos-9-standalone
     irrelevant-files: *irrelevant_files
-    vars: *standalone_vars
+    vars:
+      featureset_override:
+        standalone_environment_files:
+          - 'environments/low-memory-usage.yaml'
 
 - project-template:
     name: tripleo-puppet-standalone
     check:
       jobs:
-        - tripleo-puppet-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-standalone: *c8_consumer
         - tripleo-puppet-ci-centos-9-content-provider
-        - tripleo-puppet-ci-centos-9-standalone: *c9_consumer
-    gate:
-      jobs:
-        - tripleo-puppet-ci-centos-8-content-provider
-        - tripleo-puppet-ci-centos-8-standalone: *c8_consumer
+        - tripleo-puppet-ci-centos-9-standalone:
+            vars: *undercloud_consumer_vars
+            dependencies:
+              - tripleo-puppet-ci-centos-9-content-provider
