@@ -55,24 +55,3 @@
       featureset_override:
         standalone_environment_files:
           - 'environments/low-memory-usage.yaml'
-
-- project-template:
-    name: tripleo-puppet-standalone
-    check:
-      jobs:
-        - tripleo-puppet-ci-centos-9-content-provider
-        - tripleo-puppet-ci-centos-9-standalone:
-            vars: &standalone_consumer_vars
-              consumer_job: true
-              build_container_images: false
-              remove_tags:
-                - build
-            dependencies:
-              - tripleo-puppet-ci-centos-9-content-provider
-    gate:
-      jobs:
-        - tripleo-puppet-ci-centos-9-content-provider
-        - tripleo-puppet-ci-centos-9-standalone:
-            vars: *standalone_consumer_vars
-            dependencies:
-              - tripleo-puppet-ci-centos-9-content-provider
