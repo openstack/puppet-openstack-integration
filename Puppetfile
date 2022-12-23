@@ -152,7 +152,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v9.0.0'
+  :ref => 'v9.0.1'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
