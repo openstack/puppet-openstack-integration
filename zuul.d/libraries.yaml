@@ -8,29 +8,23 @@
     vars:
       puppet_gem_version: 7.16.0
       # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '= 2.10.0'
+      rspec_puppet_version: '~> 2.10.0'
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-6.28-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-unit-7.16-ubuntu-jammy
     parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-focal
-    vars:
-      puppet_gem_version: 6.28.0
-      rspec_puppet_version: '= 2.9.0'
-
-- job:
-    name: puppet-openstack-libraries-puppet-unit-7.16-ubuntu-focal
-    parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: 7.16.0
-      rspec_puppet_version: '= 2.9.0'
+      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
+      rspec_puppet_version: '~> 2.10.0'
 
 - job:
-    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
     parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     voting: false
     vars:
       puppet_gem_version: latest
-      rspec_puppet_version: '= 2.9.0'
+      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
+      rspec_puppet_version: '~> 2.10.0'

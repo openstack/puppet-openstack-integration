@@ -1,6 +1,6 @@
 ---
 - job:
-    name: puppet-openstack-lint-ubuntu-focal
+    name: puppet-openstack-lint-ubuntu-jammy
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
     irrelevant-files:
@@ -11,19 +11,13 @@
       - ^test-requirements.txt$
 
 - job:
-    name: puppet-openstack-syntax-6-ubuntu-focal
-    parent: puppet-openstack-syntax-base
-    vars:
-      puppet: 6
-
-- job:
-    name: puppet-openstack-syntax-7-ubuntu-focal
+    name: puppet-openstack-syntax-7-ubuntu-jammy
     parent: puppet-openstack-syntax-base
     vars:
       puppet: 7
 
 - job:
-    name: puppet-openstack-libraries-puppet-lint-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-lint-ubuntu-jammy
     parent: puppet-openstack-integration-base
     run: playbooks/run-libraries-lint-tests.yaml
     pre-run: playbooks/prepare-node-unit.yaml
@@ -51,13 +45,7 @@
       - ^tox.ini$
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-6-ubuntu-focal
-    parent: puppet-openstack-libraries-puppet-syntax
-    vars:
-      puppet: 6
-
-- job:
-    name: puppet-openstack-libraries-puppet-syntax-7-ubuntu-focal
+    name: puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
     parent: puppet-openstack-libraries-puppet-syntax
     vars:
       puppet: 7

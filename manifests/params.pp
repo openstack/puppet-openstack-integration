@@ -12,8 +12,8 @@ class openstack_integration::params {
       $ca_bundle_cert_path = '/etc/ssl/certs/puppet_openstack.pem'
       $cert_path           = '/usr/local/share/ca-certificates/puppet_openstack.crt'
       $update_ca_certs_cmd = '/usr/sbin/update-ca-certificates -f'
-      $mysql_charset       = 'utf8'
-      $mysql_collate       = 'utf8_general_ci'
+      $mysql_charset       = 'utf8mb3'
+      $mysql_collate       = 'utf8mb3_general_ci'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

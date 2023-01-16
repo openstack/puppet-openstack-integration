@@ -47,31 +47,24 @@
       ceph: quincy
 
 - job:
-    name: puppet-openstack-litmus-6.28-ubuntu-focal
+    name: puppet-openstack-litmus-7.16-ubuntu-jammy
     parent: puppet-openstack-litmus-module-base
-    nodeset: ubuntu-focal
-    voting: false
-    vars:
-      puppet_gem_version: 6.28.0
-      ceph: quincy
-
-- job:
-    name: puppet-openstack-litmus-7.16-ubuntu-focal
-    parent: puppet-openstack-litmus-module-base
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     voting: false
     vars:
       puppet_gem_version: 7.16.0
       ceph: quincy
+      enable_ceph_repo: false
 
 - job:
-    name: puppet-openstack-litmus-latest-ubuntu-focal
+    name: puppet-openstack-litmus-latest-ubuntu-jammy
     parent: puppet-openstack-litmus-module-base
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     voting: false
     vars:
       puppet_gem_version: latest
       ceph: quincy
+      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-libraries-litmus-7.16-centos-9-stream
@@ -81,37 +74,30 @@
       puppet_gem_version: 7.16.0
 
 - job:
-    name: puppet-openstack-libraries-litmus-6.28-ubuntu-focal
+    name: puppet-openstack-libraries-litmus-7.16-ubuntu-jammy
     parent: puppet-openstack-litmus-libraries-base
     voting: false
-    nodeset: ubuntu-focal
-    vars:
-      puppet_gem_version: 6.28.0
-
-- job:
-    name: puppet-openstack-libraries-litmus-7.16-ubuntu-focal
-    parent: puppet-openstack-litmus-libraries-base
-    voting: false
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: 7.16.0
+      enable_ceph_repo: false
 
 - job:
-    name: puppet-openstack-libraries-litmus-latest-ubuntu-focal
+    name: puppet-openstack-libraries-litmus-latest-ubuntu-jammy
     parent: puppet-openstack-litmus-libraries-base
     voting: false
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: latest
+      enable_ceph_repo: false
 
 - project-template:
     name: puppet-openstack-litmus-jobs
     check:
       jobs:
-        - puppet-openstack-litmus-6.28-ubuntu-focal
         - puppet-openstack-litmus-7.16-centos-9-stream
-        - puppet-openstack-litmus-7.16-ubuntu-focal
-        - puppet-openstack-litmus-latest-ubuntu-focal
+        - puppet-openstack-litmus-7.16-ubuntu-jammy
+        - puppet-openstack-litmus-latest-ubuntu-jammy
     gate:
       jobs:
         - puppet-openstack-litmus-7.16-centos-9-stream
