@@ -208,7 +208,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v6.1.0'
+  :ref => 'v6.1.1'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
