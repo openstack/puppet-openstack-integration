@@ -6,7 +6,6 @@
           set -x
           trap "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/copy_logs.sh" EXIT
           export CEPH_VERSION={{ ceph }}
-          export ENABLE_CEPH_REPO={{ enable_ceph_repo | default(true) }}
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
             export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
           fi

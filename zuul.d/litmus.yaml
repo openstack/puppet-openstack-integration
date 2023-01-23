@@ -54,7 +54,6 @@
     vars:
       puppet_gem_version: 7.16.0
       ceph: quincy
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-litmus-latest-ubuntu-jammy
@@ -64,7 +63,6 @@
     vars:
       puppet_gem_version: latest
       ceph: quincy
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-libraries-litmus-7.16-centos-9-stream
@@ -80,7 +78,6 @@
     nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: 7.16.0
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-libraries-litmus-latest-ubuntu-jammy
@@ -89,7 +86,6 @@
     nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: latest
-      enable_ceph_repo: false
 
 - project-template:
     name: puppet-openstack-litmus-jobs

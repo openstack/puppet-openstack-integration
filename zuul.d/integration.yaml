@@ -35,8 +35,6 @@
     parent: puppet-openstack-integration-7-scenario001
     nodeset: ubuntu-jammy
     voting: false
-    vars:
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
@@ -58,8 +56,6 @@
     parent: puppet-openstack-integration-7-scenario002
     nodeset: ubuntu-jammy
     voting: false
-    vars:
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
@@ -81,8 +77,6 @@
     parent: puppet-openstack-integration-7-scenario003
     nodeset: ubuntu-jammy
     voting: false
-    vars:
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
@@ -105,8 +99,6 @@
     parent: puppet-openstack-integration-7-scenario004
     nodeset: ubuntu-jammy
     voting: false
-    vars:
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
@@ -129,8 +121,6 @@
     parent: puppet-openstack-integration-7-scenario005
     nodeset: ubuntu-jammy
     voting: false
-    vars:
-      enable_ceph_repo: false
 
 - job:
     name: puppet-openstack-integration-7-scenario005-tempest-centos-9-stream

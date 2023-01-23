@@ -23,7 +23,6 @@ export DLRN_DEPS_BASE=${DLRN_DEPS_BASE:-${OS_NAME_VERS}-master/deps/latest/}
 export DLRN_BASE_URL=${DLRN_BASE_URL:-${OS_NAME_VERS}-master/puppet-passed-ci/delorean.repo}
 export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${OS_NAME_VERS}-master/delorean-deps.repo}
 export CEPH_VERSION=${CEPH_VERSION:-quincy}
-export ENABLE_CEPH_REPO=${ENABLE_CEPH_REPO:-true}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
@@ -69,7 +68,6 @@ export FACTER_ceph_mirror_host=$CEPH_MIRROR_HOST
 export FACTER_ceph_version=$CEPH_VERSION
 export FACTER_delorean_repo_path="/tmp/delorean.repo"
 export FACTER_delorean_deps_repo_path="/tmp/delorean-deps.repo"
-export FACTER_enable_ceph_repo=$ENABLE_CEPH_REPO
 
 MIRROR_FACTS="\
 nodepool_mirror_host=${FACTER_nodepool_mirror_host}
@@ -79,8 +77,7 @@ deps_mirror_host=${FACTER_deps_mirror_host}
 ceph_mirror_host=${FACTER_ceph_mirror_host}
 ceph_version=${FACTER_ceph_version}
 delorean_repo_path=${FACTER_delorean_repo_path}
-delorean_deps_repo_path=${FACTER_delorean_deps_repo_path}
-enable_ceph_repo=${FACTER_enable_ceph_repo}"
+delorean_deps_repo_path=${FACTER_delorean_deps_repo_path}"
 
 if [ "${WRITE_FACTS}" = true ]; then
     $SUDO mkdir -p /etc/facter/facts.d/

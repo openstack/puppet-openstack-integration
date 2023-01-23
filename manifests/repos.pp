@@ -7,8 +7,10 @@ class openstack_integration::repos {
     $ceph_version_real = 'quincy'
   }
 
-  if defined('$::enable_ceph_repo') and $::enable_ceph_repo != '' {
-    $enable_ceph_repository = Boolean($::enable_ceph_repo)
+  if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemmajrelease, '22') >= 0 {
+    # NOTE(tkajinam): Upstream ceph repository does not provide packages for
+    #                 Ubuntu Jammy, so we use packages from UCA.
+    $enable_ceph_repository = false
   } else {
     $enable_ceph_repository = true
   }
