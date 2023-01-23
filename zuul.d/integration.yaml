@@ -28,7 +28,6 @@
     abstract: true
     vars:
       scenario: scenario001
-      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
@@ -92,7 +91,6 @@
     abstract: true
     vars:
       scenario: scenario004
-      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
@@ -114,7 +112,6 @@
     abstract: true
     vars:
       scenario: scenario005
-      ceph: quincy
 
 - job:
     name: puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
