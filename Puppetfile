@@ -152,7 +152,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v9.0.1'
+  :ref => 'v9.1.1'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -192,7 +192,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v5.3.0'
+  :ref => 'v5.4.0'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
@@ -204,7 +204,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.5.0'
+  :ref => '9.5.1'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
@@ -220,5 +220,5 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v8.7.0'
+  :ref => 'v8.8.0'
 
