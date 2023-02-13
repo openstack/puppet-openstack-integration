@@ -69,6 +69,7 @@ class { 'openstack_integration::glance':
 }
 class { 'openstack_integration::neutron':
   notification_topics => $notification_topics,
+  metering_enabled    => true,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':

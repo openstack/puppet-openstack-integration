@@ -57,7 +57,9 @@ class { 'openstack_integration::glance':
   backend          => 'swift',
   image_encryption => true,
 }
-include openstack_integration::neutron
+class { 'openstack_integration::neutron':
+  metering_enabled => true,
+}
 include openstack_integration::swift
 include openstack_integration::ironic
 include openstack_integration::zaqar
