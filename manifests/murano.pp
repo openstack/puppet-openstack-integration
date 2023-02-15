@@ -3,6 +3,11 @@ class openstack_integration::murano {
   include openstack_integration::config
   include openstack_integration::params
 
+  $application_package_path = $facts['os']['family'] ? {
+    'RedHat' => '/var/cache/murano/meta',
+    default  => '/usr/share/murano-common',
+  }
+
   rabbitmq_user { ['murano', 'murano_private']:
     admin    => true,
     password => 'an_even_bigger_secret',
@@ -90,5 +95,7 @@ class openstack_integration::murano {
     internal_url => "${::openstack_integration::config::base_url}:8082",
     admin_url    => "${::openstack_integration::config::base_url}:8082",
   }
-  -> murano::application { 'io.murano': }
+  -> murano_application { 'io.murano':
+    package_path => "${application_package_path}/io.murano.zip",
+  }
 }
