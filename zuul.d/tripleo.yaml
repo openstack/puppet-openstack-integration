@@ -4,6 +4,7 @@
 - job:
     name: tripleo-puppet-ci-centos-9-undercloud-containers
     parent: tripleo-ci-centos-9-undercloud-containers
+    voting: false
     irrelevant-files: &irrelevant_files
       - ^.*\.md$
       - ^.*\.rst$
@@ -25,6 +26,7 @@
 - job:
     name: tripleo-puppet-ci-centos-9-content-provider
     parent: tripleo-ci-centos-9-content-provider
+    voting: false
     irrelevant-files: *irrelevant_files
 
 - project-template:
@@ -50,6 +52,7 @@
 - job:
     name: tripleo-puppet-ci-centos-9-standalone
     parent: tripleo-ci-centos-9-standalone
+    voting: false
     irrelevant-files: *irrelevant_files
     vars:
       featureset_override:
