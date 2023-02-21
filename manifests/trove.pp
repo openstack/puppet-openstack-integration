@@ -82,8 +82,6 @@ class openstack_integration::trove {
     password => 'a_big_secret',
     auth_url => $::openstack_integration::config::keystone_auth_uri
   }
-  class { 'trove::taskmanager':
-    use_guestagent_template => false,
-  }
+  class { 'trove::taskmanager': }
   class { 'trove::quota': }
 }
