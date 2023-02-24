@@ -15,6 +15,7 @@ class openstack_integration::placement {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  include placement::client
   class { 'placement::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,

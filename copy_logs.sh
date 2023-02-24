@@ -355,6 +355,13 @@ server list --all --long
 EOC
 fi
 
+# placement resources
+if [ -d $LOG_DIR/placement ]; then
+    openstack >> $LOG_DIR/openstack_resources/placement.txt <<-EOC
+resource provider list
+EOC
+fi
+
 # cinder resources
 if [ -d $LOG_DIR/cinder ]; then
     openstack >> $LOG_DIR/openstack_resources/cinder.txt <<-EOC
@@ -384,6 +391,63 @@ router list --long
 floating ip list --long
 network show public
 subnet show public-subnet
+EOC
+fi
+
+# designate resources
+if [ -d $LOG_DIR/designate ]; then
+    openstack >> $LOG_DIR/openstack_resources/designate.txt <<-EOC
+dns service list
+EOC
+fi
+
+# heat resources
+if [ -d $LOG_DIR/heat ]; then
+    openstack >> $LOG_DIR/openstack_resources/heat.txt <<-EOC
+orchestration service list
+EOC
+fi
+
+# ironic resources
+if [ -d $LOG_DIR/ironic ]; then
+    openstack >> $LOG_DIR/openstack_resources/ironic.txt <<-EOC
+baremetal driver list --long
+EOC
+fi
+
+# magnum resources
+if [ -d $LOG_DIR/magnum ]; then
+    openstack >> $LOG_DIR/openstack_resources/magnum.txt <<-EOC
+coe service list
+EOC
+fi
+
+# manila resources
+if [ -d $LOG_DIR/manila ]; then
+    openstack >> $LOG_DIR/openstack_resources/manila.txt <<-EOC
+share service list
+share type list --all
+EOC
+fi
+
+# mistral resources
+if [ -d $LOG_DIR/mistral ]; then
+    openstack >> $LOG_DIR/openstack_resources/mistral.txt <<-EOC
+workflow engine service list
+EOC
+fi
+
+# octavia resources
+if [ -d $LOG_DIR/octavia ]; then
+    openstack >> $LOG_DIR/openstack_resources/octavia.txt <<-EOC
+loadbalancer provider list
+EOC
+fi
+
+# trove resources
+if [ -d $LOG_DIR/trove ]; then
+    openstack >> $LOG_DIR/openstack_resources/trove.txt <<-EOC
+datastore list
 EOC
 fi
 
