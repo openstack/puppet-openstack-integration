@@ -8,9 +8,14 @@
 #   (optional) Boolean to run integration tests.
 #   Defaults to true.
 #
+# [*separate_polling*]
+#   (optional) Use separate polling services for individual namespaces
+#   Defaults to false
+#
 class openstack_integration::ceilometer (
   $compute_namespace  = true,
   $integration_enable = true,
+  $separate_polling   = false,
 ){
 
   include openstack_integration::config
@@ -87,6 +92,7 @@ class openstack_integration::ceilometer (
       # NOTE(sileht): Use 1 minute instead 10 otherwise the telemetry tempest
       # tests are too long to pass in less than 1 hour.
       polling_interval  => 60,
+      separate_services => $separate_polling,
     }
   } else {
     # NOTE(tobias-urdin): When running the module tests we need to exclude the

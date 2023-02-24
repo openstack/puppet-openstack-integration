@@ -79,11 +79,13 @@ if $ec2api_enabled {
   include openstack_integration::ec2api
 }
 
-include openstack_integration::ceilometer
+class { 'openstack_integration::ceilometer':
+  separate_polling => true,
+}
 include openstack_integration::aodh
 class { 'openstack_integration::gnocchi':
   integration_enable => true,
-  backend            => 'swift'
+  backend            => 'swift',
 }
 
 class { 'openstack_integration::tempest':
