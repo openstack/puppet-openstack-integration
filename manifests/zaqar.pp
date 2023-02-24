@@ -64,6 +64,10 @@ class openstack_integration::zaqar {
   # run a second instance using websockets, the Debian system does
   # not support the use of services to run a second instance.
   if $::osfamily == 'RedHat' {
+    class { 'zaqar::transport::websocket':
+      bind              => $::openstack_integration::config::host,
+      notification_bind => $::openstack_integration::config::host,
+    }
     zaqar::server_instance{ '1':
       transport => 'websocket'
     }
