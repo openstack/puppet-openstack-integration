@@ -10,15 +10,10 @@ class openstack_integration::trove {
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'trove':
+      notify  => Service['httpd'],
       require => Package['trove'],
     }
-    $key_file = "/etc/trove/ssl/private/${::fqdn}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
-    File[$key_file] ~> Service<| tag == 'trove-service' |>
-    Exec['update-ca-certificates'] ~> Service<| tag == 'trove-service' |>
-  } else {
-    $key_file = undef
-    $crt_file = undef
+    Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
   class { 'trove::logging':
@@ -68,11 +63,17 @@ class openstack_integration::trove {
     password => 'a_big_secret',
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
-  class { 'trove::api':
+  include apache
+  class { 'trove::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/trove/ssl/private/${::fqdn}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
-    cert_file => $crt_file,
-    key_file  => $key_file,
+  }
+  class { 'trove::api':
+    bind_host    => $::openstack_integration::config::host,
+    service_name => 'httpd',
   }
   class { 'trove::client': }
   class { 'trove::conductor':
