@@ -20,10 +20,18 @@ class openstack_integration::vitrage {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'vitrage',
+    host     => $::openstack_integration::config::host,
   }
 
   class { 'vitrage::db':
-    database_connection => 'mysql+pymysql://vitrage:vitrage@127.0.0.1/vitrage?charset=utf8'
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'vitrage',
+      'password' => 'vitrage',
+      'database' => 'vitrage',
+      'charset'  => 'utf8',
+    }),
   }
 
   class { 'vitrage::db::sync': }

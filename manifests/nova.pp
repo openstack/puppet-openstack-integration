@@ -66,11 +66,13 @@ class openstack_integration::nova (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'nova',
+    host     => $::openstack_integration::config::host,
   }
   class { 'nova::db::mysql_api':
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'nova',
+    host     => $::openstack_integration::config::host,
   }
   include nova::cell_v2::simple_setup
 
@@ -102,8 +104,22 @@ class openstack_integration::nova (
     debug => true,
   }
   class { 'nova::db':
-    database_connection     => 'mysql+pymysql://nova:nova@127.0.0.1/nova?charset=utf8',
-    api_database_connection => 'mysql+pymysql://nova_api:nova@127.0.0.1/nova_api?charset=utf8',
+    database_connection     => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'nova',
+      'password' => 'nova',
+      'database' => 'nova',
+      'charset'  => 'utf8',
+    }),
+    api_database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'nova_api',
+      'password' => 'nova',
+      'database' => 'nova_api',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'nova':
     default_transport_url      => $default_transport_url,

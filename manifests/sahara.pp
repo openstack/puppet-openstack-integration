@@ -28,6 +28,7 @@ class openstack_integration::sahara (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'sahara',
+    host     => $::openstack_integration::config::host,
   }
 
   class { 'sahara::keystone::auth':
@@ -40,7 +41,14 @@ class openstack_integration::sahara (
     debug => true,
   }
   class { 'sahara::db':
-    database_connection => 'mysql+pymysql://sahara:sahara@127.0.0.1/sahara?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'sahara',
+      'password' => 'sahara',
+      'database' => 'sahara',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'sahara':
     host                  => $::openstack_integration::config::host,

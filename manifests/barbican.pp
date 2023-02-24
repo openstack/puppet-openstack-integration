@@ -21,9 +21,17 @@ class openstack_integration::barbican {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'barbican',
+    host     => $::openstack_integration::config::host,
   }
   class { 'barbican::db':
-    database_connection => 'mysql+pymysql://barbican:barbican@127.0.0.1/barbican?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'barbican',
+      'password' => 'barbican',
+      'database' => 'barbican',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'barbican::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9311",

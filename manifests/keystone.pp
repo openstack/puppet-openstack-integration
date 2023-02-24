@@ -47,9 +47,17 @@ class openstack_integration::keystone (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'keystone',
+    host     => $::openstack_integration::config::host,
   }
   class { 'keystone::db':
-    database_connection => 'mysql+pymysql://keystone:keystone@127.0.0.1/keystone',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'keystone',
+      'password' => 'keystone',
+      'database' => 'keystone',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'keystone::logging':
     debug => true,

@@ -19,9 +19,17 @@ class openstack_integration::watcher {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'watcher',
+    host     => $::openstack_integration::config::host,
   }
   class { 'watcher::db':
-    database_connection => 'mysql+pymysql://watcher:watcher@127.0.0.1/watcher?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'watcher',
+      'password' => 'watcher',
+      'database' => 'watcher',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'watcher::keystone::auth':
     password     => 'a_big_secret',

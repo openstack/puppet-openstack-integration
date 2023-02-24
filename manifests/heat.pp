@@ -46,7 +46,14 @@ class openstack_integration::heat (
     debug => true,
   }
   class { 'heat::db':
-    database_connection => 'mysql+pymysql://heat:heat@127.0.0.1/heat?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'heat',
+      'password' => 'heat',
+      'database' => 'heat',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'heat':
     default_transport_url      => os_transport_url({
@@ -72,6 +79,7 @@ class openstack_integration::heat (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'heat',
+    host     => $::openstack_integration::config::host,
   }
   class { 'heat::keystone::auth':
     password                  => 'a_big_secret',

@@ -28,7 +28,14 @@ class openstack_integration::aodh (
     debug => true,
   }
   class { 'aodh::db':
-    database_connection => 'mysql+pymysql://aodh:aodh@127.0.0.1/aodh?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'aodh',
+      'password' => 'aodh',
+      'database' => 'aodh',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'aodh':
     default_transport_url      => os_transport_url({
@@ -54,6 +61,7 @@ class openstack_integration::aodh (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'aodh',
+    host     => $::openstack_integration::config::host,
   }
   class { 'aodh::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8042",

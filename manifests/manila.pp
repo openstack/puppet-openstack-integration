@@ -34,6 +34,7 @@ class openstack_integration::manila (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'manila',
+    host     => $::openstack_integration::config::host,
   }
   class { 'manila::keystone::auth':
     public_url             => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
@@ -50,7 +51,14 @@ class openstack_integration::manila (
     debug => true,
   }
   class { 'manila::db':
-    database_connection => 'mysql+pymysql://manila:manila@127.0.0.1/manila?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'manila',
+      'password' => 'manila',
+      'database' => 'manila',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'manila':
     default_transport_url      => os_transport_url({
