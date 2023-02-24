@@ -130,6 +130,7 @@ class openstack_integration::gnocchi (
     }
   }
   class { 'gnocchi::statsd':
+    host                => $::openstack_integration::config::host,
     archive_policy_name => 'high',
     flush_delay         => '100',
     # random datas:
