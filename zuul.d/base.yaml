@@ -69,8 +69,6 @@
         override-checkout: stable/xena
       - name: openstack/puppet-swift
         override-checkout: stable/xena
-      - name: openstack/puppet-tacker
-        override-checkout: stable/xena
       - name: openstack/puppet-tempest
         override-checkout: stable/xena
       - name: openstack/puppet-trove
