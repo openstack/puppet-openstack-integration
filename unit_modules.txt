@@ -1,0 +1,6 @@
+puppetlabs/puppetlabs-augeas_core
+puppetlabs/puppetlabs-cron_core
+puppetlabs/puppetlabs-sshkeys_core
+puppetlabs/puppetlabs-yumrepo_core
+puppetlabs/puppetlabs-mount_core
+puppetlabs/puppetlabs-selinux_core
