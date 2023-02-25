@@ -70,8 +70,6 @@
         override-checkout: stable/wallaby
       - name: openstack/puppet-swift
         override-checkout: stable/wallaby
-      - name: openstack/puppet-tacker
-        override-checkout: stable/wallaby
       - name: openstack/puppet-tempest
         override-checkout: stable/wallaby
       - name: openstack/puppet-trove

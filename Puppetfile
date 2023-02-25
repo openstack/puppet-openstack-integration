@@ -121,10 +121,6 @@ mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
   :ref => 'stable/wallaby'
 
-mod 'tacker',
-  :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'stable/wallaby'
-
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
   :ref => 'stable/wallaby'
