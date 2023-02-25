@@ -172,7 +172,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v13.1.0'
+  :ref => 'v13.2.0'
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
