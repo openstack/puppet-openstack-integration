@@ -74,8 +74,6 @@
         override-checkout: stable/victoria
       - name: openstack/puppet-swift
         override-checkout: stable/victoria
-      - name: openstack/puppet-tacker
-        override-checkout: stable/victoria
       - name: openstack/puppet-tempest
         override-checkout: stable/victoria
       - name: openstack/puppet-trove
