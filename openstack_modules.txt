@@ -27,7 +27,6 @@ placement
 qdr
 sahara
 swift
-tacker
 tempest
 trove
 vswitch

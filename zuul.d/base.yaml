@@ -69,8 +69,6 @@
         override-checkout: stable/zed
       - name: openstack/puppet-swift
         override-checkout: stable/zed
-      - name: openstack/puppet-tacker
-        override-checkout: stable/zed
       - name: openstack/puppet-tempest
         override-checkout: stable/zed
       - name: openstack/puppet-trove
