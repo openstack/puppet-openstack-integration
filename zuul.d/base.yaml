@@ -73,8 +73,6 @@
         override-checkout: stable/ussuri
       - name: openstack/puppet-swift
         override-checkout: stable/ussuri
-      - name: openstack/puppet-tacker
-        override-checkout: stable/ussuri
       - name: openstack/puppet-tempest
         override-checkout: stable/ussuri
       - name: openstack/puppet-trove
