@@ -117,10 +117,6 @@ mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
   :ref => 'stable/yoga'
 
-mod 'tacker',
-  :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'stable/yoga'
-
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
   :ref => 'stable/yoga'
