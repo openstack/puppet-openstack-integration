@@ -127,9 +127,21 @@ class openstack_integration::octavia (
       'ovn'     => 'OVN provider driver.'
     }
     $enabled_provider_agents = 'ovn'
+
+    include openstack_integration::ovn
     class { 'octavia::provider::ovn':
-      ovn_nb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6641",
-      ovn_sb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6642",
+      ovn_nb_connection  => $::openstack_integration::ovn::ovn_nb_connection,
+      ovn_nb_private_key => $::openstack_integration::ovn::ovn_nb_db_ssl_key,
+      ovn_nb_certificate => $::openstack_integration::ovn::ovn_nb_db_ssl_cert,
+      ovn_nb_ca_cert     => $::openstack_integration::ovn::ovn_nb_db_ssl_ca_cert,
+      ovn_sb_connection  => $::openstack_integration::ovn::ovn_sb_connection,
+      ovn_sb_private_key => $::openstack_integration::ovn::ovn_sb_db_ssl_key,
+      ovn_sb_certificate => $::openstack_integration::ovn::ovn_sb_db_ssl_cert,
+      ovn_sb_ca_cert     => $::openstack_integration::ovn::ovn_sb_db_ssl_ca_cert,
+    }
+    if $::openstack_integration::config::ssl {
+      File['/etc/openvswitch/ovnnb-privkey.pem'] -> Anchor['octavia::config::end']
+      File['/etc/openvswitch/ovnsb-privkey.pem'] -> Anchor['octavia::config::end']
     }
   } else{
     $enabled_provider_drivers = undef

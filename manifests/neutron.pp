@@ -278,12 +278,23 @@ class openstack_integration::neutron (
       }
     }
     'ovn': {
+      include openstack_integration::ovn
       # NOTE(tkajinam): neutron::plugins::ml2::ovn requires neutron::plugins::ml2,
       #                 thus it should be included after neutron::plugins::ml2.
       class { 'neutron::plugins::ml2::ovn':
-        ovn_nb_connection    => "tcp:${::openstack_integration::config::ip_for_url}:6641",
-        ovn_sb_connection    => "tcp:${::openstack_integration::config::ip_for_url}:6642",
+        ovn_nb_connection    => $::openstack_integration::ovn::ovn_nb_connection,
+        ovn_nb_private_key   => $::openstack_integration::ovn::ovn_nb_db_ssl_key,
+        ovn_nb_certificate   => $::openstack_integration::ovn::ovn_nb_db_ssl_cert,
+        ovn_nb_ca_cert       => $::openstack_integration::ovn::ovn_nb_db_ssl_ca_cert,
+        ovn_sb_connection    => $::openstack_integration::ovn::ovn_sb_connection,
+        ovn_sb_private_key   => $::openstack_integration::ovn::ovn_sb_db_ssl_key,
+        ovn_sb_certificate   => $::openstack_integration::ovn::ovn_sb_db_ssl_cert,
+        ovn_sb_ca_cert       => $::openstack_integration::ovn::ovn_sb_db_ssl_ca_cert,
         ovn_metadata_enabled => true,
+      }
+      if $::openstack_integration::config::ssl {
+        File['/etc/openvswitch/ovnnb-privkey.pem'] -> Anchor['neutron::config::end']
+        File['/etc/openvswitch/ovnsb-privkey.pem'] -> Anchor['neutron::config::end']
       }
     }
     'linuxbridge': {
@@ -312,11 +323,14 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' {
     class { 'neutron::agents::ovn_metadata':
-      debug             => true,
-      shared_secret     => 'a_big_secret',
-      metadata_host     => $metadata_host,
-      metadata_protocol => $metadata_protocol,
-      ovn_sb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6642",
+      debug              => true,
+      shared_secret      => 'a_big_secret',
+      metadata_host      => $metadata_host,
+      metadata_protocol  => $metadata_protocol,
+      ovn_sb_connection  => $::openstack_integration::ovn::ovn_sb_connection,
+      ovn_sb_private_key => $::openstack_integration::ovn::ovn_sb_db_ssl_key,
+      ovn_sb_certificate => $::openstack_integration::ovn::ovn_sb_db_ssl_cert,
+      ovn_sb_ca_cert     => $::openstack_integration::ovn::ovn_sb_db_ssl_ca_cert,
     }
   } else {
     class { 'neutron::agents::metadata':

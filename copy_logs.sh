@@ -193,27 +193,36 @@ elif is_fedora; then
 fi
 
 # openvswitch
+if [ -d /etc/openvswitch ] ; then
+    sudo cp -r /etc/openvswitch $LOG_DIR/etc/
+fi
 if [ -d /var/log/openvswitch ] ; then
     sudo cp -r /var/log/openvswitch $LOG_DIR/
 fi
 
 # ovn
 if [ -d /var/log/ovn ] ; then
-    sudo ovn-nbctl show > $LOG_DIR/ovn-nbctl_show.txt
-    sudo ovn-nbctl get-connection > $LOG_DIR/ovn-nbctl_get-connection.txt
-    sudo ovn-sbctl show > $LOG_DIR/ovn-sbctl_show.txt
-    sudo ovn-sbctl get-connection > $LOG_DIR/ovn-sbctl_get-connection.txt
+    mkdir -p $LOG_DIR/ovn
+    for db in nb sb ; do
+        sudo ovn-${db}ctl show > $LOG_DIR/ovn/ovn-${db}ctl_show.txt
+        sudo ovn-${db}ctl get-connection > $LOG_DIR/ovn/ovn-${db}ctl_get-connection.txt
+        sudo ovn-${db}ctl get-ssl > $LOG_DIR/ovn/ovn-${db}ctl_get-ssl.txt
+    done
 fi
 if uses_debs ; then
-    if [ -f /etc/default/ovn-central ]; then
-        mkdir -p $LOG_DIR/etc/default
-        sudo cp /etc/default/ovn-central $LOG_DIR/etc/default/
-    fi
+    for f in ovn-central ovn-host ; do
+        if [ -f /etc/default/$f ]; then
+            mkdir -p $LOG_DIR/etc/default
+            sudo cp /etc/default/$f $LOG_DIR/etc/default/
+        fi
+    done
 elif is_fedora; then
-    if [ -f /etc/sysconfig/ovn-northd ]; then
-        mkdir -p $LOG_DIR/etc/sysconfig
-        sudo cp /etc/sysconfig/ovn-northd $LOG_DIR/etc/sysconfig/
-    fi
+    for f in ovn-northd ovn-controller ; do
+        if [ -f /etc/sysconfig/ovn-northd ]; then
+            mkdir -p $LOG_DIR/etc/sysconfig
+            sudo cp /etc/sysconfig/$f $LOG_DIR/etc/sysconfig/
+        fi
+    done
 fi
 
 # sudo config
