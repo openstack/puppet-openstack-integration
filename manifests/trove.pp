@@ -20,7 +20,14 @@ class openstack_integration::trove {
     debug => true,
   }
   class { 'trove::db':
-    database_connection => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'trove',
+      'password' => 'trove',
+      'database' => 'trove',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'trove':
     default_transport_url      => os_transport_url({
@@ -44,6 +51,7 @@ class openstack_integration::trove {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'trove',
+    host     => $::openstack_integration::config::host,
   }
   class { 'trove::keystone::auth':
     password     => 'a_big_secret',

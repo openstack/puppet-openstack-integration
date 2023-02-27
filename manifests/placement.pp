@@ -20,6 +20,7 @@ class openstack_integration::placement {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'placement',
+    host     => $::openstack_integration::config::host,
   }
 
   class { 'placement::keystone::auth':
@@ -40,7 +41,14 @@ class openstack_integration::placement {
     debug => true,
   }
   class { 'placement::db':
-    database_connection => 'mysql+pymysql://placement:placement@127.0.0.1/placement?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'placement',
+      'password' => 'placement',
+      'database' => 'placement',
+      'charset'  => 'utf8',
+    }),
   }
   include placement::db::sync
   # TODO(tkajinam): Remove this once lp bug 1987984 is fixed.

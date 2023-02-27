@@ -15,11 +15,19 @@ class openstack_integration::ec2api {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'ec2api',
+    host     => $::openstack_integration::config::host,
   }
   case $::osfamily {
     'RedHat': {
       class { 'ec2api::db':
-        database_connection => 'mysql+pymysql://ec2api:ec2api@127.0.0.1/ec2api?charset=utf8',
+        database_connection => os_database_connection({
+          'dialect'  => 'mysql+pymysql',
+          'host'     => $::openstack_integration::config::ip_for_url,
+          'username' => 'ec2api',
+          'password' => 'ec2api',
+          'database' => 'ec2api',
+          'charset'  => 'utf8',
+        }),
       }
       class { 'ec2api::db::sync': }
       class { 'ec2api::logging':

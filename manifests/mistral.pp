@@ -26,7 +26,14 @@ class openstack_integration::mistral {
     debug => true,
   }
   class { 'mistral::db':
-    database_connection => 'mysql+pymysql://mistral:mistral@127.0.0.1/mistral?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'mistral',
+      'password' => 'mistral',
+      'database' => 'mistral',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'mistral':
     default_transport_url => os_transport_url({
@@ -48,6 +55,7 @@ class openstack_integration::mistral {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'mistral',
+    host     => $::openstack_integration::config::host,
   }
   class { 'mistral::api':
     service_name => 'httpd',

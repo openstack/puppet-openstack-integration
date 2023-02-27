@@ -45,6 +45,7 @@ class openstack_integration::cinder (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'cinder',
+    host     => $::openstack_integration::config::host,
   }
   class { 'cinder::keystone::auth':
     public_url_v3   => "${::openstack_integration::config::base_url}:8776/v3",
@@ -65,7 +66,14 @@ class openstack_integration::cinder (
     }
   }
   class { 'cinder::db':
-    database_connection => 'mysql+pymysql://cinder:cinder@127.0.0.1/cinder?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'cinder',
+      'password' => 'cinder',
+      'database' => 'cinder',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'cinder':
     default_transport_url      => os_transport_url({

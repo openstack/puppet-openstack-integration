@@ -19,7 +19,14 @@ class openstack_integration::ironic {
     debug => true,
   }
   class { 'ironic::db':
-    database_connection => 'mysql+pymysql://ironic:ironic@127.0.0.1/ironic?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'ironic',
+      'password' => 'ironic',
+      'database' => 'ironic',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'ironic':
     default_transport_url => os_transport_url({
@@ -36,6 +43,7 @@ class openstack_integration::ironic {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'ironic',
+    host     => $::openstack_integration::config::host,
   }
   class { 'ironic::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:6385",
@@ -82,7 +90,8 @@ class openstack_integration::ironic {
   class { 'ironic::inspector::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
-    password => 'a_big_secret',
+    password => 'ironic-inspector',
+    host     => $::openstack_integration::config::host,
   }
   class { 'ironic::inspector::authtoken':
     password             => 'a_big_secret',
@@ -94,7 +103,14 @@ class openstack_integration::ironic {
   }
   class { 'ironic::pxe': }
   class { 'ironic::inspector::db':
-    database_connection => 'mysql+pymysql://ironic-inspector:a_big_secret@127.0.0.1/ironic-inspector?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'ironic-inspector',
+      'password' => 'ironic-inspector',
+      'database' => 'ironic-inspector',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'ironic::inspector::ironic':
     password => 'a_big_secret',

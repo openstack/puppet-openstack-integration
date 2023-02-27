@@ -38,6 +38,7 @@ class openstack_integration::glance (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'glance',
+    host     => $::openstack_integration::config::host,
   }
   include glance
   include glance::client
@@ -99,7 +100,14 @@ class openstack_integration::glance (
     debug => true,
   }
   class { 'glance::api::db':
-    database_connection => 'mysql+pymysql://glance:glance@127.0.0.1/glance?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'glance',
+      'password' => 'glance',
+      'database' => 'glance',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'glance::api':
     workers          => 2,

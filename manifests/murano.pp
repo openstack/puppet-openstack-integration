@@ -42,13 +42,21 @@ class openstack_integration::murano {
   class { 'murano::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
-    password => 'a_big_secret',
+    password => 'murano',
+    host     => $::openstack_integration::config::host,
   }
   class { 'murano::logging':
     debug => true,
   }
   class { 'murano::db':
-    database_connection => 'mysql+pymysql://murano:a_big_secret@127.0.0.1/murano?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'murano',
+      'password' => 'murano',
+      'database' => 'murano',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'murano::keystone::authtoken':
     password             => 'a_big_secret',

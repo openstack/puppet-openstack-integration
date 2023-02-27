@@ -100,6 +100,7 @@ class openstack_integration::neutron (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'neutron',
+    host     => $::openstack_integration::config::host,
   }
   class { 'neutron::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9696",
@@ -205,7 +206,14 @@ class openstack_integration::neutron (
   }
 
   class { 'neutron::db':
-    database_connection => 'mysql+pymysql://neutron:neutron@127.0.0.1/neutron?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'neutron',
+      'password' => 'neutron',
+      'database' => 'neutron',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'neutron::server':
     sync_db                  => true,

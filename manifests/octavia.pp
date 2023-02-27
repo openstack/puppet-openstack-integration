@@ -33,7 +33,14 @@ class openstack_integration::octavia (
     debug => true,
   }
   class { 'octavia::db':
-    database_connection => 'mysql+pymysql://octavia:octavia@127.0.0.1/octavia?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'octavia',
+      'password' => 'octavia',
+      'database' => 'octavia',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'octavia':
     default_transport_url      => os_transport_url({
@@ -59,6 +66,7 @@ class openstack_integration::octavia (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'octavia',
+    host     => $::openstack_integration::config::host,
   }
   class { 'octavia::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9876",

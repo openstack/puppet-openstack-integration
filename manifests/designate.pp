@@ -24,6 +24,7 @@ class openstack_integration::designate {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'designate',
+    host     => $::openstack_integration::config::host,
   }
   class { 'designate::logging':
     debug => true,
@@ -39,7 +40,14 @@ class openstack_integration::designate {
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
   }
   class { 'designate::db':
-    database_connection => 'mysql+pymysql://designate:designate@127.0.0.1/designate?charset=utf8'
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'designate',
+      'password' => 'designate',
+      'database' => 'designate',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'designate::coordination':
     backend_url => $::openstack_integration::config::tooz_url,

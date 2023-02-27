@@ -16,6 +16,7 @@ class openstack_integration::zaqar {
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'zaqar',
+    host     => $::openstack_integration::config::host,
   }
   class { 'zaqar::keystone::auth':
     password     => 'a_big_secret',
@@ -30,7 +31,15 @@ class openstack_integration::zaqar {
     admin_url    => "ws://${::openstack_integration::config::ip_for_url}:8888",
   }
   class {'zaqar::management::sqlalchemy':
-    uri => 'mysql+pymysql://zaqar:zaqar@127.0.0.1/zaqar?charset=utf8',
+    uri => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'zaqar',
+      'password' => 'zaqar',
+      'database' => 'zaqar',
+      'charset'  => 'utf8',
+    }),
+
   }
   class {'zaqar::messaging::swift':
     auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",

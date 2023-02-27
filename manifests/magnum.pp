@@ -58,10 +58,18 @@ class openstack_integration::magnum (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'magnum',
+    host     => $::openstack_integration::config::host,
   }
 
   class { 'magnum::db':
-    database_connection => 'mysql+pymysql://magnum:magnum@127.0.0.1/magnum',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'magnum',
+      'password' => 'magnum',
+      'database' => 'magnum',
+      'charset'  => 'utf8',
+    }),
   }
 
   class { 'magnum::keystone::domain':

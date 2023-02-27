@@ -35,7 +35,14 @@ class openstack_integration::gnocchi (
     debug => true,
   }
   class { 'gnocchi::db':
-    database_connection => 'mysql+pymysql://gnocchi:gnocchi@127.0.0.1/gnocchi?charset=utf8',
+    database_connection => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'gnocchi',
+      'password' => 'gnocchi',
+      'database' => 'gnocchi',
+      'charset'  => 'utf8',
+    }),
   }
   class { 'gnocchi':
     coordination_url => $::openstack_integration::config::tooz_url,
@@ -44,6 +51,7 @@ class openstack_integration::gnocchi (
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,
     password => 'gnocchi',
+    host     => $::openstack_integration::config::host,
   }
 
   # TODO(tkajinam): We need to find a way to enforce swift is up before
