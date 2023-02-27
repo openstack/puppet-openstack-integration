@@ -255,14 +255,6 @@ function catch_selinux_alerts() {
             # https://bugzilla.redhat.com/show_bug.cgi?id=1341738
             if $SUDO grep -iqE 'denied.*system_r:rabbitmq_t' /var/log/audit/audit.log; then
                 echo "non-critical RabbitMQ AVC, ignoring it now."
-            # FIXME(ykarel) catch_selinux_alerts not work with non ssl scenarios(no rabbitmq alert),
-            # currently running all scenarios without ssl in Fedora and CentOS8,
-            # because glance,nova,mistral py3 has issues when running with eventlet + ssl:
-            # glance https://bugs.launchpad.net/glance/+bug/1769006
-            # nova https://bugs.launchpad.net/nova/+bug/1808975
-            # mistral https://bugs.launchpad.net/mistral/+bug/1808953
-            elif [ -f /etc/fedora-release ] || [[ "${ID,,}" = "centos" ]]; then
-                echo "non ssl scenario, ignoring it now."
             else
                 echo "Please file a bug on https://bugzilla.redhat.com/enter_bug.cgi?product=Red%20Hat%20OpenStack&component=openstack-selinux showing sealert output."
                 exit 1
