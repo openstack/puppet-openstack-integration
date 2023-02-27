@@ -110,9 +110,12 @@ class openstack_integration::neutron (
   }
 
   if $driver == 'ovn' {
+    $dhcp_agent_notification = false
     $plugins_list = ['qos', 'ovn-router', 'trunk']
     $providers_list = undef
   } else {
+    $dhcp_agent_notification = true
+
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
       default => undef,
@@ -179,6 +182,7 @@ class openstack_integration::neutron (
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     global_physnet_mtu         => $global_physnet_mtu,
+    dhcp_agent_notification    => $dhcp_agent_notification,
   }
   class { 'neutron::client': }
   class { 'neutron::keystone::authtoken':
