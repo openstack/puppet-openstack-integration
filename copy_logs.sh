@@ -179,12 +179,12 @@ if [ -d /etc/libvirt ]; then
 fi
 if uses_debs; then
     if [ -f /etc/default/libvirtd ]; then
-        mkdir $LOG_DIR/etc/default
+        mkdir -p $LOG_DIR/etc/default
         sudo cp /etc/default/libvirtd $LOG_DIR/etc/default/
     fi
 elif is_fedora; then
     if [ -f /etc/sysconfig/libvirtd ]; then
-        mkdir $LOG_DIR/etc/sysconfig
+        mkdir -p $LOG_DIR/etc/sysconfig
         sudo cp /etc/sysconfig/libvirtd $LOG_DIR/etc/sysconfig/
     fi
 fi
@@ -197,7 +197,20 @@ fi
 # ovn
 if [ -d /var/log/ovn ] ; then
     sudo ovn-nbctl show > $LOG_DIR/ovn-nbctl_show.txt
+    sudo ovn-nbctl get-connection > $LOG_DIR/ovn-nbctl_get-connection.txt
     sudo ovn-sbctl show > $LOG_DIR/ovn-sbctl_show.txt
+    sudo ovn-sbctl get-connection > $LOG_DIR/ovn-sbctl_get-connection.txt
+fi
+if uses_debs ; then
+    if [ -f /etc/default/ovn-central ]; then
+        mkdir -p $LOG_DIR/etc/default
+        sudo cp /etc/default/ovn-central $LOG_DIR/etc/default/
+    fi
+elif is_fedora; then
+    if [ -f /etc/sysconfig/ovn-northd ]; then
+        mkdir -p $LOG_DIR/etc/sysconfig
+        sudo cp /etc/sysconfig/ovn-northd $LOG_DIR/etc/sysconfig/
+    fi
 fi
 
 # sudo config
