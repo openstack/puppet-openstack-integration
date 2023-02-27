@@ -128,8 +128,8 @@ class openstack_integration::octavia (
     }
     $enabled_provider_agents = 'ovn'
     class { 'octavia::provider::ovn':
-      ovn_nb_connection => 'tcp:127.0.0.1:6641',
-      ovn_sb_connection => 'tcp:127.0.0.1:6642',
+      ovn_nb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6641",
+      ovn_sb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6642",
     }
   } else{
     $enabled_provider_drivers = $::os_service_default

@@ -254,8 +254,8 @@ class openstack_integration::neutron (
       # NOTE(tkajinam): neutron::plugins::ml2::ovn requires neutron::plugins::ml2,
       #                 thus it should be included after neutron::plugins::ml2.
       class { 'neutron::plugins::ml2::ovn':
-        ovn_nb_connection    => 'tcp:127.0.0.1:6641',
-        ovn_sb_connection    => 'tcp:127.0.0.1:6642',
+        ovn_nb_connection    => "tcp:${::openstack_integration::config::ip_for_url}:6641",
+        ovn_sb_connection    => "tcp:${::openstack_integration::config::ip_for_url}:6642",
         ovn_metadata_enabled => true,
       }
     }
@@ -289,6 +289,7 @@ class openstack_integration::neutron (
       shared_secret     => 'a_big_secret',
       metadata_host     => $metadata_host,
       metadata_protocol => $metadata_protocol,
+      ovn_sb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6642",
     }
   } else {
     class { 'neutron::agents::metadata':
