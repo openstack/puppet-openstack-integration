@@ -230,7 +230,9 @@ class openstack_integration::nova (
   }
   class { 'nova::scheduler': }
   class { 'nova::scheduler::filter': }
-  class { 'nova::vncproxy': }
+  class { 'nova::vncproxy':
+    host => $::openstack_integration::confing::host
+  }
 
   class { 'nova::network::neutron':
     auth_url              => "${::openstack_integration::config::keystone_admin_uri}/v3",
