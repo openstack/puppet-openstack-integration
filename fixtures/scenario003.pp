@@ -108,9 +108,6 @@ class { 'openstack_integration::tempest':
   # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
   #                 enabled in this scenario.
   heat           => false,
-  # NOTE(tobias-urdin): We have tempest disabled because we cannot
-  # run it when instances does not have internet acces to
-  # deploy for example Docker.
-  magnum         => false,
+  magnum         => true,
   neutron_driver => 'ovn',
 }
