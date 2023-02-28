@@ -351,6 +351,8 @@ if [ -d $LOG_DIR/keystone ]; then
 extension list --identity
 endpoint list
 service list --long
+region list
+domain list
 project list --long
 user list --long
 role list
