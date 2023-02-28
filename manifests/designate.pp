@@ -86,9 +86,8 @@ class openstack_integration::designate {
     workers   => '2',
   }
 
-  # IPv6 doesn't work for mdns ? https://bugs.launchpad.net/designate/+bug/1501396
   class { 'designate::mdns':
-    listen => '127.0.0.1:5354'
+    listen => "${::openstack_integration::config::ip_for_url}:5354"
   }
 
   class { 'designate::central': }
@@ -98,7 +97,10 @@ class openstack_integration::designate {
   class { 'designate::worker': }
 
   class { 'designate::backend::bind9':
+    nameservers      => [$::openstack_integration::config::host],
+    bind9_hosts      => [$::openstack_integration::config::host],
     dns_port         => 5322,
+    mdns_hosts       => [$::openstack_integration::config::host],
     rndc_config_file => '/etc/rndc.conf',
     rndc_key_file    => $::dns::params::rndckeypath,
     manage_pool      => true
