@@ -231,7 +231,7 @@ class openstack_integration::nova (
   class { 'nova::scheduler': }
   class { 'nova::scheduler::filter': }
   class { 'nova::vncproxy':
-    host => $::openstack_integration::confing::host
+    host => $::openstack_integration::config::host
   }
 
   class { 'nova::network::neutron':
