@@ -1,6 +1,6 @@
 class openstack_integration::params {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $ca_bundle_cert_path = '/etc/ssl/certs/ca-bundle.crt'
       $cert_path           = '/etc/pki/ca-trust/source/anchors/puppet_openstack.pem'
@@ -16,7 +16,7 @@ class openstack_integration::params {
       $mysql_collate       = 'utf8mb3_general_ci'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem")
+      fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem")
     }
   }
 

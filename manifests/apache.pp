@@ -3,7 +3,7 @@ class openstack_integration::apache {
   include openstack_integration::params
   include openstack_integration::config
 
-  if ($::os['family'] == 'Debian') {
+  if ($facts['os']['family'] == 'Debian') {
     include apache::params
     class { 'apache':
       mod_packages => merge($::apache::params::mod_packages, {

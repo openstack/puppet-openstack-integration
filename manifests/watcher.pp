@@ -82,7 +82,7 @@ class openstack_integration::watcher {
   class { 'watcher::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/watcher/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/watcher/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }

@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-if $::operatingsystem == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ipv6                = false
   # TODO(tobias-urdin): No service plugin 'BGPVPN'
   $bgpvpn_enabled      = false

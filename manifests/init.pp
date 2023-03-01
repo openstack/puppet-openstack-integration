@@ -2,7 +2,7 @@ class openstack_integration {
 
   Exec { logoutput => 'on_failure' }
 
-  if $::osfamily == 'RedHat' {
+  if $facts['os']['family'] == 'RedHat' {
     package { 'openstack-selinux':
         ensure => 'latest'
     }

@@ -16,13 +16,13 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::cinder (
   $backend             = 'iscsi',
   $volume_encryption   = false,
   $cinder_backup       = false,
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -112,7 +112,7 @@ class openstack_integration::cinder (
   class { 'cinder::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/cinder/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/cinder/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }

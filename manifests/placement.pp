@@ -52,17 +52,17 @@ class openstack_integration::placement {
   }
   include placement::db::sync
   # TODO(tkajinam): Remove this once lp bug 1987984 is fixed.
-  if $::operatingsystem == 'Ubuntu' {
+  if $facts['os']['name'] == 'Ubuntu' {
     class { 'placement::policy':
       purge_config => true
     }
   }
   include placement::api
   include apache
-  if ($::operatingsystem != 'Debian') {
+  if ($facts['os']['name'] != 'Debian') {
     class { 'placement::wsgi::apache':
       bind_host => $::openstack_integration::config::host,
-      ssl_key   => "/etc/placement/ssl/private/${::fqdn}.pem",
+      ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
       ssl_cert  => $::openstack_integration::params::cert_path,
       ssl       => $::openstack_integration::config::ssl,
       workers   => '2',

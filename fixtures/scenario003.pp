@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-case $::osfamily {
+case $facts['os']['family'] {
   'Debian': {
     $ipv6            = false
     # mistral is not packaged on Ubuntu Trusty
@@ -32,7 +32,7 @@ case $::osfamily {
 
     # TODO(tobias-urdin): Ubuntu Train packages has not moved out Sahara
     # plugins to its own packages.
-    if $::operatingsystem == 'Ubuntu' {
+    if $facts['os']['name'] == 'Ubuntu' {
       $sahara_integration_enable = false
     } else {
       $sahara_integration_enable = true
@@ -48,7 +48,7 @@ case $::osfamily {
     $sahara_integration_enable = true
   }
   default: {
-    fail("Unsupported osfamily (${::osfamily})")
+    fail("Unsupported osfamily (${facts['os']['family']})")
   }
 }
 

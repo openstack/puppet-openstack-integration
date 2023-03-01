@@ -20,14 +20,14 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::neutron (
   $driver              = 'openvswitch',
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
   $bgp_dragent_enabled = false,
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -41,7 +41,7 @@ class openstack_integration::neutron (
     Exec['update-ca-certificates'] ~> Service<| tag == 'neutron-service' |>
   }
 
-  if $::operatingsystem == 'CentOS' {
+  if $facts['os']['name'] == 'CentOS' {
     # os_neutron_dac_override should be on to start privsep-helper
     # See https://bugzilla.redhat.com/show_bug.cgi?id=1850973
     selboolean { 'os_neutron_dac_override':
@@ -121,11 +121,11 @@ class openstack_integration::neutron (
       default => undef,
     }
     if $l2gw_enabled {
-      if ($::operatingsystem == 'Ubuntu') {
+      if ($facts['os']['name'] == 'Ubuntu') {
         class { 'neutron::services::l2gw': }
         $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
-      elsif ($::operatingsystem != 'Ubuntu') {
+      elsif ($facts['os']['name'] != 'Ubuntu') {
         class { 'neutron::services::l2gw':
           service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
         }
@@ -178,7 +178,7 @@ class openstack_integration::neutron (
     bind_host                  => $::openstack_integration::config::host,
     use_ssl                    => $::openstack_integration::config::ssl,
     cert_file                  => $::openstack_integration::params::cert_path,
-    key_file                   => "/etc/neutron/ssl/private/${::fqdn}.pem",
+    key_file                   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     global_physnet_mtu         => $global_physnet_mtu,
@@ -194,7 +194,7 @@ class openstack_integration::neutron (
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
 
-  if $::osfamily == 'Debian' {
+  if $facts['os']['family'] == 'Debian' {
     $auth_url = $::openstack_integration::config::keystone_auth_uri
     exec { 'check-neutron-server':
       command     => "openstack --os-auth-url ${auth_url} --os-project-name services --os-username neutron --os-identity-api-version 3 network list",
@@ -234,7 +234,7 @@ class openstack_integration::neutron (
   }
   $max_header_size = $driver ? {
     'ovn'   => 38,
-    default => $::os_service_default
+    default => $facts['os_service_default']
   }
   class { 'neutron::plugins::ml2':
     type_drivers         => [$overlay_network_type, 'vlan', 'flat'],
@@ -265,7 +265,7 @@ class openstack_integration::neutron (
     }
     'linuxbridge': {
       class { 'neutron::agents::ml2::linuxbridge':
-        local_ip                    => $::ipaddress,
+        local_ip                    => $facts['networking']['ip'],
         tunnel_types                => ['vxlan'],
         physical_interface_mappings => ['external:loop0'],
         firewall_driver             => 'iptables',

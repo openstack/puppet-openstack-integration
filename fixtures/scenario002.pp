@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-case $::osfamily {
+case $facts['os']['family'] {
   'Debian': {
     $ipv6           = false
     # ec2api is not packaged on UCA
@@ -31,7 +31,7 @@ case $::osfamily {
     $ec2api_enabled = true
   }
   default: {
-    fail("Unsupported osfamily (${::osfamily})")
+    fail("Unsupported osfamily (${facts['os']['family']})")
   }
 }
 

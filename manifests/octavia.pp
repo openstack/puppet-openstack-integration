@@ -2,14 +2,14 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*provider_driver*]
 #   (optional) Provider driver used in Octavia.
 #   Defaults to 'amphora'.
 #
 class openstack_integration::octavia (
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
   $provider_driver     = 'amphora',
 ) {
 
@@ -132,8 +132,8 @@ class openstack_integration::octavia (
       ovn_sb_connection => "tcp:${::openstack_integration::config::ip_for_url}:6642",
     }
   } else{
-    $enabled_provider_drivers = $::os_service_default
-    $enabled_provider_agents = $::os_service_default
+    $enabled_provider_drivers = undef
+    $enabled_provider_agents = undef
   }
 
   class { 'octavia::api':
@@ -146,7 +146,7 @@ class openstack_integration::octavia (
   class { 'octavia::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/octavia/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/octavia/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }

@@ -96,7 +96,7 @@ class openstack_integration::keystone (
   class { 'keystone::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/keystone/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/keystone/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }

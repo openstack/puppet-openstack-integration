@@ -16,20 +16,20 @@
 
 # Keystone only puppet deployment
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-if $::osfamily == 'RedHat' {
+if $facts['os']['family'] == 'RedHat' {
   # (amoralej) - disable selinux defaults until
   # https://tickets.puppetlabs.com/browse/PUP-7559 is fixed
   Concat { selinux_ignore_defaults => true }
   File { selinux_ignore_defaults => true }
 }
 
-case $::osfamily {
+case $facts['os']['family'] {
   'Debian': {
     $ipv6      = false
     $om_rpc    = 'rabbit'
@@ -41,7 +41,7 @@ case $::osfamily {
     $om_notify = 'rabbit'
   }
   default: {
-    fail("Unsupported osfamily (${::osfamily})")
+    fail("Unsupported osfamily (${facts['os']['family']})")
   }
 }
 

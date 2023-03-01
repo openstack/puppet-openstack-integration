@@ -14,13 +14,13 @@
 # limitations under the License.
 #
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-case $::osfamily {
+case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
   }
@@ -28,7 +28,7 @@ case $::osfamily {
     $ipv6 = true
   }
   default: {
-    fail("Unsupported osfamily (${::osfamily})")
+    fail("Unsupported osfamily (${facts['os']['family']})")
   }
 }
 

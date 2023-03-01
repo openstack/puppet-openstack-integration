@@ -14,9 +14,9 @@ class openstack_integration::swift {
     before  => Anchor['swift::service::begin'],
   }
 
-  if ($::operatingsystem == 'Debian') {
+  if ($facts['os']['name'] == 'Debian') {
     # Ubuntu/Debian requires particular permissions for rsyslog to work
-    $log_dir_owner = $::operatingsystem ? {
+    $log_dir_owner = $facts['os']['name'] ? {
       'Debian' => 'swift',
       default  => 'syslog'
     }

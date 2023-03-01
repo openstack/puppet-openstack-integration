@@ -66,13 +66,13 @@ class openstack_integration::zaqar {
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
     ssl_cert  => $::openstack_integration::params::cert_path,
-    ssl_key   => "/etc/zaqar/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/zaqar/ssl/private/${facts['networking']['fqdn']}.pem",
     workers   => 2,
   }
   include zaqar::db::sync
   # run a second instance using websockets, the Debian system does
   # not support the use of services to run a second instance.
-  if $::osfamily == 'RedHat' {
+  if $facts['os']['family'] == 'RedHat' {
     class { 'zaqar::transport::websocket':
       bind              => $::openstack_integration::config::host,
       notification_bind => $::openstack_integration::config::host,

@@ -20,14 +20,14 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::nova (
   $libvirt_rbd         = false,
   $libvirt_virt_type   = 'qemu',
   $libvirt_cpu_mode    = 'none',
   $volume_encryption   = false,
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -151,14 +151,14 @@ class openstack_integration::nova (
   include apache
   class { 'nova::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
-    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
   }
   class { 'nova::wsgi::apache_metadata':
     bind_host => $::openstack_integration::config::host,
-    ssl_key   => "/etc/nova/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
     workers   => '2',
@@ -189,7 +189,7 @@ class openstack_integration::nova (
   #                 libvirtd.service running, though we stop the service in
   #                 puppet-nova. Until we fix the failure, use ssh transport
   #                 which does not require socket services.
-  $migration_transport = $::osfamily ? {
+  $migration_transport = $facts['os']['family'] ? {
     'Debian' => 'ssh',
     default  => 'tcp'
   }
@@ -199,7 +199,7 @@ class openstack_integration::nova (
 
   $images_type = $libvirt_rbd ? {
     true  => 'rbd',
-    false => $::os_service_default
+    false => $facts['os_service_default']
   }
   class { 'nova::compute::libvirt':
     virt_type             => $libvirt_virt_type,

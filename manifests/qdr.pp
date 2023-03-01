@@ -3,7 +3,7 @@ class openstack_integration::qdr {
   include openstack_integration::params
   include openstack_integration::config
 
-  if $::osfamily == 'Debian' {
+  if $facts['os']['family'] == 'Debian' {
     include apt
     Class['apt::update'] -> Package<| provider == 'apt' |>
     apt::ppa { 'ppa:qpid/released' : }
@@ -30,10 +30,10 @@ class openstack_integration::qdr {
       owner                   => 'root',
       mode                    => '0755',
       selinux_ignore_defaults => true,
-      before                  => File["/etc/qpid-dispatch/ssl/private/${::fqdn}.pem"],
+      before                  => File["/etc/qpid-dispatch/ssl/private/${facts['networking']['fqdn']}.pem"],
     }
     openstack_integration::ssl_key { 'qdrouterd':
-      key_path => "/etc/qpid-dispatch/ssl/private/${::fqdn}.pem",
+      key_path => "/etc/qpid-dispatch/ssl/private/${facts['networking']['fqdn']}.pem",
       require  => File['/etc/qpid-dispatch/ssl/private'],
       notify   => Service['qdrouterd'],
     }
@@ -41,7 +41,7 @@ class openstack_integration::qdr {
       listener_require_ssl   => true,
       listener_ssl_cert_db   => $::openstack_integration::params::ca_bundle_cert_path,
       listener_ssl_cert_file => $::openstack_integration::params::cert_path,
-      listener_ssl_key_file  => "/etc/qpid-dispatch/ssl/private/${::fqdn}.pem",
+      listener_ssl_key_file  => "/etc/qpid-dispatch/ssl/private/${facts['networking']['fqdn']}.pem",
       listener_addr          => $::openstack_integration::config::host,
       listener_port          => $::openstack_integration::config::messaging_default_port,
       listener_sasl_mech     => 'PLAIN',

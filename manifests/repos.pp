@@ -1,13 +1,13 @@
 class openstack_integration::repos {
 
   # To make litmus tests work.
-  if defined('$::ceph_version') and $::ceph_version != '' {
-    $ceph_version_real = $::ceph_version
+  if $facts['ceph_version'] and $facts['ceph_version'] != '' {
+    $ceph_version_real = $facts['ceph_version']
   } else {
     $ceph_version_real = 'quincy'
   }
 
-  if $::operatingsystem == 'Ubuntu' and versioncmp($::operatingsystemmajrelease, '22') >= 0 {
+  if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '22') >= 0 {
     # NOTE(tkajinam): Upstream ceph repository does not provide packages for
     #                 Ubuntu Jammy, so we use packages from UCA.
     $enable_ceph_repository = false
@@ -15,15 +15,15 @@ class openstack_integration::repos {
     $enable_ceph_repository = true
   }
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'Debian': {
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'Ubuntu': {
           include apt
           class { 'openstack_extras::repo::debian::ubuntu':
             release         => 'zed',
             package_require => true,
-            uca_location    => pick($::uca_mirror_host, 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
+            uca_location    => pick($facts['uca_mirror_host'], 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }
         }
         'Debian': {
@@ -34,11 +34,11 @@ class openstack_integration::repos {
           }
         }
         default: {
-          fail("Unsupported package type (${::operatingsystem})")
+          fail("Unsupported package type (${facts['os']['name']})")
         }
       }
 
-      $ceph_mirror_fallback = pick($::ceph_mirror_host, "http://download.ceph.com/debian-${ceph_version_real}/")
+      $ceph_mirror_fallback = pick($facts['ceph_mirror_host'], "http://download.ceph.com/debian-${ceph_version_real}/")
       if $enable_ceph_repository {
         # Ceph is both packaged on UCA and official download.ceph.com packages
         # which we mirror. We want to use the official packages or our mirror.
@@ -63,22 +63,22 @@ class openstack_integration::repos {
     'RedHat': {
       $powertools_repo = 'crb'
 
-      if defined('$::centos_mirror_host') and $::centos_mirror_host != '' {
-        $centos_mirror = $::centos_mirror_host
+      if $facts['centos_mirror_host'] and $facts['centos_mirror_host'] != '' {
+        $centos_mirror = $facts['centos_mirror_host']
       } else {
         $centos_mirror = 'http://mirror.stream.centos.org'
       }
 
-      if defined('$::delorean_repo_path') and $::delorean_repo_path != '' {
-        $delorean_repo = $::delorean_repo_path
+      if $facts['delorean_repo_path'] and $facts['delorean_repo_path'] != '' {
+        $delorean_repo = $facts['delorean_repo_path']
       } else {
-        $delorean_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/puppet-passed-ci/delorean.repo"
+        $delorean_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/puppet-passed-ci/delorean.repo"
       }
 
-      if defined('$::delorean_deps_repo_path') and $::delorean_deps_repo_path != '' {
-        $delorean_deps_repo = $::delorean_deps_repo_path
+      if $facts['delorean_deps_repo_path'] and $facts['delorean_deps_repo_path'] != '' {
+        $delorean_deps_repo = $facts['delorean_deps_repo_path']
       } else {
-        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${::os['release']['major']}-master/delorean-deps.repo"
+        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/delorean-deps.repo"
       }
 
       class { 'openstack_extras::repo::redhat::redhat':
@@ -93,17 +93,17 @@ class openstack_integration::repos {
         update_packages   => true,
       }
 
-      $ceph_mirror_fallback = "${centos_mirror}/SIGs/${::os['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
+      $ceph_mirror_fallback = "${centos_mirror}/SIGs/${facts['os']['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
 
-      if defined('$::ceph_mirror_host') and $::ceph_mirror_host != '' {
-        $ceph_mirror = $::ceph_mirror_host
+      if $facts['ceph_mirror_host'] and $facts['ceph_mirror_host'] != '' {
+        $ceph_mirror = $facts['ceph_mirror_host']
       } else {
         $ceph_mirror = $ceph_mirror_fallback
       }
 
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
       # https://wiki.centos.org/SpecialInterestGroup/Storage/
-      if $::operatingsystem == 'CentOS' {
+      if $facts['os']['name'] == 'CentOS' {
         $enable_sig  = true
         $enable_epel = false
       } else {
@@ -119,7 +119,7 @@ class openstack_integration::repos {
       }
     }
     default: {
-      fail("Unsupported osfamily (${::osfamily})")
+      fail("Unsupported osfamily (${facts['os']['family']})")
     }
   }
 
@@ -136,7 +136,7 @@ class openstack_integration::repos {
     ensure => 'present',
   }
 
-  if $::osfamily == 'RedHat' {
+  if $facts['os']['family'] == 'RedHat' {
     # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
     # that causes the puppet-openvswitch module to fail parsing the output.
     # This issue does not occur in integration testing but only module tests since some

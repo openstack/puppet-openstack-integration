@@ -30,10 +30,10 @@ class openstack_integration::horizon (
       mode                    => '0755',
       selinux_ignore_defaults => true,
       require                 => File['/etc/openstack-dashboard/ssl'],
-      before                  => File["/etc/openstack-dashboard/ssl/private/${::fqdn}.pem"],
+      before                  => File["/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem"],
     }
     openstack_integration::ssl_key { 'horizon':
-      key_path  => "/etc/openstack-dashboard/ssl/private/${::fqdn}.pem",
+      key_path  => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
       key_owner => 'root',
       require   => File['/etc/openstack-dashboard/ssl/private'],
       notify    => Service['httpd'],
@@ -44,7 +44,7 @@ class openstack_integration::horizon (
   # TODO(tkajinam): Switch to pymemcache backend when we bump Ubuntu from
   #                 Focal to Jammy. The pymemcache package in Forcal is too old
   #                 and is not compatible with Django.
-  $cache_backend = $::osfamily ? {
+  $cache_backend = $facts['os']['family'] ? {
     'Debian' => 'django.core.cache.backends.memcached.MemcachedCache',
     default  => 'django.core.cache.backends.memcached.PyMemcacheCache'
   }
@@ -57,7 +57,7 @@ class openstack_integration::horizon (
     listen_ssl        => $::openstack_integration::config::ssl,
     ssl_redirect      => $::openstack_integration::config::ssl,
     ssl_cert          => $::openstack_integration::params::cert_path,
-    ssl_key           => "/etc/openstack-dashboard/ssl/private/${::fqdn}.pem",
+    ssl_key           => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_ca            => $::openstack_integration::params::ca_bundle_cert_path,
     ssl_verify_client => 'optional',
     keystone_url      => $::openstack_integration::config::keystone_auth_uri,

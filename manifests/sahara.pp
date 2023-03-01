@@ -54,7 +54,7 @@ class openstack_integration::sahara (
     host                  => $::openstack_integration::config::host,
     use_ssl               => $::openstack_integration::config::ssl,
     cert_file             => $::openstack_integration::params::cert_path,
-    key_file              => "/etc/sahara/ssl/private/${::fqdn}.pem",
+    key_file              => "/etc/sahara/ssl/private/${facts['networking']['fqdn']}.pem",
     default_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
@@ -73,7 +73,7 @@ class openstack_integration::sahara (
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
-  $service_name = $::operatingsystem ? {
+  $service_name = $facts['os']['name'] ? {
     'Debian' => $::sahara::params::api_service_name,
     default  => 'httpd',
   }
@@ -85,7 +85,7 @@ class openstack_integration::sahara (
     class { 'sahara::wsgi::apache':
       bind_host => $::openstack_integration::config::host,
       ssl       => $::openstack_integration::config::ssl,
-      ssl_key   => "/etc/sahara/ssl/private/${::fqdn}.pem",
+      ssl_key   => "/etc/sahara/ssl/private/${facts['networking']['fqdn']}.pem",
       ssl_cert  => $::openstack_integration::params::cert_path,
       workers   => 2,
     }

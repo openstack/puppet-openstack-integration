@@ -16,7 +16,7 @@ define openstack_integration::ssl_key(
   include openstack_integration::config
 
   if $key_path == undef {
-    $_key_path  = "/etc/${name}/ssl/private/${::fqdn}.pem"
+    $_key_path  = "/etc/${name}/ssl/private/${facts['networking']['fqdn']}.pem"
   } else {
     $_key_path = $key_path
   }

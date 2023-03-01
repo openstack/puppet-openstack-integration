@@ -54,7 +54,7 @@ test -b /dev/ceph_vg/lv_data
     ms_bind_ipv6                 => $ms_bind_ipv6,
     authentication_type          => 'cephx',
     mon_host                     => $::openstack_integration::config::ip_for_url,
-    mon_initial_members          => $::hostname,
+    mon_initial_members          => $facts['networking']['hostname'],
     osd_pool_default_size        => '1',
     osd_pool_default_min_size    => '1',
     mon_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',

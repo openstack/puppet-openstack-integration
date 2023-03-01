@@ -2,10 +2,10 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::heat (
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -20,7 +20,7 @@ class openstack_integration::heat (
     openstack_integration::ssl_key { 'heat':
       require => Package['heat-common'],
     }
-    $key_file = "/etc/heat/ssl/private/${::fqdn}.pem"
+    $key_file = "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem"
     $crt_file = $::openstack_integration::params::cert_path
     File[$key_file] ~> Service<| tag == 'heat-service' |>
     Exec['update-ca-certificates'] ~> Service<| tag == 'heat-service' |>

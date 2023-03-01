@@ -22,7 +22,7 @@ class openstack_integration::magnum (
     openstack_integration::ssl_key { 'magnum':
       require => Package['magnum-common'],
     }
-    $key_file = "/etc/magnum/ssl/private/${::fqdn}.pem"
+    $key_file = "/etc/magnum/ssl/private/${facts['networking']['fqdn']}.pem"
     $crt_file = $::openstack_integration::params::cert_path
     File[$key_file] ~> Service<| tag == 'magnum-service' |>
     Exec['update-ca-certificates'] ~> Service<| tag == 'magnum-service' |>

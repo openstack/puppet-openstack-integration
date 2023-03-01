@@ -2,10 +2,10 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::aodh (
-  $notification_topics = $::os_service_default,
+  $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -86,7 +86,7 @@ class openstack_integration::aodh (
   class { 'aodh::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_key   => "/etc/aodh/ssl/private/${::fqdn}.pem",
+    ssl_key   => "/etc/aodh/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     workers   => 2,
   }

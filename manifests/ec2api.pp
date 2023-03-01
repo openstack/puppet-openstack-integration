@@ -17,7 +17,7 @@ class openstack_integration::ec2api {
     password => 'ec2api',
     host     => $::openstack_integration::config::host,
   }
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       class { 'ec2api::db':
         database_connection => os_database_connection({
@@ -58,7 +58,7 @@ class openstack_integration::ec2api {
       warning('ec2api is not yet packaged on Ubuntu systems.')
     }
     default: {
-      fail("Unsupported osfamily (${::osfamily})")
+      fail("Unsupported osfamily (${facts['os']['family']})")
     }
   }
 }

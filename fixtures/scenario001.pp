@@ -14,20 +14,20 @@
 # limitations under the License.
 #
 
-if $::os['name'] == 'Ubuntu' {
+if $facts['os']['name'] == 'Ubuntu' {
   $ssl = false
 } else {
   $ssl = true
 }
 
-case $::osfamily {
+case $facts['os']['family'] {
   'Debian': {
     $ipv6                    = false
     # vitrage are not packaged yet in debian/ubuntu
     $enable_vitrage          = false
     $om_rpc                  = 'rabbit'
     $om_notify               = 'rabbit'
-    $notification_topics     = $::os_service_default
+    $notification_topics     = $facts['os_service_default']
   }
   'RedHat': {
     $ipv6                    = true
@@ -37,7 +37,7 @@ case $::osfamily {
     $notification_topics     = ['notifications', 'vitrage_notifications']
   }
   default: {
-    fail("Unsupported osfamily (${::osfamily})")
+    fail("Unsupported osfamily (${facts['os']['family']})")
   }
 }
 
