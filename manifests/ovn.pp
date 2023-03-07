@@ -11,7 +11,7 @@ class openstack_integration::ovn(
   }
   class { 'ovn::controller':
     ovn_remote          => "tcp:${::openstack_integration::config::ip_for_url}:6642",
-    ovn_encap_ip        => '127.0.0.1',
+    ovn_encap_ip        => $::openstack_integration::config::host,
     ovn_bridge_mappings => ['external:br-ex'],
     ovn_cms_options     => 'enable-chassis-as-gw',
     manage_ovs_bridge   => false,
