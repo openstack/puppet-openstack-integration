@@ -18,9 +18,11 @@ class openstack_integration::ceph (
   include openstack_integration::config
 
   if $::openstack_integration::config::ipv6 {
+    $ms_bind_ipv4 = false
     $ms_bind_ipv6 = true
   } else {
-    $ms_bind_ipv6 = undef
+    $ms_bind_ipv4 = true
+    $ms_bind_ipv6 = false
   }
 
   ensure_packages(['lvm2'], {'ensure' => 'present', before  => Exec['lvm_create']})
@@ -51,6 +53,7 @@ test -b /dev/ceph_vg/lv_data
   class { 'ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo
+    ms_bind_ipv4                 => $ms_bind_ipv4,
     ms_bind_ipv6                 => $ms_bind_ipv6,
     authentication_type          => 'cephx',
     mon_host                     => $::openstack_integration::config::ip_for_url,
