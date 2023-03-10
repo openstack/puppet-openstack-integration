@@ -65,7 +65,7 @@ scenario](#all-in-one).
 | swift      |             |             |       X     |             |             |             |              |
 | sahara     |             |             |             |       X     |             |             |              |
 | trove      |             |             |             |       X     |             |             |              |
-| horizon    |             |             |             |       X     |      X      |             |      X       |
+| horizon    |             |             |             |       X     |      X      |      X      |      X       |
 | ironic     |             |             |       X     |             |             |             |              |
 | zaqar      |             |             |       X     |             |             |             |              |
 | murano     |             |             |             |       X     |             |             |              |

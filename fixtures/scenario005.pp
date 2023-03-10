@@ -60,6 +60,9 @@ class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
 }
 
+class { 'openstack_integration::horizon':
+  manila_enabled => true
+}
 include openstack_integration::manila
 
 class { 'openstack_integration::provision':
@@ -70,6 +73,7 @@ class { 'openstack_integration::provision':
 
 class { 'openstack_integration::tempest':
   cinder         => true,
+  horizon        => true,
   manila         => true,
   octavia        => true,
   neutron_driver => 'ovn',
