@@ -1,3 +1,5 @@
+# Auto-generated Puppetfile for Puppet OpenStack project
+
 mod 'augeas_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-augeas_core',
   :ref => 'v1.3.0'
@@ -14,12 +16,11 @@ mod 'yumrepo_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
   :ref => 'v1.2.0'
 
-# NOTE(tobias-urdin): Needed by puppet-swift.
 mod 'mount_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_core',
   :ref => 'v1.2.0'
 
-# NOTE(tobias-urdin): Needed by p-o-i.
 mod 'selinux_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-selinux_core',
   :ref => 'v1.3.0'
+
