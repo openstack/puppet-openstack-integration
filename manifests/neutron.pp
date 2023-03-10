@@ -255,11 +255,12 @@ class openstack_integration::neutron (
   case $driver {
     'openvswitch': {
       class { 'neutron::agents::ml2::ovs':
-        local_ip        => $::openstack_integration::config::host,
-        tunnel_types    => ['vxlan'],
-        bridge_mappings => ['external:br-ex'],
-        manage_vswitch  => false,
-        firewall_driver => 'iptables_hybrid',
+        local_ip          => $::openstack_integration::config::host,
+        tunnel_types      => ['vxlan'],
+        bridge_mappings   => ['external:br-ex'],
+        manage_vswitch    => false,
+        firewall_driver   => 'iptables_hybrid',
+        of_listen_address => $::openstack_integration::config::host,
       }
     }
     'ovn': {
