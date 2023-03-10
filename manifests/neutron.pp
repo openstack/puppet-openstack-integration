@@ -247,7 +247,7 @@ class openstack_integration::neutron (
   case $driver {
     'openvswitch': {
       class { 'neutron::agents::ml2::ovs':
-        local_ip        => '127.0.0.1',
+        local_ip        => $::openstack_integration::config::host,
         tunnel_types    => ['vxlan'],
         bridge_mappings => ['external:br-ex'],
         manage_vswitch  => false,
