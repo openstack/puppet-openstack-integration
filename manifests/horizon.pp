@@ -41,17 +41,9 @@ class openstack_integration::horizon (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  # TODO(tkajinam): Switch to pymemcache backend when we bump Ubuntu from
-  #                 Focal to Jammy. The pymemcache package in Forcal is too old
-  #                 and is not compatible with Django.
-  $cache_backend = $facts['os']['family'] ? {
-    'Debian' => 'django.core.cache.backends.memcached.MemcachedCache',
-    default  => 'django.core.cache.backends.memcached.PyMemcacheCache'
-  }
-
   class { 'horizon':
     secret_key        => 'big_secret',
-    cache_backend     => $cache_backend,
+    cache_backend     => 'django.core.cache.backends.memcached.PyMemcacheCache',
     cache_server_ip   => $::openstack_integration::config::host,
     allowed_hosts     => $::openstack_integration::config::ip_for_url,
     listen_ssl        => $::openstack_integration::config::ssl,
