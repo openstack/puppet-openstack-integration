@@ -5,6 +5,10 @@
 #   Can be: openvswitch, linuxbridge or ovn.
 #   Defaults to 'openvswitch'.
 #
+# [*metering_enabled*]
+#   (optional) Flag to enable metering agent
+#   Defaults to false.
+#
 # [*bgpvpn_enabled*]
 #   (optional) Flag to enable BGPVPN
 #   API extensions.
@@ -24,6 +28,7 @@
 #
 class openstack_integration::neutron (
   $driver              = 'openvswitch',
+  $metering_enabled    = false,
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
   $bgp_dragent_enabled = false,
@@ -115,7 +120,10 @@ class openstack_integration::neutron (
     $providers_list = undef
   } else {
     $dhcp_agent_notification = true
-
+    $metering_plugin = $metering_enabled ? {
+      true    => 'metering',
+      default => undef,
+    }
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
       default => undef,
@@ -144,7 +152,7 @@ class openstack_integration::neutron (
       default => undef,
     }
 
-    $plugins_list = delete_undef_values(['router', 'metering', 'qos', 'trunk', $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
+    $plugins_list = delete_undef_values(['router', 'qos', 'trunk', $metering_plugin, $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
   }
 
   if $driver == 'linuxbridge' {
@@ -311,9 +319,12 @@ class openstack_integration::neutron (
       interface_driver => $driver,
       debug            => true,
     }
-    class { 'neutron::agents::metering':
-      interface_driver => $driver,
-      debug            => true,
+
+    if $metering_enabled {
+      class { 'neutron::agents::metering':
+        interface_driver => $driver,
+        debug            => true,
+      }
     }
   }
   class { 'neutron::server::notifications::nova':

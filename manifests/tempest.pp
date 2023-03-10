@@ -236,7 +236,10 @@ class openstack_integration::tempest (
     } else {
       $neutron_agent_scheduler_extensions = ['dhcp_agent_scheduler', 'l3_agent_scheduler']
       $neutron_l3_extensions = ['dvr', 'l3-flavors', 'l3-ha']
-      $neutron_metering_extensions = ['metering']
+      $neutron_metering_extensions = $ceilometer ? {
+        true    => ['metering'],
+        default => []
+      }
     }
 
     $neutron_l2gw_extensions = $l2gw ? {
