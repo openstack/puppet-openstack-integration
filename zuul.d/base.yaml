@@ -72,8 +72,6 @@
         override-checkout: stable/train
       - name: openstack/puppet-swift
         override-checkout: stable/train
-      - name: openstack/puppet-tacker
-        override-checkout: stable/train
       - name: openstack/puppet-tempest
         override-checkout: stable/train
       - name: openstack/puppet-trove

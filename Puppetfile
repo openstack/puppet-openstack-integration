@@ -117,10 +117,6 @@ mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
   :ref => 'stable/train'
 
-mod 'tacker',
-  :git => 'https://opendev.org/openstack/puppet-tacker',
-  :ref => 'stable/train'
-
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
   :ref => 'stable/train'
