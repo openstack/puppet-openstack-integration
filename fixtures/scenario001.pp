@@ -22,19 +22,14 @@ if $facts['os']['name'] == 'Ubuntu' {
 
 case $facts['os']['family'] {
   'Debian': {
-    $ipv6                    = false
-    # vitrage are not packaged yet in debian/ubuntu
-    $enable_vitrage          = false
-    $om_rpc                  = 'rabbit'
-    $om_notify               = 'rabbit'
-    $notification_topics     = $facts['os_service_default']
+    $ipv6      = false
+    $om_rpc    = 'rabbit'
+    $om_notify = 'rabbit'
   }
   'RedHat': {
-    $ipv6                    = true
-    $enable_vitrage          = true
-    $om_rpc                  = 'amqp'
-    $om_notify               = 'rabbit'
-    $notification_topics     = ['notifications', 'vitrage_notifications']
+    $ipv6      = true
+    $om_rpc    = 'amqp'
+    $om_notify = 'rabbit'
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -68,27 +63,25 @@ class { 'openstack_integration::glance':
   backend => 'rbd',
 }
 class { 'openstack_integration::neutron':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
   metering_enabled    => true,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
   libvirt_rbd         => true,
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
 }
 class { 'openstack_integration::cinder':
   backend => 'rbd',
 }
 include openstack_integration::ceilometer
 class { 'openstack_integration::aodh':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
 }
-if $enable_vitrage {
-  include openstack_integration::vitrage
-}
+include openstack_integration::vitrage
 include openstack_integration::ceph
 class { 'openstack_integration::heat':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
 }
 class { 'openstack_integration::provision':
   # NOTE(tkajinam): Use raw format to use rbd image cloning when creating
@@ -105,6 +98,6 @@ class { 'openstack_integration::tempest':
   ceilometer   => true,
   aodh         => true,
   heat         => true,
-  vitrage      => $enable_vitrage,
+  vitrage      => true,
   image_format => 'raw',
 }
