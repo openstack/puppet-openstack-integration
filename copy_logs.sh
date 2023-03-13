@@ -348,7 +348,6 @@ export OS_CLIENT_CONFIG_FILE=$LOG_DIR/etc/openstack/puppet/admin-clouds.yaml
 # keystone resources
 if [ -d $LOG_DIR/keystone ]; then
     openstack >> $LOG_DIR/openstack_resources/keystone.txt <<-EOC
-extension list --identity
 endpoint list
 service list --long
 region list
