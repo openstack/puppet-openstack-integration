@@ -22,6 +22,10 @@
 #   (optional) Flag to enable BGP dragent
 #   Defaults to false.
 #
+# [*baremetal_enabled*]
+#   (optional) Flag to enable networking-baremetal
+#   Defaults to false.
+#
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default'].
@@ -32,11 +36,16 @@ class openstack_integration::neutron (
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
   $bgp_dragent_enabled = false,
+  $baremetal_enabled   = false,
   $notification_topics = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
   include openstack_integration::params
+
+  if $driver == 'ovn' and $metering_enabled {
+    fail('Metering agent is not supported when ovn mechanism driver is used.')
+  }
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'neutron':
@@ -244,11 +253,15 @@ class openstack_integration::neutron (
     'ovn'   => 38,
     default => $facts['os_service_default']
   }
+  $drivers_real = $baremetal_enabled ? {
+    true    => [$driver, 'baremetal'],
+    default => [$driver],
+  }
   class { 'neutron::plugins::ml2':
     type_drivers         => [$overlay_network_type, 'vlan', 'flat'],
     tenant_network_types => [$overlay_network_type, 'vlan', 'flat'],
     extension_drivers    => 'port_security,qos',
-    mechanism_drivers    => $driver,
+    mechanism_drivers    => $drivers_real,
     max_header_size      => $max_header_size,
   }
 
@@ -328,6 +341,21 @@ class openstack_integration::neutron (
       }
     }
   }
+
+  if $baremetal_enabled {
+    class { 'neutron::plugins::ml2::networking_baremetal': }
+    class { 'neutron::agents::ml2::networking_baremetal':
+      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      password => 'a_big_secret',
+    }
+    class { 'neutron::server::notifications::ironic':
+      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      password => 'a_big_secret',
+    }
+
+    Anchor['ironic::service::end'] -> Service['ironic-neutron-agent-service']
+  }
+
   class { 'neutron::server::notifications::nova':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',

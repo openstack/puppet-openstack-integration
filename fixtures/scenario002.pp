@@ -58,7 +58,8 @@ class { 'openstack_integration::glance':
   image_encryption => true,
 }
 class { 'openstack_integration::neutron':
-  metering_enabled => true,
+  baremetal_enabled => true,
+  metering_enabled  => true,
 }
 include openstack_integration::swift
 include openstack_integration::ironic
