@@ -263,6 +263,7 @@ class openstack_integration::neutron (
     extension_drivers    => 'port_security,qos',
     mechanism_drivers    => $drivers_real,
     max_header_size      => $max_header_size,
+    overlay_ip_version   => $::openstack_integration::config::ip_version,
   }
 
   case $driver {
