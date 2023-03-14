@@ -17,9 +17,18 @@ class openstack_integration::bind {
     default => 'none',
   }
 
+  # NOTE(tkajinam) Disable config check in Ubuntu due to
+  #                https://github.com/theforeman/puppet-dns/issues/227
+  if $facts['os']['name'] == 'Ubuntu' {
+    $config_check = false
+  } else {
+    $config_check = true
+  }
+
   # NOTE (dmsimard): listen_on_v6 is false and overridden due to extended port
   # configuration in additional_options
   class { 'dns':
+    config_check       => $config_check,
     recursion          => 'no',
     allow_recursion    => [],
     listen_on_v6       => false,
