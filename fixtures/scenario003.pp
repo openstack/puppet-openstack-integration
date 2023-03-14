@@ -23,8 +23,6 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6            = false
-    # mistral is not packaged on Ubuntu Trusty
-    $mistral_enabled = false
     # murano package should be fixed on Ubuntu Xenial
     $murano_enabled  = false
     # trove package contains broken Tempest tests
@@ -40,7 +38,6 @@ case $facts['os']['family'] {
   }
   'RedHat': {
     $ipv6                      = true
-    $mistral_enabled           = true
     # NOTE(mnaser): We need to figure out why Murano won't accept credentials
     #               and how to get it to work with Keystone V3.
     $murano_enabled            = false
@@ -88,9 +85,7 @@ include openstack_integration::designate
 if $murano_enabled {
   include openstack_integration::murano
 }
-if $mistral_enabled {
-  include openstack_integration::mistral
-}
+include openstack_integration::mistral
 include openstack_integration::provision
 
 include openstack_integration::barbican
@@ -101,7 +96,7 @@ class { 'openstack_integration::magnum':
 class { 'openstack_integration::tempest':
   designate      => true,
   trove          => $trove_enabled,
-  mistral        => $mistral_enabled,
+  mistral        => true,
   sahara         => $sahara_integration_enable,
   horizon        => true,
   murano         => $murano_enabled,
