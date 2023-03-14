@@ -5,10 +5,18 @@ class openstack_integration::ec2api {
   include openstack_integration::config
   include openstack_integration::params
 
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'ec2api':
+      notify  => Anchor['ec2api::service::begin'],
+      require => Anchor['ec2api::install::end'],
+    }
+    Exec['update-ca-certificates'] ~> Service<| tag == 'ec2api-service' |>
+  }
+
   class { 'ec2api::keystone::auth':
-    public_url   => "http://${::openstack_integration::config::ip_for_url}:8788",
-    internal_url => "http://${::openstack_integration::config::ip_for_url}:8788",
-    admin_url    => "http://${::openstack_integration::config::ip_for_url}:8788",
+    public_url   => "${::openstack_integration::config::base_url}:8788",
+    internal_url => "${::openstack_integration::config::base_url}:8788",
+    admin_url    => "${::openstack_integration::config::base_url}:8788",
     password     => 'a_big_secret',
   }
   class { 'ec2api::db::mysql':
@@ -17,6 +25,7 @@ class openstack_integration::ec2api {
     password => 'ec2api',
     host     => $::openstack_integration::config::host,
   }
+
   case $facts['os']['family'] {
     'RedHat': {
       class { 'ec2api::db':
@@ -48,10 +57,14 @@ class openstack_integration::ec2api {
         ec2api_listen           => $::openstack_integration::config::host,
         keystone_ec2_tokens_url => "${::openstack_integration::config::keystone_auth_uri}/v3/ec2tokens",
         external_network        => 'public',
+        ec2api_use_ssl          => $::openstack_integration::config::ssl,
+        ssl_cert_file           => $::openstack_integration::params::cert_path,
+        ssl_key_file            => "/etc/ec2api/ssl/private/${facts['networking']['fqdn']}.pem",
       }
       class { 'ec2api::metadata':
         nova_metadata_ip => $::openstack_integration::config::host,
         metadata_listen  => $::openstack_integration::config::host,
+        metadata_use_ssl => $::openstack_integration::config::ssl,
       }
     }
     'Debian': {
