@@ -22,12 +22,17 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default'].
 #
+# [*cinder_enabled*]
+#   (optional) Boolean to configure or not cinder options.
+#   Defaults to false.
+#
 class openstack_integration::nova (
   $libvirt_rbd         = false,
   $libvirt_virt_type   = 'qemu',
   $libvirt_cpu_mode    = 'none',
   $volume_encryption   = false,
   $notification_topics = $facts['os_service_default'],
+  $cinder_enabled      = false,
 ) {
 
   include openstack_integration::config
@@ -238,6 +243,13 @@ class openstack_integration::nova (
     auth_url              => "${::openstack_integration::config::keystone_admin_uri}/v3",
     password              => 'a_big_secret',
     default_floating_pool => 'public',
+  }
+  if $cinder_enabled {
+    class { 'nova::cinder':
+      auth_url  => $::openstack_integration::config::keystone_admin_uri,
+      password  => 'a_big_secret',
+      auth_type => 'password',
+    }
   }
 
   Keystone_endpoint <||> -> Service['nova-compute']

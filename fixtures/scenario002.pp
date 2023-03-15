@@ -69,6 +69,7 @@ include openstack_integration::provision
 include openstack_integration::placement
 class { 'openstack_integration::nova':
   volume_encryption => true,
+  cinder_enabled    => true,
 }
 
 class { 'openstack_integration::cinder':
