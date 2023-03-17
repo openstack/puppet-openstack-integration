@@ -85,5 +85,6 @@ class openstack_integration::barbican {
     workers   => 2,
   }
   class { 'barbican::worker': }
+  class { 'barbican::retry_scheduler': }
 
 }
