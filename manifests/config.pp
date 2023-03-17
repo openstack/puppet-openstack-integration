@@ -48,27 +48,17 @@ class openstack_integration::config (
   $rabbit_port = $messaging_notify_port
 
   if $ipv6 {
-    $host       = '::1'
-    if $rpc_backend == 'rabbit' {
-      $rabbit_env = {
-        'RABBITMQ_NODE_IP_ADDRESS'   => $host,
-        'RABBITMQ_SERVER_START_ARGS' => '"-proto_dist inet6_tcp"',
-        'LC_ALL'                     => 'en_US.UTF-8',
-      }
-    }
-    $ip_version  = '6'
+    $host = '::1'
+    $ip_version = '6'
     # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
     # different: https://bugs.launchpad.net/swift/+bug/1610064
-    $memcached_servers  = ["inet6:[${host}]:11211"]
+    $memcached_servers = ["inet6:[${host}]:11211"]
     $swift_memcached_servers = ["[${host}]:11211"]
     $tooz_url = "redis://[${host}]:6379"
   } else {
-    $host        = '127.0.0.1'
-    $rabbit_env  = {
-        'LC_ALL' => 'en_US.UTF-8',
-    }
-    $ip_version  = '4'
-    $memcached_servers  = ["${host}:11211"]
+    $host = '127.0.0.1'
+    $ip_version = '4'
+    $memcached_servers = ["${host}:11211"]
     $swift_memcached_servers = $memcached_servers
     $tooz_url = "redis://${host}:6379"
   }

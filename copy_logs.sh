@@ -101,6 +101,9 @@ fi
 if [ -d /var/log/rabbitmq ]; then
     sudo cp -r /var/log/rabbitmq $LOG_DIR
 fi
+if [ -f /var/lib/rabbitmq/erl_crash.dump ]; then
+    sudo cp /var/lib/rabbitmq/erl_crash.dump $LOG_DIR
+fi
 
 # db logs
 # postgresql
