@@ -113,6 +113,9 @@ class openstack_integration::vitrage {
     notifiers => ['nova'],
   }
   class { 'vitrage::persistor': }
+  class { 'vitrage::coordination':
+    backend_url => $::openstack_integration::config::tooz_url,
+  }
   class { 'vitrage::client': }
 
 }

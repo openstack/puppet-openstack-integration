@@ -468,6 +468,13 @@ datastore list
 EOC
 fi
 
+# vitrage resources
+if [ -d $LOG_DIR/vitrage ]; then
+    openstack >> $LOG_DIR/openstack_resources/vitrage.txt <<-EOC
+rca service list
+EOC
+fi
+
 unset OS_CLOUD
 unset OS_CLIENT_CONFIG_FILE
 
