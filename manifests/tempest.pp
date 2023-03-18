@@ -346,7 +346,7 @@ class openstack_integration::tempest (
     l2gw_switch                        => $l2gw_switch,
     disable_dashboard_ssl_validation   => true,
     ec2api_tester_roles                => ['member'],
-    aws_ec2_url                        => "http://${::openstack_integration::config::ip_for_url}:8788/",
+    aws_ec2_url                        => "${::openstack_integration::config::base_url}:8788/",
     aws_region                         => 'regionOne',
     # TODO(tkajinam): we have to configure image id parameters but we have to
     #                 obtain id from EC2 api.
