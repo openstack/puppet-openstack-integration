@@ -28,7 +28,9 @@ class openstack_integration::rabbitmq {
     ssl_cert              => $::openstack_integration::params::cert_path,
     ssl_key               => "/etc/rabbitmq/ssl/private/${facts['networking']['fqdn']}.pem",
     environment_variables => {
-      'LC_ALL' => 'en_US.UTF-8',
+      'LC_ALL'            => 'en_US.UTF-8',
+      'HOSTNAME'          => $::openstack_integration::config::hostname,
+      'RABBITMQ_NODENAME' => "rabbit@${::openstack_integration::config::hostname}"
     },
     repos_ensure          => false,
     manage_python         => false,

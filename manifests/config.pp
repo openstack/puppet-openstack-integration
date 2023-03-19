@@ -49,6 +49,7 @@ class openstack_integration::config (
 
   if $ipv6 {
     $host = '::1'
+    $hostname = 'localhost6'
     $ip_version = '6'
     # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
     # different: https://bugs.launchpad.net/swift/+bug/1610064
@@ -57,6 +58,7 @@ class openstack_integration::config (
     $tooz_url = "redis://[${host}]:6379"
   } else {
     $host = '127.0.0.1'
+    $hostname = 'localhost'
     $ip_version = '4'
     $memcached_servers = ["${host}:11211"]
     $swift_memcached_servers = $memcached_servers
