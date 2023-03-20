@@ -47,6 +47,7 @@ class openstack_integration::designate {
       'password' => 'designate',
       'database' => 'designate',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'designate::coordination':

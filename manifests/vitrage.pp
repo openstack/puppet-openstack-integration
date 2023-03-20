@@ -31,6 +31,7 @@ class openstack_integration::vitrage {
       'password' => 'vitrage',
       'database' => 'vitrage',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
 

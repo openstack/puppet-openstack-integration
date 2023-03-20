@@ -61,6 +61,7 @@ class openstack_integration::murano {
       'password' => 'murano',
       'database' => 'murano',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'murano::keystone::authtoken':

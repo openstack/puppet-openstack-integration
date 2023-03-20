@@ -69,6 +69,7 @@ class openstack_integration::magnum (
       'password' => 'magnum',
       'database' => 'magnum',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
 

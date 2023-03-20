@@ -38,8 +38,8 @@ class openstack_integration::zaqar {
       'password' => 'zaqar',
       'database' => 'zaqar',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
-
   }
   class {'zaqar::messaging::swift':
     auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",

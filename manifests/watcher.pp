@@ -29,6 +29,7 @@ class openstack_integration::watcher {
       'password' => 'watcher',
       'database' => 'watcher',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'watcher::keystone::auth':

@@ -234,6 +234,7 @@ class openstack_integration::neutron (
       'password' => 'neutron',
       'database' => 'neutron',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'neutron::server':

@@ -31,6 +31,7 @@ class openstack_integration::barbican {
       'password' => 'barbican',
       'database' => 'barbican',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'barbican::keystone::auth':
