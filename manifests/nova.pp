@@ -202,14 +202,9 @@ class openstack_integration::nova (
     false => $facts['os_service_default']
   }
   class { 'nova::compute::libvirt':
-    virt_type             => $libvirt_virt_type,
-    cpu_mode              => $libvirt_cpu_mode,
-    # virtlock and virtlog services resources are not idempotent
-    # on Ubuntu, let's disable it for now.
-    # https://tickets.puppetlabs.com/browse/PUP-6370
-    virtlock_service_name => false,
-    virtlog_service_name  => false,
-    images_type           => $images_type,
+    virt_type   => $libvirt_virt_type,
+    cpu_mode    => $libvirt_cpu_mode,
+    images_type => $images_type,
   }
   class { 'nova::compute::libvirt::networks': }
   if $libvirt_rbd {
