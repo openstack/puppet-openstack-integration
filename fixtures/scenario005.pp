@@ -23,9 +23,11 @@ if $::os['name'] == 'Ubuntu' {
 case $::osfamily {
   'Debian': {
     $ipv6 = false
+    $modular_libvirt = false
   }
   'RedHat': {
     $ipv6 = true
+    $modular_libvirt = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -54,8 +56,9 @@ class { 'openstack_integration::neutron':
   driver => 'ovn',
 }
 include openstack_integration::placement
-include openstack_integration::nova
-
+class { 'openstack_integration::nova':
+  modular_libvirt => $modular_libvirt,
+}
 class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
 }
