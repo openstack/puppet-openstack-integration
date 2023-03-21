@@ -69,5 +69,5 @@ class openstack_integration::config (
   $base_url           = "${proto}://${ip_for_url}"
   $keystone_auth_uri  = "${base_url}:5000"
   $keystone_admin_uri = "${base_url}:5000"
-  $tooz_url           = "redis://:a_big_secret@${ip_for_url}:6379"
+  $tooz_url           = "redis://:a_big_secret@${ip_for_url}:6379?ssl=${::openstack_integration::config::ssl}"
 }
