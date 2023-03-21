@@ -131,13 +131,6 @@ class openstack_integration::keystone (
     roles  => ['member'],
   }
 
-  class { 'openstack_extras::auth_file':
-    password            => 'a_big_secret',
-    project_domain_name => 'Default',
-    user_domain_name    => 'Default',
-    auth_url            => "${::openstack_integration::config::keystone_auth_uri}/v3/",
-  }
-
   # We need tempest users to have the creator role to be able to store
   # secrets in barbican.  We do this by adding the creator role to the
   # tempest_roles list in tempest.conf.

@@ -113,6 +113,5 @@ class openstack_integration::sahara (
 
     Nova_flavor<||> -> Sahara_node_group_template<||>
     Class['sahara::keystone::auth'] -> Sahara_node_group_template<||>
-    Class['openstack_extras::auth_file'] -> Sahara_node_group_template<||>
   }
 }
