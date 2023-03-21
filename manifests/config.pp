@@ -55,14 +55,12 @@ class openstack_integration::config (
     # different: https://bugs.launchpad.net/swift/+bug/1610064
     $memcached_servers = ["inet6:[${host}]:11211"]
     $swift_memcached_servers = ["[${host}]:11211"]
-    $tooz_url = "redis://[${host}]:6379"
   } else {
     $host = '127.0.0.1'
     $hostname = 'localhost'
     $ip_version = '4'
     $memcached_servers = ["${host}:11211"]
     $swift_memcached_servers = $memcached_servers
-    $tooz_url = "redis://${host}:6379"
   }
 
   # in URL, brackets are needed
@@ -71,4 +69,5 @@ class openstack_integration::config (
   $base_url           = "${proto}://${ip_for_url}"
   $keystone_auth_uri  = "${base_url}:5000"
   $keystone_admin_uri = "${base_url}:5000"
+  $tooz_url           = "redis://:a_big_secret@${ip_for_url}:6379"
 }
