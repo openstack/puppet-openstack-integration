@@ -23,9 +23,11 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
+    $modular_libvirt = false
   }
   'RedHat': {
     $ipv6 = true
+    $modular_libvirt = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -55,7 +57,8 @@ class { 'openstack_integration::neutron':
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
-  cinder_enabled => true,
+  cinder_enabled  => true,
+  modular_libvirt => $modular_libvirt,
 }
 class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
