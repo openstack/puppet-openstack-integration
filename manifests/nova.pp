@@ -14,6 +14,11 @@
 #   Possible values include custom, host-model, none, host-passthrough.
 #   Defaults to 'none'
 #
+# [*modular_libvirt*]
+#   (optional) Use modular libvirt daemons instead of the monolithic libvirtd
+#   deamon
+#   Defaults to false
+#
 # [*volume_encryption*]
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
@@ -26,6 +31,7 @@ class openstack_integration::nova (
   $libvirt_rbd         = false,
   $libvirt_virt_type   = 'qemu',
   $libvirt_cpu_mode    = 'none',
+  $modular_libvirt     = false,
   $volume_encryption   = false,
   $notification_topics = $::os_service_default,
 ) {
@@ -186,7 +192,8 @@ class openstack_integration::nova (
     default  => 'tcp'
   }
   class { 'nova::migration::libvirt':
-    transport => $migration_transport
+    transport       => $migration_transport,
+    modular_libvirt => $modular_libvirt,
   }
 
   $images_type = $libvirt_rbd ? {
@@ -194,14 +201,13 @@ class openstack_integration::nova (
     false => $::os_service_default
   }
   class { 'nova::compute::libvirt':
-    virt_type             => $libvirt_virt_type,
-    cpu_mode              => $libvirt_cpu_mode,
-    # virtlock and virtlog services resources are not idempotent
-    # on Ubuntu, let's disable it for now.
-    # https://tickets.puppetlabs.com/browse/PUP-6370
-    virtlock_service_name => false,
-    virtlog_service_name  => false,
-    images_type           => $images_type,
+    virt_type               => $libvirt_virt_type,
+    cpu_mode                => $libvirt_cpu_mode,
+    images_type             => $images_type,
+    manage_libvirt_services => false,
+  }
+  class { 'nova::compute::libvirt::services':
+    modular_libvirt => $modular_libvirt,
   }
   if $libvirt_rbd {
     class { 'nova::compute::rbd':

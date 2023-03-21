@@ -23,6 +23,7 @@ if $::os['name'] == 'Ubuntu' {
 case $::osfamily {
   'Debian': {
     $ipv6            = false
+    $modular_libvirt = false
     # mistral is not packaged on Ubuntu Trusty
     $mistral_enabled = false
     # murano package should be fixed on Ubuntu Xenial
@@ -40,6 +41,7 @@ case $::osfamily {
   }
   'RedHat': {
     $ipv6                      = true
+    $modular_libvirt           = true
     $mistral_enabled           = true
     # NOTE(mnaser): We need to figure out why Murano won't accept credentials
     #               and how to get it to work with Keystone V3.
@@ -71,7 +73,9 @@ class { 'openstack_integration::neutron':
   driver => 'linuxbridge',
 }
 include openstack_integration::placement
-include openstack_integration::nova
+class { 'openstack_integration::nova':
+  modular_libvirt => $modular_libvirt,
+}
 if $trove_enabled {
   include openstack_integration::trove
 }
