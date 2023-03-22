@@ -92,5 +92,6 @@ class openstack_integration::watcher {
   class { 'watcher::decision_engine':
     decision_engine_workers => '2',
   }
+  class { 'watcher::cron::db_purge': }
 
 }
