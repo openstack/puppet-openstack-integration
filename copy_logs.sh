@@ -231,30 +231,34 @@ sudo cp /etc/sudoers $LOG_DIR/sudoers.txt
 
 # apache logs; including wsgi stuff like horizon, keystone, etc.
 if uses_debs; then
+    apache_conf=/etc/apache2
     apache_logs=/var/log/apache2
-    redis_logs=/var/log/redis/redis-server.log
-    if [ -d /etc/apache2/sites-enabled ]; then
-        mkdir $LOG_DIR/apache_config
-        sudo cp /etc/apache2/sites-enabled/* $LOG_DIR/apache_config
-        for f in `ls $LOG_DIR/apache_config`; do
-            mv $LOG_DIR/apache_config/${f} $LOG_DIR/apache_config/${f}.txt
-        done
-    fi
-elif is_fedora; then
+    for d in conf.d sites-enabled mods-enabled ; do
+        if [ -d ${apache_conf}/${d} ]; then
+            mkdir $LOG_DIR/${apache_conf}/${d}
+            sudo cp ${apache_conf}/${d}/* $LOG_DIR/${apache_conf}/${d}/
+        fi
+    done
+else
+    apache_conf=/etc/httpd
     apache_logs=/var/log/httpd
-    redis_logs=/var/log/redis/redis.log
-    if [ -d /etc/httpd/conf.d ]; then
-        mkdir $LOG_DIR/apache_config
-        sudo cp /etc/httpd/conf.d/* $LOG_DIR/apache_config
-        for f in `ls $LOG_DIR/apache_config`; do
-            mv $LOG_DIR/apache_config/${f} $LOG_DIR/apache_config/${f}.txt
-        done
-    fi
+    for d in conf conf.d conf.modules.d ; do
+        if [ -d ${apache_conf}/${d} ]; then
+            mkdir $LOG_DIR/${apache_conf}/${d}
+            sudo cp ${apache_conf}/${d}/* $LOG_DIR/${apache_conf}/${d}/
+        fi
+    done
 fi
 if [ -d ${apache_logs} ]; then
     sudo cp -r ${apache_logs} $LOG_DIR/apache
 fi
 
+# redis logs
+if uses_debs; then
+    redis_logs=/var/log/redis/redis-server.log
+else
+    redis_logs=/var/log/redis/redis.log
+fi
 if [ -f ${redis_logs} ]; then
     sudo cp ${redis_logs} $LOG_DIR/redis.log.txt
 fi
