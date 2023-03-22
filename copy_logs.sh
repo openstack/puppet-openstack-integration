@@ -80,6 +80,13 @@ done
 # Extra bits and pieces follow
 #
 
+# puppet.conf file
+if [ -f /etc/puppet/puppet.conf ]; then
+    sudo cp /etc/puppet/puppet.conf $LOG_DIR/
+elif [ -f /etc/puppetlabs/puppet/puppet.conf ]; then
+    sudo cp /etc/puppetlabs/puppet/puppet.conf $LOG_DIR/
+fi
+
 # system logs
 if uses_debs; then
     sudo cp /var/log/kern.log $LOG_DIR/kern_log.txt
