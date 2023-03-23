@@ -54,8 +54,9 @@ class { 'openstack_integration::neutron':
   driver => 'ovn',
 }
 include openstack_integration::placement
-include openstack_integration::nova
-
+class { 'openstack_integration::nova':
+  cinder_enabled => true,
+}
 class { 'openstack_integration::octavia':
   provider_driver => 'ovn'
 }

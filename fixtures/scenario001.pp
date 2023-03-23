@@ -70,6 +70,7 @@ include openstack_integration::placement
 class { 'openstack_integration::nova':
   libvirt_rbd         => true,
   notification_topics => ['notifications', 'vitrage_notifications'],
+  cinder_enabled      => true,
 }
 class { 'openstack_integration::cinder':
   backend => 'rbd',
