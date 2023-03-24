@@ -356,6 +356,20 @@ class openstack_integration::neutron (
   }
 
   if $driver == 'ovn' {
+    # NOTE(tkajinam): ovn-agent is currently available only in RDO
+    if $facts['os']['family'] == 'RedHat' {
+      class { 'neutron::agents::ml2::ovn':
+        debug              => true,
+        ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
+        ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
+        ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
+        ovn_nb_ca_cert     => '/etc/neutron/switchcacert.pem',
+        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+        ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
+        ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
+        ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
+      }
+    }
     class { 'neutron::agents::ovn_metadata':
       debug              => true,
       shared_secret      => 'a_big_secret',
