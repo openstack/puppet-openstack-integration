@@ -303,8 +303,6 @@ echo "VolumesBackupsAdminTest" >> /tmp/openstack/tempest/test-include-list.txt
 echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Mistral
-# We have to ignore a smoke test because of:
-# https://bugs.launchpad.net/mistral/+bug/1654555
 echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-include-list.txt
 
 # BGPVPN
