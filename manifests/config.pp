@@ -24,6 +24,8 @@ class openstack_integration::config (
   $notify_backend = 'rabbit',
 ) {
 
+  include openstack_integration::params
+
   $messaging_default_proto = $rpc_backend
   $messaging_notify_proto  = $notify_backend
 
@@ -35,6 +37,9 @@ class openstack_integration::config (
       $messaging_default_port = '5671'
     }
     $messaging_notify_port = '5671'
+    $db_extra = {
+      'ssl_ca' => $::openstack_integration::params::ca_bundle_cert_path,
+    }
   } else {
     $proto = 'http'
     if $rpc_backend == 'amqp' {
@@ -43,6 +48,7 @@ class openstack_integration::config (
       $messaging_default_port = '5672'
     }
     $messaging_notify_port = '5672'
+    $db_extra = {}
   }
 
   $rabbit_port = $messaging_notify_port

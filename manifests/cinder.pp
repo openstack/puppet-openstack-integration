@@ -73,6 +73,7 @@ class openstack_integration::cinder (
       'password' => 'cinder',
       'database' => 'cinder',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'cinder':

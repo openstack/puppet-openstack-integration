@@ -40,6 +40,7 @@ class openstack_integration::octavia (
       'password' => 'octavia',
       'database' => 'octavia',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'octavia':

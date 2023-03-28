@@ -7,6 +7,7 @@ class openstack_integration::params {
       $update_ca_certs_cmd = '/usr/bin/update-ca-trust force-enable && /usr/bin/update-ca-trust extract'
       $mysql_charset       = 'utf8'
       $mysql_collate       = 'utf8_general_ci'
+      $mysql_conf_dir      = '/etc/my.cnf.d'
     }
     'Debian': {
       $ca_bundle_cert_path = '/etc/ssl/certs/puppet_openstack.pem'
@@ -14,6 +15,7 @@ class openstack_integration::params {
       $update_ca_certs_cmd = '/usr/sbin/update-ca-certificates -f'
       $mysql_charset       = 'utf8mb3'
       $mysql_collate       = 'utf8mb3_general_ci'
+      $mysql_conf_dir      = '/etc/mysql'
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem")

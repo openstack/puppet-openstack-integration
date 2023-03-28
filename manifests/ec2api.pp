@@ -36,6 +36,7 @@ class openstack_integration::ec2api {
           'password' => 'ec2api',
           'database' => 'ec2api',
           'charset'  => 'utf8',
+          'extra'    => $::openstack_integration::config::db_extra,
         }),
       }
       class { 'ec2api::db::sync': }

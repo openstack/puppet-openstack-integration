@@ -27,6 +27,7 @@ class openstack_integration::trove {
       'password' => 'trove',
       'database' => 'trove',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'trove':

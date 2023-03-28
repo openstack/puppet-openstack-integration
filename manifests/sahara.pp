@@ -48,6 +48,7 @@ class openstack_integration::sahara (
       'password' => 'sahara',
       'database' => 'sahara',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'sahara':

@@ -116,6 +116,7 @@ class openstack_integration::nova (
       'password' => 'nova',
       'database' => 'nova',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
     api_database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
@@ -124,6 +125,7 @@ class openstack_integration::nova (
       'password' => 'nova',
       'database' => 'nova_api',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'nova':

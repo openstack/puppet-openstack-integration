@@ -35,6 +35,7 @@ class openstack_integration::aodh (
       'password' => 'aodh',
       'database' => 'aodh',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'aodh':

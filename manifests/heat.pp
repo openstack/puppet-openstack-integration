@@ -53,6 +53,7 @@ class openstack_integration::heat (
       'password' => 'heat',
       'database' => 'heat',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'heat':

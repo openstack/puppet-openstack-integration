@@ -58,6 +58,7 @@ class openstack_integration::manila (
       'password' => 'manila',
       'database' => 'manila',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'manila':

@@ -48,6 +48,7 @@ class openstack_integration::placement {
       'password' => 'placement',
       'database' => 'placement',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   include placement::db::sync

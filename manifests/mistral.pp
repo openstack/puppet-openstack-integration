@@ -33,6 +33,7 @@ class openstack_integration::mistral {
       'password' => 'mistral',
       'database' => 'mistral',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'mistral':

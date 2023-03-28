@@ -26,6 +26,7 @@ class openstack_integration::ironic {
       'password' => 'ironic',
       'database' => 'ironic',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'ironic':
@@ -110,6 +111,7 @@ class openstack_integration::ironic {
       'password' => 'ironic-inspector',
       'database' => 'ironic-inspector',
       'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
   class { 'ironic::inspector::ironic':
