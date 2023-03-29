@@ -303,6 +303,17 @@ if [ -d /etc/openstack-dashboard ]; then
     done
 fi
 
+# ceph
+if [ `command -v ceph` ]; then
+    mkdir $LOG_DIR/ceph-cmd
+    sudo ceph versions > $LOG_DIR/ceph-cmd/ceph-versions.txt
+    sudo ceph status > $LOG_DIR/ceph-cmd/ceph-status.txt
+    sudo ceph osd tree > $LOG_DIR/ceph-cmd/ceph-osd-tree.txt
+    sudo ceph df > $LOG_DIR/ceph-cmd/ceph-df.txt
+    sudo ceph osd pool ls detail > $LOG_DIR/ceph-cmd/ceph-osd-pool-ls.txt
+    sudo ceph-volume lvm list ceph_vg/lv_data > $LOG_DIR/ceph-cmd/ceph-volume-lvm-list.txt
+fi
+
 # package status and repository list
 if [ `command -v dpkg` ]; then
     dpkg -l> $LOG_DIR/dpkg-l.txt
