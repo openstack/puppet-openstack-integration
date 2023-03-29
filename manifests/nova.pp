@@ -201,7 +201,8 @@ class openstack_integration::nova (
     default  => 'tcp'
   }
   class { 'nova::migration::libvirt':
-    transport => $migration_transport
+    transport      => $migration_transport,
+    listen_address => $::openstack_integration::config::host,
   }
 
   $images_type = $libvirt_rbd ? {
