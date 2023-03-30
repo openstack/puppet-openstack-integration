@@ -242,8 +242,8 @@ if uses_debs; then
     apache_logs=/var/log/apache2
     for d in conf.d sites-enabled mods-enabled ; do
         if [ -d ${apache_conf}/${d} ]; then
-            mkdir $LOG_DIR/${apache_conf}/${d}
-            sudo cp ${apache_conf}/${d}/* $LOG_DIR/${apache_conf}/${d}/
+            mkdir -p $LOG_DIR${apache_conf}/${d}
+            sudo cp ${apache_conf}/${d}/* $LOG_DIR${apache_conf}/${d}/
         fi
     done
 else
@@ -251,8 +251,8 @@ else
     apache_logs=/var/log/httpd
     for d in conf conf.d conf.modules.d ; do
         if [ -d ${apache_conf}/${d} ]; then
-            mkdir $LOG_DIR/${apache_conf}/${d}
-            sudo cp ${apache_conf}/${d}/* $LOG_DIR/${apache_conf}/${d}/
+            mkdir -p $LOG_DIR${apache_conf}/${d}
+            sudo cp ${apache_conf}/${d}/* $LOG_DIR${apache_conf}/${d}/
         fi
     done
 fi
