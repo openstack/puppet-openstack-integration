@@ -243,13 +243,18 @@ class openstack_integration::tempest (
       true    => ['l2-gateway', 'l2gateway-connection'],
       default => []
     }
+    $neutron_bgpvpn_extensions = $bgpvpn ? {
+      true    => ['bgpvpn'],
+      default => [],
+    }
 
     $neutron_api_extensions_real = sort(
       $neutron_base_extensions +
       $neutron_agent_scheduler_extensions +
       $neutron_l3_extensions +
       $neutron_metering_extensions +
-      $neutron_l2gw_extensions
+      $neutron_l2gw_extensions +
+      $neutron_bgpvpn_extensions
     )
   }
 
