@@ -331,18 +331,6 @@ if uses_debs; then
   echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
   EXCLUDES="--exclude-list=/tmp/openstack/tempest/test-exclude-list.txt"
 
-  # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
-  # vpnaas and dynamic routing projects.
-  $SUDO apt install -y python3-pip
-
-  if [ -d /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin ]; then
-    cp -R /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
-  else
-    git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
-  fi
-  pushd /tmp/openstack/neutron-tempest-plugin
-  $SUDO pip3 install .
-  popd
 else
   # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --include-list-file
   # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
@@ -355,9 +343,22 @@ print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
-    python3 -m virtualenv --system-site-packages run_tempest
-    run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
-    run_tempest/bin/python3 setup.py install
+    python3 -m virtualenv run_tempest
+    /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
+    /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
+
+    # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
+    # vpnaas and dynamic routing projects.
+    if [ -d /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin ]; then
+        cp -R /home/zuul/src/opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+    else
+        git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
+    fi
+    pushd /tmp/openstack/neutron-tempest-plugin
+    /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
+    /tmp/openstack/tempest/run_tempest/bin/pip3 setup.py install
+    popd
+
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
 else
