@@ -26,7 +26,8 @@
           cmd += ' -v 2.2.11'
           system(cmd)
           EOF
-            $GEM_BIN_DIR/bundle install --without system_tests --retry 3
+            $GEM_BIN_DIR/bundle config set --local without system_tests
+            $GEM_BIN_DIR/bundle install --retry 3
             $GEM_BIN_DIR/bundle exec rake lint 2>&1
             if [ -f metadata.json ]; then
               $GEM_BIN_DIR/bundle exec rake metadata_lint 2>&1
