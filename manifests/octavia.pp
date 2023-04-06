@@ -27,6 +27,36 @@ class openstack_integration::octavia (
       require => Package['octavia'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
+
+    if $provider_driver == 'ovn' {
+      ['ovnnb', 'ovnsb'].each |$ovndb| {
+        ["${ovndb}-privkey.pem", "${ovndb}-cert.pem"].each |$ovn_ssl_file| {
+          file { "/etc/octavia/${ovn_ssl_file}":
+            ensure  => present,
+            owner   => 'octavia',
+            mode    => '0600',
+            source  => "/etc/openvswitch/${ovn_ssl_file}",
+            require => [
+              Anchor['octavia::install::end'],
+              Vswitch::Pki::Cert[$ovndb]
+            ],
+            notify  => Anchor['octavia::service::begin'],
+          }
+        }
+      }
+
+      file { '/etc/octavia/switchcacert.pem':
+        ensure  => present,
+        owner   => 'octavia',
+        mode    => '0600',
+        source  => '/var/lib/openvswitch/pki/switchca/cacert.pem',
+        require => [
+          Anchor['octavia::install::end'],
+          Class['vswitch::pki::Cacert'],
+        ],
+        notify  => Anchor['octavia::service::begin'],
+      }
+    }
   }
 
   class { 'octavia::logging':
@@ -129,20 +159,15 @@ class openstack_integration::octavia (
     }
     $enabled_provider_agents = 'ovn'
 
-    include openstack_integration::ovn
     class { 'octavia::provider::ovn':
-      ovn_nb_connection  => $::openstack_integration::ovn::ovn_nb_connection,
-      ovn_nb_private_key => $::openstack_integration::ovn::ovn_nb_db_ssl_key,
-      ovn_nb_certificate => $::openstack_integration::ovn::ovn_nb_db_ssl_cert,
-      ovn_nb_ca_cert     => $::openstack_integration::ovn::ovn_nb_db_ssl_ca_cert,
-      ovn_sb_connection  => $::openstack_integration::ovn::ovn_sb_connection,
-      ovn_sb_private_key => $::openstack_integration::ovn::ovn_sb_db_ssl_key,
-      ovn_sb_certificate => $::openstack_integration::ovn::ovn_sb_db_ssl_cert,
-      ovn_sb_ca_cert     => $::openstack_integration::ovn::ovn_sb_db_ssl_ca_cert,
-    }
-    if $::openstack_integration::config::ssl {
-      File['/etc/openvswitch/ovnnb-privkey.pem'] -> Anchor['octavia::config::end']
-      File['/etc/openvswitch/ovnsb-privkey.pem'] -> Anchor['octavia::config::end']
+      ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
+      ovn_nb_private_key => '/etc/octavia/ovnnb-privkey.pem',
+      ovn_nb_certificate => '/etc/octavia/ovnnb-cert.pem',
+      ovn_nb_ca_cert     => '/etc/octavia/switchcacert.pem',
+      ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+      ovn_sb_private_key => '/etc/octavia/ovnsb-privkey.pem',
+      ovn_sb_certificate => '/etc/octavia/ovnsb-cert.pem',
+      ovn_sb_ca_cert     => '/etc/octavia/switchcacert.pem',
     }
   } else{
     $enabled_provider_drivers = undef
