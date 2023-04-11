@@ -62,6 +62,13 @@ class openstack_integration::neutron (
       persistent => true,
       value      => on,
     }
+
+    if $driver == 'openvswitch' or $driver == 'linuxbridge' {
+      selboolean { 'os_dnsmasq_dac_override':
+        persistent => true,
+        value      => on,
+      }
+    }
   }
 
   openstack_integration::mq_user { 'neutron':
