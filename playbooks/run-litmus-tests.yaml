@@ -23,7 +23,8 @@
           cmd += ' -v 2.2.11'
           system(cmd)
           EOF
-          $GEM_BIN_DIR/bundle install --without system_tests --retry 3
+          $GEM_BIN_DIR/bundle config set --local without system_tests
+          $GEM_BIN_DIR/bundle install --retry 3
           export RSPEC_DEBUG=true
           $GEM_BIN_DIR/bundle exec rake litmus:acceptance:localhost
         chdir: '{{ ansible_user_dir }}/workspace'
