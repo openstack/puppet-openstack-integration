@@ -40,6 +40,7 @@ class openstack_integration::config (
     $db_extra = {
       'ssl_ca' => $::openstack_integration::params::ca_bundle_cert_path,
     }
+    $ovn_proto = 'ssl'
   } else {
     $proto = 'http'
     if $rpc_backend == 'amqp' {
@@ -49,6 +50,7 @@ class openstack_integration::config (
     }
     $messaging_notify_port = '5672'
     $db_extra = {}
+    $ovn_proto = 'tcp'
   }
 
   $rabbit_port = $messaging_notify_port
@@ -76,4 +78,7 @@ class openstack_integration::config (
   $keystone_auth_uri  = "${base_url}:5000"
   $keystone_admin_uri = "${base_url}:5000"
   $tooz_url           = "redis://:a_big_secret@${ip_for_url}:6379?ssl=${::openstack_integration::config::ssl}"
+
+  $ovn_nb_connection = "${ovn_proto}:${ip_for_url}:6641"
+  $ovn_sb_connection = "${ovn_proto}:${ip_for_url}:6642"
 }
