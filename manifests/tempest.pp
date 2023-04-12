@@ -273,6 +273,7 @@ class openstack_integration::tempest (
     debug                              => true,
     use_stderr                         => false,
     log_file                           => 'tempest.log',
+    http_timeout                       => 120,
     tempest_clone_owner                => $facts['identity']['user'],
     git_clone                          => false,
     tempest_clone_path                 => '/tmp/openstack/tempest',
