@@ -261,14 +261,6 @@ class openstack_integration::tempest (
     )
   }
 
-  # Install missed dependency for neutron tests
-  # https://github.com/openstack/neutron/blob/master/test-requirements.txt#L20
-  if $facts['os']['name'] == 'Ubuntu' {
-    package { ['python3-ddt', 'python3-oslotest', 'python3-gabbi']:
-      ensure => present
-    }
-  }
-
   $dashboard_url = $facts['os']['family'] ? {
     'RedHat' => "${::openstack_integration::config::base_url}/dashboard",
     default  => "${::openstack_integration::config::base_url}/horizon"
