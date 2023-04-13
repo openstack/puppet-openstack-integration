@@ -28,12 +28,17 @@ print_header 'Start (install_modules.sh)'
 print_header 'Install r10k'
 
 if [ "${OS_NAME_VERS}" == "centos8" ]; then
-    # faraday-net_http >= 3.0.0 supports only Ruby 2.6.0 but CentOS 8 provides
-    # Ruby 2.5.0
-    $GEM_INSTALL_CMD faraday-net_http -v '< 3.0.0'
-    # Pin a few more packages to avoid updating faraday-net_http
-    $GEM_INSTALL_CMD faraday -v '< 2.0.0'
-    $GEM_INSTALL_CMD r10k -v '< 3.15.0'
+    # faraday-net_http >= 3.0.0 requires Ruby >= 2.6.0
+    # semantic_puppet >= 1.1.0 requires Ruby >= 2.7.0
+    cat <<EOF >/tmp/Gemfile
+source 'http://rubygems.org'
+
+gem 'faraday-net_http', '<3.0.0'
+gem 'faraday', '<2.0.0'
+gem 'semantic_puppet', '<1.1.0'
+gem 'r10k', '<3.15.0'
+EOF
+    $GEM_INSTALL_CMD -g /tmp/Gemfile
 else
     $GEM_INSTALL_CMD r10k
 fi
