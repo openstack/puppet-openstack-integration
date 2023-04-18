@@ -261,17 +261,6 @@ class openstack_integration::nova (
     }
   }
 
-  # Remove this once fix for bug 2011535 is released
-  if $facts['os']['name'] == 'Ubuntu' {
-    user { 'nova':
-      ensure  => present,
-      name    => 'nova',
-      groups  => ['nova', 'kvm', 'libvirt-qemu'],
-      require => Anchor['nova::install::end'],
-      before  => Anchor['nova::service::begin'],
-    }
-  }
-
   Keystone_endpoint <||> -> Service['nova-compute']
   Keystone_service <||> -> Service['nova-compute']
 
