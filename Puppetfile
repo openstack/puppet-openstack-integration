@@ -148,7 +148,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v9.1.2'
+  :ref => 'v9.1.3'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -188,7 +188,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v5.4.0'
+  :ref => 'v6.0.0'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
