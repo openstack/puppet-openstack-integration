@@ -23,7 +23,7 @@
           if [ -f Gemfile ]; then
             ruby <<EOF
           cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
-          cmd += ' -v 2.2.11'
+          cmd += ' -v 2.4.22'
           system(cmd)
           EOF
             $GEM_BIN_DIR/bundle install --without system_tests --retry 3

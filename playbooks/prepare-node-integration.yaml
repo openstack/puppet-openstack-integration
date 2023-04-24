@@ -51,7 +51,7 @@
         cmd: |
           ruby <<EOF
           cmd = 'gem install bundler --no-document --verbose --no-user-install'
-          cmd += ' -v 2.2.11'
+          cmd += ' -v 2.4.22'
           system(cmd)
           EOF
       environment:
