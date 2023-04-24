@@ -148,16 +148,18 @@ class openstack_integration::swift {
   include swift::ringbuilder
   # As of mitaka swift-ring-builder requires devices >= replica count
   # Default replica count is 3
-  ring_object_device { ["${::openstack_integration::config::ip_for_url}:6000/1", "${::openstack_integration::config::ip_for_url}:6000/2", "${::openstack_integration::config::ip_for_url}:6000/3"]:
-    zone   => 1,
-    weight => 1,
-  }
-  ring_container_device { ["${::openstack_integration::config::ip_for_url}:6001/1", "${::openstack_integration::config::ip_for_url}:6001/2", "${::openstack_integration::config::ip_for_url}:6001/3"]:
-    zone   => 1,
-    weight => 1,
-  }
-  ring_account_device { ["${::openstack_integration::config::ip_for_url}:6002/1", "${::openstack_integration::config::ip_for_url}:6002/2", "${::openstack_integration::config::ip_for_url}:6002/3"]:
-    zone   => 1,
-    weight => 1,
+  [1, 2, 3].each |$dev| {
+    ring_object_device { "${::openstack_integration::config::ip_for_url}:6000/${dev}":
+      zone   => 1,
+      weight => 1,
+    }
+    ring_container_device { ["${::openstack_integration::config::ip_for_url}:6001/${dev}"]:
+      zone   => 1,
+      weight => 1,
+    }
+    ring_account_device { ["${::openstack_integration::config::ip_for_url}:6002/${dev}"]:
+      zone   => 1,
+      weight => 1,
+    }
   }
 }
