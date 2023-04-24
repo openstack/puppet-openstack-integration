@@ -250,8 +250,9 @@ class openstack_integration::neutron (
 
   if $facts['os']['family'] == 'Debian' {
     $auth_url = $::openstack_integration::config::keystone_auth_uri
+    $auth_opts = "--os-auth-url ${auth_url} --os-project-name services --os-username neutron --os-identity-api-version 3"
     exec { 'check-neutron-server':
-      command     => "openstack --os-auth-url ${auth_url} --os-project-name services --os-username neutron --os-identity-api-version 3 network list",
+      command     => "openstack ${auth_opts} network list",
       environment => ['OS_PASSWORD=a_big_secret'],
       path        => '/usr/bin:/bin:/usr/sbin:/sbin',
       provider    => shell,
