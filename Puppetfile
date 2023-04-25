@@ -218,3 +218,6 @@ mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
   :ref => 'v8.8.0'
 
+mod 'systemd',
+  :git => 'https://github.com/voxpupuli/puppet-systemd',
+  :ref => 'v4.2.0'
