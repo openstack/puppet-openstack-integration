@@ -172,7 +172,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v9.0.0'
+  :ref => 'v9.0.1'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -184,7 +184,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v8.5.0'
+  :ref => 'v8.6.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
@@ -221,3 +221,4 @@ mod 'redis',
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
   :ref => 'v4.2.0'
+
