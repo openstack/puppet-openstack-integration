@@ -1,8 +1,6 @@
 #!/bin/bash
 
 set -ex
-source /etc/os-release
-export OS_NAME_VERS=${ID}${VERSION_ID}
 GEM_INSTALL_CMD="gem install --no-user-install --minimal-dep --verbose --no-document"
 
 if [ -n "${GEM_HOME}" ]; then
