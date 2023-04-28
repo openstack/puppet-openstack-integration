@@ -147,9 +147,9 @@ defaults:
   data_hash: yaml_data
 hierarchy:
   - name: "OS specific"
-    path: "%{::operatingsystem}.yaml"
+    path: "%{facts.os.name}.yaml"
   - name: "OS family specific"
-    path: "%{::osfamily}.yaml"
+    path: "%{facts.os.family}.yaml"
   - name: "Common"
     path: "common.yaml"
 EOF
