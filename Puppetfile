@@ -172,7 +172,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v9.0.1'
+  :ref => 'v9.0.2'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -200,7 +200,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.5.1'
+  :ref => '9.6.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
