@@ -156,7 +156,7 @@ mod 'apt',
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v8.0.0'
+  :ref => 'v8.0.1'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
@@ -172,11 +172,11 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v9.0.2'
+  :ref => 'v9.0.3'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v12.1.0'
+  :ref => 'v13.0.0'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
