@@ -9,6 +9,7 @@
       jobs:
         - puppet-openstack-lint-ubuntu-jammy
         - puppet-openstack-syntax-7-ubuntu-jammy
+        - puppet-openstack-syntax-8-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-lint-ubuntu-jammy
@@ -26,8 +27,10 @@
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.22-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.22-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-8.0-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.22-centos-9-stream
         - puppet-openstack-libraries-litmus-7.22-ubuntu-jammy

@@ -17,6 +17,16 @@
       puppet: 7
 
 - job:
+    name: puppet-openstack-syntax-8-centos-9-stream
+    parent: puppet-openstack-syntax-base
+    nodeset: centos-9-stream
+    voting: false
+    vars:
+      puppet: 8
+      dnf_modules:
+        ruby: 3.1
+
+- job:
     name: puppet-openstack-libraries-puppet-lint-ubuntu-jammy
     parent: puppet-openstack-integration-base
     run: playbooks/run-libraries-lint-tests.yaml
@@ -49,3 +59,13 @@
     parent: puppet-openstack-libraries-puppet-syntax
     vars:
       puppet: 7
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
+    parent: puppet-openstack-libraries-puppet-syntax
+    nodeset: centos-9-stream
+    voting: false
+    vars:
+      puppet: 8
+      dnf_modules:
+        ruby: 3.1

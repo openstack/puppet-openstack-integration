@@ -7,8 +7,6 @@
     nodeset: centos-9-stream
     vars:
       puppet_gem_version: 7.22.0
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-7.22-ubuntu-jammy
@@ -16,8 +14,16 @@
     nodeset: ubuntu-jammy
     vars:
       puppet_gem_version: 7.22.0
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'
+
+- job:
+    name: puppet-openstack-libraries-puppet-unit-8.0-centos-9-stream
+    parent: puppet-openstack-libraries-puppet-unit-base
+    nodeset: centos-9-stream
+    voting: false
+    vars:
+      puppet_gem_version: 8.0.1
+      dnf_modules:
+        ruby: 3.1
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
@@ -26,5 +32,3 @@
     voting: false
     vars:
       puppet_gem_version: latest
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'

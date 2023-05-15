@@ -17,6 +17,20 @@
           - centos-release-openstack-*
           - centos-release-ceph-*
 
+      - name: Reset dnf modules (CentOS/RHEL)
+        shell:
+          cmd: |-
+            dnf module -y reset {{ item.key }}
+        become: true
+        with_items: "{{ dnf_modules | default({}) | dict2items }}"
+
+      - name: Enable dnf modules (CentOS/RHEL)
+        shell:
+          cmd: |-
+            dnf module -y enable {{ item.key }}:{{ item.value }}
+        become: true
+        with_items: "{{ dnf_modules | default({}) | dict2items }}"
+
       - name: Install Ruby dependencies (CentOS/RHEL)
         dnf:
           name: "{{ item }}"
