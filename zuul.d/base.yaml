@@ -137,8 +137,7 @@
       - ^setup.py$
       - ^tox.ini$
     vars:
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'
+      rspec_puppet_version: 'latest'
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-base
@@ -164,5 +163,4 @@
       - ^setup.py$
       - ^tox.ini$
     vars:
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'
+      rspec_puppet_version: 'latest'
