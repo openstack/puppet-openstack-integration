@@ -95,6 +95,7 @@ class openstack_integration::nova (
     public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
     internal_url => "${::openstack_integration::config::base_url}:8774/v2.1",
     admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'nova::keystone::authtoken':
@@ -104,6 +105,13 @@ class openstack_integration::nova (
     auth_url             => $::openstack_integration::config::keystone_admin_uri,
     www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers    => $::openstack_integration::config::memcached_servers,
+  }
+  class { 'nova::keystone::service_user':
+    send_service_user_token => true,
+    password                => 'a_big_secret',
+    user_domain_name        => 'Default',
+    project_domain_name     => 'Default',
+    auth_url                => $::openstack_integration::config::keystone_admin_uri,
   }
   class { 'nova::logging':
     debug => true,
