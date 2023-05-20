@@ -188,7 +188,7 @@ mod 'stdlib',
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
-  :ref => 'v6.0.0'
+  :ref => 'v6.0.1'
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
@@ -200,7 +200,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '9.6.0'
+  :ref => '10.0.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
