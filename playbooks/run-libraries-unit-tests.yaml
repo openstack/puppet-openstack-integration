@@ -7,8 +7,9 @@
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
             export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
           fi
-          # TODO(tobias-urdin): Remove when we dont pin rspec-puppet
-          export RSPEC_PUPPET_VERSION='{{ rspec_puppet_version }}'
+          if [ "{{ rspec_puppet_version }}" != "latest" ]; then
+            export RSPEC_PUPPET_VERSION='{{ rspec_puppet_version }}'
+          fi
           # NOTE(aschultz): rspec-puppet 2.4+ has strict variables enabled
           # which causes test failures. The problem is that the puppet modules
           # have never worked with strict_variables = true due to backwards
