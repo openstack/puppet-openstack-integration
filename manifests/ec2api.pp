@@ -18,6 +18,7 @@ class openstack_integration::ec2api {
     internal_url => "${::openstack_integration::config::base_url}:8788",
     admin_url    => "${::openstack_integration::config::base_url}:8788",
     password     => 'a_big_secret',
+    roles        => ['admin', 'service'],
   }
   class { 'ec2api::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
@@ -45,12 +46,13 @@ class openstack_integration::ec2api {
       }
       class { 'ec2api': }
       class { 'ec2api::keystone::authtoken':
-        password             => 'a_big_secret',
-        user_domain_name     => 'Default',
-        project_domain_name  => 'Default',
-        auth_url             => $::openstack_integration::config::keystone_admin_uri,
-        www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-        memcached_servers    => $::openstack_integration::config::memcached_servers,
+        password                     => 'a_big_secret',
+        user_domain_name             => 'Default',
+        project_domain_name          => 'Default',
+        auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+        www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+        memcached_servers            => $::openstack_integration::config::memcached_servers,
+        service_token_roles_required => true,
       }
       class { 'ec2api::api':
         my_ip                   => $::openstack_integration::config::host,

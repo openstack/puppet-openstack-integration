@@ -33,19 +33,21 @@ class openstack_integration::watcher {
     }),
   }
   class { 'watcher::keystone::auth':
-    password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:9322",
     admin_url    => "${::openstack_integration::config::base_url}:9322",
     internal_url => "${::openstack_integration::config::base_url}:9322",
+    roles        => ['admin', 'service'],
+    password     => 'a_big_secret',
   }
   class {'watcher::keystone::authtoken':
-    password             => 'a_big_secret',
-    auth_version         => 'v3',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => "${::openstack_integration::config::keystone_admin_uri}/v3",
-    www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    auth_version                 => 'v3',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    www_authenticate_uri         => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'watcher::logging':
     debug => true,

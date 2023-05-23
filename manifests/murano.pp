@@ -65,12 +65,13 @@ class openstack_integration::murano {
     }),
   }
   class { 'murano::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'murano':
     default_transport_url => os_transport_url({
@@ -99,10 +100,11 @@ class openstack_integration::murano {
   class { 'murano::engine': }
 
   class { 'murano::keystone::auth':
-    password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:8082",
     internal_url => "${::openstack_integration::config::base_url}:8082",
     admin_url    => "${::openstack_integration::config::base_url}:8082",
+    roles        => ['admin', 'service'],
+    password     => 'a_big_secret',
   }
   -> murano_application { 'io.murano':
     package_path => "${application_package_path}/io.murano.zip",

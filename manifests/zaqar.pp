@@ -19,11 +19,11 @@ class openstack_integration::zaqar {
     host     => $::openstack_integration::config::host,
   }
   class { 'zaqar::keystone::auth':
-    password     => 'a_big_secret',
-    roles        => ['admin', 'ResellerAdmin'],
     public_url   => "${::openstack_integration::config::base_url}:8888",
     internal_url => "${::openstack_integration::config::base_url}:8888",
     admin_url    => "${::openstack_integration::config::base_url}:8888",
+    roles        => ['admin', 'service'],
+    password     => 'a_big_secret',
   }
   class { 'zaqar::keystone::auth_websocket':
     public_url   => "ws://${::openstack_integration::config::ip_for_url}:8888",
@@ -46,12 +46,13 @@ class openstack_integration::zaqar {
     uri      => 'swift://zaqar:a_big_secret@/services',
   }
   class {'zaqar::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class {'zaqar':
     unreliable       => true,

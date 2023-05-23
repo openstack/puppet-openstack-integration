@@ -35,6 +35,7 @@ class openstack_integration::sahara (
     public_url   => "${::openstack_integration::config::base_url}:8386",
     internal_url => "${::openstack_integration::config::base_url}:8386",
     admin_url    => "${::openstack_integration::config::base_url}:8386",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'sahara::logging':
@@ -64,12 +65,13 @@ class openstack_integration::sahara (
     amqp_sasl_mechanisms  => 'PLAIN',
   }
   class { 'sahara::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'sahara::service::api':
     service_name => 'httpd',

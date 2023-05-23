@@ -43,6 +43,7 @@ class openstack_integration::manila (
     public_url_v2          => "${::openstack_integration::config::base_url}:8786/v2",
     internal_url_v2        => "${::openstack_integration::config::base_url}:8786/v2",
     admin_url_v2           => "${::openstack_integration::config::base_url}:8786/v2",
+    roles                  => ['admin', 'service'],
     password               => 'a_big_secret',
     configure_user_v2      => false,
     configure_user_role_v2 => false,
@@ -82,12 +83,13 @@ class openstack_integration::manila (
     amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'manila::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'manila::api':
     service_name => 'httpd',
