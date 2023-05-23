@@ -61,7 +61,10 @@ class openstack_integration::ironic {
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { 'ironic::keystone::auth_inspector':
-    password => 'a_big_secret',
+    public_url   => "http://${::openstack_integration::config::ip_for_url}:5050",
+    internal_url => "http://${::openstack_integration::config::ip_for_url}:5050",
+    admin_url    => "http://${::openstack_integration::config::ip_for_url}:5050",
+    password     => 'a_big_secret',
   }
   class { 'ironic::client': }
   class { 'ironic::api':
