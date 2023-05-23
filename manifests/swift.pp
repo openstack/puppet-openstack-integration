@@ -93,11 +93,14 @@ class openstack_integration::swift {
 
   # keystone resources
   class { 'swift::keystone::auth':
-    public_url     => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
-    admin_url      => "http://${::openstack_integration::config::ip_for_url}:8080",
-    internal_url   => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
-    password       => 'a_big_secret',
-    operator_roles => ['admin', 'SwiftOperator', 'ResellerAdmin'],
+    public_url      => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
+    admin_url       => "http://${::openstack_integration::config::ip_for_url}:8080",
+    internal_url    => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
+    public_url_s3   => "http://${::openstack_integration::config::ip_for_url}:8080",
+    admin_url_s3    => "http://${::openstack_integration::config::ip_for_url}:8080",
+    internal_url_s3 => "http://${::openstack_integration::config::ip_for_url}:8080",
+    password        => 'a_big_secret',
+    operator_roles  => ['admin', 'SwiftOperator', 'ResellerAdmin'],
   }
 
   # internal client
