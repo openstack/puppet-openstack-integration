@@ -60,6 +60,7 @@ class openstack_integration::ceilometer (
     amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'ceilometer::keystone::auth':
+    roles    => ['admin', 'service'],
     password => 'a_big_secret',
   }
 

@@ -105,12 +105,13 @@ class openstack_integration::nova (
     password     => 'a_big_secret',
   }
   class { 'nova::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'nova::keystone::service_user':
     send_service_user_token => true,
@@ -198,6 +199,12 @@ class openstack_integration::nova (
     class { 'nova::key_manager::barbican':
       auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3",
       barbican_endpoint => "${::openstack_integration::config::base_url}:9311"
+    }
+    class { 'nova::key_manager::barbican::service_user':
+      password            => 'a_big_secret',
+      user_domain_name    => 'Default',
+      project_domain_name => 'Default',
+      auth_url            => $::openstack_integration::config::keystone_admin_uri,
     }
   }
   class { 'nova::compute':

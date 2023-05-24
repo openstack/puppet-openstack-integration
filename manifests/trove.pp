@@ -55,18 +55,20 @@ class openstack_integration::trove {
     host     => $::openstack_integration::config::host,
   }
   class { 'trove::keystone::auth':
-    password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
     internal_url => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
     admin_url    => "${::openstack_integration::config::base_url}:8779/v1.0/%(tenant_id)s",
+    roles        => ['admin', 'service'],
+    password     => 'a_big_secret',
   }
   class { 'trove::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'trove::api::service_credentials':
     password => 'a_big_secret',

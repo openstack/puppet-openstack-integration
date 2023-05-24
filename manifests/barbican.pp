@@ -38,6 +38,7 @@ class openstack_integration::barbican {
     public_url   => "${::openstack_integration::config::base_url}:9311",
     internal_url => "${::openstack_integration::config::base_url}:9311",
     admin_url    => "${::openstack_integration::config::base_url}:9311",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   include barbican::quota
@@ -48,12 +49,13 @@ class openstack_integration::barbican {
     debug => true,
   }
   class { 'barbican::keystone::authtoken':
-    password             => 'a_big_secret',
-    auth_url             => "${::openstack_integration::config::keystone_admin_uri}/v3",
-    www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    auth_url                     => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    www_authenticate_uri         => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'barbican::api':
     default_transport_url       => os_transport_url({

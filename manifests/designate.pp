@@ -57,18 +57,20 @@ class openstack_integration::designate {
   include 'designate::client'
 
   class { 'designate::keystone::auth':
-    password     => 'a_big_secret',
     public_url   => "${::openstack_integration::config::base_url}:9001",
     internal_url => "${::openstack_integration::config::base_url}:9001",
     admin_url    => "${::openstack_integration::config::base_url}:9001",
+    roles        => ['admin', 'service'],
+    password     => 'a_big_secret',
   }
   class { 'designate::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
 
   class { 'designate::api':

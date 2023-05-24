@@ -72,15 +72,17 @@ class openstack_integration::gnocchi (
     public_url   => "${::openstack_integration::config::base_url}:8041",
     internal_url => "${::openstack_integration::config::base_url}:8041",
     admin_url    => "${::openstack_integration::config::base_url}:8041",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'gnocchi::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'gnocchi::api':
     enabled      => true,

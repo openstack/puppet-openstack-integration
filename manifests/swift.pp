@@ -72,9 +72,10 @@ class openstack_integration::swift {
   include swift::proxy::tempurl
   include swift::proxy::ratelimit
   class { 'swift::proxy::authtoken':
-    www_authenticate_uri => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    auth_url             => "${::openstack_integration::config::keystone_admin_uri}/",
-    password             => 'a_big_secret',
+    www_authenticate_uri         => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url                     => "${::openstack_integration::config::keystone_admin_uri}/",
+    password                     => 'a_big_secret',
+    service_token_roles_required => true,
   }
   class { 'swift::proxy::keystone':
     operator_roles => ['member', 'admin', 'SwiftOperator']
@@ -99,6 +100,7 @@ class openstack_integration::swift {
     public_url_s3   => "http://${::openstack_integration::config::ip_for_url}:8080",
     admin_url_s3    => "http://${::openstack_integration::config::ip_for_url}:8080",
     internal_url_s3 => "http://${::openstack_integration::config::ip_for_url}:8080",
+    roles           => ['admin', 'service'],
     password        => 'a_big_secret',
     operator_roles  => ['admin', 'SwiftOperator', 'ResellerAdmin'],
   }

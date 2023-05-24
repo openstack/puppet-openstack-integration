@@ -50,20 +50,23 @@ class openstack_integration::ironic {
     public_url   => "${::openstack_integration::config::base_url}:6385",
     internal_url => "${::openstack_integration::config::base_url}:6385",
     admin_url    => "${::openstack_integration::config::base_url}:6385",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'ironic::api::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'ironic::keystone::auth_inspector':
     public_url   => "http://${::openstack_integration::config::ip_for_url}:5050",
     internal_url => "http://${::openstack_integration::config::ip_for_url}:5050",
     admin_url    => "http://${::openstack_integration::config::ip_for_url}:5050",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'ironic::client': }
@@ -98,12 +101,13 @@ class openstack_integration::ironic {
     host     => $::openstack_integration::config::host,
   }
   class { 'ironic::inspector::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'ironic::pxe': }
   class { 'ironic::inspector::db':

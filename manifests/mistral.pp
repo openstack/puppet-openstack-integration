@@ -15,12 +15,13 @@ class openstack_integration::mistral {
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
   class { 'mistral::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'mistral::logging':
     debug => true,
@@ -50,6 +51,7 @@ class openstack_integration::mistral {
     public_url   => "${::openstack_integration::config::base_url}:8989/v2",
     admin_url    => "${::openstack_integration::config::base_url}:8989/v2",
     internal_url => "${::openstack_integration::config::base_url}:8989/v2",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'mistral::db::mysql':

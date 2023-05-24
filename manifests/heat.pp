@@ -30,12 +30,13 @@ class openstack_integration::heat (
   }
 
   class { 'heat::keystone::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   class { 'heat::trustee':
     password         => 'a_big_secret',
@@ -83,11 +84,12 @@ class openstack_integration::heat (
     host     => $::openstack_integration::config::host,
   }
   class { 'heat::keystone::auth':
-    password                  => 'a_big_secret',
-    configure_delegated_roles => true,
     public_url                => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
     internal_url              => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
     admin_url                 => "${::openstack_integration::config::base_url}:8004/v1/%(tenant_id)s",
+    roles                     => ['admin', 'service'],
+    password                  => 'a_big_secret',
+    configure_delegated_roles => true,
   }
   class { 'heat::keystone::auth_cfn':
     password            => 'a_big_secret',

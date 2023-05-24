@@ -51,6 +51,7 @@ class openstack_integration::cinder (
     public_url_v3   => "${::openstack_integration::config::base_url}:8776/v3",
     internal_url_v3 => "${::openstack_integration::config::base_url}:8776/v3",
     admin_url_v3    => "${::openstack_integration::config::base_url}:8776/v3",
+    roles           => ['admin', 'service'],
     password        => 'a_big_secret',
   }
   class { 'cinder::logging':
@@ -63,6 +64,12 @@ class openstack_integration::cinder (
     class { 'cinder::key_manager::barbican':
       barbican_endpoint => "${::openstack_integration::config::base_url}:9311",
       auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3"
+    }
+    class { 'cinder::key_manager::barbican::service_user':
+      password            => 'a_big_secret',
+      user_domain_name    => 'Default',
+      project_domain_name => 'Default',
+      auth_url            => $::openstack_integration::config::keystone_admin_uri,
     }
   }
   class { 'cinder::db':
@@ -104,6 +111,13 @@ class openstack_integration::cinder (
     www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
+  }
+  class { 'cinder::keystone::service_user':
+    send_service_user_token => true,
+    password                => 'a_big_secret',
+    user_domain_name        => 'Default',
+    project_domain_name     => 'Default',
+    auth_url                => $::openstack_integration::config::keystone_admin_uri,
   }
   class { 'cinder::api':
     default_volume_type => 'BACKEND_1',

@@ -46,15 +46,17 @@ class openstack_integration::glance (
     public_url   => "http://${::openstack_integration::config::ip_for_url}:9292",
     internal_url => "http://${::openstack_integration::config::ip_for_url}:9292",
     admin_url    => "http://${::openstack_integration::config::ip_for_url}:9292",
+    roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
   class { 'glance::api::authtoken':
-    password             => 'a_big_secret',
-    user_domain_name     => 'Default',
-    project_domain_name  => 'Default',
-    auth_url             => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers    => $::openstack_integration::config::memcached_servers,
+    password                     => 'a_big_secret',
+    user_domain_name             => 'Default',
+    project_domain_name          => 'Default',
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    service_token_roles_required => true,
   }
   case $backend {
     'file': {
@@ -143,6 +145,12 @@ class openstack_integration::glance (
     class { 'glance::key_manager::barbican':
       barbican_endpoint => "${::openstack_integration::config::base_url}:9311",
       auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3"
+    }
+    class { 'glance::key_manager::barbican::service_user':
+      password            => 'a_big_secret',
+      user_domain_name    => 'Default',
+      project_domain_name => 'Default',
+      auth_url            => $::openstack_integration::config::keystone_admin_uri,
     }
   }
 }
