@@ -43,11 +43,6 @@
           - zlib-devel
           - rubygem-rexml
 
-      - name: Install yum (CentOS/RHEL)
-        dnf:
-          name: yum
-        become: true
-
       when:
         - ansible_os_family == 'RedHat'
 
@@ -95,12 +90,12 @@
 
     - block:
       - name: Set up puppetlabs repo (CentOS/RHEL)
-        yum:
+        dnf:
           name: "https://yum.puppetlabs.com/puppet{{ puppet }}-release-el-{{ ansible_distribution_major_version }}.noarch.rpm"
         become: true
 
       - name: Install puppetlabs puppet-agent (CentOS/RHEL)
-        yum:
+        dnf:
           name: puppet-agent
         become: true
 
