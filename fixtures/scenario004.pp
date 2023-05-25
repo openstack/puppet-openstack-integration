@@ -63,13 +63,17 @@ class { 'openstack_integration::nova':
 }
 
 class { 'openstack_integration::ceph':
-  deploy_rgw   => true,
-  swift_dropin => true,
+  deploy_rgw    => true,
+  swift_dropin  => true,
+  create_cephfs => true,
 }
 class { 'openstack_integration::horizon':
   octavia_enabled => true
 }
 include openstack_integration::watcher
+class { 'openstack_integration::manila':
+  backend => 'cephfsnative'
+}
 include openstack_integration::octavia
 
 include openstack_integration::provision
@@ -77,11 +81,13 @@ include openstack_integration::provision
 # Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
-  horizon     => true,
-  watcher     => true,
-  bgpvpn      => $bgpvpn_enabled,
-  l2gw        => $l2gw_enabled,
-  l2gw_switch => 'cell08-5930-01::FortyGigE1/0/1|100',
-  dr          => $bgp_dragent_enabled,
-  octavia     => true,
+  horizon        => true,
+  watcher        => true,
+  bgpvpn         => $bgpvpn_enabled,
+  l2gw           => $l2gw_enabled,
+  l2gw_switch    => 'cell08-5930-01::FortyGigE1/0/1|100',
+  dr             => $bgp_dragent_enabled,
+  manila         => true,
+  share_protocol => 'CEPHFS',
+  octavia        => true,
 }

@@ -1,23 +1,27 @@
 # Configure the Ceph services
 #
 # [*deploy_rgw*]
-#   (optional) Setting flag to enable the deployment
-#   of Ceph RadosGW and configure various services
-#   to use Swift provided by RGW as a backend.
+#   (optional) Setting flag to enable the deployment of Ceph RadosGW and
+#   configure various services to use Swift provided by RGW as a backend.
 #   Defaults to false
 #
 # [*swift_dropin*]
-#   (optional) Flag if Ceph RGW will provide swift
-#   services for openstack
+#   (optional) Flag if Ceph RGW will provide swift services for openstack
+#   Defaults to false
 #
 # [*pg_num*]
 #   (optional) Number of PGs per pool.
 #   Defaults to 16.
 #
+# [*create_cephfs*]
+#   (optional) Flag if CephFS will be created.
+#   Defaults to false
+#
 class openstack_integration::ceph (
-  $deploy_rgw = false,
-  $swift_dropin = false,
-  $pg_num       = 16,
+  $deploy_rgw    = false,
+  $swift_dropin  = false,
+  $pg_num        = 16,
+  $create_cephfs = false,
 ) {
 
   include openstack_integration::config
@@ -67,6 +71,7 @@ test -b /dev/ceph_vg/lv_data
     osd_pool_default_min_size    => '1',
     mon_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
     mgr_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
+    mds_key                      => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
     osd_max_object_name_len      => 256,
     osd_max_object_namespace_len => 64,
     client_keys                  => {
@@ -88,6 +93,12 @@ test -b /dev/ceph_vg/lv_data
         'cap_mon' => 'profile rbd',
         'cap_osd' => 'profile rbd pool=cinder, profile rbd pool=nova, profile rbd pool=glance, profile rbd pool=gnocchi',
       },
+      'client.manila'        => {
+        'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
+        'mode'    => '0644',
+        'cap_mgr' => 'allow rw',
+        'cap_mon' => 'allow r',
+      }
     },
     osds                         => {
       'ceph_vg/lv_data' => {},
@@ -108,6 +119,23 @@ test -b /dev/ceph_vg/lv_data
   class { 'ceph::profile::mgr': }
   class { 'ceph::profile::mon': }
   class { 'ceph::profile::osd': }
+
+  if $create_cephfs {
+    ceph::pool { ['cephfs_data', 'cephfs_metadata']:
+      pg_num => $pg_num,
+    }
+    -> ceph::fs { 'cephfs':
+      metadata_pool => 'cephfs_metadata',
+      data_pool     => 'cephfs_data',
+    }
+    ~> exec { 'enable cephfs snapshot':
+      command     => 'ceph fs set cephfs allow_new_snaps true',
+      path        => ['/bin', '/usr/bin'],
+      refreshonly => true,
+      tag         => 'create-cephfs',
+    }
+    class { 'ceph::profile::mds': }
+  }
 
   # Extra Ceph configuration to increase performances
   $ceph_extra_config = {
