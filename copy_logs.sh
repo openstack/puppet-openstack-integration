@@ -311,6 +311,7 @@ if [ `command -v ceph` ]; then
     sudo ceph osd tree > $LOG_DIR/ceph-cmd/ceph-osd-tree.txt
     sudo ceph df > $LOG_DIR/ceph-cmd/ceph-df.txt
     sudo ceph osd pool ls detail > $LOG_DIR/ceph-cmd/ceph-osd-pool-ls.txt
+    sudo ceph fs ls > $LOG_DIR/ceph-cmd/ceph-fs-ls.txt
     sudo ceph-volume lvm list ceph_vg/lv_data > $LOG_DIR/ceph-cmd/ceph-volume-lvm-list.txt
 fi
 
