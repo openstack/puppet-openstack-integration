@@ -10,9 +10,14 @@
 #   (optional) Flag if Ceph RGW will provide swift
 #   services for openstack
 #
+# [*pg_num*]
+#   (optional) Number of PGs per pool.
+#   Defaults to 16.
+#
 class openstack_integration::ceph (
   $deploy_rgw = false,
   $swift_dropin = false,
+  $pg_num       = 16,
 ) {
 
   include openstack_integration::config
@@ -96,7 +101,9 @@ test -b /dev/ceph_vg/lv_data
   }
 
   $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
-  ceph::pool { $ceph_pools: }
+  ceph::pool { $ceph_pools:
+    pg_num => $pg_num,
+  }
 
   class { 'ceph::profile::mgr': }
   class { 'ceph::profile::mon': }
@@ -104,8 +111,7 @@ test -b /dev/ceph_vg/lv_data
 
   # Extra Ceph configuration to increase performances
   $ceph_extra_config = {
-    'global/osd_journal_size'             => { value => '100' },
-
+    'global/osd_journal_size' => { value => '100' },
   }
 
   class { 'ceph::conf':
