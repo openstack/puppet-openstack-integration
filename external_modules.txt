@@ -8,7 +8,7 @@ puppetlabs/puppetlabs-mysql
 puppetlabs/puppetlabs-postgresql
 voxpupuli/puppet-rabbitmq
 puppetlabs/puppetlabs-rsync
-puppetlabs/puppetlabs-stdlib
+puppetlabs/puppetlabs-stdlib,v8.6.0
 puppetlabs/puppetlabs-vcsrepo
 puppetlabs/puppetlabs-xinetd
 saz/puppet-memcached
