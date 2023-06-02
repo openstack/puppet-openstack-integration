@@ -216,9 +216,9 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v8.8.0'
+  :ref => 'v9.0.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v4.2.0'
+  :ref => 'v5.0.0'
 
