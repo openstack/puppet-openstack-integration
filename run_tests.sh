@@ -324,6 +324,7 @@ echo 'barbican_tempest_plugin.tests.scenario.test_volume_encryption.VolumeEncryp
 echo 'barbican_tempest_plugin.tests.scenario.test_image_signing.ImageSigningTest.test_signed_image_upload_and_boot' >> /tmp/openstack/tempest/test-include-list.txt
 
 # Manila
+echo 'manila_tempest_tests.tests.api.test_shares.SharesCephFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 echo 'manila_tempest_tests.tests.api.test_shares.SharesNFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 
 if uses_debs; then

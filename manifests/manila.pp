@@ -91,8 +91,15 @@ class openstack_integration::manila (
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
+
+  $share_protocol = $backend ? {
+    'cephfsnative' => 'CEPHFS',
+    default        => 'NFS'
+  }
+
   class { 'manila::api':
-    service_name => 'httpd',
+    service_name            => 'httpd',
+    enabled_share_protocols => $share_protocol,
   }
   include apache
   class { 'manila::wsgi::apache':
@@ -118,6 +125,12 @@ class openstack_integration::manila (
       manila::backend::lvm { 'lvm':
         lvm_share_export_ips => $::openstack_integration::config::host,
       }
+    }
+    'cephfsnative': {
+      manila::backend::cephfs { 'cephfsnative':
+        cephfs_conf_path => '/etc/ceph/ceph.conf',
+      }
+      Exec<| tag == 'create-cephfs' |> -> Anchor['manila::service::begin']
     }
     default: {
       fail("Unsupported backend (${backend})")

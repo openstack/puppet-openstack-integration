@@ -54,7 +54,7 @@ scenario](#all-in-one).
 | placement  |             |      X      |       X     |       X     |      X      |      X      |      X       |
 | neutron    |             |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
 | cinder     |             |     rbd     |     iscsi   |             |             |    iscsi    |   iscsi      |
-| manila     |             |             |             |             |             |     lvm     |              |
+| manila     |             |             |             |             |   cephfs    |     lvm     |              |
 | ceilometer |             |      X      |       X     |             |             |             |              |
 | aodh       |             |      X      |       X     |             |             |             |              |
 | designate  |             |             |             |     bind    |             |             |              |
@@ -73,6 +73,7 @@ scenario](#all-in-one).
 | mistral    |             |             |             |       X     |             |             |              |
 | barbican   |             |             |       X     |       X     |             |             |              |
 | ceph       |             |      X      |             |             |      X      |             |              |
+| ceph mds   |             |             |             |             |      X      |             |              |
 | ceph rgw   |             |             |             |             |      X      |             |              |
 | vitrage    |             |      X      |             |             |             |             |              |
 | watcher    |             |             |             |             |      X      |             |              |
