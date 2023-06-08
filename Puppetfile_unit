@@ -14,7 +14,7 @@ mod 'sshkeys_core',
 
 mod 'yumrepo_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
-  :ref => 'v1.2.0'
+  :ref => 'v2.0.0'
 
 mod 'mount_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-mount_core',
