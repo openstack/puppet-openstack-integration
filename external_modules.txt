@@ -1,6 +1,6 @@
 voxpupuli/puppet-kmod
 puppetlabs/puppetlabs-apache
-puppetlabs/puppetlabs-apt
+puppetlabs/puppetlabs-apt,v9.0.2
 puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
