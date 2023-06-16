@@ -148,7 +148,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v10.0.0'
+  :ref => 'v10.1.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
@@ -220,5 +220,5 @@ mod 'redis',
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v5.0.0'
+  :ref => 'v5.1.0'
 
