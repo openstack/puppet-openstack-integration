@@ -4,7 +4,7 @@ puppetlabs/puppetlabs-apt,v9.0.2
 puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
-puppetlabs/puppetlabs-mysql
+puppetlabs/puppetlabs-mysql,v14.0.0
 puppetlabs/puppetlabs-postgresql
 voxpupuli/puppet-rabbitmq
 puppetlabs/puppetlabs-rsync
