@@ -164,7 +164,7 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => 'v6.0.0'
+  :ref => 'v6.1.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
