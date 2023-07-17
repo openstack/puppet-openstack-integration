@@ -7,22 +7,6 @@
       puppet: 7
 
 - job:
-    name: puppet-openstack-integration-7-scenario000
-    parent: puppet-openstack-integration-7
-    abstract: true
-    vars:
-      scenario: scenario000
-
-- job:
-    name: puppet-openstack-integration-7-scenario000-tempest-centos-9-stream
-    parent: puppet-openstack-integration-7-scenario000
-    voting: false
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
-
-- job:
     name: puppet-openstack-integration-7-scenario001
     parent: puppet-openstack-integration-7
     abstract: true
