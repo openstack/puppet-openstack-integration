@@ -32,7 +32,6 @@ Description
 OpenStack Infrastructure is deploying four jobs per supported Operating System
 (Ubuntu and CentOS): scenario001, scenario002, scenario003, scenario004, and
 scenario005.
-For CentOS it is also deploying a job(scenario000) with very tiny installation.
 
 The manifest files under the fixtures directory is used to compose the required
 services for each senario. The manifest files under the manifests directory
@@ -44,46 +43,46 @@ the same node.
 One manifest (scenario-aio) is used for people who want to [run a simple All-In-One
 scenario](#all-in-one).
 
-|     -      | scenario000 | scenario001 | scenario002 | scenario003 | scenario004 | scenario005 | scenario-aio |
-|:----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
-| ssl        |     yes     |     yes     |      yes    |      yes    |     yes     |     yes     |     no       |
-| ipv6       |   centos9   |   centos9   |    centos9  |    centos9  |   centos9   |   centos9   |     no       |
-| keystone   |      X      |      X      |       X     |       X     |      X      |      X      |      X       |
-| glance     |             |     rbd     |     swift   |     file    |  swift+rgw  |   cinder    |    file      |
-| nova       |             |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
-| placement  |             |      X      |       X     |       X     |      X      |      X      |      X       |
-| neutron    |             |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
-| cinder     |             |     rbd     |     iscsi   |             |             |    iscsi    |   iscsi      |
-| manila     |             |             |             |             |   cephfs    |     lvm     |              |
-| ceilometer |             |      X      |       X     |             |             |             |              |
-| aodh       |             |      X      |       X     |             |             |             |              |
-| designate  |             |             |             |     bind    |             |             |              |
-| backup     |             |             |    swift    |             |             |             |              |
-| gnocchi    |             |     rbd     |    swift    |             |             |             |              |
-| ec2api     |             |             |       X     |             |             |             |              |
-| heat       |             |      X      |             |       X     |             |             |              |
-| swift      |             |             |       X     |             |             |             |              |
-| sahara     |             |             |             |       X     |             |             |              |
-| trove      |             |             |             |       X     |             |             |              |
-| horizon    |             |             |             |       X     |      X      |      X      |      X       |
-| ironic     |             |             |       X     |             |             |             |              |
-| zaqar      |             |             |       X     |             |             |             |              |
-| murano     |             |             |             |       X     |             |             |              |
-| magnum     |             |             |             |       X     |             |             |              |
-| mistral    |             |             |             |       X     |             |             |              |
-| barbican   |             |             |       X     |       X     |             |             |              |
-| ceph       |             |      X      |             |             |      X      |             |              |
-| ceph mds   |             |             |             |             |      X      |             |              |
-| ceph rgw   |             |             |             |             |      X      |             |              |
-| vitrage    |             |      X      |             |             |             |             |              |
-| watcher    |             |             |             |             |      X      |             |              |
-| bgpvpn-api |             |             |             |             |      X      |             |              |
-| bgp-dr     |             |             |             |             |      X      |             |              |
-| redis      |             |      X      |       X     |       X     |             |             |              |
-| l2gw       |             |             |             |             |      X      |             |              |
-| octavia    |             |             |             |             |      X      |      X      |              |
-| om rpc     |    amqp1    |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
-| om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
+|     -      | scenario001 | scenario002 | scenario003 | scenario004 | scenario005 | scenario-aio |
+|:----------:|:-----------:|:-----------:|:-----------:|:-----------:|:-----------:|:------------:|
+| ssl        |     yes     |      yes    |      yes    |     yes     |     yes     |     no       |
+| ipv6       |   centos9   |    centos9  |    centos9  |   centos9   |   centos9   |     no       |
+| keystone   |      X      |       X     |       X     |      X      |      X      |      X       |
+| glance     |     rbd     |     swift   |     file    |  swift+rgw  |   cinder    |    file      |
+| nova       |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
+| placement  |      X      |       X     |       X     |      X      |      X      |      X       |
+| neutron    |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
+| cinder     |     rbd     |     iscsi   |             |             |    iscsi    |   iscsi      |
+| manila     |             |             |             |   cephfs    |     lvm     |              |
+| ceilometer |      X      |       X     |             |             |             |              |
+| aodh       |      X      |       X     |             |             |             |              |
+| designate  |             |             |     bind    |             |             |              |
+| backup     |             |    swift    |             |             |             |              |
+| gnocchi    |     rbd     |    swift    |             |             |             |              |
+| ec2api     |             |       X     |             |             |             |              |
+| heat       |      X      |             |       X     |             |             |              |
+| swift      |             |       X     |             |             |             |              |
+| sahara     |             |             |       X     |             |             |              |
+| trove      |             |             |       X     |             |             |              |
+| horizon    |             |             |       X     |      X      |      X      |      X       |
+| ironic     |             |       X     |             |             |             |              |
+| zaqar      |             |       X     |             |             |             |              |
+| murano     |             |             |       X     |             |             |              |
+| magnum     |             |             |       X     |             |             |              |
+| mistral    |             |             |       X     |             |             |              |
+| barbican   |             |       X     |       X     |             |             |              |
+| ceph       |      X      |             |             |      X      |             |              |
+| ceph mds   |             |             |             |      X      |             |              |
+| ceph rgw   |             |             |             |      X      |             |              |
+| vitrage    |      X      |             |             |             |             |              |
+| watcher    |             |             |             |      X      |             |              |
+| bgpvpn-api |             |             |             |      X      |             |              |
+| bgp-dr     |             |             |             |      X      |             |              |
+| redis      |      X      |       X     |       X     |             |             |              |
+| l2gw       |             |             |             |      X      |             |              |
+| octavia    |             |             |             |      X      |      X      |              |
+| om rpc     |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
+| om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
