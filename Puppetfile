@@ -160,7 +160,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v5.0.0'
+  :ref => 'v6.0.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -192,7 +192,7 @@ mod 'vcsrepo',
 
 mod 'xinetd',
   :git => 'https://github.com/puppetlabs/puppetlabs-xinetd',
-  :ref => 'v3.3.0'
+  :ref => 'v3.4.1'
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
@@ -220,5 +220,5 @@ mod 'redis',
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v5.1.0'
+  :ref => 'v5.2.0'
 
