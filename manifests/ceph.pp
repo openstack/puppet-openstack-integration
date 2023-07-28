@@ -54,6 +54,19 @@ test -b /dev/ceph_vg/lv_data
     packages => ['ceph', 'ceph-volume']
   }
 
+  $rgw_frontends = $::openstack_integration::config::ssl ? {
+    true    => [
+      'beast',
+      "ssl_endpoint=${::openstack_integration::config::ip_for_url}:8080",
+      "ssl_private_key=/etc/ceph/ssl/private/${facts['networking']['fqdn']}.pem",
+      "ssl_certificate=${::openstack_integration::params::cert_path}"
+    ],
+    default => [
+      'beast',
+      "endpoint=${::openstack_integration::config::ip_for_url}:8080"
+    ]
+  }
+
   class { 'ceph::profile::params':
     fsid                         => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
     manage_repo                  => false, # repo already managed in openstack_integration::repo
@@ -108,7 +121,7 @@ test -b /dev/ceph_vg/lv_data
     # Configure Ceph RadosGW
     # These could be always set in the above call to ceph::profile::params
     frontend_type                => 'beast',
-    rgw_frontends                => "beast endpoint=${::openstack_integration::config::ip_for_url}:8080",
+    rgw_frontends                => join($rgw_frontends, ' '),
     rgw_user                     => 'ceph',
     rgw_keystone_integration     => true,
     rgw_keystone_url             => $::openstack_integration::config::keystone_admin_uri,
@@ -116,10 +129,10 @@ test -b /dev/ceph_vg/lv_data
     rgw_keystone_admin_user      => 'rgwuser',
     rgw_keystone_admin_password  => 'secret',
     rgw_keystone_admin_project   => 'services',
-    rgw_swift_url                => "http://${::openstack_integration::config::ip_for_url}:8080",
-    rgw_swift_public_url         => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
-    rgw_swift_admin_url          => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
-    rgw_swift_internal_url       => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
+    rgw_swift_url                => "${::openstack_integration::config::base_url}:8080",
+    rgw_swift_public_url         => "${::openstack_integration::config::base_url}:8080/swift/v1",
+    rgw_swift_admin_url          => "${::openstack_integration::config::base_url}:8080/swift/v1",
+    rgw_swift_internal_url       => "${::openstack_integration::config::base_url}:8080/swift/v1",
     rbd_default_features         => '15',
   }
 
@@ -159,6 +172,14 @@ test -b /dev/ceph_vg/lv_data
   }
 
   if $deploy_rgw {
+    if $::openstack_integration::config::ssl {
+      openstack_integration::ssl_key { 'ceph':
+        require => Package['ceph'],
+      }
+      Openstack_integration::Ssl_key['ceph'] ~> Service<| tag == 'ceph-radosgw' |>
+      Exec['update-ca-certificates'] ~> Service<| tag == 'ceph-radosgw' |>
+    }
+
     class { 'ceph::profile::rgw': }
     Service<| tag == 'ceph-radosgw' |> -> Service <| tag == 'glance-service' |>
   }
