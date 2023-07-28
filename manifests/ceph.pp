@@ -91,7 +91,7 @@ test -b /dev/ceph_vg/lv_data
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'mode'    => '0644',
         'cap_mon' => 'profile rbd',
-        'cap_osd' => 'profile rbd pool=cinder, profile rbd pool=nova, profile rbd pool=glance, profile rbd pool=gnocchi',
+        'cap_osd' => 'profile rbd pool=cinder, profile rbd pool=nova, profile rbd pool=glance, profile rbd pool=gnocchi, profile rbd pool=backups',
       },
       'client.manila'        => {
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
@@ -111,7 +111,7 @@ test -b /dev/ceph_vg/lv_data
     rbd_default_features         => '15',
   }
 
-  $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi']
+  $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
   ceph::pool { $ceph_pools:
     pg_num => $pg_num,
   }

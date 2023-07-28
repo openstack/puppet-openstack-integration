@@ -11,8 +11,8 @@
 #
 # [*cinder_backup*]
 #   (optional) Set type of cinder backup
-#   Possible values: false, swift
-#   defaults to false.
+#   Possible values: undef, swift, ceph
+#   defaults to undef
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
@@ -21,7 +21,7 @@
 class openstack_integration::cinder (
   $backend             = 'iscsi',
   $volume_encryption   = false,
-  $cinder_backup       = false,
+  $cinder_backup       = undef,
   $notification_topics = $facts['os_service_default'],
 ) {
 
@@ -162,8 +162,7 @@ class openstack_integration::cinder (
         rbd_secret_uuid    => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
         manage_volume_type => true,
       }
-      # make sure ceph pool exists before running Cinder API & Volume
-      Exec['create-cinder'] -> Service['httpd']
+      # make sure ceph pool exists before running Cinder Volume
       Exec['create-cinder'] -> Service['cinder-volume']
     }
     default: {
@@ -174,8 +173,17 @@ class openstack_integration::cinder (
     enabled_backends => ['BACKEND_1'],
   }
 
-  if $cinder_backup == swift {
-    class { 'cinder::backup::swift': }
+  case $cinder_backup {
+    'swift': {
+      class { 'cinder::backup::swift': }
+    }
+    'ceph': {
+      class { 'cinder::backup::ceph':
+        backup_ceph_user => 'openstack',
+      }
+      # make sure ceph pool exists before running Cinder Backup
+      Exec['create-backups'] -> Service['cinder-backup']
+    }
+    default: {}
   }
-
 }
