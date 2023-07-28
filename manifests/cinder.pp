@@ -160,11 +160,7 @@ class openstack_integration::cinder (
   }
 
   if $cinder_backup == swift {
-    class { 'cinder::backup::swift':
-      backup_swift_user_domain    => 'Default',
-      backup_swift_project_domain => 'Default',
-      backup_swift_project        => 'Default',
-    }
+    class { 'cinder::backup::swift': }
   }
 
 }
