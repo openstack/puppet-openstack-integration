@@ -5,10 +5,6 @@
 #   configure various services to use Swift provided by RGW as a backend.
 #   Defaults to false
 #
-# [*swift_dropin*]
-#   (optional) Flag if Ceph RGW will provide swift services for openstack
-#   Defaults to false
-#
 # [*pg_num*]
 #   (optional) Number of PGs per pool.
 #   Defaults to 16.
@@ -19,7 +15,6 @@
 #
 class openstack_integration::ceph (
   $deploy_rgw    = false,
-  $swift_dropin  = false,
   $pg_num        = 16,
   $create_cephfs = false,
 ) {
@@ -75,29 +70,36 @@ test -b /dev/ceph_vg/lv_data
     osd_max_object_name_len      => 256,
     osd_max_object_namespace_len => 64,
     client_keys                  => {
-      'client.admin'         => {
+      'client.admin'           => {
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'mode'    => '0600',
         'cap_mon' => 'allow *',
         'cap_osd' => 'allow *',
         'cap_mds' => 'allow *',
       },
-      'client.bootstrap-osd' => {
+      'client.bootstrap-osd'   => {
         'secret'       => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'keyring_path' => '/var/lib/ceph/bootstrap-osd/ceph.keyring',
         'cap_mon'      => 'allow profile bootstrap-osd',
       },
-      'client.openstack'     => {
+      'client.openstack'       => {
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'mode'    => '0644',
         'cap_mon' => 'profile rbd',
         'cap_osd' => 'profile rbd pool=cinder, profile rbd pool=nova, profile rbd pool=glance, profile rbd pool=gnocchi',
       },
-      'client.manila'        => {
+      'client.manila'          => {
         'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
         'mode'    => '0644',
         'cap_mgr' => 'allow rw',
         'cap_mon' => 'allow r',
+      },
+      'client.radosgw.gateway' => {
+        'user'    => 'ceph',
+        'secret'  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
+        'cap_mon' => 'allow rwx',
+        'cap_osd' => 'allow rwx',
+        'inject'  => true,
       }
     },
     osds                         => {
@@ -108,6 +110,16 @@ test -b /dev/ceph_vg/lv_data
     frontend_type                => 'beast',
     rgw_frontends                => "beast endpoint=${::openstack_integration::config::ip_for_url}:8080",
     rgw_user                     => 'ceph',
+    rgw_keystone_integration     => true,
+    rgw_keystone_url             => $::openstack_integration::config::keystone_admin_uri,
+    rgw_keystone_admin_domain    => 'Default',
+    rgw_keystone_admin_user      => 'rgwuser',
+    rgw_keystone_admin_password  => 'secret',
+    rgw_keystone_admin_project   => 'services',
+    rgw_swift_url                => "http://${::openstack_integration::config::ip_for_url}:8080",
+    rgw_swift_public_url         => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
+    rgw_swift_admin_url          => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
+    rgw_swift_internal_url       => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
     rbd_default_features         => '15',
   }
 
@@ -147,48 +159,7 @@ test -b /dev/ceph_vg/lv_data
   }
 
   if $deploy_rgw {
-
-    ceph::key { 'client.radosgw.gateway':
-      user    => 'ceph',
-      secret  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
-      cap_mon => 'allow rwx',
-      cap_osd => 'allow rwx',
-      inject  => true,
-    }
-
-    # FIXME(Xarses) switch to param when supported in puppet-ceph
-    class { 'ceph::profile::rgw':
-      # swift_dropin = $swift_dropin
-    }
-
-
-    $password    = 'secret'
-    $auth_name   = 'rgwuser'
-    $project     = 'services'
-    $user_domain = 'default'
-
-    #configure rgw to use keystone
-    ceph::rgw::keystone { 'radosgw.gateway':
-      rgw_keystone_url            => $::openstack_integration::config::keystone_admin_uri,
-      rgw_keystone_accepted_roles => ['admin', 'member'],
-      rgw_keystone_admin_domain   => $user_domain,
-      rgw_keystone_admin_project  => $project,
-      rgw_keystone_admin_user     => $auth_name,
-      rgw_keystone_admin_password => $password,
-    }
-
-    if $swift_dropin {
-      class { 'ceph::rgw::keystone::auth':
-        password     => $password,
-        user         => $auth_name,
-        tenant       => $project,
-        roles        => ['admin', 'member'],
-        public_url   => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
-        admin_url    => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
-        internal_url => "http://${::openstack_integration::config::ip_for_url}:8080/swift/v1",
-      }
-      # FIXME(Xarses) remove when supported in puppet-ceph
-      Service<| tag == 'ceph-radosgw' |> -> Service <| tag == 'glance-service' |>
-    }
+    class { 'ceph::profile::rgw': }
+    Service<| tag == 'ceph-radosgw' |> -> Service <| tag == 'glance-service' |>
   }
 }

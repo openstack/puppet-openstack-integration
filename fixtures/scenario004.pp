@@ -64,7 +64,6 @@ class { 'openstack_integration::nova':
 
 class { 'openstack_integration::ceph':
   deploy_rgw    => true,
-  swift_dropin  => true,
   create_cephfs => true,
 }
 class { 'openstack_integration::horizon':
