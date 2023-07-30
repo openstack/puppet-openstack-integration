@@ -78,16 +78,18 @@ include openstack_integration::octavia
 
 include openstack_integration::provision
 
-# Don't test swift, radosgw won't pass the current tests
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
-  horizon        => true,
-  watcher        => true,
-  bgpvpn         => $bgpvpn_enabled,
-  l2gw           => $l2gw_enabled,
-  l2gw_switch    => 'cell08-5930-01::FortyGigE1/0/1|100',
-  dr             => $bgp_dragent_enabled,
-  manila         => true,
-  share_protocol => 'CEPHFS',
-  octavia        => true,
+  horizon             => true,
+  watcher             => true,
+  bgpvpn              => $bgpvpn_enabled,
+  l2gw                => $l2gw_enabled,
+  l2gw_switch         => 'cell08-5930-01::FortyGigE1/0/1|100',
+  dr                  => $bgp_dragent_enabled,
+  manila              => true,
+  share_protocol      => 'CEPHFS',
+  octavia             => true,
+  # RADOS Gateway does not support ResellerAdmin role by default
+  reseller_admin_role => 'admin',
+  swift               => true,
 }

@@ -116,6 +116,10 @@
 #   (optional) Define if Zaqar needs to be tested.
 #   Default to false.
 #
+# [*reseller_admin_role*]
+#   (optional) User role that has reseller admin.
+#   Defaults to ResellerAdmin
+#
 # [*attach_encrypted_volume*]
 #   (optional) Define if Encrypted Volumes need to be tested.
 #   Default to false.
@@ -177,6 +181,7 @@ class openstack_integration::tempest (
   $watcher                 = false,
   $vitrage                 = false,
   $zaqar                   = false,
+  $reseller_admin_role     = 'ResellerAdmin',
   $attach_encrypted_volume = false,
   $configure_images        = true,
   $configure_networks      = true,
@@ -290,6 +295,7 @@ class openstack_integration::tempest (
     project_domain_name                => 'Default',
     auth_version                       => 'v3',
     tempest_roles                      => ['member', 'creator'], # needed to use barbican.
+    reseller_admin_role                => $reseller_admin_role,
     image_name                         => 'cirros',
     image_name_alt                     => 'cirros_alt',
     cinder_available                   => $cinder,
