@@ -212,11 +212,11 @@ mod 'corosync',
 
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
-  :ref => 'v5.0.2'
+  :ref => 'v6.0.0'
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v9.0.0'
+  :ref => 'v9.1.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
