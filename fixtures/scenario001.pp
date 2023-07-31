@@ -73,7 +73,8 @@ class { 'openstack_integration::nova':
   cinder_enabled      => true,
 }
 class { 'openstack_integration::cinder':
-  backend => 'rbd',
+  backend       => 'rbd',
+  cinder_backup => 'ceph',
 }
 include openstack_integration::ceilometer
 class { 'openstack_integration::aodh':
@@ -94,11 +95,12 @@ class { 'openstack_integration::gnocchi':
 }
 
 class { 'openstack_integration::tempest':
-  cinder       => true,
-  gnocchi      => true,
-  ceilometer   => true,
-  aodh         => true,
-  heat         => true,
-  vitrage      => true,
-  image_format => 'raw',
+  cinder        => true,
+  cinder_backup => true,
+  gnocchi       => true,
+  ceilometer    => true,
+  aodh          => true,
+  heat          => true,
+  vitrage       => true,
+  image_format  => 'raw',
 }
