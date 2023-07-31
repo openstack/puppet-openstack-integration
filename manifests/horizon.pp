@@ -64,6 +64,12 @@ class openstack_integration::horizon (
     compress_offline  => false,
   }
 
+  # TODO(tkajinam) Debian/Ubuntu package does not install the policy files
+  #                to /etc/openstack-dashboard
+  if $facts['os']['family'] == 'RedHat' {
+    include horizon::policy
+  }
+
   if $heat_enabled {
     class { 'horizon::dashboards::heat': }
   }
