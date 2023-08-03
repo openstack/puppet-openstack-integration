@@ -63,7 +63,11 @@ class openstack_integration::keystone (
   class { 'keystone::logging':
     debug => true,
   }
-  include keystone::cache
+  class { 'keystone::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'keystone':
     enabled                    => true,
     service_name               => 'httpd',

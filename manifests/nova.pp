@@ -159,6 +159,11 @@ class openstack_integration::nova (
     service_name               => 'httpd',
     nova_metadata_wsgi_enabled => true,
   }
+  class { 'nova::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'nova::db::sync':
     extra_params    => '--debug',
     db_sync_timeout => 600,

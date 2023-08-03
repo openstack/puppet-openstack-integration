@@ -46,6 +46,11 @@ class openstack_integration::heat (
   class { 'heat::logging':
     debug => true,
   }
+  class { 'heat::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'heat::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
