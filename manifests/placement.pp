@@ -68,7 +68,7 @@ class openstack_integration::placement {
       ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
       ssl_cert  => $::openstack_integration::params::cert_path,
       ssl       => $::openstack_integration::config::ssl,
-      workers   => '2',
+      workers   => 2,
     }
   }
 }

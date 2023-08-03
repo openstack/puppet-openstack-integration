@@ -86,18 +86,25 @@ class openstack_integration::designate {
     ssl_key   => "/etc/designate/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
-    workers   => '2',
+    workers   => 2,
   }
 
   class { 'designate::mdns':
-    listen => "${::openstack_integration::config::ip_for_url}:5354"
+    listen  => "${::openstack_integration::config::ip_for_url}:5354",
+    workers => 2,
   }
 
-  class { 'designate::central': }
+  class { 'designate::central':
+    workers => 2,
+  }
 
-  class { 'designate::producer': }
+  class { 'designate::producer':
+    workers => 2,
+  }
 
-  class { 'designate::worker': }
+  class { 'designate::worker':
+    workers => 2,
+  }
 
   class { 'designate::backend::bind9':
     nameservers      => [$::openstack_integration::config::host],

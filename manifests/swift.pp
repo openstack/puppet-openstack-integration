@@ -49,7 +49,7 @@ class openstack_integration::swift {
   # proxy server
   class { 'swift::proxy':
     proxy_local_net_ip => $::openstack_integration::config::host,
-    workers            => '2',
+    workers            => 2,
     pipeline           => [
   'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
   'listing_formats', 'container_sync', 'bulk', 'tempurl', 'ratelimit',
@@ -136,11 +136,14 @@ class openstack_integration::swift {
 
   # storage servers
   class { 'swift::storage::all':
-    storage_local_net_ip => $::openstack_integration::config::host,
-    mount_check          => false,
-    account_pipeline     => ['healthcheck', 'recon', 'account-server'],
-    container_pipeline   => ['healthcheck', 'recon', 'container-server'],
-    object_pipeline      => ['healthcheck', 'recon', 'object-server'],
+    storage_local_net_ip     => $::openstack_integration::config::host,
+    mount_check              => false,
+    account_pipeline         => ['healthcheck', 'recon', 'account-server'],
+    container_pipeline       => ['healthcheck', 'recon', 'container-server'],
+    object_pipeline          => ['healthcheck', 'recon', 'object-server'],
+    account_server_workers   => 2,
+    container_server_workers => 2,
+    object_server_workers    => 2,
   }
   $swift_components = ['account', 'container', 'object']
   swift::storage::filter::recon { $swift_components : }

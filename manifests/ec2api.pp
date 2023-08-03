@@ -63,11 +63,13 @@ class openstack_integration::ec2api {
         ec2api_use_ssl          => $::openstack_integration::config::ssl,
         ssl_cert_file           => $::openstack_integration::params::cert_path,
         ssl_key_file            => "/etc/ec2api/ssl/private/${facts['networking']['fqdn']}.pem",
+        ec2api_workers          => 2,
       }
       class { 'ec2api::metadata':
         nova_metadata_ip => $::openstack_integration::config::host,
         metadata_listen  => $::openstack_integration::config::host,
         metadata_use_ssl => $::openstack_integration::config::ssl,
+        metadata_workers => 2,
       }
     }
     'Debian': {

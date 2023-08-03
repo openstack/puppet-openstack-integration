@@ -57,6 +57,7 @@ class openstack_integration::horizon (
     ssl_key           => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_ca            => $::openstack_integration::params::ca_bundle_cert_path,
     ssl_verify_client => 'optional',
+    wsgi_processes    => 2,
     keystone_url      => $::openstack_integration::config::keystone_auth_uri,
     log_level         => 'DEBUG',
     # need to disable offline compression due to

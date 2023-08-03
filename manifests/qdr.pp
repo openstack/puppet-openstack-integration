@@ -51,5 +51,6 @@ class openstack_integration::qdr {
     listener_sasl_mech     => 'PLAIN',
     listener_auth_peer     => true,
     extra_addresses        => $extra_addresses,
+    router_worker_threads  => 2,
   }
 }

@@ -98,13 +98,18 @@ class openstack_integration::aodh (
     password => 'a_big_secret',
   }
   class { 'aodh::client': }
-  class { 'aodh::notifier': }
-  class { 'aodh::listener': }
+  class { 'aodh::notifier':
+    workers => 2,
+  }
+  class { 'aodh::listener':
+    workers => 2,
+  }
   class { 'aodh::coordination':
     backend_url => $::openstack_integration::config::tooz_url,
   }
   class { 'aodh::evaluator':
     evaluation_interval => 10,
+    workers             => 2,
   }
   class { 'aodh::expirer': }
 

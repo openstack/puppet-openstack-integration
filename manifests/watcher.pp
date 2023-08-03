@@ -90,10 +90,10 @@ class openstack_integration::watcher {
     workers   => 2,
   }
   class { 'watcher::applier':
-    applier_workers => '2',
+    applier_workers => 2,
   }
   class { 'watcher::decision_engine':
-    decision_engine_workers => '2',
+    decision_engine_workers => 2,
   }
   class { 'watcher::cron::db_purge': }
 

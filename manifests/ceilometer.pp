@@ -81,7 +81,7 @@ class openstack_integration::ceilometer (
       backend_url => $::openstack_integration::config::tooz_url,
     }
     class { 'ceilometer::agent::notification':
-      workers                   => '2',
+      workers                   => 2,
       manage_pipeline           => true,
       pipeline_publishers       => $sample_pipeline_publishers,
       manage_event_pipeline     => true,
