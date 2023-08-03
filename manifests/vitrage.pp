@@ -99,7 +99,6 @@ class openstack_integration::vitrage {
     enabled      => true,
     service_name => 'httpd',
   }
-  include apache
   class { 'vitrage::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

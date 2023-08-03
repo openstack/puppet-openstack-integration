@@ -81,7 +81,6 @@ class openstack_integration::watcher {
     upgrade_db   => true,
     service_name => 'httpd',
   }
-  include apache
   class { 'watcher::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

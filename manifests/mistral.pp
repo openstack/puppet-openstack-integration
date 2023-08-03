@@ -63,7 +63,6 @@ class openstack_integration::mistral {
   class { 'mistral::api':
     service_name => 'httpd',
   }
-  include apache
   class { 'mistral::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

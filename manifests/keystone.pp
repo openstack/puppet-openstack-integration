@@ -93,7 +93,6 @@ class openstack_integration::keystone (
   class { 'keystone::messaging::amqp':
     amqp_sasl_mechanisms => 'PLAIN',
   }
-  include apache
   class { 'keystone::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

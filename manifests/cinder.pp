@@ -124,7 +124,6 @@ class openstack_integration::cinder (
     public_endpoint     => "${::openstack_integration::config::base_url}:8776",
     service_name        => 'httpd',
   }
-  include apache
   class { 'cinder::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

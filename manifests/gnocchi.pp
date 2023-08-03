@@ -88,7 +88,6 @@ class openstack_integration::gnocchi (
     enabled      => true,
     service_name => 'httpd',
   }
-  include apache
   class { 'gnocchi::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

@@ -101,7 +101,6 @@ class openstack_integration::manila (
     service_name            => 'httpd',
     enabled_share_protocols => $share_protocol,
   }
-  include apache
   class { 'manila::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

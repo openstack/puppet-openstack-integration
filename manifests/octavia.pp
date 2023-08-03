@@ -182,7 +182,6 @@ class openstack_integration::octavia (
     sync_db                  => true,
     enabled_provider_drivers => $enabled_provider_drivers,
   }
-  include apache
   class { 'octavia::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

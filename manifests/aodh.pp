@@ -85,7 +85,6 @@ class openstack_integration::aodh (
     service_name => 'httpd',
     sync_db      => true,
   }
-  include apache
   class { 'aodh::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
