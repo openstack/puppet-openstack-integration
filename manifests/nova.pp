@@ -176,21 +176,23 @@ class openstack_integration::nova (
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
-    workers   => '2',
+    workers   => 2,
   }
   class { 'nova::wsgi::apache_metadata':
     bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
-    workers   => '2',
+    workers   => 2,
   }
   class { 'nova::placement':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
   class { 'nova::client': }
-  class { 'nova::conductor': }
+  class { 'nova::conductor':
+    workers => 2,
+  }
   class { 'nova::cron::archive_deleted_rows': }
   if $volume_encryption {
     class { 'nova::key_manager':
@@ -257,7 +259,9 @@ class openstack_integration::nova (
     include openstacklib::iscsid
     Service['iscsid'] -> Service['nova-compute']
   }
-  class { 'nova::scheduler': }
+  class { 'nova::scheduler':
+    workers => 2,
+  }
   class { 'nova::scheduler::filter': }
   class { 'nova::vncproxy':
     host => $::openstack_integration::config::host

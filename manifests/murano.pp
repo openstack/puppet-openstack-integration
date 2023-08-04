@@ -94,10 +94,13 @@ class openstack_integration::murano {
     key_file              => "/etc/murano/ssl/private/${facts['networking']['fqdn']}.pem",
   }
   class { 'murano::api':
-    host => $::openstack_integration::config::host,
+    host    => $::openstack_integration::config::host,
+    workers => 2,
   }
 
-  class { 'murano::engine': }
+  class { 'murano::engine':
+    workers => 2,
+  }
 
   class { 'murano::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:8082",

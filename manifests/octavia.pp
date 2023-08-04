@@ -205,8 +205,11 @@ class openstack_integration::octavia (
   }
 
   class { 'octavia::worker':
+    workers => 2,
   }
   class { 'octavia::health_manager':
+    health_update_threads => 2,
+    stats_update_threads  => 2,
   }
   class { 'octavia::housekeeping':
   }

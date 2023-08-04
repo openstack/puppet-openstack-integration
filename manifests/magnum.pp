@@ -108,7 +108,9 @@ class openstack_integration::magnum (
     ssl_key_file  => $key_file
   }
 
-  class { 'magnum::conductor': }
+  class { 'magnum::conductor':
+    workers => 2,
+  }
   class { 'magnum::client': }
   class { 'magnum::certificates':
     cert_manager_type => $cert_manager_type
