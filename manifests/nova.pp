@@ -170,7 +170,6 @@ class openstack_integration::nova (
   class { 'nova::metadata':
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
   }
-  include apache
   class { 'nova::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",

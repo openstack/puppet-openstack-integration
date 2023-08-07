@@ -62,7 +62,6 @@ class openstack_integration::zaqar {
   class {'zaqar::server':
     service_name => 'httpd',
   }
-  include apache
   class { 'zaqar::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

@@ -79,7 +79,6 @@ class openstack_integration::barbican {
     db_auto_create              => false,
     rabbit_use_ssl              => $::openstack_integration::config::ssl,
   }
-  include apache
   class { 'barbican::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

@@ -107,7 +107,6 @@ class openstack_integration::heat (
   class { 'heat::api':
     service_name => 'httpd',
   }
-  include apache
   class { 'heat::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

@@ -76,7 +76,6 @@ class openstack_integration::sahara (
   class { 'sahara::service::api':
     service_name => 'httpd',
   }
-  include apache
   class { 'sahara::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

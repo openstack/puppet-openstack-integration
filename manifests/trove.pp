@@ -74,7 +74,6 @@ class openstack_integration::trove {
     password => 'a_big_secret',
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
-  include apache
   class { 'trove::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,

@@ -80,7 +80,6 @@ class openstack_integration::designate {
     enable_api_admin => true,
     service_name     => 'httpd',
   }
-  include apache
   class { 'designate::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
     ssl_key   => "/etc/designate/ssl/private/${facts['networking']['fqdn']}.pem",
