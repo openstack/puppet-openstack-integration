@@ -62,12 +62,14 @@ class openstack_integration::config (
     # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
     # different: https://bugs.launchpad.net/swift/+bug/1610064
     $memcached_servers = ["inet6:[${host}]:11211"]
+    $memcache_servers = ["[${host}]:11211"]
     $swift_memcached_servers = ["[${host}]:11211"]
   } else {
     $host = '127.0.0.1'
     $hostname = 'localhost'
     $ip_version = '4'
     $memcached_servers = ["${host}:11211"]
+    $memcache_servers = $memcached_servers
     $swift_memcached_servers = $memcached_servers
   }
 
