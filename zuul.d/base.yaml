@@ -70,6 +70,7 @@
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
@@ -109,6 +110,7 @@
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
@@ -133,6 +135,7 @@
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
@@ -159,6 +162,7 @@
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$

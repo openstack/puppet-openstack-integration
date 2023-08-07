@@ -50,6 +50,7 @@
       - ^LICENSE$
       - ^.gitignore$
       - ^.gitreview$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
