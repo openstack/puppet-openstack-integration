@@ -81,7 +81,9 @@ class { 'openstack_integration::aodh':
   notification_topics => ['notifications', 'vitrage_notifications'],
 }
 include openstack_integration::vitrage
-include openstack_integration::ceph
+class { 'openstack_integration::ceph':
+  ceph_pools => ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
+}
 class { 'openstack_integration::heat':
   notification_topics => ['notifications', 'vitrage_notifications'],
 }
@@ -91,6 +93,7 @@ class { 'openstack_integration::provision':
   image_format => 'raw',
 }
 class { 'openstack_integration::gnocchi':
+  backend            => 'ceph',
   integration_enable => true,
 }
 

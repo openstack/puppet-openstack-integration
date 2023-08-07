@@ -13,10 +13,15 @@
 #   (optional) Flag if CephFS will be created.
 #   Defaults to false
 #
+# [*ceph_pools*]
+#   (optional) Ceph pools
+#   Defaults to ['glance', 'nova']
+#
 class openstack_integration::ceph (
   $deploy_rgw    = false,
   $pg_num        = 16,
   $create_cephfs = false,
+  $ceph_pools    = ['glance', 'nova']
 ) {
 
   include openstack_integration::config
@@ -136,7 +141,6 @@ test -b /dev/ceph_vg/lv_data
     rbd_default_features         => '15',
   }
 
-  $ceph_pools = ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
   ceph::pool { $ceph_pools:
     pg_num => $pg_num,
   }

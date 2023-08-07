@@ -65,6 +65,7 @@ class { 'openstack_integration::nova':
 class { 'openstack_integration::ceph':
   deploy_rgw    => true,
   create_cephfs => true,
+  ceph_pools    => ['glance', 'nova'],
 }
 class { 'openstack_integration::horizon':
   octavia_enabled => true
