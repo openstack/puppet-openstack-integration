@@ -22,6 +22,7 @@
       - ^LICENSE$
       - ^.gitreview$
       - ^.gitignore$
+      - ^.pdkignore$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
