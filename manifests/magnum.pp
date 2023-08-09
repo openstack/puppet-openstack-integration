@@ -20,15 +20,10 @@ class openstack_integration::magnum (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'magnum':
+      notify  => Service['httpd'],
       require => Package['magnum-common'],
     }
-    $key_file = "/etc/magnum/ssl/private/${facts['networking']['fqdn']}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
-    File[$key_file] ~> Service<| tag == 'magnum-service' |>
-    Exec['update-ca-certificates'] ~> Service<| tag == 'magnum-service' |>
-  } else {
-    $key_file = undef
-    $crt_file = undef
+    Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
   class { 'magnum::keystone::auth':
@@ -102,10 +97,15 @@ class openstack_integration::magnum (
   }
 
   class { 'magnum::api':
-    host          => $::openstack_integration::config::host,
-    enabled_ssl   => $::openstack_integration::config::ssl,
-    ssl_cert_file => $crt_file,
-    ssl_key_file  => $key_file
+    host         => $::openstack_integration::config::host,
+    service_name => 'httpd',
+  }
+  class { 'magnum::wsgi::apache':
+    bind_host => $::openstack_integration::config::host,
+    ssl       => $::openstack_integration::config::ssl,
+    ssl_key   => "/etc/magnum/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    workers   => 2,
   }
 
   class { 'magnum::conductor':
