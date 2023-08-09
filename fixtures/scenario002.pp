@@ -26,12 +26,14 @@ case $facts['os']['family'] {
     $cache_backend = 'memcached'
     $django_cache_backend = 'memcached'
     $tooz_backend = 'redis'
+    $neutron_use_httpd = false
   }
   'RedHat': {
     $ipv6 = false
     $cache_backend = 'redis_sentinel'
     $django_cache_backend = 'redis'
     $tooz_backend = 'redis_sentinel'
+    $neutron_use_httpd = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -63,6 +65,7 @@ class { 'openstack_integration::glance':
   image_encryption => true,
 }
 class { 'openstack_integration::neutron':
+  use_httpd         => $neutron_use_httpd,
   baremetal_enabled => true,
   metering_enabled  => true,
 }

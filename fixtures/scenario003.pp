@@ -26,10 +26,12 @@ case $facts['os']['family'] {
     # NOTE(tkajinam): UCA Caracal does not provide trove packages
     # https://bugs.launchpad.net/ubuntu/+source/openstack-trove/+bug/2064838
     $trove_enabled = false
+    $neutron_use_httpd = false
   }
   'RedHat': {
     $ipv6 = true
     $trove_enabled = true
+    $neutron_use_httpd = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -54,7 +56,8 @@ include openstack_integration::keystone
 include openstack_integration::glance
 
 class { 'openstack_integration::neutron':
-  driver => 'ovn',
+  use_httpd => $neutron_use_httpd,
+  driver    => 'ovn',
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':

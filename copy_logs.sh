@@ -368,14 +368,26 @@ sudo ps -eo user,pid,ppid,lwp,%cpu,%mem,size,rss,cmd > $LOG_DIR/ps.txt
 sudo ip -d address > $LOG_DIR/ip_-d_address.txt
 sudo brctl show > $LOG_DIR/brctl_show.txt
 if [ `command -v ovs-vsctl` ]; then
-    sudo ovs-vsctl show > $LOG_DIR/ovs-vsctl_show.txt
-    sudo ovs-vsctl list open_vswitch > $LOG_DIR/ovs-vsctl_list_open_vswitch.txt
+    echo "== ovs-vsctl list open_vswitch ==" > $LOG_DIR/ovs-vsctl.txt
+    sudo ovs-vsctl list open_vswitch >> $LOG_DIR/ovs-vsctl.txt
+    echo "== ovs-vsctl show ==" >> $LOG_DIR/ovs-vsctl.txt
+    sudo ovs-vsctl show >> $LOG_DIR/ovs-vsctl.txt
 fi
 if [ `command -v ovn-nbctl` ]; then
-    sudo ovn-nbctl show > $LOG_DIR/ovn-nbctl_show.txt
+    echo "== ovn-nbctl get-connection ==" > $LOG_DIR/ovn-nbctl.txt
+    sudo ovn-nbctl get-connection >> $LOG_DIR/ovn-nbctl.txt
+    echo "== ovn-nbctl list connection ==" >> $LOG_DIR/ovn-nbctl.txt
+    sudo ovn-nbctl list connection >> $LOG_DIR/ovn-nbctl.txt
+    echo "== ovn-nbctl show ==" >> $LOG_DIR/ovn-nbctl.txt
+    sudo ovn-nbctl show >> $LOG_DIR/ovn-nbctl.txt
 fi
 if [ `command -v ovn-sbctl` ]; then
-    sudo ovn-sbctl show > $LOG_DIR/ovn-sbctl_show.txt
+    echo "== ovn-sbctl get-connection ==" > $LOG_DIR/ovn-sbctl.txt
+    sudo ovn-sbctl get-connection >> $LOG_DIR/ovn-sbctl.txt
+    echo "== ovn-sbctl list connection ==" >> $LOG_DIR/ovn-sbctl.txt
+    sudo ovn-sbctl list connection >> $LOG_DIR/ovn-sbctl.txt
+    echo "== ovn-sbctl show ==" >> $LOG_DIR/ovn-sbctl.txt
+    sudo ovn-sbctl show >> $LOG_DIR/ovn-sbctl.txt
 fi
 sudo netstat -tulpn > $LOG_DIR/netstat.txt
 sudo LC_CTYPE=C SYSTEMD_COLORS=false systemctl status --all --no-pager 2>/dev/null > $LOG_DIR/systemctl.txt

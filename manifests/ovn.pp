@@ -55,13 +55,15 @@ class openstack_integration::ovn(
   }
 
   class { 'ovn::northd':
-    dbs_listen_ip         => $::openstack_integration::config::ip_for_url,
-    ovn_nb_db_ssl_key     => $ovn_nb_db_ssl_key,
-    ovn_nb_db_ssl_cert    => $ovn_nb_db_ssl_cert,
-    ovn_nb_db_ssl_ca_cert => $ovn_nb_db_ssl_ca_cert,
-    ovn_sb_db_ssl_key     => $ovn_sb_db_ssl_key,
-    ovn_sb_db_ssl_cert    => $ovn_sb_db_ssl_cert,
-    ovn_sb_db_ssl_ca_cert => $ovn_sb_db_ssl_ca_cert,
+    dbs_listen_ip              => $::openstack_integration::config::ip_for_url,
+    ovn_nb_db_ssl_key          => $ovn_nb_db_ssl_key,
+    ovn_nb_db_ssl_cert         => $ovn_nb_db_ssl_cert,
+    ovn_nb_db_ssl_ca_cert      => $ovn_nb_db_ssl_ca_cert,
+    ovn_sb_db_ssl_key          => $ovn_sb_db_ssl_key,
+    ovn_sb_db_ssl_cert         => $ovn_sb_db_ssl_cert,
+    ovn_sb_db_ssl_ca_cert      => $ovn_sb_db_ssl_ca_cert,
+    ovn_nb_db_inactivity_probe => 120000,
+    ovn_sb_db_inactivity_probe => 120000,
   }
   class { 'ovn::controller':
     ovn_remote                 => $::openstack_integration::config::ovn_sb_connection,
