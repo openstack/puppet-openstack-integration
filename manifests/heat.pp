@@ -120,6 +120,7 @@ class openstack_integration::heat (
     workers   => 2,
   }
   class { 'heat::engine':
+    num_engine_workers            =>  2,
     auth_encryption_key           => '1234567890AZERTYUIOPMLKJHGFDSQ12',
     heat_metadata_server_url      => "${::openstack_integration::config::base_url}:8000",
     heat_waitcondition_server_url => "${::openstack_integration::config::base_url}:8000/v1/waitcondition",
