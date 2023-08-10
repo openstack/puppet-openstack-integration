@@ -38,7 +38,6 @@ class openstack_integration::keystone (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  class { 'keystone::client': }
   class { 'keystone::cron::fernet_rotate':
     hour   => '*',
     minute => '*/30',
