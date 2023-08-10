@@ -144,7 +144,7 @@ mod 'zaqar',
 ## External modules
 mod 'kmod',
   :git => 'https://github.com/voxpupuli/puppet-kmod',
-  :ref => 'v3.2.0'
+  :ref => 'v4.0.0'
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
