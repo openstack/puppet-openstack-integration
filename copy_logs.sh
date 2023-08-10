@@ -250,19 +250,12 @@ if [ -d ${apache_logs} ]; then
 fi
 
 # redis logs
-if uses_debs; then
-    redis_logs=/var/log/redis/redis-server.log
-else
-    redis_logs=/var/log/redis/redis.log
-fi
-if [ -f ${redis_logs} ]; then
-    sudo cp ${redis_logs} $LOG_DIR/redis.log.txt
+if [ -d /var/log/redis ]; then
+    sudo cp -r /var/log/redis $LOG_DIR/
 fi
 
 if [ -d /etc/redis ]; then
-    sudo cp -r /etc/redis $LOG_DIR/etc/redis
-elif [ -f /etc/redis.conf ]; then
-    sudo cp /etc/redis.conf $LOG_DIR/etc/
+    sudo cp -r /etc/redis $LOG_DIR/etc/
 fi
 
 if [ -f /var/log/qdrouterd/qdrouterd.log ]; then
