@@ -192,7 +192,6 @@ class openstack_integration::neutron (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
     core_plugin                => 'ml2',
     service_plugins            => $plugins_list,
     bind_host                  => $::openstack_integration::config::host,

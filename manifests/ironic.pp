@@ -30,7 +30,6 @@ class openstack_integration::ironic {
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms  => 'PLAIN',
   }
   class { 'ironic::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,

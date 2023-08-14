@@ -49,7 +49,6 @@ class openstack_integration::vitrage {
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
     snapshots_interval         => 120,
     types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor',
     notification_driver        => 'messagingv2',

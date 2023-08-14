@@ -34,14 +34,4 @@ define openstack_integration::mq_user (
     provider             => 'rabbitmqctl',
     require              => Class['rabbitmq'],
   }
-
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    include openstack_integration::qdr
-
-    qdr_user { $name:
-      password => $password,
-      provider => 'sasl',
-      require  => Class['qdr'],
-    }
-  }
 }

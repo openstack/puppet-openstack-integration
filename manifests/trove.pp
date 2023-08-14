@@ -41,7 +41,6 @@ class openstack_integration::trove {
     }),
     database_connection        => 'mysql+pymysql://trove:trove@127.0.0.1/trove?charset=utf8',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'trove::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
