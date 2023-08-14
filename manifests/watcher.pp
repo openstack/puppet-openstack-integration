@@ -58,7 +58,6 @@ class openstack_integration::watcher {
       'password'  => 'my_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'watcher::api':
     watcher_api_bind_host              => $::openstack_integration::config::host,

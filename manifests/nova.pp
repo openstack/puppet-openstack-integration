@@ -117,7 +117,6 @@ class openstack_integration::nova (
     default_transport_url      => $default_transport_url,
     notification_transport_url => $notification_transport_url,
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
     notification_driver        => 'messagingv2',
     notify_on_state_change     => 'vm_and_task_state',
     notification_topics        => $notification_topics,
