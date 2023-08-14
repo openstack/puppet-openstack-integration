@@ -81,7 +81,7 @@ scenario](#all-in-one).
 | redis      |      X      |       X     |       X     |             |             |              |
 | l2gw       |             |             |             |      X      |             |              |
 | octavia    |             |             |             |      X      |      X      |              |
-| om rpc     |    amqp1    |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
+| om rpc     |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
