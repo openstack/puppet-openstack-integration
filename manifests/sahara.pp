@@ -61,7 +61,6 @@ class openstack_integration::sahara (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms  => 'PLAIN',
   }
   class { 'sahara::keystone::authtoken':
     password             => 'a_big_secret',

@@ -94,7 +94,6 @@ class openstack_integration::cinder (
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'cinder::keystone::authtoken':
     password                     => 'a_big_secret',
