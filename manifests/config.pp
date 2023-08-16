@@ -10,7 +10,6 @@
 #
 # [*rpc_backend*]
 #   (optional) The oslo.messaging backend to configure for rpc.
-#   Possible values include rabbit, amqp
 #   Defaults to 'rabbit'.
 #
 # [*notify_backend*]
@@ -31,11 +30,7 @@ class openstack_integration::config (
 
   if $ssl {
     $proto = 'https'
-    if $rpc_backend == 'amqp' {
-      $messaging_default_port = '31459'
-    } else {
-      $messaging_default_port = '5671'
-    }
+    $messaging_default_port = '5671'
     $messaging_notify_port = '5671'
     $db_extra = {
       'ssl_ca' => $::openstack_integration::params::ca_bundle_cert_path,
@@ -43,11 +38,7 @@ class openstack_integration::config (
     $ovn_proto = 'ssl'
   } else {
     $proto = 'http'
-    if $rpc_backend == 'amqp' {
-      $messaging_default_port = '31459'
-    } else {
-      $messaging_default_port = '5672'
-    }
+    $messaging_default_port = '5672'
     $messaging_notify_port = '5672'
     $db_extra = {}
     $ovn_proto = 'tcp'
