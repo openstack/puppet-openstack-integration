@@ -88,8 +88,7 @@ class { 'openstack_integration::ceilometer':
 }
 include openstack_integration::aodh
 class { 'openstack_integration::gnocchi':
-  integration_enable => true,
-  backend            => 'swift',
+  backend => 'swift',
 }
 
 class { 'openstack_integration::tempest':

@@ -1,17 +1,11 @@
 # Configure the Gnocchi service
 #
 # [*backend*]
-#   (optional) Backend storage to be used. This is overridden by 'file' when
-#   integration_enable is false.
-#   Defaults to 'ceph'.
-#
-# [*integration_enable*]
-#   (optional) Boolean to run integration tests.
-#   Defaults to true.
+#   (optional) Backend storage to be used.
+#   Defaults to 'file'.
 #
 class openstack_integration::gnocchi (
-  $backend            = 'ceph',
-  $integration_enable = true,
+  $backend = 'file',
 ){
 
   include openstack_integration::config
@@ -23,12 +17,6 @@ class openstack_integration::gnocchi (
       require => Package['gnocchi'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
-  }
-
-  if ! $integration_enable  {
-    $backend_real = 'file'
-  } else {
-    $backend_real = $backend
   }
 
   class { 'gnocchi::logging':
@@ -60,7 +48,7 @@ class openstack_integration::gnocchi (
   #                 cycle, caused by multiple usage of httpd. In the mean time
   #                 skip initializing storage for swift, because the current
   #                 implementation only validates connection to swift.
-  $db_sync_extra_opts = $backend_real ? {
+  $db_sync_extra_opts = $backend ? {
     'swift' => '--skip-storage',
     default => undef,
   }
@@ -111,7 +99,7 @@ class openstack_integration::gnocchi (
   }
   class { 'gnocchi::storage': }
 
-  case $backend_real {
+  case $backend {
     'ceph': {
       class { 'gnocchi::storage::ceph':
         ceph_username => 'openstack',

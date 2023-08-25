@@ -84,8 +84,7 @@ class { 'openstack_integration::provision':
   image_format => 'raw',
 }
 class { 'openstack_integration::gnocchi':
-  backend            => 'ceph',
-  integration_enable => true,
+  backend => 'ceph',
 }
 
 class { 'openstack_integration::tempest':
