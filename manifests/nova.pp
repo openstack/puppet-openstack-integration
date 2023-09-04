@@ -192,7 +192,6 @@ class openstack_integration::nova (
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
-  class { 'nova::client': }
   class { 'nova::conductor':
     workers => 2,
   }
