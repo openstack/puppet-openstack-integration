@@ -238,7 +238,6 @@ class openstack_integration::neutron (
     global_physnet_mtu         => $global_physnet_mtu,
     dhcp_agent_notification    => $dhcp_agent_notification,
   }
-  class { 'neutron::client': }
   class { 'neutron::keystone::authtoken':
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
