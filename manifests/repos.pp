@@ -61,8 +61,6 @@ class openstack_integration::repos {
       $ceph_mirror = $ceph_mirror_fallback
     }
     'RedHat': {
-      $powertools_repo = 'crb'
-
       if $facts['centos_mirror_host'] and $facts['centos_mirror_host'] != '' {
         $centos_mirror = $facts['centos_mirror_host']
       } else {
