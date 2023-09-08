@@ -21,7 +21,7 @@ class openstack_integration::repos {
         'Ubuntu': {
           include apt
           class { 'openstack_extras::repo::debian::ubuntu':
-            release         => 'zed',
+            release         => 'antelope',
             package_require => true,
             uca_location    => pick($facts['uca_mirror_host'], 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }
@@ -29,7 +29,7 @@ class openstack_integration::repos {
         'Debian': {
           include apt
           class { 'openstack_extras::repo::debian::debian':
-            release         => 'zed',
+            release         => 'antelope',
             package_require => true,
           }
         }
