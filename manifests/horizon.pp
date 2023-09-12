@@ -47,19 +47,21 @@ class openstack_integration::horizon (
   }
 
   class { 'horizon':
-    secret_key        => 'big_secret',
-    cache_backend     => 'django.core.cache.backends.memcached.PyMemcacheCache',
-    cache_server_ip   => $::openstack_integration::config::host,
-    allowed_hosts     => $::openstack_integration::config::ip_for_url,
-    listen_ssl        => $::openstack_integration::config::ssl,
-    ssl_redirect      => $::openstack_integration::config::ssl,
-    ssl_cert          => $::openstack_integration::params::cert_path,
-    ssl_key           => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_ca            => $::openstack_integration::params::ca_bundle_cert_path,
-    ssl_verify_client => 'optional',
-    wsgi_processes    => 2,
-    keystone_url      => $::openstack_integration::config::keystone_auth_uri,
-    log_level         => 'DEBUG',
+    secret_key                     => 'big_secret',
+    cache_backend                  => 'django.core.cache.backends.memcached.PyMemcacheCache',
+    cache_server_ip                => $::openstack_integration::config::host,
+    allowed_hosts                  => $::openstack_integration::config::ip_for_url,
+    listen_ssl                     => $::openstack_integration::config::ssl,
+    ssl_redirect                   => $::openstack_integration::config::ssl,
+    ssl_cert                       => $::openstack_integration::params::cert_path,
+    ssl_key                        => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_ca                         => $::openstack_integration::params::ca_bundle_cert_path,
+    ssl_verify_client              => 'optional',
+    enable_secure_proxy_ssl_header => $::openstack_integration::config::ssl,
+    secure_cookies                 => $::openstack_integration::config::ssl,
+    wsgi_processes                 => 2,
+    keystone_url                   => $::openstack_integration::config::keystone_auth_uri,
+    log_level                      => 'DEBUG',
   }
 
   # TODO(tkajinam) Debian/Ubuntu package does not install the policy files
