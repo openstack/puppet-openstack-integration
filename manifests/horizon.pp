@@ -60,9 +60,6 @@ class openstack_integration::horizon (
     wsgi_processes    => 2,
     keystone_url      => $::openstack_integration::config::keystone_auth_uri,
     log_level         => 'DEBUG',
-    # need to disable offline compression due to
-    # https://bugs.launchpad.net/ubuntu/+source/horizon/+bug/1424042
-    compress_offline  => false,
   }
 
   # TODO(tkajinam) Debian/Ubuntu package does not install the policy files
