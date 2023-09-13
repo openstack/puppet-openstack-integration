@@ -27,7 +27,7 @@
       - ^setup.py$
       - ^tox.ini$
     vars:
-      ceph: quincy
+      ceph: reef
 
 - job:
     name: puppet-openstack-litmus-module-base
