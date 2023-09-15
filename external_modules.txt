@@ -2,7 +2,7 @@ voxpupuli/puppet-kmod
 puppetlabs/puppetlabs-apache
 puppetlabs/puppetlabs-apt,v9.0.2
 puppetlabs/puppetlabs-concat
-puppetlabs/puppetlabs-firewall
+puppetlabs/puppetlabs-firewall,v6.0.0
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mysql,v14.0.0
 puppetlabs/puppetlabs-postgresql
