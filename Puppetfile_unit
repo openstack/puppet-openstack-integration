@@ -2,7 +2,7 @@
 
 mod 'augeas_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-augeas_core',
-  :ref => 'v1.3.0'
+  :ref => 'v1.4.0'
 
 mod 'cron_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-cron_core',
