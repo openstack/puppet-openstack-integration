@@ -77,7 +77,7 @@
     roles:
       - zuul: zuul/zuul-jobs
     vars:
-      ceph: quincy
+      ceph: reef
 
 - job:
     name: puppet-openstack-base

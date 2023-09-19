@@ -4,7 +4,7 @@ class openstack_integration::repos {
   if $facts['ceph_version'] and $facts['ceph_version'] != '' {
     $ceph_version_real = $facts['ceph_version']
   } else {
-    $ceph_version_real = 'quincy'
+    $ceph_version_real = 'reef'
   }
 
   if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '22') >= 0 {
