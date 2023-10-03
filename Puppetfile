@@ -144,7 +144,7 @@ mod 'zaqar',
 ## External modules
 mod 'kmod',
   :git => 'https://github.com/voxpupuli/puppet-kmod',
-  :ref => 'v4.0.0'
+  :ref => 'v4.0.1'
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
@@ -184,7 +184,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v9.0.0'
+  :ref => 'v9.4.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
