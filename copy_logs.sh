@@ -326,6 +326,7 @@ fi
 if [ `command -v rpm` ]; then
     rpm -qa |sort > $LOG_DIR/rpm-qa.txt
     sudo $YUM repolist -v > $LOG_DIR/repolist.txt
+    sudo $YUM list installed > $LOG_DIR/installed-packages.txt
     sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
 fi
 if [ `command -v dnf` ]; then
