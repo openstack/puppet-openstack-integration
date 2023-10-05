@@ -179,7 +179,7 @@ class openstack_integration::nova (
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     ssl_cert  => $::openstack_integration::params::cert_path,
     ssl       => $::openstack_integration::config::ssl,
-    workers   => 4,
+    workers   => 2,
   }
   class { 'nova::wsgi::apache_metadata':
     bind_host => $::openstack_integration::config::host,
