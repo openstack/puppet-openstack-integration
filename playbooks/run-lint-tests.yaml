@@ -3,14 +3,10 @@
     - shell:
         cmd: |
           set -e
-          if [ -f Modulefile -o -f metadata.json ]; then
-            if [ -f Modulefile ]; then
-              MODULE=$(awk '/^name/ {print $NF}' Modulefile |tr -d \"\')
-            elif [ -f metadata.json ]; then
-              MODULE=$(python3 -c 'import json;print(json.load(open("metadata.json"))["name"])')
-            fi
+          if [ -f metadata.json ]; then
+            MODULE=$(python3 -c 'import json;print(json.load(open("metadata.json"))["name"])')
             if [ -z "$MODULE" ]; then
-              echo "Module name not defined in Modulefile or metadata.json"
+              echo "Module name not defined in metadata.json"
             else
               mkdir -p "$MODULE"
               rsync -a --exclude="$MODULE" --exclude ".*" . "$MODULE"
