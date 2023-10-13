@@ -14,16 +14,8 @@
 # limitations under the License.
 #
 
-if ($facts['os']['family'] == 'Debian') {
-  include apache::params
-  class { 'apache':
-    mod_packages => merge($::apache::params::mod_packages, {
-      'wsgi' => 'libapache2-mod-wsgi-py3',
-    })
-  }
-}
-
 include openstack_integration
+include openstack_integration::apache
 include openstack_integration::rabbitmq
 include openstack_integration::mysql
 include openstack_integration::keystone
