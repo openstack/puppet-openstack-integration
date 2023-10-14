@@ -53,12 +53,20 @@ else
     fi
 fi
 
+export FACTER_openstack_version=${OPENSTACK_VERSION}
+export FACTER_ceph_mirror_host=${CEPH_MIRROR_HOST}
+export FACTER_ceph_version=${CEPH_VERSION}
+
+COMMON_MIRROR_FACTS="\
+openstack_version=${FACTER_openstack_version}
+ceph_mirror_host=${FACTER_ceph_mirror_host}
+ceph_version=${FACTER_ceph_version}"
+
 if uses_debs; then
+    export FACTER_uca_mirror_host=${NODEPOOL_UCA_MIRROR}
+
     MIRROR_FACTS="\
-openstack_version=${OPENSTACK_VERSION}
-uca_mirror_host=${UCA_MIRROR_HOST}
-ceph_mirror_host=${CEPH_MIRROR_HOST}
-ceph_version=${CEPH_VERSION}"
+uca_mirror_host=${FACTER_uca_mirror_host}"
 else
     curl -o /tmp/delorean.repo "${NODEPOOL_RDO_PROXY}/${DLRN_BASE_URL}"
     sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean.repo
@@ -68,16 +76,18 @@ else
     sed -i -e "s|http://mirror.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
     sed -i -e "s|http://mirror.stream.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
 
+    export FACTER_centos_mirror_host=${CENTOS_MIRROR_HOST}
+    export FACTER_delorean_repo_path=/tmp/delorean.repo
+    export FACTER_delorean_deps_repo_path=/tmp/delorean-deps.repo
+
     MIRROR_FACTS="\
-openstack_version=${OPENSTACK_VERSION}
-centos_mirror_host=${CENTOS_MIRROR_HOST}
-ceph_mirror_host=${CEPH_MIRROR_HOST}
-ceph_version=${CEPH_VERSION}
-delorean_repo_path=/tmp/delorean.repo
-delorean_deps_repo_path=/tmp/delorean-deps.repo"
+centos_mirror_host=${FACTER_centos_mirror_host}
+delorean_repo_path=${FACTER_delorean_repo_path}
+delorean_deps_repo_path=${FACTER_delorean_deps_repo_path}"
 fi
 
 if [ "${WRITE_FACTS}" = true ]; then
     $SUDO mkdir -p /etc/facter/facts.d/
-    echo "$MIRROR_FACTS" | $SUDO tee /etc/facter/facts.d/mirrors.txt
+    echo "$COMMON_MIRROR_FACTS" | $SUDO tee /etc/facter/facts.d/mirrors.txt
+    echo "$MIRROR_FACTS" | $SUDO tee -a /etc/facter/facts.d/mirrors.txt
 fi
