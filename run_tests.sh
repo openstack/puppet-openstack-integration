@@ -42,8 +42,8 @@ else
     fi
 fi
 # Cirros Image directory
-export IMG_DIR=${IMG_DIR:-'/tmp/openstack/image'}
-
+export IMG_DIR=${IMG_DIR:-/tmp/openstack/image}
+export CIRROS_VERSION=${CIRROS_VERSION:-0.6.2}
 
 # if we're running the tests we don't need to write out the facts to facter
 # so we can disable it.
@@ -128,17 +128,17 @@ if [[ ! -e $IMG_DIR ]]; then
     mkdir -p $IMG_DIR
 fi
 
-if [ -f ~/cache/files/cirros-0.5.1-x86_64-disk.img ]; then
+if [ -f ~/cache/files/cirros-${CIRROS_VERSION}-x86_64-disk.img ]; then
     # Create a symlink for tempest.
-    if ! [ -h /tmp/openstack/image/cirros-0.5.1-x86_64-disk.img ] ; then
-        ln -s ~/cache/files/cirros-0.5.1-x86_64-disk.img $IMG_DIR
+    if ! [ -h /tmp/openstack/image/cirros-${CIRROS_VERSION}-x86_64-disk.img ] ; then
+        ln -s ~/cache/files/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR
     fi
 else
-    wget http://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img -P $IMG_DIR
+    wget http://download.cirros-cloud.net/${CIRROS_VERSION}/cirros-${CIRROS_VERSION}-x86_64-disk.img -P $IMG_DIR
 fi
-ln -s $IMG_DIR/cirros-0.5.1-x86_64-disk.img $IMG_DIR/cirros-0.5.1-x86_64-disk-qcow2.img
+ln -s $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-qcow2.img
 # NOTE(tkajinam): Prepare raw format image
-qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-0.5.1-x86_64-disk.img $IMG_DIR/cirros-0.5.1-x86_64-disk-raw.img
+qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-raw.img
 
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)

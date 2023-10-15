@@ -84,7 +84,7 @@ class openstack_integration::provision (
   }
 
   if $glance {
-    $image_path = "/tmp/openstack/image/cirros-0.5.1-x86_64-disk-${image_format}.img"
+    $image_path = "/tmp/openstack/image/cirros-0.6.2-x86_64-disk-${image_format}.img"
 
     glance_image { 'cirros':
       ensure           => present,
