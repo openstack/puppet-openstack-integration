@@ -337,10 +337,6 @@ class openstack_integration::tempest (
     murano_available                   => $murano,
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,
-    # NOTE(tkajinam): The recent openssl doesn't accept SHA1 by default, which
-    #                 is causing ssh with rsa keys to fail.
-    #                 See bug 1962507 for details.
-    ssh_key_type                       => 'ecdsa',
     l2gw_switch                        => $l2gw_switch,
     disable_dashboard_ssl_validation   => true,
     ec2api_tester_roles                => ['member'],
