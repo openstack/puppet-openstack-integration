@@ -70,13 +70,13 @@ class openstack_integration::repos {
       if $facts['delorean_repo_path'] and $facts['delorean_repo_path'] != '' {
         $delorean_repo = $facts['delorean_repo_path']
       } else {
-        $delorean_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/puppet-passed-ci/delorean.repo"
+        $delorean_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-bobcat/puppet-passed-ci/delorean.repo"
       }
 
       if $facts['delorean_deps_repo_path'] and $facts['delorean_deps_repo_path'] != '' {
         $delorean_deps_repo = $facts['delorean_deps_repo_path']
       } else {
-        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/delorean-deps.repo"
+        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-bobcat/delorean-deps.repo"
       }
 
       class { 'openstack_extras::repo::redhat::redhat':

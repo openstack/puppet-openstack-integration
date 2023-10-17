@@ -18,7 +18,7 @@ export OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
 export WRITE_FACTS=${WRITE_FACTS:-true}
-export OPENSTACK_VERSION=${OPENSTACK_VERSION:-master}
+export OPENSTACK_VERSION=${OPENSTACK_VERSION:-bobcat}
 export DLRN_TAG=${DLRN_TAG:-puppet-passed-ci}
 export DLRN_ROOT=${DLRN_ROOT:-${OS_NAME_VERS}-${OPENSTACK_VERSION}}
 export DLRN_BASE=${DLRN_BASE:-${DLRN_ROOT}/${DLRN_TAG}}
