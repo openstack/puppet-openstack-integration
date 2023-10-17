@@ -1,11 +1,6 @@
 class openstack_integration::repos {
 
-  # To make litmus tests work.
-  if $facts['ceph_version'] and $facts['ceph_version'] != '' {
-    $ceph_version_real = $facts['ceph_version']
-  } else {
-    $ceph_version_real = 'reef'
-  }
+  $ceph_version_real = pick($facts['ceph_version'], 'reef')
 
   if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '22') >= 0 {
     # NOTE(tkajinam): Upstream ceph repository does not provide packages for
@@ -38,11 +33,11 @@ class openstack_integration::repos {
         }
       }
 
-      $ceph_mirror_fallback = pick($facts['ceph_mirror_host'], "http://download.ceph.com/debian-${ceph_version_real}/")
+      $ceph_mirror = pick($facts['ceph_mirror_host'], "http://download.ceph.com/debian-${ceph_version_real}/")
       if $enable_ceph_repository {
         # Ceph is both packaged on UCA and official download.ceph.com packages
         # which we mirror. We want to use the official packages or our mirror.
-        if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
+        if $ceph_mirror !~ '^http://download.ceph.com/.*' {
           $ceph_version_cap = capitalize($ceph_version_real)
           apt::pin { 'ceph':
             priority   => 1001,
@@ -58,26 +53,20 @@ class openstack_integration::repos {
 
       $enable_sig  = false
       $enable_epel = false
-      $ceph_mirror = $ceph_mirror_fallback
     }
     'RedHat': {
-      if $facts['centos_mirror_host'] and $facts['centos_mirror_host'] != '' {
-        $centos_mirror = $facts['centos_mirror_host']
-      } else {
-        $centos_mirror = 'http://mirror.stream.centos.org'
-      }
-
-      if $facts['delorean_repo_path'] and $facts['delorean_repo_path'] != '' {
-        $delorean_repo = $facts['delorean_repo_path']
-      } else {
-        $delorean_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/puppet-passed-ci/delorean.repo"
-      }
-
-      if $facts['delorean_deps_repo_path'] and $facts['delorean_deps_repo_path'] != '' {
-        $delorean_deps_repo = $facts['delorean_deps_repo_path']
-      } else {
-        $delorean_deps_repo = "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/delorean-deps.repo"
-      }
+      $centos_mirror = pick(
+        $facts['centos_mirror_host'],
+        'http://mirror.stream.centos.org'
+      )
+      $delorean_repo = pick(
+        $facts['delorean_repo_path'],
+        "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/puppet-passed-ci/delorean.repo"
+      )
+      $delorean_deps_repo = pick(
+        $facts['delorean_deps_repo_path'],
+        "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/delorean-deps.repo"
+      )
 
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
@@ -91,25 +80,16 @@ class openstack_integration::repos {
         update_packages   => true,
       }
 
-      $ceph_mirror_fallback = "${centos_mirror}/SIGs/${facts['os']['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
-
-      if $facts['ceph_mirror_host'] and $facts['ceph_mirror_host'] != '' {
-        $ceph_mirror = $facts['ceph_mirror_host']
-      } else {
-        $ceph_mirror = $ceph_mirror_fallback
-      }
+      $ceph_mirror = pick(
+        $facts['ceph_mirror_host'],
+        "${centos_mirror}/SIGs/${facts['os']['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
+      )
 
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
       # https://wiki.centos.org/SpecialInterestGroup/Storage/
-      if $facts['os']['name'] == 'CentOS' {
-        $enable_sig  = true
-        $enable_epel = false
-      } else {
-        $enable_sig  = false
-        $enable_epel = true
-      }
+      $enable_sig  = true
+      $enable_epel = false
 
-      # PowerTools is required on CentOS8 since Ussuri.
       exec { 'enable-crb':
         command => 'dnf config-manager --enable crb',
         path    => '/usr/bin/',
