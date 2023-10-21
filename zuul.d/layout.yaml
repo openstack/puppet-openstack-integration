@@ -28,20 +28,20 @@
         - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
         - puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.22-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.22-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-unit-8.0-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.26-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.26-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-8.2-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
-        - puppet-openstack-libraries-litmus-7.22-centos-9-stream
-        - puppet-openstack-libraries-litmus-7.22-ubuntu-jammy
+        - puppet-openstack-libraries-litmus-7.26-centos-9-stream
+        - puppet-openstack-libraries-litmus-7.26-ubuntu-jammy
         - puppet-openstack-libraries-litmus-latest-ubuntu-jammy
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-unit-7.22-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.22-ubuntu-jammy
-        - puppet-openstack-libraries-litmus-7.22-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.26-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.26-ubuntu-jammy
+        - puppet-openstack-libraries-litmus-7.26-centos-9-stream
 
 # integration jobs
 - project-template:

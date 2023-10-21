@@ -2,26 +2,26 @@
 # This file contains the puppet unit job configurations
 #
 - job:
-    name: puppet-openstack-unit-7.22-centos-9-stream
+    name: puppet-openstack-unit-7.26-centos-9-stream
     parent: puppet-openstack-unit-base
     nodeset: centos-9-stream
     vars:
-      puppet_gem_version: 7.22.0
+      puppet_gem_version: 7.26.0
 
 - job:
-    name: puppet-openstack-unit-7.22-ubuntu-jammy
+    name: puppet-openstack-unit-7.26-ubuntu-jammy
     parent: puppet-openstack-unit-base
     nodeset: ubuntu-jammy
     vars:
-      puppet_gem_version: 7.22.0
+      puppet_gem_version: 7.26.0
 
 - job:
-    name: puppet-openstack-unit-8.0-centos-9-stream
+    name: puppet-openstack-unit-8.2-centos-9-stream
     parent: puppet-openstack-unit-base
     nodeset: centos-9-stream
     voting: false
     vars:
-      puppet_gem_version: 8.0.1
+      puppet_gem_version: 8.2.0
       dnf_modules:
         ruby: 3.1
 
@@ -37,12 +37,12 @@
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
-        - puppet-openstack-unit-7.22-centos-9-stream
-        - puppet-openstack-unit-7.22-ubuntu-jammy
-        - puppet-openstack-unit-8.0-centos-9-stream
+        - puppet-openstack-unit-7.26-centos-9-stream
+        - puppet-openstack-unit-7.26-ubuntu-jammy
+        - puppet-openstack-unit-8.2-centos-9-stream
         - puppet-openstack-unit-latest-ubuntu-jammy
     gate:
       jobs:
-        - puppet-openstack-unit-7.22-centos-9-stream
-        - puppet-openstack-unit-7.22-ubuntu-jammy
-        - puppet-openstack-unit-8.0-centos-9-stream
+        - puppet-openstack-unit-7.26-centos-9-stream
+        - puppet-openstack-unit-7.26-ubuntu-jammy
+        - puppet-openstack-unit-8.2-centos-9-stream
