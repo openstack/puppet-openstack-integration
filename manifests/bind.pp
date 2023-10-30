@@ -24,9 +24,14 @@ class openstack_integration::bind {
     allow_recursion    => [],
     listen_on_v6       => false,
     additional_options => {
-      'listen-on'     => "port 5322 { ${listen_on}; }",
-      'listen-on-v6'  => "port 5322 { ${listen_on_v6}; }",
-      'auth-nxdomain' => 'no',
+      'listen-on'         => "port 5322 { ${listen_on}; }",
+      'listen-on-v6'      => "port 5322 { ${listen_on_v6}; }",
+      'auth-nxdomain'     => 'no',
+      'allow-new-zones'   => 'yes',
+      # Recommended by Designate docs as a mitigation for potential cache
+      # poisoning attacks:
+      # https://docs.openstack.org/designate/latest/admin/production-guidelines.html#bind9-mitigation
+      'minimal-responses' => 'yes',
     },
     controls           => {
       $bind_host => {
