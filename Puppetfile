@@ -176,7 +176,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v13.0.0'
+  :ref => 'v13.1.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -204,7 +204,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v7.0.0'
+  :ref => 'v7.1.0'
 
 mod 'corosync',
   :git => 'https://github.com/voxpupuli/puppet-corosync',
@@ -220,5 +220,5 @@ mod 'redis',
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v6.0.0'
+  :ref => 'v6.1.0'
 
