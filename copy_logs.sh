@@ -363,6 +363,7 @@ domain list
 project list --long
 user list --long
 role list
+implied role list
 role assignment list
 EOC
 fi
