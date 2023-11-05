@@ -74,8 +74,6 @@ class openstack_integration::keystone (
     using_domain_config        => $using_domain_config,
     public_endpoint            => $::openstack_integration::config::keystone_auth_uri,
     manage_policyrcd           => true,
-    fernet_key_repository      => '/etc/keystone/fernet-keys/',
-    fernet_max_active_keys     => '5',
     token_expiration           => $token_expiration,
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
