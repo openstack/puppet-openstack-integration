@@ -58,8 +58,6 @@ class openstack_integration::provision (
       disk   => '2',
       vcpus  => '1',
     }
-    Keystone_user_role <||>-> Nova_flavor<||>
-    Keystone_endpoint <||>-> Nova_flavor<||>
     Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
   }
 
