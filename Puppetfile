@@ -176,7 +176,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v13.1.1'
+  :ref => 'v13.1.2'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -216,7 +216,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v9.1.0'
+  :ref => 'v9.2.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
