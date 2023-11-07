@@ -41,16 +41,8 @@ class openstack_integration::provision (
       disk   => '2',
       vcpus  => '1',
     }
-    # NOTE(ykarel): "m1.small" flavor is required by murano scenario tests
-    nova_flavor { 'm1.small':
-      ensure => present,
-      id     => '2',
-      ram    => '128',
-      disk   => '2',
-      vcpus  => '1',
-    }
+
     # NOTE(amoralej): "m1.tiny" flavor is required by murano scenario tests
-    # https://review.opendev.org/#/c/480848/ moved jobs from m1.small
     nova_flavor { 'm1.tiny':
       ensure => present,
       id     => '1',
