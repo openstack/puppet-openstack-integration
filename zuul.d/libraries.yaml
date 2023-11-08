@@ -24,11 +24,3 @@
       puppet_gem_version: 8.0.1
       dnf_modules:
         ruby: 3.1
-
-- job:
-    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
-    parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-jammy
-    voting: false
-    vars:
-      puppet_gem_version: latest
