@@ -23,12 +23,3 @@
     vars:
       puppet_gem_version: 7.10.0
       rspec_puppet_version: '= 2.9.0'
-
-- job:
-    name: puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
-    parent: puppet-openstack-libraries-puppet-unit-base
-    nodeset: ubuntu-focal
-    voting: false
-    vars:
-      puppet_gem_version: latest
-      rspec_puppet_version: '= 2.9.0'

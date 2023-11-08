@@ -32,12 +32,10 @@
         - puppet-openstack-libraries-puppet-unit-6.21-ubuntu-focal
         - puppet-openstack-libraries-puppet-unit-7.10-centos-8-stream
         - puppet-openstack-libraries-puppet-unit-7.10-ubuntu-focal
-        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-focal
         - puppet-openstack-libraries-litmus-6.21-ubuntu-focal
         - puppet-openstack-libraries-litmus-7.10-centos-8-stream
         - puppet-openstack-libraries-litmus-7.10-centos-9-stream
         - puppet-openstack-libraries-litmus-7.10-ubuntu-focal
-        - puppet-openstack-libraries-litmus-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-focal
