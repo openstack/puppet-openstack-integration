@@ -19,23 +19,12 @@
       # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
       rspec_puppet_version: '~> 2.10.0'
 
-- job:
-    name: puppet-openstack-unit-latest-ubuntu-jammy
-    parent: puppet-openstack-unit-base
-    nodeset: ubuntu-jammy
-    voting: false
-    vars:
-      puppet_gem_version: latest
-      # NOTE(tkajinam): rspec-puppet >= 2.10.0 is required for Ruby 3 support
-      rspec_puppet_version: '~> 2.10.0'
-
 - project-template:
     name: puppet-openstack-module-unit-jobs
     check:
       jobs:
         - puppet-openstack-unit-7.22-centos-9-stream
         - puppet-openstack-unit-7.22-ubuntu-jammy
-        - puppet-openstack-unit-latest-ubuntu-jammy
     gate:
       jobs:
         - puppet-openstack-unit-7.22-centos-9-stream
