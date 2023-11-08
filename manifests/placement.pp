@@ -54,12 +54,6 @@ class openstack_integration::placement {
     }),
   }
   include placement::db::sync
-  # TODO(tkajinam): Remove this once lp bug 1987984 is fixed.
-  if $facts['os']['name'] == 'Ubuntu' {
-    class { 'placement::policy':
-      purge_config => true
-    }
-  }
   include placement::api
   if ($facts['os']['name'] != 'Debian') {
     class { 'placement::wsgi::apache':
