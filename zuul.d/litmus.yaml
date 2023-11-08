@@ -66,15 +66,6 @@
       ceph: quincy
 
 - job:
-    name: puppet-openstack-litmus-latest-ubuntu-focal
-    parent: puppet-openstack-litmus-module-base
-    nodeset: ubuntu-focal
-    voting: false
-    vars:
-      puppet_gem_version: latest
-      ceph: quincy
-
-- job:
     name: puppet-openstack-libraries-litmus-7.16-centos-9-stream
     parent: puppet-openstack-litmus-libraries-base
     nodeset: centos-9-stream
@@ -97,14 +88,6 @@
     vars:
       puppet_gem_version: 7.16.0
 
-- job:
-    name: puppet-openstack-libraries-litmus-latest-ubuntu-focal
-    parent: puppet-openstack-litmus-libraries-base
-    voting: false
-    nodeset: ubuntu-focal
-    vars:
-      puppet_gem_version: latest
-
 - project-template:
     name: puppet-openstack-litmus-jobs
     check:
@@ -112,7 +95,6 @@
         - puppet-openstack-litmus-6.28-ubuntu-focal
         - puppet-openstack-litmus-7.16-centos-9-stream
         - puppet-openstack-litmus-7.16-ubuntu-focal
-        - puppet-openstack-litmus-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-litmus-7.16-centos-9-stream

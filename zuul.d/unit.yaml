@@ -26,15 +26,6 @@
       puppet_gem_version: 7.16.0
       rspec_puppet_version: '= 2.9.0'
 
-- job:
-    name: puppet-openstack-unit-latest-ubuntu-focal
-    parent: puppet-openstack-unit-base
-    nodeset: ubuntu-focal
-    voting: false
-    vars:
-      puppet_gem_version: latest
-      rspec_puppet_version: '= 2.9.0'
-
 - project-template:
     name: puppet-openstack-module-unit-jobs
     check:
@@ -42,7 +33,6 @@
         - puppet-openstack-unit-7.16-centos-9-stream
         - puppet-openstack-unit-6.28-ubuntu-focal
         - puppet-openstack-unit-7.16-ubuntu-focal
-        - puppet-openstack-unit-latest-ubuntu-focal
     gate:
       jobs:
         - puppet-openstack-unit-7.16-centos-9-stream
