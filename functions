@@ -189,40 +189,21 @@ print_header() {
     fi
 }
 
-install_puppet() {
+install_puppetlabs_repo() {
+    print_header 'Install Puppetlabs repo'
     if uses_debs; then
-        print_header 'Setup (Debian based)'
-        if [ "${MANAGE_REPOS}" == "true" ] ; then
-            PUPPET_CODENAME=$(lsb_release -s -c)
-            DISTRIBUTION_VENDOR=$(lsb_release -s -i)
-            # In Debian, we use the distro packages
-            if [ "${DISTRIBUTION_VENDOR}" = "Ubuntu" ] ; then
-                $SUDO mkdir -p /etc/apt/sources.list.d
-                echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
-                $SUDO apt-key add files/GPG-KEY-puppetlabs
-                $SUDO apt-key add files/GPG-KEY-ceph
-                $SUDO apt-get update
-            fi
-        fi
-        # In Debian, the distro package name is simply "puppet"
-        # and there's no reason to have it in a variable.
-        if [ "${DISTRIBUTION_VENDOR}" = "Debian" ] ; then
-            $SUDO apt-get install -y puppet
-        else
-            $SUDO apt-get install -y ${PUPPET_PKG}
-        fi
+        PUPPET_CODENAME=$(lsb_release -s -c)
+        $SUDO mkdir -p /etc/apt/sources.list.d
+        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+        $SUDO apt-key add files/GPG-KEY-puppetlabs
+        $SUDO apt-key add files/GPG-KEY-ceph
+        $SUDO apt-get update
     elif is_fedora; then
-        print_header 'Setup (RedHat based)'
-        # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
-        if rpm --quiet -q epel-release; then
-            $SUDO $YUM remove -y epel-release
-        fi
         source /etc/os-release
-        if [ "${MANAGE_REPOS}" == "true" ] ; then
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
-            $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
-            $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
+        $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
+        $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
+        $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
+        $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El ${VERSION_ID} - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
@@ -232,7 +213,27 @@ gpgkey=${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppetlabs
 enabled=1
 gpgcheck=1
 EOF"
+    fi
+}
+
+install_puppet() {
+    print_header 'Install Puppet'
+    if uses_debs; then
+        $SUDO apt-get install -y ${PUPPET_PKG}
+
+        DISTRIBUTION_VENDOR=$(lsb_release -s -i)
+        if [ ${DISTRIBUTION_VENDOR} = 'Debian' ]; then
+            if [ "${USE_PUPPETLABS}" != 'true' ] && [ "${PUPPET_PKG}" = 'puppet' ]; then
+                # NOTE(tkajinam): puppet pacakge in Debian is separated to
+                #                 sub packages.
+                $SUDO apt-get install -y \
+                    puppet-module-puppetlabs-augeas-core \
+                    puppet-module-puppetlabs-cron-core \
+                    puppet-module-puppetlabs-mount-core \
+                    puppet-module-puppetlabs-sshkeys-core
+            fi
         fi
+    elif is_fedora; then
         $SUDO $YUM install -y ${PUPPET_PKG}
     fi
 }
