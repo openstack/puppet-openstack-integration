@@ -172,7 +172,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v10.0.1'
+  :ref => 'v10.0.2'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
