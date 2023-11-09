@@ -22,11 +22,27 @@ export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-6}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
+export USE_PUPPETLABS=${USE_PUPPETLABS:-true}
 export ADD_SWAP=${ADD_SWAP:-true}
 export SWAP_SIZE_GB=${SWAP_SIZE_GB:-8}
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
+
+if [ "${USE_PUPPETLABS}" = true ];then
+    export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
+    export PUPPET_BASE_PATH=/etc/puppetlabs/code
+    export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
+else
+    if is_fedora; then
+        export PUPPET_BASE_PATH=/etc/puppet
+    else
+        export PUPPET_BASE_PATH=/etc/puppet/code
+    fi
+    export PUPPET_PKG=${PUPPET_PKG:-puppet}
+fi
+export PUPPETFILE_DIR=${PUPPETFILE_DIR:-${PUPPET_BASE_PATH}/modules}
 export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --summarize --trace --hiera_config ${HIERA_CONFIG} --logdest ${WORKSPACE}/puppet.log"
+
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
@@ -49,10 +65,6 @@ export CIRROS_VERSION=${CIRROS_VERSION:-0.6.2}
 # so we can disable it.
 export WRITE_FACTS=false
 source ${SCRIPT_DIR}/configure_facts.sh
-
-export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
-export PUPPET_BASE_PATH=/etc/puppetlabs/code
-export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
 
 print_header 'Start (run_tests.sh)'
 
@@ -140,8 +152,20 @@ ln -s $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS
 # NOTE(tkajinam): Prepare raw format image
 qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-raw.img
 
+
+if is_fedora; then
+    # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
+    if rpm --quiet -q epel-release; then
+        $SUDO $YUM remove -y epel-release
+    fi
+fi
+
+if [ "${MANAGE_REPOS}" = true ] && [ "${USE_PUPPETLABS}" = true ]; then
+    install_puppetlabs_repo
+fi
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)
+
 if [ "${MANAGE_HIERA}" = true ]; then
   configure_hiera
 fi
