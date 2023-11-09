@@ -213,6 +213,7 @@ if [ "${MANAGE_REPOS}" = true ]; then
         print_header 'Error updating packages'
         exit 1
     fi
+    timestamp_puppet_log
 fi
 
 print_header "Running Puppet Scenario: ${SCENARIO} (1st time)"
