@@ -101,7 +101,12 @@ class openstack_integration::murano {
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
-  -> murano_application { 'io.murano':
-    package_path => "${application_package_path}/io.murano.zip",
+
+  # TODO(tkajinam): murano_application is not idempotent in Ubuntu
+  if $facts['os']['family'] == 'RedHat' {
+    murano_application { 'io.murano':
+      package_path => "${application_package_path}/io.murano.zip",
+    }
+    Keystone_user_role<||> -> Murano_application['io.murano']
   }
 }
