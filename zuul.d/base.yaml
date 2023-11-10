@@ -86,7 +86,6 @@
     nodeset: ubuntu-jammy
     vars:
       puppet: 7
-      use_puppetlabs: false
 
 - job:
     name: puppet-openstack-module-base
