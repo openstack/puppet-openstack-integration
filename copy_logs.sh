@@ -225,7 +225,7 @@ if uses_debs ; then
     done
 elif is_fedora; then
     for f in ovn-northd ovn-controller ; do
-        if [ -f /etc/sysconfig/ovn-northd ]; then
+        if [ -f /etc/sysconfig/$f ]; then
             mkdir -p $LOG_DIR/etc/sysconfig
             sudo cp /etc/sysconfig/$f $LOG_DIR/etc/sysconfig/
         fi
