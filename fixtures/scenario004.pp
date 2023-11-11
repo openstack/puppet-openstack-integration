@@ -28,11 +28,14 @@ if $facts['os']['name'] == 'Ubuntu' {
   $l2gw_enabled        = false
   # FIXME(ykarel) Disable bgp_dragent until Ubuntu python3 stein(with stein packages) jobs are ready
   $bgp_dragent_enabled = false
+  # TODO(tkajinam): Enable this along with the other plugins
+  $vpnaas_enabled      = false
 } else {
   $ipv6                = true
   $bgpvpn_enabled      = true
   $l2gw_enabled        = true
   $bgp_dragent_enabled = true
+  $vpnaas_enabled      = true
 }
 
 include openstack_integration
@@ -53,6 +56,7 @@ class { 'openstack_integration::glance':
   backend => 'swift',
 }
 class { 'openstack_integration::neutron':
+  vpnaas_enabled      => $vpnaas_enabled,
   bgpvpn_enabled      => $bgpvpn_enabled,
   l2gw_enabled        => $l2gw_enabled,
   bgp_dragent_enabled => $bgp_dragent_enabled,
@@ -82,6 +86,7 @@ include openstack_integration::provision
 class { 'openstack_integration::tempest':
   horizon             => true,
   watcher             => true,
+  vpnaas              => $vpnaas_enabled,
   bgpvpn              => $bgpvpn_enabled,
   l2gw                => $l2gw_enabled,
   l2gw_switch         => 'cell08-5930-01::FortyGigE1/0/1|100',

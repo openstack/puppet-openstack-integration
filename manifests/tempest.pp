@@ -108,6 +108,10 @@
 #   (optional) Define if Vitrage needs to be tested.
 #   Default to false.
 #
+# [*vpnaas*]
+#   (optional) Define if Neutron VPNaaS needs to be tested.
+#   Default to false.
+#
 # [*watcher*]
 #   (optional) Define if Watcher needs to be tested.
 #   Default to false.
@@ -180,6 +184,7 @@ class openstack_integration::tempest (
   $trove                   = false,
   $watcher                 = false,
   $vitrage                 = false,
+  $vpnaas                  = false,
   $zaqar                   = false,
   $reseller_admin_role     = 'ResellerAdmin',
   $attach_encrypted_volume = false,
@@ -255,6 +260,10 @@ class openstack_integration::tempest (
       true    => ['bgpvpn'],
       default => [],
     }
+    $neutron_vpnaas_extensions = $vpnaas ? {
+      true    => ['vpnaas'],
+      default => [],
+    }
 
     $neutron_api_extensions_real = sort(
       $neutron_base_extensions +
@@ -262,7 +271,8 @@ class openstack_integration::tempest (
       $neutron_l3_extensions +
       $neutron_metering_extensions +
       $neutron_l2gw_extensions +
-      $neutron_bgpvpn_extensions
+      $neutron_bgpvpn_extensions +
+      $neutron_vpnaas_extensions
     )
   }
 

@@ -9,9 +9,12 @@
 #   (optional) Flag to enable metering agent
 #   Defaults to false.
 #
+# [*vpnaas_enabled*]
+#   (optional) Flag to enable VPNaaS.
+#   Defaults to false.
+#
 # [*bgpvpn_enabled*]
-#   (optional) Flag to enable BGPVPN
-#   API extensions.
+#   (optional) Flag to enable BGPVPN API extensions.
 #   Defaults to false.
 #
 # [*l2gw_enabled*]
@@ -33,6 +36,7 @@
 class openstack_integration::neutron (
   $driver              = 'openvswitch',
   $metering_enabled    = false,
+  $vpnaas_enabled      = false,
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
   $bgp_dragent_enabled = false,
@@ -147,10 +151,15 @@ class openstack_integration::neutron (
       true    => 'metering',
       default => undef,
     }
+    $vpaaas_plugin = $vpnaas_enabled ? {
+      true    => 'vpnaas',
+      default => undef,
+    }
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
       default => undef,
     }
+
     if $l2gw_enabled {
       if ($facts['os']['name'] == 'Ubuntu') {
         class { 'neutron::services::l2gw': }
@@ -167,15 +176,22 @@ class openstack_integration::neutron (
       $providers_list = undef
     }
     $l2gw_plugin = $l2gw_enabled ? {
-      true    => 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin',
+      true    => 'l2gw',
       default => undef,
     }
     $bgp_dr_plugin = $bgp_dragent_enabled ? {
-      true    => 'neutron_dynamic_routing.services.bgp.bgp_plugin.BgpPlugin',
+      true    => 'bgp',
       default => undef,
     }
 
-    $plugins_list = delete_undef_values(['router', 'qos', 'trunk', $metering_plugin, $bgpvpn_plugin, $l2gw_plugin, $bgp_dr_plugin])
+    $plugins_list = delete_undef_values([
+      'router', 'qos', 'trunk',
+      $metering_plugin,
+      $vpaaas_plugin,
+      $bgpvpn_plugin,
+      $l2gw_plugin,
+      $bgp_dr_plugin
+    ])
   }
 
   if $driver == 'linuxbridge' {
@@ -377,6 +393,28 @@ class openstack_integration::neutron (
       class { 'neutron::agents::metering':
         interface_driver => $driver,
         debug            => true,
+      }
+    }
+    if $vpnaas_enabled {
+      $vpn_device_driver = $facts['os']['family'] ? {
+        'Debian' => 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver',
+        default  => 'neutron_vpnaas.services.vpn.device_drivers.libreswan_ipsec.LibreSwanDriver'
+      }
+      $service_provider_name = $facts['os']['family'] ? {
+        'Debian' => 'strongswan',
+        default  => 'openswan'
+      }
+
+      class { 'neutron::services::vpnaas':
+        service_providers => join([
+          'VPN',
+          $service_provider_name,
+          'neutron_vpnaas.services.vpn.service_drivers.ipsec.IPsecVPNDriver',
+          'default'
+        ], ':')
+      }
+      class { 'neutron::agents::vpnaas':
+        vpn_device_driver => $vpn_device_driver,
       }
     }
   }
