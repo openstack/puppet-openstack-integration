@@ -352,7 +352,6 @@ echo 'manila_tempest_tests.tests.api.test_shares.SharesCephFSTest.test_create_ge
 echo 'manila_tempest_tests.tests.api.test_shares.SharesNFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 
 if uses_debs; then
-  echo "mistral_tempest_tests.tests.api.v2.test_executions.ExecutionTestsV2.test_get_list_executions" > /tmp/openstack/tempest/test-exclude-list.txt
   echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
   EXCLUDES="--exclude-list=/tmp/openstack/tempest/test-exclude-list.txt"
 
