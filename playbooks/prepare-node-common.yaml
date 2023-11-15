@@ -47,19 +47,6 @@
       when:
         - ansible_os_family == 'RedHat'
 
-    - block:
-      - name: install required packages (CentOS)
-        dnf:
-          name: "{{ item }}"
-          state: present
-        become: true
-        ignore_errors: true
-        with_items:
-          - python3-pip
-      when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution == 'CentOS'
-
     - name: Install Ruby dependencies (Ubuntu)
       apt:
         name: "{{ item }}"
@@ -72,7 +59,6 @@
         - libxslt-dev
         - ruby-dev
         - zlib1g-dev
-        - python3-pip
 
     - name: Install Ruby dependencies (Debian)
       apt:
@@ -87,4 +73,3 @@
         - libxslt1-dev
         - ruby-dev
         - zlib1g-dev
-        - python3-pip
