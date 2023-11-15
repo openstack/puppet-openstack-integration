@@ -153,13 +153,6 @@ ln -s $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS
 qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-raw.img
 
 
-if is_fedora; then
-    # EPEL does not work fine with RDO, we need to make sure EPEL is really disabled
-    if rpm --quiet -q epel-release; then
-        $SUDO $YUM remove -y epel-release
-    fi
-fi
-
 if [ "${MANAGE_REPOS}" = true ] && [ "${USE_PUPPETLABS}" = true ]; then
     install_puppetlabs_repo
 fi

@@ -13,6 +13,7 @@
         become: true
         ignore_errors: true
         with_items:
+          - epel-release
           - rdo-release
           - centos-release-openstack-*
           - centos-release-ceph-*
