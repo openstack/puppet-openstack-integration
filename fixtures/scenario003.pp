@@ -22,27 +22,10 @@ if $facts['os']['name'] == 'Ubuntu' {
 
 case $facts['os']['family'] {
   'Debian': {
-    $ipv6            = false
-    # murano package should be fixed on Ubuntu Xenial
-    $murano_enabled  = false
-    # trove package contains broken Tempest tests
-    $trove_enabled   = false
-
-    # TODO(tobias-urdin): Ubuntu Train packages has not moved out Sahara
-    # plugins to its own packages.
-    if $facts['os']['name'] == 'Ubuntu' {
-      $sahara_integration_enable = false
-    } else {
-      $sahara_integration_enable = true
-    }
+    $ipv6 = false
   }
   'RedHat': {
-    $ipv6                      = true
-    # NOTE(mnaser): We need to figure out why Murano won't accept credentials
-    #               and how to get it to work with Keystone V3.
-    $murano_enabled            = false
-    $trove_enabled             = true
-    $sahara_integration_enable = true
+    $ipv6 = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -73,9 +56,7 @@ include openstack_integration::placement
 class { 'openstack_integration::nova':
   cinder_enabled => true,
 }
-if $trove_enabled {
-  include openstack_integration::trove
-}
+include openstack_integration::trove
 class { 'openstack_integration::horizon':
   heat_enabled => true
 }
@@ -84,9 +65,7 @@ class { 'openstack_integration::sahara':
   integration_enable => $sahara_integration_enable,
 }
 include openstack_integration::designate
-if $murano_enabled {
-  include openstack_integration::murano
-}
+include openstack_integration::murano
 include openstack_integration::mistral
 include openstack_integration::provision
 
@@ -97,11 +76,12 @@ class { 'openstack_integration::magnum':
 
 class { 'openstack_integration::tempest':
   designate      => true,
-  trove          => $trove_enabled,
+  trove          => true,
   mistral        => true,
-  sahara         => $sahara_integration_enable,
+  sahara         => true,
   horizon        => true,
-  murano         => $murano_enabled,
+  # TODO(tkajinam): Some of the murano tests still fail.
+  murano         => false,
   # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
   #                 enabled in this scenario.
   heat           => false,

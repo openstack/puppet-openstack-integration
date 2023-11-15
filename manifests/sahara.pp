@@ -85,6 +85,7 @@ class openstack_integration::sahara (
   class { 'sahara::service::engine': }
   class { 'sahara::client': }
   class { 'sahara::notify': }
+  sahara::plugin { 'vanilla': }
 
   if $integration_enable {
     # create simple sahara templates
