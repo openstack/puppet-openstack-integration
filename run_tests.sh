@@ -28,7 +28,7 @@ export SWAP_SIZE_GB=${SWAP_SIZE_GB:-8}
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 
-if [ "${USE_PUPPETLABS}" = true ];then
+if [ "${USE_PUPPETLABS,,}" = true ];then
     export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
     export PUPPET_BASE_PATH=/etc/puppetlabs/code
     export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
@@ -69,7 +69,7 @@ if [ $(id -u) != 0 ]; then
   export SUDO='sudo -E'
 fi
 
-if [ "${ADD_SWAP}" = true ]; then
+if [ "${ADD_SWAP,,}" = true ]; then
     print_header "Create $SWAP_SIZE_GB GB swapfile"
     set +e
     $SUDO swapon -s |grep -q '/swapfile'
@@ -103,7 +103,7 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # the path.
 
 if [ -d /home/zuul/src/opendev.org ]; then
-    if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+    if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
         if [ -d /home/zuul/src/opendev.org/openstack/tempest ]; then
             [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
@@ -115,7 +115,7 @@ if [ -d /home/zuul/src/opendev.org ]; then
         fi
     fi
 else
-    if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+    if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
         $SUDO rm -rf /tmp/openstack/tempest
         git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
         pushd /tmp/openstack/tempest
@@ -144,13 +144,13 @@ ln -s $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS
 qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-raw.img
 
 
-if [ "${MANAGE_REPOS}" = true ] && [ "${USE_PUPPETLABS}" = true ]; then
+if [ "${MANAGE_REPOS,,}" = true ] && [ "${USE_PUPPETLABS,,}" = true ]; then
     install_puppetlabs_repo
 fi
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)
 
-if [ "${MANAGE_HIERA}" = true ]; then
+if [ "${MANAGE_HIERA,,}" = true ]; then
   configure_hiera
 fi
 
@@ -189,18 +189,18 @@ if [ -f "/usr/sbin/iotop" ]; then
     $SUDO /usr/sbin/iotop --kilobytes --only --batch --time --delay=2 --processes --quiet | $SUDO tee --append /var/log/iotop.log > /dev/null &
 fi
 
-if [ "${MANAGE_PUPPET_MODULES}" = true ]; then
+if [ "${MANAGE_PUPPET_MODULES,,}" = true ]; then
     $SUDO ./install_modules.sh
 fi
 
 # Added tempest specific values to common.yaml
-if [ "${TEMPEST_FROM_SOURCE}" = false ]; then
+if [ "${TEMPEST_FROM_SOURCE,,}" = false ]; then
     echo "tempest::install_from_source: false" >> ${SCRIPT_DIR}/hiera/common.yaml
 fi
 
 # Run puppet and assert something changes.
 set +e
-if [ "${MANAGE_REPOS}" = true ]; then
+if [ "${MANAGE_REPOS,,}" = true ]; then
     print_header 'Install repos'
     $SUDO $PUPPET_FULL_PATH apply $PUPPET_ARGS -e "include openstack_integration::repos"
     RESULT=$?
@@ -351,7 +351,7 @@ fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
-if [ "${TEMPEST_FROM_SOURCE}" = true ]; then
+if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
     python3 -m virtualenv run_tempest
     /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
     /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
