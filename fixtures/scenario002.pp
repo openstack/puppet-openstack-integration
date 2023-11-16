@@ -91,6 +91,10 @@ class { 'openstack_integration::gnocchi':
   backend => 'swift',
 }
 
+class { 'openstack_integration::horizon':
+  ironic_enabled => true
+}
+
 class { 'openstack_integration::tempest':
   aodh                    => true,
   barbican                => true,
@@ -98,6 +102,7 @@ class { 'openstack_integration::tempest':
   cinder                  => true,
   cinder_backup           => true,
   gnocchi                 => true,
+  horizon                 => true,
   swift                   => true,
   ironic                  => true,
   zaqar                   => true,

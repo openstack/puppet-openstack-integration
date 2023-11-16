@@ -8,6 +8,10 @@
 #  (optional) Flag to enable manila dashboard
 #  Defaults to false.
 #
+# [*ironic_enabled*]
+#  (optional) Flag to enable ironic dashboard
+#  Defaults to false.
+#
 # [*octavia_enabled*]
 #  (optional) Flag to enable octavia dashboard
 #  Defaults to false.
@@ -15,6 +19,7 @@
 class openstack_integration::horizon (
   $heat_enabled    = false,
   $manila_enabled  = false,
+  $ironic_enabled  = false,
   $octavia_enabled = false,
 ) {
 
@@ -72,6 +77,9 @@ class openstack_integration::horizon (
 
   if $heat_enabled {
     class { 'horizon::dashboards::heat': }
+  }
+  if $ironic_enabled {
+    class { 'horizon::dashboards::ironic': }
   }
   if $octavia_enabled {
     class { 'horizon::dashboards::octavia': }
