@@ -46,8 +46,17 @@ export PUPPET_ARGS="${PUPPET_ARGS} --detailed-exitcodes --color=false --test --s
 # If openstack/tempest is broken on master, we can pin the repository to a specific commit
 # by using the following line:
 export TEMPEST_VERSION=${TEMPEST_VERSION:-'master'}
-export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
-
+# For installing Tempest from RPM keep TEMPEST_FROM_SOURCE to false
+# In Ubuntu, Tempest packages are not maintained so installing from source
+if is_fedora; then
+    export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+else
+    if [ $(lsb_release --id -s) = "Ubuntu" ]; then
+       export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-true}
+    else
+       export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
+    fi
+fi
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-/tmp/openstack/image}
 export CIRROS_VERSION=${CIRROS_VERSION:-0.6.2}
