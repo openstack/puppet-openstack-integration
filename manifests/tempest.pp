@@ -290,7 +290,6 @@ class openstack_integration::tempest (
     git_clone                          => false,
     tempest_clone_path                 => '/tmp/openstack/tempest',
     lock_path                          => '/tmp/openstack/tempest',
-    tempest_config_file                => '/tmp/openstack/tempest/etc/tempest.conf',
     configure_images                   => $configure_images,
     configure_networks                 => $configure_networks,
     identity_uri_v3                    => "${::openstack_integration::config::keystone_auth_uri}/v3",
