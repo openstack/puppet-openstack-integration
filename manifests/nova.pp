@@ -152,11 +152,10 @@ class openstack_integration::nova (
     notification_topics        => $notification_topics,
   }
   class { 'nova::api':
-    api_bind_address           => $::openstack_integration::config::host,
-    sync_db                    => false,
-    sync_db_api                => false,
-    service_name               => 'httpd',
-    nova_metadata_wsgi_enabled => true,
+    api_bind_address => $::openstack_integration::config::host,
+    sync_db          => false,
+    sync_db_api      => false,
+    service_name     => 'httpd',
   }
   class { 'nova::cache':
     backend          => 'dogpile.cache.pymemcache',
