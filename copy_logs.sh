@@ -151,6 +151,13 @@ if uses_debs; then
     fi
 fi
 
+# bind
+if [ -d /etc/named ]; then
+    sudo cp -r /etc/named $LOG_DIR/etc
+elif [ -d /etc/bind ]; then
+    sudo cp -r /etc/bind $LOG_DIR/etc
+fi
+
 # tempest logs
 if [ -f /tmp/openstack/tempest/tempest.log ] ; then
     sudo cp /tmp/openstack/tempest/tempest.log $LOG_DIR/
