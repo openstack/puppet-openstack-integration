@@ -200,7 +200,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '10.1.0'
+  :ref => '10.2.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
@@ -216,7 +216,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v9.2.0'
+  :ref => 'v9.3.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
