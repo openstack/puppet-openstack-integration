@@ -223,7 +223,7 @@ install_puppet() {
 
         DISTRIBUTION_VENDOR=$(lsb_release -s -i)
         if [ ${DISTRIBUTION_VENDOR} = 'Debian' ]; then
-            if [ "${USE_PUPPETLABS}" != 'true' ] && [ "${PUPPET_PKG}" = 'puppet' ]; then
+            if [ "${USE_PUPPETLABS,,}" != 'true' ] && [ "${PUPPET_PKG}" = 'puppet' ]; then
                 # NOTE(tkajinam): puppet pacakge in Debian is separated to
                 #                 sub packages.
                 $SUDO apt-get install -y \
