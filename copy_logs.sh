@@ -236,9 +236,15 @@ sudo cp /etc/sudoers $LOG_DIR/sudoers.txt
 if uses_debs; then
     apache_conf=/etc/apache2
     apache_logs=/var/log/apache2
+    mkdir $LOG_DIR${apache_conf}
+    for f in apache2.conf ports.conf; do
+        if [ -f ${apache_conf}/${f} ]; then
+            sudo cp ${apache_conf}/${f} $LOG_DIR${apache_conf}/${f}
+        fi
+    done
     for d in conf.d sites-enabled mods-enabled ; do
         if [ -d ${apache_conf}/${d} ]; then
-            mkdir -p $LOG_DIR${apache_conf}/${d}
+            mkdir $LOG_DIR${apache_conf}/${d}
             sudo cp ${apache_conf}/${d}/* $LOG_DIR${apache_conf}/${d}/
         fi
     done
