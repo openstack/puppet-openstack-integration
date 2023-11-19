@@ -132,6 +132,7 @@ class openstack_integration::ironic {
       'username'  => 'ironic',
       'password'  => 'an_even_bigger_secret',
     }),
+    rabbit_use_ssl        => $::openstack_integration::config::ssl,
     dnsmasq_interface     => 'eth0',
   }
 }
