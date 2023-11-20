@@ -105,6 +105,9 @@ class openstack_integration::ironic {
     memcached_servers    => $::openstack_integration::config::memcached_servers,
   }
   class { 'ironic::pxe': }
+  class { 'ironic::inspector::logging':
+    debug => true,
+  }
   class { 'ironic::inspector::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
