@@ -108,6 +108,9 @@ class openstack_integration::ironic {
     service_token_roles_required => true,
   }
   class { 'ironic::pxe': }
+  class { 'ironic::inspector::logging':
+    debug => true,
+  }
   class { 'ironic::inspector::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
