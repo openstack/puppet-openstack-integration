@@ -1,7 +1,12 @@
 # Configure the Designate service
 #
-
-class openstack_integration::designate {
+# [*notification_topics*]
+#   (optional) AMQP topic used for OpenStack notifications
+#   Defaults to $facts['os_service_default'].
+#
+class openstack_integration::designate (
+  $notification_topics = $facts['os_service_default'],
+) {
 
   include openstack_integration::config
   include openstack_integration::params
@@ -30,14 +35,23 @@ class openstack_integration::designate {
     debug => true,
   }
   class { 'designate':
-    default_transport_url => os_transport_url({
+    default_transport_url      => os_transport_url({
       'transport' => 'rabbit',
       'host'      => $::openstack_integration::config::host,
       'port'      => $::openstack_integration::config::rabbit_port,
       'username'  => 'designate',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    notification_transport_url => os_transport_url({
+      'transport' => $::openstack_integration::config::messaging_notify_proto,
+      'host'      => $::openstack_integration::config::host,
+      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'username'  => 'designate',
+      'password'  => 'an_even_bigger_secret',
+    }),
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    notification_topics        => $notification_topics,
+    notification_driver        => 'messagingv2',
   }
   class { 'designate::db':
     database_connection => os_database_connection({
