@@ -57,8 +57,9 @@ class { 'openstack_integration::neutron':
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
-  cinder_enabled  => true,
-  modular_libvirt => $modular_libvirt,
+  cinder_enabled         => true,
+  modular_libvirt        => $modular_libvirt,
+  libvirt_guests_enabled => true,
 }
 class { 'openstack_integration::octavia':
   provider_driver => 'ovn'

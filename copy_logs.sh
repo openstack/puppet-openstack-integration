@@ -67,6 +67,12 @@ cp ${WORKSPACE}/puppet*.log $LOG_DIR
 
 # Archive the project config & logs
 mkdir $LOG_DIR/etc/
+if uses_debs; then
+    mkdir -p $LOG_DIR/etc/default
+elif is_fedora; then
+    mkdir -p $LOG_DIR/etc/sysconfig
+fi
+
 for p in $PROJECTS; do
     if [ -d /etc/$p ]; then
         sudo cp -r /etc/$p $LOG_DIR/etc/
@@ -97,7 +103,6 @@ fi
 
 # network interfaces
 if [ -d /etc/sysconfig/network-scripts ]; then
-    mkdir -p $LOG_DIR/etc/sysconfig
     sudo cp -r /etc/sysconfig/network-scripts $LOG_DIR/etc/sysconfig/
 fi
 
@@ -127,7 +132,7 @@ if uses_debs; then
     if [ -d /var/log/mysql ] ; then
         sudo cp -r /var/log/mysql $LOG_DIR/
     fi
-else
+elif is_fedora; then
     if [ -f /etc/my.cnf ] ; then
         sudo cp /etc/my.cnf $LOG_DIR/etc/
     fi
@@ -194,6 +199,15 @@ fi
 if [ -d /etc/libvirt ]; then
     sudo cp -r /etc/libvirt $LOG_DIR/etc/
 fi
+if uses_debs ; then
+    if [ -f /etc/default/libvirt-guests ]; then
+        sudo cp -r /etc/default/libvirt-guests $LOG_DIR/etc/default
+    fi
+elif is_fedora; then
+    if [ -f /etc/sysconfig/libvirt-guests ]; then
+        sudo cp -r /etc/sysconfig/libvirt-guests $LOG_DIR/etc/sysconfig
+    fi
+fi
 
 # openvswitch
 if [ -d /etc/openvswitch ] ; then
@@ -215,14 +229,12 @@ fi
 if uses_debs ; then
     for f in ovn-central ovn-host ; do
         if [ -f /etc/default/$f ]; then
-            mkdir -p $LOG_DIR/etc/default
             sudo cp /etc/default/$f $LOG_DIR/etc/default/
         fi
     done
 elif is_fedora; then
     for f in ovn-northd ovn-controller ; do
         if [ -f /etc/sysconfig/$f ]; then
-            mkdir -p $LOG_DIR/etc/sysconfig
             sudo cp /etc/sysconfig/$f $LOG_DIR/etc/sysconfig/
         fi
     done
@@ -242,7 +254,7 @@ if uses_debs; then
             sudo cp ${apache_conf}/${d}/* $LOG_DIR${apache_conf}/${d}/
         fi
     done
-else
+elif is_fedora; then
     apache_conf=/etc/httpd
     apache_logs=/var/log/httpd
     for d in conf conf.d conf.modules.d ; do
