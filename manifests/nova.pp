@@ -31,14 +31,19 @@
 #   (optional) Boolean to configure or not cinder options.
 #   Defaults to false.
 #
+# [*libvirt_guests_enabled*]
+#   (optional) Boolean to configure or not libvirt-guests
+#   Defaults to false.
+#
 class openstack_integration::nova (
-  $libvirt_rbd         = false,
-  $libvirt_virt_type   = 'qemu',
-  $libvirt_cpu_mode    = 'none',
-  $modular_libvirt     = false,
-  $volume_encryption   = false,
-  $notification_topics = $facts['os_service_default'],
-  $cinder_enabled      = false,
+  $libvirt_rbd            = false,
+  $libvirt_virt_type      = 'qemu',
+  $libvirt_cpu_mode       = 'none',
+  $modular_libvirt        = false,
+  $volume_encryption      = false,
+  $notification_topics    = $facts['os_service_default'],
+  $cinder_enabled         = false,
+  $libvirt_guests_enabled = false,
 ) {
 
   include openstack_integration::config
@@ -278,6 +283,12 @@ class openstack_integration::nova (
       auth_url  => $::openstack_integration::config::keystone_admin_uri,
       password  => 'a_big_secret',
       auth_type => 'password',
+    }
+  }
+  if $libvirt_guests_enabled {
+    class { 'nova::compute::libvirt_guests':
+      enabled        => true,
+      manage_service => true,
     }
   }
 
