@@ -110,3 +110,15 @@
       nodes:
         - name: centos-9-stream
           label: centos-9-stream
+
+- job:
+    name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream-reef
+    parent: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
+    vars:
+      ceph: reef
+
+- job:
+    name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream-reef
+    parent: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
+    vars:
+      ceph: reef

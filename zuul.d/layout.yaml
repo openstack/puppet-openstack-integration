@@ -53,6 +53,8 @@
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+        - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream-reef
+        - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream-reef
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
@@ -67,6 +69,7 @@
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
+        - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream-reef
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
@@ -97,6 +100,7 @@
       jobs:
         - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
+        - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream-reef
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
