@@ -36,4 +36,3 @@
       jobs:
         - puppet-openstack-unit-7.22-centos-9-stream
         - puppet-openstack-unit-7.22-ubuntu-jammy
-        - puppet-openstack-unit-8.0-centos-9-stream
