@@ -159,6 +159,9 @@ fi
 # bind
 if [ -d /etc/named ]; then
     sudo cp -r /etc/named $LOG_DIR/etc
+    if [ -f /etc/rndc.conf ]; then
+        sudo cp -r /etc/rndc.conf $LOG_DIR/rndc.conf
+    fi
 elif [ -d /etc/bind ]; then
     sudo cp -r /etc/bind $LOG_DIR/etc
 fi

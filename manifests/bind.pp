@@ -42,10 +42,13 @@ class openstack_integration::bind {
     },
   }
 
+  $dnsdir = $::dns::params::dnsdir
+
   # ::dns creates the rndc key but not a rndc.conf.
   # Contribute this in upstream ::dns ?
-  file { '/etc/rndc.conf':
+  file { 'rndc.conf':
     ensure  => present,
+    path    => "${dnsdir}/rndc.conf",
     owner   => $::dns::params::user,
     group   => $::dns::params::group,
     content => template("${module_name}/rndc.conf.erb"),
