@@ -54,37 +54,14 @@ class openstack_integration::neutron (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'neutron':
       notify  => Service['neutron-server'],
-      require => Package['neutron'],
+      require => Anchor['neutron::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service<| tag == 'neutron-service' |>
 
     if $driver == 'ovn' {
-      ['ovnnb', 'ovnsb'].each |$ovndb| {
-        ["${ovndb}-privkey.pem", "${ovndb}-cert.pem"].each |$ovn_ssl_file| {
-          file { "/etc/neutron/${ovn_ssl_file}":
-            ensure  => present,
-            owner   => 'neutron',
-            mode    => '0600',
-            source  => "/etc/openvswitch/${ovn_ssl_file}",
-            require => [
-              Anchor['neutron::install::end'],
-              Vswitch::Pki::Cert[$ovndb]
-            ],
-            notify  => Anchor['neutron::service::begin'],
-          }
-        }
-      }
-
-      file { '/etc/neutron/switchcacert.pem':
-        ensure  => present,
-        owner   => 'neutron',
-        mode    => '0600',
-        source  => '/var/lib/openvswitch/pki/switchca/cacert.pem',
-        require => [
-          Anchor['neutron::install::end'],
-          Class['vswitch::pki::Cacert'],
-        ],
+      openstack_integration::ovn::ssl_key { 'neutron':
         notify  => Anchor['neutron::service::begin'],
+        require => Anchor['neutron::install::end'],
       }
     }
   }

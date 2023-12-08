@@ -24,37 +24,14 @@ class openstack_integration::octavia (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'octavia':
       notify  => Service['httpd'],
-      require => Package['octavia'],
+      require => Anchor['octavia::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
 
     if $provider_driver == 'ovn' {
-      ['ovnnb', 'ovnsb'].each |$ovndb| {
-        ["${ovndb}-privkey.pem", "${ovndb}-cert.pem"].each |$ovn_ssl_file| {
-          file { "/etc/octavia/${ovn_ssl_file}":
-            ensure  => present,
-            owner   => 'octavia',
-            mode    => '0600',
-            source  => "/etc/openvswitch/${ovn_ssl_file}",
-            require => [
-              Anchor['octavia::install::end'],
-              Vswitch::Pki::Cert[$ovndb]
-            ],
-            notify  => Anchor['octavia::service::begin'],
-          }
-        }
-      }
-
-      file { '/etc/octavia/switchcacert.pem':
-        ensure  => present,
-        owner   => 'octavia',
-        mode    => '0600',
-        source  => '/var/lib/openvswitch/pki/switchca/cacert.pem',
-        require => [
-          Anchor['octavia::install::end'],
-          Class['vswitch::pki::Cacert'],
-        ],
+      openstack_integration::ovn::ssl_key { 'octavia':
         notify  => Anchor['octavia::service::begin'],
+        require => Anchor['octavia::install::end'],
       }
     }
   }
