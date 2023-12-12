@@ -177,5 +177,8 @@ class openstack_integration::ironic (
     standalone            => $standalone,
     dnsmasq_interface     => 'eth0',
   }
+  class { 'ironic::inspector::coordination':
+    backend_url => "memcached://${::openstack_integration::config::ip_for_url}:11211",
+  }
   class { 'ironic::inspector::client': }
 }
