@@ -26,14 +26,6 @@ class openstack_integration::ceilometer (
     before   => Anchor['ceilometer::service::begin'],
   }
 
-  if $::openstack_integration::config::ssl {
-    openstack_integration::ssl_key { 'ceilometer':
-      notify  => Service['httpd'],
-      require => Package['ceilometer-common'],
-    }
-    Exec['update-ca-certificates'] ~> Service['httpd']
-  }
-
   class { 'ceilometer::logging':
     debug => true,
   }
