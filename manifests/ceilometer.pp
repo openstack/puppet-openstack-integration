@@ -79,6 +79,7 @@ class openstack_integration::ceilometer (
     class { 'ceilometer::coordination':
       backend_url => $::openstack_integration::config::tooz_url,
     }
+    Class['redis::service'] -> Anchor['ceilometer::service::begin']
     class { 'ceilometer::agent::notification':
       workers                   => 2,
       manage_pipeline           => true,
