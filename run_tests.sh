@@ -291,8 +291,9 @@ echo "telemetry_tempest_plugin.gnocchi" >> /tmp/openstack/tempest/test-include-l
 # Vitrage
 echo "TestEvents" >> /tmp/openstack/tempest/test-include-list.txt
 
-# Test Autoscaling with Telemetry (need panko, ubuntu doesn't ship it)
-uses_debs || echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-include-list.txt
+# Test Autoscaling with Telemetry
+# TODO(tkajinam): This test case is disabled because of instability
+#echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Ironic
 # Note: running all Ironic tests under SSL is not working
@@ -346,16 +347,11 @@ echo 'manila_tempest_tests.tests.api.test_shares.SharesCephFSTest.test_create_ge
 echo 'manila_tempest_tests.tests.api.test_shares.SharesNFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 
 if uses_debs; then
-  echo "telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration" >> /tmp/openstack/tempest/test-exclude-list.txt
-  EXCLUDES="--exclude-list=/tmp/openstack/tempest/test-exclude-list.txt"
-
+  #EXCLUDES="--exclude-regex=..."
+  EXCLUDES=""
 else
-  # https://review.opendev.org/#/c/504345/ has changed the behavior of tempest when running with --regex and --include-list-file
-  # and now operator between them is OR when filtering tests (which is how it was documented, btw). In order to promote
-  # we need to remove this regex option and implement https://review.opendev.org/#/c/547278 when ready.
-  # Note these tests were disabled in https://review.opendev.org/#/c/461969/ and hopefully it's more stable now and allows
-  # us to run it until we can implement --exclude-list-file in a stable way.
-  EXCLUDES="--exclude-regex=^telemetry_tempest_plugin.scenario.test_telemetry_integration.TestTelemetryIntegration"
+  #EXCLUDES="--exclude-regex=..."
+  EXCLUDES=""
 fi
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
