@@ -129,7 +129,9 @@
     name: puppet-openstack-module-base
     parent: puppet-openstack-base
     pre-run: playbooks/prepare-node-unit.yaml
-
+    required-projects:
+      - name: openstack/puppet-openstack_spec_helper
+        override-checkout: stable/2023.1
 
 - job:
     name: puppet-openstack-syntax-base
