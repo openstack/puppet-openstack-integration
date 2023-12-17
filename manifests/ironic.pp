@@ -161,6 +161,7 @@ class openstack_integration::ironic (
       workers   => 2,
     }
     $standalone = false
+    Service['memcached'] -> Anchor['ironic-inspector::service::begin']
   } else {
     $standalone = true
   }
