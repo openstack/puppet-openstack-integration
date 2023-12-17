@@ -4,8 +4,13 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default'].
 #
+# [*inspector_backend*]
+#   (optional) The storage backend for storing introspection data.
+#   Defaults to 'database'.
+#
 class openstack_integration::ironic (
   $notification_topics = $facts['os_service_default'],
+  $inspector_backend   = 'database',
 ) {
 
   include openstack_integration::config
@@ -151,6 +156,10 @@ class openstack_integration::ironic (
     password => 'a_big_secret',
     auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
   }
+  class { 'ironic::inspector::swift':
+    password => 'a_big_secret',
+    auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
+  }
 
   if $facts['os']['family'] == 'RedHat' {
     class { 'ironic::inspector::wsgi::apache':
@@ -176,6 +185,7 @@ class openstack_integration::ironic (
     rabbit_use_ssl        => $::openstack_integration::config::ssl,
     standalone            => $standalone,
     dnsmasq_interface     => 'eth0',
+    store_data            => $inspector_backend,
   }
   class { 'ironic::inspector::coordination':
     backend_url => "memcached://${::openstack_integration::config::ip_for_url}:11211",
