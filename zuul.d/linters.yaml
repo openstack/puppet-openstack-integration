@@ -3,12 +3,6 @@
     name: puppet-openstack-lint-ubuntu-jammy
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
-    irrelevant-files:
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^releasenotes/.*$
-      - ^requirements.txt$
-      - ^test-requirements.txt$
 
 - job:
     name: puppet-openstack-syntax-7-ubuntu-jammy
@@ -28,42 +22,18 @@
 
 - job:
     name: puppet-openstack-libraries-puppet-lint-ubuntu-jammy
-    parent: puppet-openstack-integration-base
+    parent: puppet-openstack-module-base
     run: playbooks/run-libraries-lint-tests.yaml
-    pre-run: playbooks/prepare-node-unit.yaml
-    timeout: 3600
-
-- job:
-    name: puppet-openstack-libraries-puppet-syntax
-    parent: puppet-openstack-integration-base
-    run: playbooks/run-libraries-syntax-tests.yaml
-    pre-run: playbooks/prepare-node-unit.yaml
-    timeout: 3600
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^test-requirements.txt$
-      - ^LICENSE$
-      - ^.gitignore$
-      - ^.gitreview$
-      - ^.pdkignore$
-      - ^setup.cfg$
-      - ^setup.py$
-      - ^tox.ini$
 
 - job:
     name: puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
-    parent: puppet-openstack-libraries-puppet-syntax
+    parent: puppet-openstack-libraries-puppet-syntax-base
     vars:
       puppet: 7
 
 - job:
     name: puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
-    parent: puppet-openstack-libraries-puppet-syntax
+    parent: puppet-openstack-libraries-puppet-syntax-base
     nodeset: centos-9-stream
     voting: false
     vars:

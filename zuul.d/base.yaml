@@ -92,7 +92,14 @@
     parent: puppet-openstack-base
     pre-run: playbooks/prepare-node-unit.yaml
     required-projects:
+      - name: openstack/puppet-nova
       - name: openstack/puppet-openstack_spec_helper
+    irrelevant-files:
+      - ^doc/.*$
+      - ^etc/.*$
+      - ^releasenotes/.*$
+      - ^requirements.txt$
+      - ^test-requirements.txt$
 
 - job:
     name: puppet-openstack-syntax-base
@@ -114,6 +121,11 @@
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
+
+- job:
+    name: puppet-openstack-libraries-puppet-syntax-base
+    parent: puppet-openstack-syntax-base
+    run: playbooks/run-libraries-syntax-tests.yaml
 
 - job:
     name: puppet-openstack-unit-base
@@ -144,27 +156,5 @@
 
 - job:
     name: puppet-openstack-libraries-puppet-unit-base
-    parent: puppet-openstack-integration-base
+    parent: puppet-openstack-unit-base
     run: playbooks/run-libraries-unit-tests.yaml
-    pre-run: playbooks/prepare-node-unit.yaml
-    timeout: 3600
-    irrelevant-files:
-      - ^.*\.md$
-      - ^.*\.rst$
-      - ^doc/.*$
-      - ^etc/.*$
-      - ^examples/.*$
-      - ^metadata.json$
-      - ^releasenotes/.*$
-      - ^requirements.txt$
-      - ^test-requirements.txt$
-      - ^spec/acceptance/.*$
-      - ^LICENSE$
-      - ^.gitreview$
-      - ^.gitignore$
-      - ^.pdkignore$
-      - ^setup.cfg$
-      - ^setup.py$
-      - ^tox.ini$
-    vars:
-      rspec_puppet_version: 'latest'
