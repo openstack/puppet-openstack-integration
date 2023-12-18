@@ -47,6 +47,22 @@ class openstack_integration::ironic (
       'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
+  class { 'ironic::glance':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'ironic::neutron':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'ironic::service_catalog':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'ironic::swift':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
   class { 'ironic':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
