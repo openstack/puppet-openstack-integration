@@ -61,7 +61,6 @@ class openstack_integration::ceilometer (
     # gnocchi resource types.
     include ceilometer::db::sync
     Service['httpd'] -> Exec['ceilometer-upgrade']
-    Class['ceilometer::agent::service_credentials'] -> Exec['ceilometer-upgrade']
     Class['ceilometer::keystone::auth'] -> Exec['ceilometer-upgrade']
     Class['gnocchi::keystone::auth'] -> Exec['ceilometer-upgrade']
 
