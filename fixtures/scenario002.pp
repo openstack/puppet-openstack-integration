@@ -62,7 +62,9 @@ class { 'openstack_integration::neutron':
   metering_enabled  => true,
 }
 include openstack_integration::swift
-include openstack_integration::ironic
+class { 'openstack_integration::ironic':
+  inspector_backend => 'swift'
+}
 include openstack_integration::zaqar
 include openstack_integration::provision
 
