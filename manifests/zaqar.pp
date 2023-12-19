@@ -30,7 +30,11 @@ class openstack_integration::zaqar {
     internal_url => "ws://${::openstack_integration::config::ip_for_url}:8888",
     admin_url    => "ws://${::openstack_integration::config::ip_for_url}:8888",
   }
-  class {'zaqar::management::sqlalchemy':
+  class { 'zaqar::keystone::trust':
+    auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    password => 'a_big_secret'
+  }
+  class { 'zaqar::management::sqlalchemy':
     uri => os_database_connection({
       'dialect'  => 'mysql+pymysql',
       'host'     => $::openstack_integration::config::ip_for_url,
@@ -41,11 +45,11 @@ class openstack_integration::zaqar {
       'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
-  class {'zaqar::messaging::swift':
+  class { 'zaqar::messaging::swift':
     auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
     uri      => 'swift://zaqar:a_big_secret@/services',
   }
-  class {'zaqar::keystone::authtoken':
+  class { 'zaqar::keystone::authtoken':
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
@@ -54,12 +58,12 @@ class openstack_integration::zaqar {
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
-  class {'zaqar':
+  class { 'zaqar':
     unreliable       => true,
     management_store => 'sqlalchemy',
     message_store    => 'swift',
   }
-  class {'zaqar::server':
+  class { 'zaqar::server':
     service_name => 'httpd',
   }
   class { 'zaqar::wsgi::apache':
