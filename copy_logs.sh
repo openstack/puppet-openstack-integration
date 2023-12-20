@@ -377,6 +377,10 @@ sudo vgs >> $LOG_DIR/lvm.txt
 echo "== lvs ==" >> $LOG_DIR/lvm.txt
 sudo lvs >> $LOG_DIR/lvm.txt
 
+if [ `command -v semanage` ]; then
+    sudo semanage boolean --list > $LOG_DIR/semanage-boolean-list.txt
+fi
+
 mkdir -p $LOG_DIR/openstack_resources
 
 export OS_CLOUD=project
