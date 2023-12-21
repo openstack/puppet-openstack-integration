@@ -4,7 +4,7 @@ class openstack_integration {
 
   if $facts['os']['family'] == 'RedHat' {
     package { 'openstack-selinux':
-        ensure => 'latest'
+      ensure => 'present'
     }
   }
 }
