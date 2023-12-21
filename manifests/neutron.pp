@@ -72,12 +72,22 @@ class openstack_integration::neutron (
     selboolean { 'os_neutron_dac_override':
       persistent => true,
       value      => on,
+      require    => Package['openstack-selinux'],
+      before     => Anchor['neutron::service::begin'],
     }
 
     if $driver == 'openvswitch' or $driver == 'linuxbridge' {
       selboolean { 'os_dnsmasq_dac_override':
         persistent => true,
         value      => on,
+        require    => Package['openstack-selinux'],
+        before     => Anchor['neutron::service::begin'],
+      }
+      selboolean { 'os_keepalived_dac_override':
+        persistent => true,
+        value      => on,
+        require    => Package['openstack-selinux'],
+        before     => Anchor['neutron::service::begin'],
       }
     }
   }
