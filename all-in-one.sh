@@ -69,9 +69,6 @@ mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
 ruby <<EOF
 cmd = 'gem install --no-user-install bundler --no-document --verbose'
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('2.3.0') then
-    cmd += ' -v 1.17.3'
-end
 system(cmd)
 EOF
 
