@@ -1,4 +1,12 @@
-class openstack_integration::swift {
+# Configure the swift service
+#
+# [*ceilometer_enabled*]
+#   (Optional) Enable the ceilometer middleware
+#   Defaults to false
+#
+class openstack_integration::swift(
+  $ceilometer_enabled = false
+){
 
   include openstack_integration::config
 
@@ -46,17 +54,45 @@ class openstack_integration::swift {
     swift_hash_path_suffix => 'secrete',
   }
 
+  if $ceilometer_enabled {
+    openstack_integration::mq_user { 'swift':
+      password => 'an_even_bigger_secret',
+      before   => Anchor['swift::service::begin'],
+    }
+
+    class { 'swift::proxy::ceilometer':
+      auth_url              => $::openstack_integration::config::keystone_admin_uri,
+      password              => 'a_big_secret',
+      default_transport_url => os_transport_url({
+        'transport' => $::openstack_integration::config::messaging_default_proto,
+        'host'      => $::openstack_integration::config::host,
+        'port'      => $::openstack_integration::config::messaging_default_port,
+        'username'  => 'swift',
+        'password'  => 'an_even_bigger_secret',
+      }),
+      rabbit_use_ssl        => $::openstack_integration::config::ssl,
+    }
+    $ceilometer_middleware = ['ceilometer']
+
+    # NOTE(tkajinam): ceilometermiddleware needs to query keystone api when
+    # proxy-server starts so ensure the keystone account is already created.
+    Keystone::Resource::Service_identity['swift'] -> Service['swift-proxy-server']
+  } else {
+    $ceilometer_middleware = []
+  }
+
+  $pipeline = [
+    'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
+    'listing_formats', 'container_sync', 'bulk', 'tempurl', 'ratelimit',
+    'authtoken', 'keystone', 'copy', 'formpost', 'staticweb', 'container_quotas',
+    'account_quotas', 'slo', 'dlo', 'versioned_writes', 'symlink', 'proxy-logging'
+  ] + $ceilometer_middleware + ['proxy-server']
+
   # proxy server
   class { 'swift::proxy':
     proxy_local_net_ip => $::openstack_integration::config::host,
     workers            => 2,
-    pipeline           => [
-  'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
-  'listing_formats', 'container_sync', 'bulk', 'tempurl', 'ratelimit',
-  'authtoken', 'keystone', 'copy', 'formpost', 'staticweb', 'container_quotas',
-  'account_quotas', 'slo', 'dlo', 'versioned_writes', 'symlink',
-  'proxy-logging', 'proxy-server'
-    ],
+    pipeline           => $pipeline,
     node_timeout       => 30,
   }
   include swift::proxy::catch_errors
@@ -73,7 +109,7 @@ class openstack_integration::swift {
   include swift::proxy::ratelimit
   class { 'swift::proxy::authtoken':
     www_authenticate_uri         => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    auth_url                     => "${::openstack_integration::config::keystone_admin_uri}/",
+    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
     password                     => 'a_big_secret',
     service_token_roles_required => true,
   }
