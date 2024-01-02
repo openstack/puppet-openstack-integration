@@ -48,7 +48,7 @@ fi
 for project in $PUPPET_MODULES_PATH/*; do
     # find Puppet OpenStack modules
     if [ -f $project/metadata.json ]; then
-        if egrep -q "(github.com|opendev.org)/(stackforge|openstack)/puppet" $project/metadata.json; then
+        if egrep -q "opendev.org/openstack/puppet" $project/metadata.json; then
             PROJECTS+="$(basename $project) "
             # if we've added ironic we want to try for ironic-inspector also
             if [ "$(basename $project)" == 'ironic' ] ; then
