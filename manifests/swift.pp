@@ -138,14 +138,15 @@ class openstack_integration::swift {
   class { 'swift::storage::all':
     storage_local_net_ip     => $::openstack_integration::config::host,
     mount_check              => false,
-    account_pipeline         => ['healthcheck', 'recon', 'account-server'],
-    container_pipeline       => ['healthcheck', 'recon', 'container-server'],
-    object_pipeline          => ['healthcheck', 'recon', 'object-server'],
+    account_pipeline         => ['healthcheck', 'recon', 'backend_ratelimit', 'account-server'],
+    container_pipeline       => ['healthcheck', 'recon', 'backend_ratelimit', 'container-server'],
+    object_pipeline          => ['healthcheck', 'recon', 'backend_ratelimit', 'object-server'],
     account_server_workers   => 2,
     container_server_workers => 2,
     object_server_workers    => 2,
   }
   $swift_components = ['account', 'container', 'object']
+  swift::storage::filter::backend_ratelimit { $swift_components : }
   swift::storage::filter::recon { $swift_components : }
   swift::storage::filter::healthcheck { $swift_components : }
   class { 'swift::objectexpirer':
