@@ -381,6 +381,8 @@ compute service list
 flavor list --all --long
 server list --all --long
 EOC
+    sudo -u nova nova-manage cell_v2 list_cells --verbose >> $LOG_DIR/nova-cell_v2.txt
+    sudo -u nova nova-manage cell_v2 list_hosts >> $LOG_DIR/nova-cell_v2.txt
 fi
 
 # placement resources
