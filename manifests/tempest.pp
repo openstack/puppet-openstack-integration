@@ -112,6 +112,10 @@
 #   (optional) Define if Neutron VPNaaS needs to be tested.
 #   Default to false.
 #
+# [*taas*]
+#   (optional) Define if Neutron TaaS needs to be tested.
+#   Default to false.
+#
 # [*watcher*]
 #   (optional) Define if Watcher needs to be tested.
 #   Default to false.
@@ -185,6 +189,7 @@ class openstack_integration::tempest (
   $watcher                 = false,
   $vitrage                 = false,
   $vpnaas                  = false,
+  $taas                    = false,
   $zaqar                   = false,
   $reseller_admin_role     = 'ResellerAdmin',
   $attach_encrypted_volume = false,
@@ -264,6 +269,10 @@ class openstack_integration::tempest (
       true    => ['vpnaas'],
       default => [],
     }
+    $neutron_taas_extensions = $taas ? {
+      true    => ['taas', 'taas-vlan-filter'],
+      default => [],
+    }
 
     $neutron_api_extensions_real = sort(
       $neutron_base_extensions +
@@ -272,7 +281,8 @@ class openstack_integration::tempest (
       $neutron_metering_extensions +
       $neutron_l2gw_extensions +
       $neutron_bgpvpn_extensions +
-      $neutron_vpnaas_extensions
+      $neutron_vpnaas_extensions +
+      $neutron_taas_extensions
     )
   }
 
