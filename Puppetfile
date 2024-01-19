@@ -156,7 +156,7 @@ mod 'apt',
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v9.0.1'
+  :ref => 'v9.0.2'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
