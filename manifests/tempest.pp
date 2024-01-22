@@ -88,10 +88,6 @@
 #   (optional) Define if Octavia needs to be tested.
 #   Default to false.
 #
-# [*sahara*]
-#   (optional) Define if Sahara needs to be tested.
-#   Default to false.
-#
 # [*murano*]
 #   (optional) Define if Murano needs to be tested.
 #   Default to false.
@@ -171,7 +167,6 @@ class openstack_integration::tempest (
   $neutron                 = true,
   $nova                    = true,
   $octavia                 = false,
-  $sahara                  = false,
   $swift                   = false,
   $trove                   = false,
   $watcher                 = false,
@@ -306,7 +301,6 @@ class openstack_integration::tempest (
     ceilometer_available               => $ceilometer,
     aodh_available                     => $aodh,
     trove_available                    => $trove,
-    sahara_available                   => $sahara,
     heat_available                     => $heat,
     swift_available                    => $swift,
     ironic_available                   => $ironic,

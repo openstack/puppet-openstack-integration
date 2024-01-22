@@ -63,8 +63,6 @@
         override-checkout: stable/2023.1
       - name: openstack/puppet-placement
         override-checkout: stable/2023.1
-      - name: openstack/puppet-sahara
-        override-checkout: stable/2023.1
       - name: openstack/puppet-swift
         override-checkout: stable/2023.1
       - name: openstack/puppet-tempest
