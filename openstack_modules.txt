@@ -24,7 +24,6 @@ openstacklib
 oslo
 ovn
 placement
-sahara
 swift
 tempest
 trove

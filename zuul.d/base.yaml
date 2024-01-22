@@ -35,7 +35,6 @@
       - name: openstack/puppet-oslo
       - name: openstack/puppet-ovn
       - name: openstack/puppet-placement
-      - name: openstack/puppet-sahara
       - name: openstack/puppet-swift
       - name: openstack/puppet-tempest
       - name: openstack/puppet-trove
