@@ -109,5 +109,6 @@ class { 'openstack_integration::tempest':
   ironic                  => true,
   zaqar                   => true,
   attach_encrypted_volume => true,
-  ec2api                  => $ec2api_enabled,
+  # Enable this once bug 2050063 is fixed
+  ec2api                  => false,
 }
