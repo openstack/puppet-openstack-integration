@@ -367,10 +367,17 @@ class openstack_integration::neutron (
       metadata_host     => $metadata_host,
       metadata_protocol => $metadata_protocol,
     }
+
+    $l3_extensions = $vpnaas_enabled ? {
+      true    => ['vpnaas'],
+      default => $facts['os_service_default'],
+    }
     class { 'neutron::agents::l3':
       interface_driver => $driver,
       debug            => true,
+      extensions       => $l3_extensions,
     }
+
     class { 'neutron::agents::dhcp':
       interface_driver => $driver,
       debug            => true,
