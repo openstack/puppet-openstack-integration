@@ -13,6 +13,10 @@
 #   (optional) Flag to enable VPNaaS.
 #   Defaults to false.
 #
+# [*taas_enabled*]
+#   (optional) Flag to enable TAPaaS.
+#   Defaults to false.
+#
 # [*bgpvpn_enabled*]
 #   (optional) Flag to enable BGPVPN API extensions.
 #   Defaults to false.
@@ -37,6 +41,7 @@ class openstack_integration::neutron (
   $driver              = 'openvswitch',
   $metering_enabled    = false,
   $vpnaas_enabled      = false,
+  $taas_enabled        = false,
   $bgpvpn_enabled      = false,
   $l2gw_enabled        = false,
   $bgp_dragent_enabled = false,
@@ -49,6 +54,10 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' and $metering_enabled {
     fail('Metering agent is not supported when ovn mechanism driver is used.')
+  }
+
+  if $driver != 'openvswitch' and $taas_enabled {
+    fail('TaaS is supported only when ovs mechanism driver is used.')
   }
 
   if $::openstack_integration::config::ssl {
@@ -142,6 +151,10 @@ class openstack_integration::neutron (
       true    => 'vpnaas',
       default => undef,
     }
+    $taas_plugin = $taas_enabled ? {
+      true    => 'taas',
+      default => undef,
+    }
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
       default => undef,
@@ -175,6 +188,7 @@ class openstack_integration::neutron (
       'router', 'qos', 'trunk',
       $metering_plugin,
       $vpaaas_plugin,
+      $taas_plugin,
       $bgpvpn_plugin,
       $l2gw_plugin,
       $bgp_dr_plugin
@@ -286,6 +300,11 @@ class openstack_integration::neutron (
 
   case $driver {
     'openvswitch': {
+      $agent_extensions = $taas_enabled ? {
+        true    => ['taas'],
+        default => $facts['os_service_default'],
+      }
+
       class { 'neutron::agents::ml2::ovs':
         local_ip          => $::openstack_integration::config::host,
         tunnel_types      => ['vxlan'],
@@ -293,6 +312,7 @@ class openstack_integration::neutron (
         manage_vswitch    => false,
         firewall_driver   => 'iptables_hybrid',
         of_listen_address => $::openstack_integration::config::host,
+        extensions        => $agent_extensions,
       }
     }
     'ovn': {
@@ -409,6 +429,21 @@ class openstack_integration::neutron (
       }
       class { 'neutron::agents::vpnaas':
         vpn_device_driver => $vpn_device_driver,
+      }
+    }
+    if $taas_enabled {
+      class { 'neutron::agents::taas': }
+      class { 'neutron::services::taas': }
+
+      if $facts['os']['family'] == 'RedHat' {
+        # NOTE(tkajinam): Remove this once bz 2259076 is fixed
+        # https://bugzilla.redhat.com/show_bug.cgi?id=2259076
+        Exec { 'fix-taas-synlink':
+          command => 'mv /usr/share/neutron/server/taas_plugin.ini /usr/share/neutron/server/taas_plugin.conf',
+          unless  => 'test -e /usr/share/neutron/server/taas_plugin.conf',
+          path    => ['/bin', '/usr/bin'],
+        }
+        Anchor['neutron::config::begin'] -> Anchor['neutron::config::end']
       }
     }
   }

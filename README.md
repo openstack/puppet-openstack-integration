@@ -77,6 +77,7 @@ scenario](#all-in-one).
 | vitrage    |      X      |             |             |             |             |              |
 | watcher    |             |             |             |      X      |             |              |
 | vpnaas     |             |             |             |      X      |             |              |
+| taas       |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |      X      |             |              |
 | bgp-dr     |             |             |             |      X      |             |              |
 | redis      |      X      |       X     |       X     |             |             |              |
