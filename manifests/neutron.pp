@@ -434,17 +434,6 @@ class openstack_integration::neutron (
     if $taas_enabled {
       class { 'neutron::agents::taas': }
       class { 'neutron::services::taas': }
-
-      if $facts['os']['family'] == 'RedHat' {
-        # NOTE(tkajinam): Remove this once bz 2259076 is fixed
-        # https://bugzilla.redhat.com/show_bug.cgi?id=2259076
-        Exec { 'fix-taas-synlink':
-          command => 'mv /usr/share/neutron/server/taas_plugin.ini /usr/share/neutron/server/taas_plugin.conf',
-          unless  => 'test -e /usr/share/neutron/server/taas_plugin.conf',
-          path    => ['/bin', '/usr/bin'],
-        }
-        Anchor['neutron::config::begin'] -> Anchor['neutron::config::end']
-      }
     }
   }
 
