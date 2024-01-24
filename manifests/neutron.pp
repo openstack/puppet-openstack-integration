@@ -52,8 +52,22 @@ class openstack_integration::neutron (
   include openstack_integration::config
   include openstack_integration::params
 
-  if $driver == 'ovn' and $metering_enabled {
-    fail('Metering agent is not supported when ovn mechanism driver is used.')
+  if $driver == 'ovn' {
+    if $metering_enabled {
+      fail('Metering agent is not supported when ovn mechanism driver is used.')
+    }
+    if $vpnaas_enabled {
+      fail('VPNaaS is not supported when ovn mechanism driver is used.')
+    }
+    if $bgpvpn_enabled {
+      fail('BGP VPN is not supported when ovn mechanism driver is used.')
+    }
+    if $l2gw_enabled {
+      fail('L2GW is not supported when ovn mechanism driver is used.')
+    }
+    if $bgp_dragent_enabled {
+      fail('BGP dragent is not supported when ovn mechanism driver is used.')
+    }
   }
 
   if $driver != 'openvswitch' and $taas_enabled {
@@ -411,6 +425,7 @@ class openstack_integration::neutron (
       }
       class { 'neutron::agents::vpnaas':
         vpn_device_driver => $vpn_device_driver,
+        interface_driver  => $driver,
       }
     }
     if $taas_enabled {
@@ -425,6 +440,16 @@ class openstack_integration::neutron (
         service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
       }
       class { 'neutron::agents::l2gw': }
+    }
+    if $bgpvpn_enabled {
+      class {'neutron::services::bgpvpn':
+        service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
+      }
+    }
+    if $bgp_dragent_enabled {
+      class {'neutron::agents::bgp_dragent':
+        bgp_router_id => '127.0.0.1'
+      }
     }
   }
 
@@ -450,15 +475,5 @@ class openstack_integration::neutron (
   class { 'neutron::server::placement':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
-  }
-  if $bgpvpn_enabled {
-    class {'neutron::services::bgpvpn':
-      service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
-    }
-  }
-  if $bgp_dragent_enabled {
-    class {'neutron::agents::bgp_dragent':
-      bgp_router_id => '127.0.0.1'
-    }
   }
 }
