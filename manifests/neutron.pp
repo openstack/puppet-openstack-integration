@@ -140,7 +140,6 @@ class openstack_integration::neutron (
   if $driver == 'ovn' {
     $dhcp_agent_notification = false
     $plugins_list = ['qos', 'ovn-router', 'trunk']
-    $providers_list = undef
   } else {
     $dhcp_agent_notification = true
     $metering_plugin = $metering_enabled ? {
@@ -158,22 +157,6 @@ class openstack_integration::neutron (
     $bgpvpn_plugin = $bgpvpn_enabled ? {
       true    => 'bgpvpn',
       default => undef,
-    }
-
-    if $l2gw_enabled {
-      if ($facts['os']['name'] == 'Ubuntu') {
-        class { 'neutron::services::l2gw': }
-        $providers_list = ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
-      }
-      elsif ($facts['os']['name'] != 'Ubuntu') {
-        class { 'neutron::services::l2gw':
-          service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
-        }
-        $providers_list = undef
-      }
-      class { 'neutron::agents::l2gw': }
-    } else {
-      $providers_list = undef
     }
     $l2gw_plugin = $l2gw_enabled ? {
       true    => 'l2gw',
@@ -273,7 +256,6 @@ class openstack_integration::neutron (
     api_workers              => 2,
     rpc_workers              => 2,
     rpc_response_max_timeout => 300,
-    service_providers        => $providers_list,
     ensure_dr_package        => $bgp_dragent_enabled,
   }
 
@@ -434,6 +416,15 @@ class openstack_integration::neutron (
     if $taas_enabled {
       class { 'neutron::agents::taas': }
       class { 'neutron::services::taas': }
+    }
+    if $l2gw_enabled {
+      class { 'neutron::services::l2gw':
+        # NOTE(tkajinm): This value is picked up from the one used in CI, but is
+        # apparently wrong (It should have rpc_l2gw), but we can't enable
+        # the correct provider because of incomplete setup we have in CI.
+        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+      }
+      class { 'neutron::agents::l2gw': }
     }
   }
 
