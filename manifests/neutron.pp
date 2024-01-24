@@ -268,10 +268,21 @@ class openstack_integration::neutron (
       'extra'    => $::openstack_integration::config::db_extra,
     }),
   }
+
+  $rpc_workers = $driver ? {
+    'ovn'   => 0,
+    default => 2,
+  }
+  $rpc_state_report_workers = $driver ? {
+    'ovn'   => 0,
+    default => $facts['os_service_default'],
+  }
+
   class { 'neutron::server':
     sync_db                  => true,
     api_workers              => 2,
-    rpc_workers              => 2,
+    rpc_workers              => $rpc_workers,
+    rpc_state_report_workers => $rpc_state_report_workers,
     rpc_response_max_timeout => 300,
     service_providers        => $providers_list,
     ensure_dr_package        => $bgp_dragent_enabled,
