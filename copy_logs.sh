@@ -317,6 +317,11 @@ if [ `command -v ceph` ]; then
     sudo ceph-volume lvm list ceph_vg/lv_data > $LOG_DIR/ceph-cmd/ceph-volume-lvm-list.txt
 fi
 
+# rsync
+if [ -f /etc/rsyncd.conf ]; then
+    sudo cp /etc/rsyncd.conf $LOG_DIR/etc/rsyncd.conf
+fi
+
 # package status and repository list
 if [ `command -v dpkg` ]; then
     dpkg -l> $LOG_DIR/dpkg-l.txt
