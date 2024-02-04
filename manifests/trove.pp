@@ -19,6 +19,11 @@ class openstack_integration::trove {
   class { 'trove::logging':
     debug => true,
   }
+  class { 'trove::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'trove::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
