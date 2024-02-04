@@ -70,11 +70,14 @@ class openstack_integration::octavia (
     notification_driver        => 'messagingv2',
   }
   class { 'octavia::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
-    password => 'octavia',
-    host     => $::openstack_integration::config::host,
+    charset            => $::openstack_integration::params::mysql_charset,
+    collate            => $::openstack_integration::params::mysql_collate,
+    password           => 'octavia',
+    host               => $::openstack_integration::config::host,
+    persistence_dbname => 'octavia_persistence',
   }
+  class { 'octavia::db::sync': }
+  class { 'octavia::db::sync_persistence': }
   class { 'octavia::keystone::auth':
     public_url   => "${::openstack_integration::config::base_url}:9876",
     internal_url => "${::openstack_integration::config::base_url}:9876",
@@ -179,6 +182,25 @@ class openstack_integration::octavia (
     heartbeat_key  => 'abcdefghijkl',
   }
 
+  class { 'octavia::task_flow':
+    max_workers                        => 2,
+    persistence_connection             => os_database_connection({
+      'dialect'  => 'mysql+pymysql',
+      'host'     => $::openstack_integration::config::ip_for_url,
+      'username' => 'octavia',
+      'password' => 'octavia',
+      'database' => 'octavia_persistence',
+      'charset'  => 'utf8',
+      'extra'    => $::openstack_integration::config::db_extra,
+    }),
+    jobboard_enabled                   => true,
+    jobboard_backend_hosts             => $::openstack_integration::config::host,
+    jobboard_backend_port              => 6379,
+    jobboard_backend_password          => 'a_big_secret',
+    jobboard_redis_backend_ssl_options => {
+      'ssl' => $::openstack_integration::config::ssl
+    },
+  }
   class { 'octavia::worker':
     workers => 2,
   }

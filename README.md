@@ -80,7 +80,7 @@ scenario](#all-in-one).
 | taas       |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |      X      |             |              |
 | bgp-dr     |             |             |             |      X      |             |              |
-| redis      |      X      |       X     |       X     |             |             |              |
+| redis      |      X      |       X     |       X     |      X      |      X      |              |
 | l2gw       |             |             |             |      X      |             |              |
 | octavia    |             |             |             |      X      |      X      |              |
 | om rpc     |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
