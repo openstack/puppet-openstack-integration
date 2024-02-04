@@ -34,6 +34,11 @@ class openstack_integration::zaqar {
     auth_url => "${::openstack_integration::config::keystone_auth_uri}/v3",
     password => 'a_big_secret'
   }
+  class { 'zaqar::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'zaqar::management::sqlalchemy':
     uri => os_database_connection({
       'dialect'  => 'mysql+pymysql',

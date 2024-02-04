@@ -21,6 +21,11 @@ class openstack_integration::watcher {
     password => 'watcher',
     host     => $::openstack_integration::config::host,
   }
+  class { 'watcher::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'watcher::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',

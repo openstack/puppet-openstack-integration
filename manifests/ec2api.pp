@@ -29,6 +29,11 @@ class openstack_integration::ec2api {
 
   case $facts['os']['family'] {
     'RedHat': {
+      class { 'ec2api::cache':
+        backend          => 'dogpile.cache.pymemcache',
+        enabled          => true,
+        memcache_servers => $::openstack_integration::config::memcache_servers,
+      }
       class { 'ec2api::db':
         database_connection => os_database_connection({
           'dialect'  => 'mysql+pymysql',
