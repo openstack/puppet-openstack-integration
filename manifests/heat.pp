@@ -72,7 +72,6 @@ class openstack_integration::heat (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }

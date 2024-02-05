@@ -28,14 +28,6 @@ class openstack_integration::murano {
     require              => [ Class['rabbitmq'], Rabbitmq_vhost['/murano'] ],
   }
 
-  if $::openstack_integration::config::messaging_default_proto == 'amqp' {
-    qdr_user { 'murano':
-      password => 'an_even_bigger_secret',
-      provider => 'sasl',
-      require  => Class['qdr'],
-    }
-  }
-
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'murano':
       notify  => Service['murano-api'],

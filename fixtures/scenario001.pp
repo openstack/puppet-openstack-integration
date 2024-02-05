@@ -22,14 +22,10 @@ if $facts['os']['name'] == 'Ubuntu' {
 
 case $facts['os']['family'] {
   'Debian': {
-    $ipv6      = false
-    $om_rpc    = 'rabbit'
-    $om_notify = 'rabbit'
+    $ipv6 = false
   }
   'RedHat': {
-    $ipv6      = true
-    $om_rpc    = 'amqp'
-    $om_notify = 'rabbit'
+    $ipv6 = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -38,10 +34,8 @@ case $facts['os']['family'] {
 
 include openstack_integration
 class { 'openstack_integration::config':
-  ssl            => $ssl,
-  ipv6           => $ipv6,
-  rpc_backend    => $om_rpc,
-  notify_backend => $om_notify,
+  ssl  => $ssl,
+  ipv6 => $ipv6,
 }
 if $ssl {
   include openstack_integration::cacert
@@ -49,9 +43,6 @@ if $ssl {
 include openstack_integration::apache
 include openstack_integration::memcached
 include openstack_integration::rabbitmq
-if ($om_rpc == 'amqp') {
-  include openstack_integration::qdr
-}
 include openstack_integration::mysql
 include openstack_integration::redis
 class { 'openstack_integration::keystone':
