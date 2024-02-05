@@ -24,7 +24,6 @@ openstacklib
 oslo
 ovn
 placement
-qdr
 sahara
 swift
 tempest
