@@ -254,6 +254,11 @@ class openstack_integration::neutron (
     Anchor['neutron::service::end'] ~> Exec['check-neutron-server'] -> Neutron_network<||>
   }
 
+  class { 'neutron::cache':
+    backend          => 'dogpile.cache.pymemcache',
+    enabled          => true,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
+  }
   class { 'neutron::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
