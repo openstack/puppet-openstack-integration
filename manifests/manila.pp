@@ -70,7 +70,6 @@ class openstack_integration::manila (
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    amqp_sasl_mechanisms       => 'PLAIN',
   }
   class { 'manila::keystone::authtoken':
     password             => 'a_big_secret',

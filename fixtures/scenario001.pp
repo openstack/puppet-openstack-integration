@@ -25,15 +25,11 @@ case $::osfamily {
     $ipv6                    = false
     # vitrage are not packaged yet in debian/ubuntu
     $enable_vitrage          = false
-    $om_rpc                  = 'rabbit'
-    $om_notify               = 'rabbit'
     $notification_topics     = $::os_service_default
   }
   'RedHat': {
     $ipv6                    = true
     $enable_vitrage          = true
-    $om_rpc                  = 'amqp'
-    $om_notify               = 'rabbit'
     $notification_topics     = ['notifications', 'vitrage_notifications']
   }
   default: {
@@ -43,10 +39,8 @@ case $::osfamily {
 
 include openstack_integration
 class { 'openstack_integration::config':
-  ssl            => $ssl,
-  ipv6           => $ipv6,
-  rpc_backend    => $om_rpc,
-  notify_backend => $om_notify,
+  ssl  => $ssl,
+  ipv6 => $ipv6,
 }
 if $ssl {
   include openstack_integration::cacert
@@ -54,9 +48,6 @@ if $ssl {
 include openstack_integration::apache
 include openstack_integration::memcached
 include openstack_integration::rabbitmq
-if ($om_rpc == 'amqp') {
-  include openstack_integration::qdr
-}
 include openstack_integration::mysql
 include openstack_integration::redis
 class { 'openstack_integration::keystone':
