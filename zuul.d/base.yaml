@@ -63,8 +63,6 @@
         override-checkout: stable/zed
       - name: openstack/puppet-placement
         override-checkout: stable/zed
-      - name: openstack/puppet-qdr
-        override-checkout: stable/zed
       - name: openstack/puppet-sahara
         override-checkout: stable/zed
       - name: openstack/puppet-swift
