@@ -53,6 +53,7 @@ include openstack_integration::apache
 include openstack_integration::memcached
 include openstack_integration::rabbitmq
 include openstack_integration::mysql
+include openstack_integration::redis
 include openstack_integration::keystone
 class { 'openstack_integration::glance':
   backend => 'swift',
