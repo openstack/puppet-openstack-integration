@@ -73,3 +73,13 @@
         - libxslt1-dev
         - ruby-dev
         - zlib1g-dev
+
+    # TODO(tkajinam): Remove this once libvirt 10.0.0 is available
+    - block:
+      - name: Workaround for https://issues.redhat.com/browse/RHEL-20609
+        shell:
+          cmd: |
+            dnf config-manager --save --setopt exclude=libvirt*-9.10.0-1.el9
+        become: true
+      when:
+        - ansible_os_family == 'RedHat'
