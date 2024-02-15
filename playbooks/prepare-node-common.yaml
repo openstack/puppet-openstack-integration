@@ -83,3 +83,13 @@
         become: true
       when:
         - ansible_os_family == 'RedHat'
+
+    # TODO(tkajinam): Remove this one the issue is resolved in cs9
+    - block:
+      - name: Workaround for https://issues.redhat.com/browse/RHEL-25802
+        shell:
+          cmd: |
+            dnf module disable -y mariadb:10.11
+        become: true
+      when:
+        - ansible_os_family == 'RedHat'
