@@ -148,7 +148,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v9.2.0'
+  :ref => 'v9.4.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -212,7 +212,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v9.3.0'
+  :ref => 'v10.0.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
