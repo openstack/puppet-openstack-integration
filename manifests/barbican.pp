@@ -77,6 +77,7 @@ class openstack_integration::barbican {
     service_name                => 'httpd',
     enabled_certificate_plugins => ['simple_certificate'],
     db_auto_create              => false,
+    enable_queue                => true,
     rabbit_use_ssl              => $::openstack_integration::config::ssl,
   }
   class { 'barbican::wsgi::apache':
