@@ -89,16 +89,6 @@
         - zlib1g-dev
         - python3-pip
 
-    # TODO(tkajinam): Remove this once libvirt 10.0.0 is available
-    - block:
-      - name: Workaround for https://issues.redhat.com/browse/RHEL-20609
-        shell:
-          cmd: |
-            dnf config-manager --save --setopt exclude=libvirt*-9.10.0-1.el9
-        become: true
-      when:
-        - ansible_os_family == 'RedHat'
-
     # TODO(tkajinam): Remove this one the issue is resolved in cs9
     - block:
       - name: Workaround for https://issues.redhat.com/browse/RHEL-25802
