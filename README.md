@@ -62,7 +62,6 @@ scenario](#all-in-one).
 | ec2api     |             |       X     |             |             |             |              |
 | heat       |      X      |             |       X     |             |             |              |
 | swift      |             |       X     |             |             |             |              |
-| sahara     |             |             |       X     |             |             |              |
 | trove      |             |             |       X     |             |             |              |
 | horizon    |             |       X     |       X     |      X      |      X      |      X       |
 | ironic     |             |       X     |             |             |             |              |

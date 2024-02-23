@@ -61,9 +61,6 @@ class { 'openstack_integration::horizon':
   heat_enabled => true
 }
 include openstack_integration::heat
-class { 'openstack_integration::sahara':
-  integration_enable => $sahara_integration_enable,
-}
 include openstack_integration::designate
 include openstack_integration::murano
 include openstack_integration::mistral
@@ -78,7 +75,6 @@ class { 'openstack_integration::tempest':
   designate      => true,
   trove          => true,
   mistral        => true,
-  sahara         => true,
   horizon        => true,
   # TODO(tkajinam): Some of the murano tests still fail.
   murano         => false,
