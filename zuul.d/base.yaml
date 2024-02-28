@@ -19,8 +19,6 @@
         override-checkout: stable/2023.2
       - name: openstack/puppet-designate
         override-checkout: stable/2023.2
-      - name: openstack/puppet-ec2api
-        override-checkout: stable/2023.2
       - name: openstack/puppet-glance
         override-checkout: stable/2023.2
       - name: openstack/puppet-gnocchi
