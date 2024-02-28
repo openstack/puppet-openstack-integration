@@ -59,7 +59,6 @@ scenario](#all-in-one).
 | designate  |             |             |     bind    |             |             |              |
 | backup     |             |    swift    |             |             |             |              |
 | gnocchi    |     rbd     |    swift    |             |             |             |              |
-| ec2api     |             |       X     |             |             |             |              |
 | heat       |      X      |             |       X     |             |             |              |
 | swift      |             |       X     |             |             |             |              |
 | sahara     |             |             |       X     |             |             |              |

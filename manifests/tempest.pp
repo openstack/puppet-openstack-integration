@@ -28,10 +28,6 @@
 #   (optional) Define if Designate needs to be tested.
 #   Default to false.
 #
-# [*ec2api*]
-#   (optional) Define if EC2-API needs to be tested.
-#   Default to false.
-#
 # [*glance*]
 #   (optional) Define if Glance needs to be tested.
 #   Default to true.
@@ -155,7 +151,6 @@ class openstack_integration::tempest (
   $cinder                  = false,
   $cinder_backup           = false,
   $designate               = false,
-  $ec2api                  = false,
   $glance                  = true,
   $gnocchi                 = false,
   $heat                    = false,
@@ -320,7 +315,6 @@ class openstack_integration::tempest (
     mistral_available                  => $mistral,
     vitrage_available                  => $vitrage,
     gnocchi_available                  => $gnocchi,
-    ec2api_available                   => $ec2api,
     watcher_available                  => $watcher,
     public_network_name                => 'public',
     neutron_api_extensions             => join(any2array($neutron_api_extensions_real), ','),
@@ -347,7 +341,6 @@ class openstack_integration::tempest (
     ssh_key_type                       => 'ecdsa',
     l2gw_switch                        => $l2gw_switch,
     disable_dashboard_ssl_validation   => true,
-    ec2api_tester_roles                => ['member'],
     heat_image_name                    => 'cirros',
     heat_flavor_ref                    => '84',
     baremetal_driver                   => 'fake-hardware',

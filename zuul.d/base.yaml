@@ -19,8 +19,6 @@
         override-checkout: stable/zed
       - name: openstack/puppet-designate
         override-checkout: stable/zed
-      - name: openstack/puppet-ec2api
-        override-checkout: stable/zed
       - name: openstack/puppet-glance
         override-checkout: stable/zed
       - name: openstack/puppet-gnocchi
