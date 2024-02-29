@@ -109,3 +109,4 @@
         - use_puppetlabs is defined
         - use_puppetlabs|bool
         - ansible_os_family == 'Debian'
+

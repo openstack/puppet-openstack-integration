@@ -8,7 +8,7 @@ group :development, :test, :system_tests do
   else
     gem 'puppet-openstack_spec_helper',
         :git => 'https://opendev.org/openstack/puppet-openstack_spec_helper',
-        :ref => 'stable/yoga',
+        :ref => 'unmaintained/yoga',
         :require => 'false'
   end
 end
