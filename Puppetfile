@@ -188,7 +188,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v8.2.0'
+  :ref => 'v8.3.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
@@ -212,5 +212,5 @@ mod 'redis',
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v6.3.0'
+  :ref => 'v6.4.0'
 
