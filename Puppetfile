@@ -29,10 +29,6 @@ mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'master'
 
-mod 'ec2api',
-  :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'master'
-
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
   :ref => 'master'

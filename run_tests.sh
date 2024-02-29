@@ -309,12 +309,6 @@ echo "magnum_tempest_plugin.tests.api.v1.test_magnum_service.MagnumServiceTest" 
 # Zaqar
 echo "v2.test_queues.TestManageQueue" >> /tmp/openstack/tempest/test-include-list.txt
 
-# ec2api
-# VPN tests require VPNaaS, which doesn't work yet in puppet-tempest.
-# As soon as enabling neutron_vpnaas_available works there, the VPN tests can
-# be included.
-echo "ec2api_tempest_plugin.api.*test_create_delete(?!.*_vpn_connection)" >> /tmp/openstack/tempest/test-include-list.txt
-
 # Cinder Backup
 echo "VolumesBackupsAdminTest" >> /tmp/openstack/tempest/test-include-list.txt
 

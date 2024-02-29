@@ -12,7 +12,6 @@
       - name: openstack/puppet-cinder
       - name: openstack/puppet-cloudkitty
       - name: openstack/puppet-designate
-      - name: openstack/puppet-ec2api
       - name: openstack/puppet-glance
       - name: openstack/puppet-gnocchi
       - name: openstack/puppet-heat
