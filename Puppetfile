@@ -136,7 +136,7 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v12.0.2'
+  :ref => 'v12.0.3'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
