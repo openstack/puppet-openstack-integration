@@ -38,8 +38,6 @@
       - name: openstack/puppet-mistral
         override-checkout: stable/2023.1
       - name: x/puppet-modulesync-configs
-      - name: openstack/puppet-murano
-        override-checkout: stable/2023.1
       - name: openstack/puppet-neutron
         override-checkout: stable/2023.1
       - name: openstack/puppet-nova

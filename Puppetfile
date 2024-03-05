@@ -65,10 +65,6 @@ mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
   :ref => 'stable/2023.1'
 
-mod 'murano',
-  :git => 'https://opendev.org/openstack/puppet-murano',
-  :ref => 'stable/2023.1'
-
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
   :ref => 'stable/2023.1'

@@ -84,10 +84,6 @@
 #   (optional) Define if Octavia needs to be tested.
 #   Default to false.
 #
-# [*murano*]
-#   (optional) Define if Murano needs to be tested.
-#   Default to false.
-#
 # [*swift*]
 #   (optional) Define if Swift needs to be tested.
 #   Default to false.
@@ -158,7 +154,6 @@ class openstack_integration::tempest (
   $magnum                  = false,
   $manila                  = false,
   $mistral                 = false,
-  $murano                  = false,
   $neutron                 = true,
   $nova                    = true,
   $octavia                 = false,
@@ -321,7 +316,6 @@ class openstack_integration::tempest (
     ca_certificates_file               => $::openstack_integration::params::ca_bundle_cert_path,
     manage_tests_packages              => true,
     attach_encrypted_volume            => $attach_encrypted_volume,
-    murano_available                   => $murano,
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,
     # NOTE(tkajinam): The recent openssl doesn't accept SHA1 by default, which
