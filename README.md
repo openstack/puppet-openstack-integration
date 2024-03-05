@@ -66,7 +66,6 @@ scenario](#all-in-one).
 | horizon    |             |             |       X     |      X      |             |      X       |
 | ironic     |             |       X     |             |             |             |              |
 | zaqar      |             |       X     |             |             |             |              |
-| murano     |             |             |       X     |             |             |              |
 | magnum     |             |             |       X     |             |             |              |
 | mistral    |             |             |       X     |             |             |              |
 | barbican   |             |       X     |       X     |             |             |              |

@@ -25,17 +25,12 @@ case $::osfamily {
     $ipv6            = false
     # mistral is not packaged on Ubuntu Trusty
     $mistral_enabled = false
-    # murano package should be fixed on Ubuntu Xenial
-    $murano_enabled  = false
     # trove package contains broken Tempest tests
     $trove_enabled   = false
   }
   'RedHat': {
     $ipv6            = true
     $mistral_enabled = true
-    # NOTE(mnaser): We need to figure out why Murano won't accept credentials
-    #               and how to get it to work with Keystone V3.
-    $murano_enabled  = false
     $trove_enabled   = true
   }
   default: {
@@ -73,9 +68,6 @@ class { 'openstack_integration::horizon':
 }
 include openstack_integration::heat
 include openstack_integration::designate
-if $murano_enabled {
-  include openstack_integration::murano
-}
 if $mistral_enabled {
   include openstack_integration::mistral
 }
@@ -91,7 +83,6 @@ class { 'openstack_integration::tempest':
   trove          => $trove_enabled,
   mistral        => $mistral_enabled,
   horizon        => true,
-  murano         => $murano_enabled,
   # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
   #                 enabled in this scenario.
   heat           => false,
