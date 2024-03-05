@@ -42,14 +42,6 @@ class openstack_integration::provision (
       vcpus  => '1',
     }
 
-    # NOTE(amoralej): "m1.tiny" flavor is required by murano scenario tests
-    nova_flavor { 'm1.tiny':
-      ensure => present,
-      id     => '1',
-      ram    => '128',
-      disk   => '2',
-      vcpus  => '1',
-    }
     Keystone_user_role['admin@openstack'] -> Nova_flavor<||>
   }
 

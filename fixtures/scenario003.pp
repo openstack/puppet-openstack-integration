@@ -62,7 +62,6 @@ class { 'openstack_integration::horizon':
 }
 include openstack_integration::heat
 include openstack_integration::designate
-include openstack_integration::murano
 include openstack_integration::mistral
 include openstack_integration::provision
 
@@ -76,8 +75,6 @@ class { 'openstack_integration::tempest':
   trove          => true,
   mistral        => true,
   horizon        => true,
-  # TODO(tkajinam): Some of the murano tests still fail.
-  murano         => false,
   # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
   #                 enabled in this scenario.
   heat           => false,
