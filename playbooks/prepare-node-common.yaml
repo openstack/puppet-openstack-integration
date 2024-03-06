@@ -98,13 +98,3 @@
         become: true
       when:
         - ansible_os_family == 'RedHat'
-
-    # TODO(tkajinam): Remove this one the issue is resolved in puppet
-    - block:
-      - name: Workaround for https://github.com/puppetlabs/puppet/issues/9268
-        shell:
-          cmd: |
-            dnf config-manager --save --setopt exclude=puppet-agent-7.29.0-1.el9.x86_64
-        become: true
-      when:
-        - ansible_os_family == 'RedHat'
