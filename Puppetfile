@@ -105,10 +105,6 @@ mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
   :ref => 'stable/2023.1'
 
-mod 'qdr',
-  :git => 'https://opendev.org/openstack/puppet-qdr',
-  :ref => 'stable/2023.1'
-
 mod 'sahara',
   :git => 'https://opendev.org/openstack/puppet-sahara',
   :ref => 'stable/2023.1'
