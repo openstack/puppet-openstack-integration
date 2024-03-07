@@ -22,7 +22,6 @@
       - name: openstack/puppet-manila
       - name: openstack/puppet-mistral
       - name: x/puppet-modulesync-configs
-      - name: openstack/puppet-murano
       - name: openstack/puppet-neutron
       - name: openstack/puppet-nova
       - name: openstack/puppet-octavia
