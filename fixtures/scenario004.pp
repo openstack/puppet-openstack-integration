@@ -78,7 +78,9 @@ class { 'openstack_integration::ceph':
 class { 'openstack_integration::horizon':
   octavia_enabled => true
 }
-include openstack_integration::watcher
+# TODO(tkajinam): Disabled due to
+# https://bugs.launchpad.net/watcher/+bug/2056181
+# include openstack_integration::watcher
 class { 'openstack_integration::manila':
   backend => 'cephfsnative'
 }
@@ -89,7 +91,9 @@ include openstack_integration::provision
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
   horizon             => true,
-  watcher             => true,
+  # TODO(tkajinam): Disabled due to
+  # https://bugs.launchpad.net/watcher/+bug/2056181
+  # watcher             => true,
   vpnaas              => $vpnaas_enabled,
   taas                => $taas_enabled,
   bgpvpn              => $bgpvpn_enabled,
