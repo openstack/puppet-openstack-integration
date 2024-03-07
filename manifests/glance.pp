@@ -119,6 +119,11 @@ class openstack_integration::glance (
     bind_host        => $::openstack_integration::config::host,
   }
   class { 'glance::cron::db_purge': }
+  class { 'glance::cache::cleaner': }
+  class { 'glance::cache::pruner': }
+  class { 'glance::cache::logging':
+    debug => true,
+  }
   class { 'glance::notify::rabbitmq':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
