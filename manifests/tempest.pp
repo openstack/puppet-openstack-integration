@@ -345,7 +345,6 @@ class openstack_integration::tempest (
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,
     l2gw_switch                        => $l2gw_switch,
-    disable_dashboard_ssl_validation   => true,
     heat_image_name                    => 'cirros',
     heat_flavor_ref                    => '84',
     baremetal_driver                   => 'fake-hardware',
