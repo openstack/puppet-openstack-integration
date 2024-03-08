@@ -19,13 +19,6 @@
           set -e
           set -x
           ZUUL_BRANCH_REAL=${ZUUL_BRANCH:-master}
-          # Workaround for puppet-ceph, where we need to checkout
-          # puppet-openstack-integration from stable/pike when working on
-          # stable/jewel.
-          # Ceph Jewel works with Newton to Pike
-          if [[ "$ZUUL_BRANCH" == "stable/jewel" ]]; then
-              ZUUL_BRANCH_REAL='stable/pike'
-          fi
           if [ -d /home/zuul/src/opendev.org/openstack/puppet-openstack-integration ]; then
               [ ! -d puppet-openstack-integration ] && mkdir puppet-openstack-integration
               cp -dR /home/zuul/src/opendev.org/openstack/puppet-openstack-integration/. puppet-openstack-integration
