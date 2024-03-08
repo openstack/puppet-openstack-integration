@@ -29,10 +29,6 @@ mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
   :ref => 'stable/zed'
 
-mod 'ec2api',
-  :git => 'https://opendev.org/openstack/puppet-ec2api',
-  :ref => 'stable/zed'
-
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
   :ref => 'stable/zed'

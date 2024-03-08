@@ -22,13 +22,10 @@ if $::os['name'] == 'Ubuntu' {
 
 case $::osfamily {
   'Debian': {
-    $ipv6           = false
-    # ec2api is not packaged on UCA
-    $ec2api_enabled = false
+    $ipv6 = false
   }
   'RedHat': {
-    $ipv6           = true
-    $ec2api_enabled = true
+    $ipv6 = true
   }
   default: {
     fail("Unsupported osfamily (${::osfamily})")
@@ -75,10 +72,6 @@ class { 'openstack_integration::cinder':
 
 include openstack_integration::barbican
 
-if $ec2api_enabled {
-  include openstack_integration::ec2api
-}
-
 include openstack_integration::ceilometer
 include openstack_integration::aodh
 class { 'openstack_integration::gnocchi':
@@ -97,6 +90,4 @@ class { 'openstack_integration::tempest':
   ironic                  => true,
   zaqar                   => true,
   attach_encrypted_volume => true,
-  # Enable this once bug 2050063 is fixed
-  ec2api                  => false,
 }
