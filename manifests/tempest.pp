@@ -346,10 +346,6 @@ class openstack_integration::tempest (
     run_ssh                            => true,
     l2gw_switch                        => $l2gw_switch,
     disable_dashboard_ssl_validation   => true,
-    aws_ec2_url                        => "${::openstack_integration::config::base_url}:8788/",
-    aws_region                         => 'regionOne',
-    # TODO(tkajinam): we have to configure image id parameters but we have to
-    #                 obtain id from EC2 api.
     heat_image_name                    => 'cirros',
     heat_flavor_ref                    => '84',
     baremetal_driver                   => 'fake-hardware',
