@@ -148,7 +148,7 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => 'v6.1.0'
+  :ref => 'v6.1.1'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -168,7 +168,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v9.4.1'
+  :ref => 'v9.5.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
