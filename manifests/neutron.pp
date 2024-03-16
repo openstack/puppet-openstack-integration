@@ -5,6 +5,10 @@
 #   Can be: openvswitch, linuxbridge or ovn.
 #   Defaults to 'openvswitch'.
 #
+# [*ovn_metadata_agent_enabled*]
+#   (optional) Enable ovn-metadata-agent
+#   Defaults to true
+#
 # [*metering_enabled*]
 #   (optional) Flag to enable metering agent
 #   Defaults to false.
@@ -38,15 +42,16 @@
 #   Defaults to $facts['os_service_default'].
 #
 class openstack_integration::neutron (
-  $driver              = 'openvswitch',
-  $metering_enabled    = false,
-  $vpnaas_enabled      = false,
-  $taas_enabled        = false,
-  $bgpvpn_enabled      = false,
-  $l2gw_enabled        = false,
-  $bgp_dragent_enabled = false,
-  $baremetal_enabled   = false,
-  $notification_topics = $facts['os_service_default'],
+  $driver                     = 'openvswitch',
+  $ovn_metadata_agent_enabled = true,
+  $metering_enabled           = false,
+  $vpnaas_enabled             = false,
+  $taas_enabled               = false,
+  $bgpvpn_enabled             = false,
+  $l2gw_enabled               = false,
+  $bgp_dragent_enabled        = false,
+  $baremetal_enabled          = false,
+  $notification_topics        = $facts['os_service_default'],
 ) {
 
   include openstack_integration::config
@@ -358,8 +363,20 @@ class openstack_integration::neutron (
   if $driver == 'ovn' {
     # NOTE(tkajinam): ovn-agent is currently available only in RDO
     if $facts['os']['family'] == 'RedHat' {
+      $ovn_agent_extensions = $ovn_metadata_agent_enabled ? {
+        false   => ['metadata'],
+        default => undef
+      }
+      if ! $ovn_metadata_agent_enabled {
+        class { 'neutron::agents::ml2::ovn::metadata':
+          shared_secret     => 'a_big_secret',
+          metadata_host     => $::openstack_integration::config::host,
+          metadata_protocol => $::openstack_integration::config::proto,
+        }
+      }
       class { 'neutron::agents::ml2::ovn':
         debug              => true,
+        extensions         => $ovn_agent_extensions,
         ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
         ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
         ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
@@ -370,15 +387,18 @@ class openstack_integration::neutron (
         ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
       }
     }
-    class { 'neutron::agents::ovn_metadata':
-      debug              => true,
-      shared_secret      => 'a_big_secret',
-      metadata_host      => $::openstack_integration::config::host,
-      metadata_protocol  => $::openstack_integration::config::proto,
-      ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
-      ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
-      ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
-      ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
+
+    if $ovn_metadata_agent_enabled {
+      class { 'neutron::agents::ovn_metadata':
+        debug              => true,
+        shared_secret      => 'a_big_secret',
+        metadata_host      => $::openstack_integration::config::host,
+        metadata_protocol  => $::openstack_integration::config::proto,
+        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+        ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
+        ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
+        ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
+      }
     }
   } else {
     class { 'neutron::agents::metadata':
