@@ -24,10 +24,12 @@ case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
     $modular_libvirt = false
+    $ovn_metadata_agent_enabled = true
   }
   'RedHat': {
     $ipv6 = true
     $modular_libvirt = true
+    $ovn_metadata_agent_enabled = false
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -54,7 +56,8 @@ class { 'openstack_integration::glance':
   backend => 'cinder',
 }
 class { 'openstack_integration::neutron':
-  driver => 'ovn',
+  driver                     => 'ovn',
+  ovn_metadata_agent_enabled => $ovn_metadata_agent_enabled,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
