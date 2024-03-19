@@ -355,17 +355,6 @@ class openstack_integration::neutron (
     }
   }
 
-  if $::openstack_integration::config::ssl {
-    # with nova metadata api running via wsgi it is ssl terminated, also
-    # neutron metadata agent does not support an ipv6 address for the
-    # metadata_host, so we need to use the hostname
-    $metadata_host     = 'localhost'
-    $metadata_protocol = 'https'
-  } else {
-    $metadata_host     = $::openstack_integration::config::host
-    $metadata_protocol = 'http'
-  }
-
   if $driver == 'ovn' {
     # NOTE(tkajinam): ovn-agent is currently available only in RDO
     if $facts['os']['family'] == 'RedHat' {
@@ -384,8 +373,8 @@ class openstack_integration::neutron (
     class { 'neutron::agents::ovn_metadata':
       debug              => true,
       shared_secret      => 'a_big_secret',
-      metadata_host      => $metadata_host,
-      metadata_protocol  => $metadata_protocol,
+      metadata_host      => $::openstack_integration::config::host,
+      metadata_protocol  => $::openstack_integration::config::proto,
       ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
       ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
       ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
@@ -396,8 +385,8 @@ class openstack_integration::neutron (
       debug             => true,
       shared_secret     => 'a_big_secret',
       metadata_workers  => 2,
-      metadata_host     => $metadata_host,
-      metadata_protocol => $metadata_protocol,
+      metadata_host     => $::openstack_integration::config::host,
+      metadata_protocol => $::openstack_integration::config::proto,
     }
 
     $l3_extensions = $vpnaas_enabled ? {
