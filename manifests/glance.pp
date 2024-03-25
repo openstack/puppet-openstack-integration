@@ -148,8 +148,9 @@ class openstack_integration::glance (
       backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
     }
     class { 'glance::key_manager::barbican':
-      barbican_endpoint => "${::openstack_integration::config::base_url}:9311",
-      auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3"
+      barbican_endpoint       => "${::openstack_integration::config::base_url}:9311",
+      auth_endpoint           => $::openstack_integration::config::keystone_auth_uri,
+      send_service_user_token => true,
     }
     class { 'glance::key_manager::barbican::service_user':
       password            => 'a_big_secret',

@@ -205,8 +205,9 @@ class openstack_integration::nova (
       backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
     }
     class { 'nova::key_manager::barbican':
-      auth_endpoint     => "${::openstack_integration::config::keystone_auth_uri}/v3",
-      barbican_endpoint => "${::openstack_integration::config::base_url}:9311"
+      auth_endpoint           => $::openstack_integration::config::keystone_auth_uri,
+      barbican_endpoint       => "${::openstack_integration::config::base_url}:9311",
+      send_service_user_token => true,
     }
     class { 'nova::key_manager::barbican::service_user':
       password            => 'a_big_secret',
