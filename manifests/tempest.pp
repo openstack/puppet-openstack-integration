@@ -276,6 +276,11 @@ class openstack_integration::tempest (
     default  => "${::openstack_integration::config::base_url}/horizon"
   }
 
+  $metric_backends = $gnocchi ? {
+    true    => ['gnocchi'],
+    default => [],
+  }
+
   class { 'tempest':
     debug                              => true,
     use_stderr                         => false,
@@ -358,6 +363,7 @@ class openstack_integration::tempest (
     share_enable_protocols             => [downcase($share_protocol)],
     share_capability_storage_protocol  => $share_protocol,
     designate_nameservers              => "${::openstack_integration::config::ip_for_url}:5322",
+    metric_backends                    => $metric_backends,
   }
 
   if $magnum {
