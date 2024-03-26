@@ -74,7 +74,7 @@ class openstack_integration::trove {
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
-  class { 'trove::api::service_credentials':
+  class { 'trove::service_credentials':
     password => 'a_big_secret',
     auth_url => $::openstack_integration::config::keystone_auth_uri,
   }
