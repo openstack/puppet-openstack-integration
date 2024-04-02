@@ -16,11 +16,16 @@
 #   (optional) The oslo.messaging backend to configure for notify.
 #   Defaults to 'rabbit'.
 #
+# [*cache_backend*]
+#   (optional) The oslo.cache backend
+#   Defaults to 'memcached'.
+#
 class openstack_integration::config (
   $ssl            = false,
   $ipv6           = false,
   $rpc_backend    = 'rabbit',
   $notify_backend = 'rabbit',
+  $cache_backend  = 'memcached',
 ) {
 
   include openstack_integration::params
@@ -70,6 +75,19 @@ class openstack_integration::config (
   $base_url           = "${proto}://${ip_for_url}"
   $keystone_auth_uri  = "${base_url}:5000"
   $keystone_admin_uri = "${base_url}:5000"
+
+  $redis_server = "${ip_for_url}:6379"
+  $redis_sentinel_server = "${ip_for_url}:26379"
+  $cache_driver = $cache_backend ? {
+    'redis'          => 'dogpile.cache.redis',
+    'redis_sentinel' => 'dogpile.cache.redis_sentinel',
+    default          => 'dogpile.cache.pymemcache'
+  }
+  $cache_tls_enabled = $cache_backend ? {
+    'redis'          => $ssl,
+    'redis_sentinel' => $ssl,
+    default          => false,
+  }
 
   $tooz_url = os_url({
     'scheme'   => 'redis',

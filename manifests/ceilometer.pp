@@ -30,7 +30,13 @@ class openstack_integration::ceilometer (
     debug => true,
   }
   class { 'ceilometer::cache':
+    backend          => $::openstack_integration::config::cache_driver,
+    enabled          => true,
     memcache_servers => $::openstack_integration::config::memcached_servers,
+    redis_server     => $::openstack_integration::config::redis_server,
+    redis_password   => 'a_big_secret',
+    redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
+    tls_enabled      => $::openstack_integration::config::cache_tls_enabled,
   }
   class { 'ceilometer':
     telemetry_secret           => 'secrete',

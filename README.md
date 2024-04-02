@@ -77,11 +77,13 @@ scenario](#all-in-one).
 | taas       |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |      X      |             |              |
 | bgp-dr     |             |             |             |      X      |             |              |
+| memcached  |      X      |       X     |       X     |      X      |      X      |      X       |
 | redis      |      X      |       X     |       X     |      X      |      X      |              |
 | l2gw       |             |             |             |      X      |             |              |
 | octavia    |             |             |             |      X      |      X      |              |
 | om rpc     |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
+| oslo.cache |    redis    |   sentinel  |   memcache  |   memcache  |   memcache  |   memcache   |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
