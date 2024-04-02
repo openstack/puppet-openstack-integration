@@ -52,7 +52,7 @@ scenario](#all-in-one).
 | nova       |     rbd     |       X     |       X     |     rbd     |      X      |      X       |
 | placement  |      X      |       X     |       X     |      X      |      X      |      X       |
 | neutron    |     ovs     |      ovs    |      ovn    |     ovs     |     ovn     |     ovs      |
-| cinder     |     rbd     |     iscsi   |             |             |    iscsi    |   iscsi      |
+| cinder     |     rbd     |     iscsi   |             |             |    iscsi    |    iscsi     |
 | manila     |             |             |             |   cephfs    |     lvm     |              |
 | ceilometer |      X      |       X     |             |             |             |              |
 | aodh       |      X      |       X     |             |             |             |              |
@@ -84,6 +84,7 @@ scenario](#all-in-one).
 | om rpc     |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | oslo.cache |    redis    |   sentinel  |   memcache  |   memcache  |   memcache  |   memcache   |
+| tooz       |    redis    |   sentinel  |    redis    |    redis    |    redis    |   (redis)    |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules

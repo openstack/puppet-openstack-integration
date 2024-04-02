@@ -24,10 +24,12 @@ case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
     $cache_backend = 'memcached'
+    $tooz_backend = 'redis'
   }
   'RedHat': {
     $ipv6 = false
     $cache_backend = 'redis_sentinel'
+    $tooz_backend = 'redis_sentinel'
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -39,6 +41,7 @@ class { 'openstack_integration::config':
   ssl           => $ssl,
   ipv6          => $ipv6,
   cache_backend => $cache_backend,
+  tooz_backend  => $tooz_backend,
 }
 if $ssl {
   include openstack_integration::cacert
