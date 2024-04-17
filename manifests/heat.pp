@@ -47,9 +47,13 @@ class openstack_integration::heat (
     debug => true,
   }
   class { 'heat::cache':
-    backend          => 'dogpile.cache.pymemcache',
+    backend          => $::openstack_integration::config::cache_driver,
     enabled          => true,
     memcache_servers => $::openstack_integration::config::memcache_servers,
+    redis_server     => $::openstack_integration::config::redis_server,
+    redis_password   => 'a_big_secret',
+    redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
+    tls_enabled      => $::openstack_integration::config::cache_tls_enabled,
   }
   class { 'heat::db':
     database_connection => os_database_connection({

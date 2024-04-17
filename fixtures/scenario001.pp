@@ -23,9 +23,11 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
+    $cache_backend = 'memcached'
   }
   'RedHat': {
     $ipv6 = true
+    $cache_backend = 'redis'
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -39,8 +41,9 @@ $notification_topics = ['notifications']
 
 include openstack_integration
 class { 'openstack_integration::config':
-  ssl  => $ssl,
-  ipv6 => $ipv6,
+  ssl           => $ssl,
+  ipv6          => $ipv6,
+  cache_backend => $cache_backend,
 }
 if $ssl {
   include openstack_integration::cacert
