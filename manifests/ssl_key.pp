@@ -26,13 +26,13 @@ define openstack_integration::ssl_key(
   if $key_path == undef {
     file { "/etc/${name}/ssl":
       ensure                  => directory,
-      owner                   => $name,
+      owner                   => $key_owner,
       mode                    => '0775',
       selinux_ignore_defaults => true,
     }
     file { "/etc/${name}/ssl/private":
       ensure                  => directory,
-      owner                   => $name,
+      owner                   => $key_owner,
       mode                    => '0755',
       require                 => File["/etc/${name}/ssl"],
       selinux_ignore_defaults => true,
