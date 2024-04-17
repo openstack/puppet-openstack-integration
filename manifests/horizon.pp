@@ -27,26 +27,10 @@ class openstack_integration::horizon (
   include openstack_integration::params
 
   if $::openstack_integration::config::ssl {
-    file { '/etc/openstack-dashboard/ssl':
-      ensure                  => directory,
-      owner                   => 'root',
-      mode                    => '0755',
-      selinux_ignore_defaults => true,
-      require                 => Package['horizon'],
-    }
-    file { '/etc/openstack-dashboard/ssl/private':
-      ensure                  => directory,
-      owner                   => 'root',
-      mode                    => '0755',
-      selinux_ignore_defaults => true,
-      require                 => File['/etc/openstack-dashboard/ssl'],
-      before                  => File["/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem"],
-    }
-    openstack_integration::ssl_key { 'horizon':
-      key_path  => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
+    openstack_integration::ssl_key { 'openstack-dashboard':
       key_owner => 'root',
-      require   => File['/etc/openstack-dashboard/ssl/private'],
       notify    => Service['httpd'],
+      require   => Anchor['horizon::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
