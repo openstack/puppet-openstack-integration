@@ -42,7 +42,6 @@ class openstack_integration::vitrage {
   }
 
   class { 'vitrage':
-    # TODO(ansmith): separate transports when bug/1711716 closed
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_notify_proto,
       'host'      => $::openstack_integration::config::host,
@@ -61,21 +60,6 @@ class openstack_integration::vitrage {
     snapshots_interval         => 120,
     types                      => 'nova.host,nova.instance,nova.zone,cinder.volume,neutron.port,neutron.network,doctor',
     notification_driver        => 'messagingv2',
-  }
-
-  # Make sure tempest can read the configuration files
-  # default installation has a 640 premission
-  -> file { '/etc/vitrage':
-    ensure  => directory,
-    recurse => true,
-    mode    => '0644',
-  }
-
-  # Make sure tempest can write to the log directory
-  # default installation has a 755 premission
-  -> file { '/var/log/vitrage':
-    ensure => directory,
-    mode   => '0766',
   }
 
   class { 'vitrage::keystone::auth':
