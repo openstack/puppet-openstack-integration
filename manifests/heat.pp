@@ -18,15 +18,10 @@ class openstack_integration::heat (
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'heat':
-      require => Package['heat-common'],
+      notify  => Service['httpd'],
+      require => Anchor['heat::install::end'],
     }
-    $key_file = "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem"
-    $crt_file = $::openstack_integration::params::cert_path
-    File[$key_file] ~> Service<| tag == 'heat-service' |>
-    Exec['update-ca-certificates'] ~> Service<| tag == 'heat-service' |>
-  } else {
-    $key_file = undef
-    $crt_file = undef
+    Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
   class { 'heat::keystone::authtoken':
@@ -118,8 +113,8 @@ class openstack_integration::heat (
   class { 'heat::wsgi::apache_api':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_cert  => $crt_file,
-    ssl_key   => $key_file,
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_key   => "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem",
     workers   => 2,
   }
   class { 'heat::engine':
@@ -134,8 +129,8 @@ class openstack_integration::heat (
   class { 'heat::wsgi::apache_api_cfn':
     bind_host => $::openstack_integration::config::host,
     ssl       => $::openstack_integration::config::ssl,
-    ssl_cert  => $crt_file,
-    ssl_key   => $key_file,
+    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_key   => "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem",
     workers   => 2,
   }
   class { 'heat::cron::purge_deleted': }

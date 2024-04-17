@@ -14,7 +14,7 @@ class openstack_integration::gnocchi (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'gnocchi':
       notify  => Service['httpd'],
-      require => Package['gnocchi'],
+      require => Anchor['gnocchi::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

@@ -33,7 +33,7 @@ class openstack_integration::keystone (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'keystone':
       notify  => Service['httpd'],
-      require => Package['keystone'],
+      require => Anchor['keystone::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

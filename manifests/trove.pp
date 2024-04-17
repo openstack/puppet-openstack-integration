@@ -11,7 +11,7 @@ class openstack_integration::trove {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'trove':
       notify  => Service['httpd'],
-      require => Package['trove'],
+      require => Anchor['trove::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

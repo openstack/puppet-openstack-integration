@@ -52,7 +52,7 @@ class openstack_integration::nova (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'nova':
       notify  => Service['httpd'],
-      require => Package['nova-common'],
+      require => Anchor['nova::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

@@ -10,7 +10,7 @@ class openstack_integration::placement {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'placement':
       notify  => Service['httpd'],
-      require => Package['placement-common'],
+      require => Anchor['placement::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

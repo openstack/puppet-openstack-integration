@@ -15,7 +15,7 @@ class openstack_integration::designate (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'designate':
       notify  => Service['httpd'],
-      require => Package['designate-common'],
+      require => Anchor['designate::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

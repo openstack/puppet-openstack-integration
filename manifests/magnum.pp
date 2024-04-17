@@ -21,7 +21,7 @@ class openstack_integration::magnum (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'magnum':
       notify  => Service['httpd'],
-      require => Package['magnum-common'],
+      require => Anchor['magnum::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

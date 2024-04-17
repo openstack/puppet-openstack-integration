@@ -11,7 +11,7 @@ class openstack_integration::barbican {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'barbican':
       notify  => Service['httpd'],
-      require => Package['barbican-api'],
+      require => Anchor['barbican::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

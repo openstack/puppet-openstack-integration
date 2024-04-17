@@ -19,7 +19,7 @@ class openstack_integration::aodh (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'aodh':
       notify  => Service['httpd'],
-      require => Package['aodh'],
+      require => Anchor['aodh::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

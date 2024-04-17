@@ -11,7 +11,7 @@ class openstack_integration::vitrage {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'vitrage':
       notify  => Service['httpd'],
-      require => Package['vitrage'],
+      require => Anchor['vitrage::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
