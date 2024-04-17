@@ -20,12 +20,17 @@
 #   (optional) The oslo.cache backend
 #   Defaults to 'memcached'.
 #
+# [*tooz_backend*]
+#   (optional) The tooz backend
+#   Defaults to 'redis'
+#
 class openstack_integration::config (
   $ssl            = false,
   $ipv6           = false,
   $rpc_backend    = 'rabbit',
   $notify_backend = 'rabbit',
   $cache_backend  = 'memcached',
+  $tooz_backend   = 'redis',
 ) {
 
   include openstack_integration::params
@@ -89,7 +94,7 @@ class openstack_integration::config (
     default          => false,
   }
 
-  $tooz_url = os_url({
+  $redis_url = os_url({
     'scheme'   => 'redis',
     'password' => 'a_big_secret',
     'host'     => $ip_for_url,
@@ -98,6 +103,24 @@ class openstack_integration::config (
       'ssl' => $ssl,
     }
   })
+
+  $sentinel_url = os_url({
+    'scheme'   => 'redis',
+    'password' => 'a_big_secret',
+    'host'     => $ip_for_url,
+    'port'     => '26379',
+    'query'    => {
+      'sentinel'          => 'mymaster',
+      'sentinel_password' => 'a_big_secret',
+      'ssl'               => $ssl,
+      'sentinel_ssl'      => $ssl,
+    }
+  })
+
+  $tooz_url = $tooz_backend ? {
+    'redis_sentinel' => $sentinel_url,
+    default          => $redis_url,
+  }
 
   $ovn_nb_connection = "${ovn_proto}:${ip_for_url}:6641"
   $ovn_sb_connection = "${ovn_proto}:${ip_for_url}:6642"
