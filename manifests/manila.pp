@@ -25,7 +25,7 @@ class openstack_integration::manila (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'manila':
       notify  => Service['httpd'],
-      require => Package['manila'],
+      require => Anchor['manila::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

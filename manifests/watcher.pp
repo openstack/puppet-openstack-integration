@@ -11,7 +11,7 @@ class openstack_integration::watcher {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'watcher':
       notify  => Service['httpd'],
-      require => Package['watcher'],
+      require => Anchor['watcher::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

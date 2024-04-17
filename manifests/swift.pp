@@ -122,7 +122,7 @@ class openstack_integration::swift {
     ensure  => directory,
     owner   => 'swift',
     group   => 'swift',
-    require => Package['swift'],
+    require => Anchor['swift::install::end'],
   }
   # Create 3 directories under /srv/node for 3 devices
   [1, 2, 3].each | $device | {

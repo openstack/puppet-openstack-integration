@@ -5,7 +5,7 @@ class openstack_integration::zaqar {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'zaqar':
       notify  => Service['httpd'],
-      require => Package['zaqar-common'],
+      require => Anchor['zaqar::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

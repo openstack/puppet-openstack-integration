@@ -10,7 +10,7 @@ class openstack_integration::mistral {
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'mistral':
       notify  => Service['httpd'],
-      require => Package['mistral-common'],
+      require => Anchor['mistral::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

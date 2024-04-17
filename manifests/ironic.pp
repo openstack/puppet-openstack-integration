@@ -25,11 +25,11 @@ class openstack_integration::ironic (
 
     openstack_integration::ssl_key { 'ironic':
       notify  => Service['httpd'],
-      require => Package['ironic-common'],
+      require => Anchor['ironic::install::end'],
     }
     openstack_integration::ssl_key { 'ironic-inspector':
       notify  => Service['httpd'],
-      require => Package['ironic-inspector'],
+      require => Anchor['ironic-inspector::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }

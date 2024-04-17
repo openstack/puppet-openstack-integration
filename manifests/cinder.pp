@@ -36,7 +36,7 @@ class openstack_integration::cinder (
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'cinder':
       notify  => Service['httpd'],
-      require => Package['cinder'],
+      require => Anchor['cinder::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
