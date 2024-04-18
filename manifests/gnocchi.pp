@@ -36,7 +36,7 @@ class openstack_integration::gnocchi (
   class { 'gnocchi':
     coordination_url => $::openstack_integration::config::tooz_url,
   }
-  Class['redis::service'] -> Anchor['gnocchi::service::begin']
+  Class['openstack_integration::redis'] -> Anchor['gnocchi::service::begin']
   class { 'gnocchi::db::mysql':
     charset  => $::openstack_integration::params::mysql_charset,
     collate  => $::openstack_integration::params::mysql_collate,

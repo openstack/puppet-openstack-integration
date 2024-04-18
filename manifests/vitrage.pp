@@ -101,7 +101,7 @@ class openstack_integration::vitrage {
   class { 'vitrage::coordination':
     backend_url => $::openstack_integration::config::tooz_url,
   }
-  Class['redis::service'] -> Anchor['vitrage::service::begin']
+  Class['openstack_integration::redis'] -> Anchor['vitrage::service::begin']
   class { 'vitrage::client': }
 
 }

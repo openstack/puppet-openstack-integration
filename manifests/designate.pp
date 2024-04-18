@@ -67,7 +67,7 @@ class openstack_integration::designate (
   class { 'designate::coordination':
     backend_url => $::openstack_integration::config::tooz_url,
   }
-  Class['redis::service'] -> Anchor['designate::service::begin']
+  Class['openstack_integration::redis'] -> Anchor['designate::service::begin']
 
   include 'designate::client'
 

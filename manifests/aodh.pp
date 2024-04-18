@@ -105,7 +105,7 @@ class openstack_integration::aodh (
   class { 'aodh::coordination':
     backend_url => $::openstack_integration::config::tooz_url,
   }
-  Class['redis::service'] -> Anchor['aodh::service::begin']
+  Class['openstack_integration::redis'] -> Anchor['aodh::service::begin']
   class { 'aodh::evaluator':
     evaluation_interval => 10,
     workers             => 2,
