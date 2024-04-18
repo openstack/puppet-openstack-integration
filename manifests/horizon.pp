@@ -1,5 +1,9 @@
 # Configure the Horizon service
 #
+# [*cache_backend*]
+#  (optional) The django cache backend
+#  Defaults to 'memcached'.
+#
 # [*heat_enabled*]
 #  (optional) Flag to enable heat dashboard
 #  Defaults to false.
@@ -17,6 +21,7 @@
 #  Defaults to false.
 #
 class openstack_integration::horizon (
+  $cache_backend   = 'memcached',
   $heat_enabled    = false,
   $manila_enabled  = false,
   $ironic_enabled  = false,
@@ -35,10 +40,30 @@ class openstack_integration::horizon (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  $redis_scheme = $::openstack_integration::config::ssl ? {
+    true    => 'rediss',
+    default => 'redis',
+  }
+  $redis_url = os_url({
+    'scheme'   => $redis_scheme,
+    'password' => 'a_big_secret',
+    'host'     => $::openstack_integration::config::ip_for_url,
+    'port'     => '6379',
+  })
+  $cache_server_url = $cache_backend ? {
+    'redis' => $redis_url,
+    default => ["${::openstack_integration::config::ip_for_url}:11211"]
+  }
+
+  $django_cache_backend = $cache_backend ? {
+    'redis' => 'django.core.cache.backends.redis.RedisCache',
+    default => 'django.core.cache.backends.memcached.PyMemcacheCache'
+  }
+
   class { 'horizon':
     secret_key                     => 'big_secret',
-    cache_backend                  => 'django.core.cache.backends.memcached.PyMemcacheCache',
-    cache_server_ip                => $::openstack_integration::config::host,
+    cache_backend                  => $django_cache_backend,
+    cache_server_url               => $cache_server_url,
     allowed_hosts                  => $::openstack_integration::config::ip_for_url,
     listen_ssl                     => $::openstack_integration::config::ssl,
     ssl_redirect                   => $::openstack_integration::config::ssl,

@@ -24,11 +24,13 @@ case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
     $cache_backend = 'memcached'
+    $django_cache_backend = 'memcached'
     $tooz_backend = 'redis'
   }
   'RedHat': {
     $ipv6 = false
     $cache_backend = 'redis_sentinel'
+    $django_cache_backend = 'redis'
     $tooz_backend = 'redis_sentinel'
   }
   default: {
@@ -93,6 +95,7 @@ class { 'openstack_integration::gnocchi':
 }
 
 class { 'openstack_integration::horizon':
+  cache_backend  => $django_cache_backend,
   ironic_enabled => true
 }
 
