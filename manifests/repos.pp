@@ -7,14 +7,6 @@ class openstack_integration::repos {
     $ceph_version_real = 'reef'
   }
 
-  if $facts['os']['name'] == 'Ubuntu' and versioncmp($facts['os']['release']['major'], '22') >= 0 {
-    # NOTE(tkajinam): Upstream ceph repository does not provide packages for
-    #                 Ubuntu Jammy, so we use packages from UCA.
-    $enable_ceph_repository = false
-  } else {
-    $enable_ceph_repository = true
-  }
-
   case $facts['os']['family'] {
     'Debian': {
       case $facts['os']['name'] {
@@ -39,20 +31,18 @@ class openstack_integration::repos {
       }
 
       $ceph_mirror_fallback = pick($facts['ceph_mirror_host'], "http://download.ceph.com/debian-${ceph_version_real}/")
-      if $enable_ceph_repository {
-        # Ceph is both packaged on UCA and official download.ceph.com packages
-        # which we mirror. We want to use the official packages or our mirror.
-        if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
-          $ceph_version_cap = capitalize($ceph_version_real)
-          apt::pin { 'ceph':
-            priority   => 1001,
-            originator => "Ceph ${ceph_version_cap}",
-          }
-        } else {
-          apt::pin { 'ceph':
-            priority => 1001,
-            origin   => 'download.ceph.com',
-          }
+      # Ceph is both packaged on UCA and official download.ceph.com packages
+      # which we mirror. We want to use the official packages or our mirror.
+      if $ceph_mirror_fallback !~ '^http://download.ceph.com/.*' {
+        $ceph_version_cap = capitalize($ceph_version_real)
+        apt::pin { 'ceph':
+          priority   => 1001,
+          originator => "Ceph ${ceph_version_cap}",
+        }
+      } else {
+        apt::pin { 'ceph':
+          priority => 1001,
+          origin   => 'download.ceph.com',
         }
       }
 
@@ -121,12 +111,10 @@ class openstack_integration::repos {
     }
   }
 
-  if $enable_ceph_repository {
-    class { 'ceph::repo':
-      enable_sig  => $enable_sig,
-      enable_epel => $enable_epel,
-      ceph_mirror => $ceph_mirror,
-    }
+  class { 'ceph::repo':
+    enable_sig  => $enable_sig,
+    enable_epel => $enable_epel,
+    ceph_mirror => $ceph_mirror,
   }
 
   # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
