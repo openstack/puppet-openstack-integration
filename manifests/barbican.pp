@@ -58,27 +58,26 @@ class openstack_integration::barbican {
     service_token_roles_required => true,
   }
   class { 'barbican::api':
-    default_transport_url       => os_transport_url({
+    default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,
       'host'      => $::openstack_integration::config::host,
       'port'      => $::openstack_integration::config::messaging_default_port,
       'username'  => 'barbican',
       'password'  => 'an_even_bigger_secret',
     }),
-    notification_transport_url  => os_transport_url({
+    notification_transport_url => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_notify_proto,
       'host'      => $::openstack_integration::config::host,
       'port'      => $::openstack_integration::config::messaging_notify_port,
       'username'  => 'barbican',
       'password'  => 'an_even_bigger_secret',
     }),
-    host_href                   => "${::openstack_integration::config::base_url}:9311",
-    auth_strategy               => 'keystone',
-    service_name                => 'httpd',
-    enabled_certificate_plugins => ['simple_certificate'],
-    db_auto_create              => false,
-    enable_queue                => true,
-    rabbit_use_ssl              => $::openstack_integration::config::ssl,
+    host_href                  => "${::openstack_integration::config::base_url}:9311",
+    auth_strategy              => 'keystone',
+    service_name               => 'httpd',
+    db_auto_create             => false,
+    enable_queue               => true,
+    rabbit_use_ssl             => $::openstack_integration::config::ssl,
   }
   class { 'barbican::wsgi::apache':
     bind_host => $::openstack_integration::config::host,
