@@ -64,9 +64,6 @@ class openstack_integration::ceilometer (
     Class['ceilometer::keystone::auth'] -> Exec['ceilometer-upgrade']
     Class['gnocchi::keystone::auth'] -> Exec['ceilometer-upgrade']
 
-    $sample_pipeline_publishers = ['gnocchi://']
-    $event_pipeline_publishers = ['gnocchi://']
-
     class { 'ceilometer::coordination':
       backend_url => $::openstack_integration::config::tooz_url,
     }
@@ -74,9 +71,9 @@ class openstack_integration::ceilometer (
     class { 'ceilometer::agent::notification':
       workers                   => 2,
       manage_pipeline           => true,
-      pipeline_publishers       => $sample_pipeline_publishers,
+      pipeline_publishers       => ['gnocchi://'],
       manage_event_pipeline     => true,
-      event_pipeline_publishers => $event_pipeline_publishers,
+      event_pipeline_publishers => ['gnocchi://'],
     }
     class { 'ceilometer::agent::polling':
       manage_polling    => true,
@@ -92,7 +89,17 @@ class openstack_integration::ceilometer (
     class { 'ceilometer::db::sync':
       extra_params => '--skip-gnocchi-resource-types',
     }
-    class { 'ceilometer::agent::notification': }
+    class { 'ceilometer::agent::notification':
+      workers                   => 2,
+      manage_pipeline           => true,
+      pipeline_publishers       => [],
+      manage_event_pipeline     => true,
+      event_pipeline_publishers => [],
+    }
+    class { 'ceilometer::agent::polling':
+      manage_polling    => true,
+      compute_namespace => false,
+    }
   }
 
   class { 'ceilometer::agent::service_credentials':
