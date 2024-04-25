@@ -127,7 +127,6 @@ class openstack_integration::designate (
     mdns_hosts       => [$::openstack_integration::config::host],
     rndc_config_file => "${::dns::params::dnsdir}/rndc.conf",
     rndc_key_file    => $::dns::params::rndckeypath,
-    manage_pool      => true,
     # Configure bind using openstack_integration::bind
     configure_bind   => false,
   }
