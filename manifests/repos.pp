@@ -70,7 +70,6 @@ class openstack_integration::repos {
 
       class { 'openstack_extras::repo::redhat::redhat':
         manage_rdo        => false,
-        manage_epel       => false,
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
           'delorean.repo'      => $delorean_repo,
