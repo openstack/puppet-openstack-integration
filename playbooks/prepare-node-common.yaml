@@ -42,7 +42,6 @@
           - libxslt-devel
           - ruby-devel
           - zlib-devel
-          - rubygem-rexml
 
       when:
         - ansible_os_family == 'RedHat'
