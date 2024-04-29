@@ -345,7 +345,6 @@ class openstack_integration::tempest (
     img_disk_format                    => $image_format,
     compute_build_interval             => 10,
     ca_certificates_file               => $::openstack_integration::params::ca_bundle_cert_path,
-    manage_tests_packages              => true,
     attach_encrypted_volume            => $attach_encrypted_volume,
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,

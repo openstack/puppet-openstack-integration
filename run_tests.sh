@@ -205,6 +205,11 @@ fi
 # Added tempest specific values to common.yaml
 if [ "${TEMPEST_FROM_SOURCE,,}" = false ]; then
     echo "tempest::install_from_source: false" >> ${SCRIPT_DIR}/hiera/common.yaml
+    echo "tempest::manage_tests_packages: true" >> ${SCRIPT_DIR}/hiera/common.yaml
+    echo "tempest::magnum::manage_tests_packages: true" >> ${SCRIPT_DIR}/hiera/common.yaml
+else
+    echo "tempest::manage_tests_packages: false" >> ${SCRIPT_DIR}/hiera/common.yaml
+    echo "tempest::magnum::manage_tests_packages: false" >> ${SCRIPT_DIR}/hiera/common.yaml
 fi
 
 # Run puppet and assert something changes.
@@ -268,11 +273,6 @@ print_header 'Prepare Tempest'
 # of tempest workspace and run tempest command using root.
 $SUDO touch /tmp/openstack/tempest/test-include-list.txt /tmp/openstack/tempest/test-exclude-list.txt
 $SUDO chown -R "$(id -u):$(id -g)" /tmp/openstack/tempest/
-
-if uses_debs; then
-    pkglist="tempest python3-stestr python3-os-testr python3-tempest"
-    $SUDO apt-get install -y $pkglist
-fi
 
 set +e
 # Select what to test:
@@ -370,10 +370,15 @@ if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
     /tmp/openstack/tempest/run_tempest/bin/pip3 setup.py install
     popd
 
+    run_tempest/bin/pip3 install os-testr
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
+    export stestr="run_tempest/bin/stestr"
+    export subunit2html="run_tempest/bin/subunit2html"
 else
     export tempest_binary="/usr/bin/tempest"
+    export stestr="/usr/bin/stestr"
+    export subunit2html="/usr/bin/subunit2html"
 fi
 
 # List tempest version
@@ -393,16 +398,10 @@ $tempest_binary run --include-list=/tmp/openstack/tempest/test-include-list.txt 
 
 RESULT=$?
 set -e
-if [ -d .testrepository ]; then
-    testr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-elif [ -d .stestr ]; then
-    if type "stestr-3" 2>/dev/null; then
-        stestr-3 last --subunit > /tmp/openstack/tempest/testrepository.subunit
-    else
-        stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
-    fi
+if [ -d .stestr ]; then
+    $stestr last --subunit > /tmp/openstack/tempest/testrepository.subunit
 fi
-subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
+$subunit2html /tmp/openstack/tempest/testrepository.subunit /tmp/openstack/tempest/testr_results.html
 print_header 'SELinux Alerts (Tempest)'
 #catch_selinux_alerts
 
