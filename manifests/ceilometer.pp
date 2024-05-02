@@ -1,9 +1,5 @@
 # Configure the Ceilometer service
 #
-# [*compute_namespace*]
-#   (optional) Enable polling for the compute namespace
-#   Default to true.
-#
 # [*integration_enable*]
 #   (optional) Boolean to run integration tests.
 #   Defaults to true.
@@ -13,7 +9,6 @@
 #   Defaults to false
 #
 class openstack_integration::ceilometer (
-  $compute_namespace  = true,
   $integration_enable = true,
   $separate_polling   = false,
 ){
@@ -62,9 +57,8 @@ class openstack_integration::ceilometer (
   }
 
   if $integration_enable {
-    # Ensure Gnocchi and creads are ready before running ceilometer-upgrade
-    # We use Gnocchi instead of local database, db::sync is required to populate
-    # gnocchi resource types.
+    # Ensure Gnocchi and creads are ready before running ceilometer-upgrade.
+    # db::sync is required to populate gnocchi resource types.
     include ceilometer::db::sync
     Service['httpd'] -> Exec['ceilometer-upgrade']
     Class['ceilometer::keystone::auth'] -> Exec['ceilometer-upgrade']
@@ -83,7 +77,6 @@ class openstack_integration::ceilometer (
     }
     class { 'ceilometer::agent::polling':
       manage_polling    => true,
-      compute_namespace => $compute_namespace,
       # NOTE(sileht): Use 1 minute instead 10 otherwise the telemetry tempest
       # tests are too long to pass in less than 1 hour.
       polling_interval  => 60,
@@ -91,9 +84,9 @@ class openstack_integration::ceilometer (
     }
   } else {
     # NOTE(tobias-urdin): When running the module tests we need to exclude the
-    # gnocchi resource types since the acceptance test does not setup gnocchi itself.
+    # gnocchi resource types since the acceptance test does not setup gnocchi.
     class { 'ceilometer::db::sync':
-      extra_params => '--skip-gnocchi-resource-types',
+      skip_gnocchi_resource_types => true
     }
     class { 'ceilometer::agent::notification':
       workers                   => 2,
