@@ -8,9 +8,14 @@
 #   (optional) The storage backend for storing introspection data.
 #   Defaults to 'database'.
 #
+# [*send_power_notifications*]
+#   (optional) Send power notifications to Nova.
+#   Defaults to false
+#
 class openstack_integration::ironic (
-  $notification_topics = $facts['os_service_default'],
-  $inspector_backend   = 'database',
+  $notification_topics      = $facts['os_service_default'],
+  $inspector_backend        = 'database',
+  $send_power_notifications = false,
 ) {
 
   include openstack_integration::config
@@ -68,6 +73,12 @@ class openstack_integration::ironic (
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
+  class { 'ironic::nova':
+    auth_url                 => $::openstack_integration::config::keystone_admin_uri,
+    password                 => 'a_big_secret',
+    send_power_notifications => $send_power_notifications,
+  }
+
   class { 'ironic':
     default_transport_url      => os_transport_url({
       'transport' => $::openstack_integration::config::messaging_default_proto,

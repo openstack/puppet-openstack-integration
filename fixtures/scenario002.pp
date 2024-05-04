@@ -68,7 +68,8 @@ class { 'openstack_integration::neutron':
 }
 include openstack_integration::swift
 class { 'openstack_integration::ironic':
-  inspector_backend => 'swift'
+  inspector_backend        => 'swift',
+  send_power_notifications => true,
 }
 include openstack_integration::zaqar
 include openstack_integration::provision
