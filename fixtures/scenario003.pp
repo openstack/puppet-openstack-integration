@@ -23,9 +23,13 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
+    # NOTE(tkajinam): UCA Caracal does not provide trove packages
+    # https://bugs.launchpad.net/ubuntu/+source/openstack-trove/+bug/2064838
+    $trove_enabled = false
   }
   'RedHat': {
     $ipv6 = true
+    $trove_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -56,7 +60,9 @@ include openstack_integration::placement
 class { 'openstack_integration::nova':
   cinder_enabled => true,
 }
-include openstack_integration::trove
+if $trove_enabled {
+  include openstack_integration::trove
+}
 class { 'openstack_integration::horizon':
   heat_enabled => true
 }
@@ -72,7 +78,7 @@ class { 'openstack_integration::magnum':
 
 class { 'openstack_integration::tempest':
   designate      => true,
-  trove          => true,
+  trove          => $trove_enabled,
   mistral        => true,
   horizon        => true,
   # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
