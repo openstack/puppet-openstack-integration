@@ -78,6 +78,10 @@ class openstack_integration::ironic (
     password                 => 'a_big_secret',
     send_power_notifications => $send_power_notifications,
   }
+  class { 'ironic::cinder':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
 
   class { 'ironic':
     default_transport_url      => os_transport_url({
