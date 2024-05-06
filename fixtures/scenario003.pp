@@ -81,9 +81,7 @@ class { 'openstack_integration::tempest':
   trove          => $trove_enabled,
   mistral        => true,
   horizon        => true,
-  # NOTE(tkajinam): The scenario job we enable requires cinder, which is not
-  #                 enabled in this scenario.
-  heat           => false,
+  heat           => true,
   magnum         => true,
   neutron_driver => 'ovn',
 }
