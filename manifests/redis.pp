@@ -46,8 +46,14 @@ class openstack_integration::redis {
 
   if $::openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'redis':
-      require => Package[$::redis::package_name],
-      notify  => Service[$::redis::service_name],
+      require => [
+        Package[$::redis::package_name],
+        Package[$::redis::sentinel::package_name],
+      ],
+      notify  => [
+        Service[$::redis::service_name],
+        Service[$::redis::sentinel::service_name],
+      ]
     }
   }
 }
