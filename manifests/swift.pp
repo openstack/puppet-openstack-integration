@@ -153,6 +153,9 @@ class openstack_integration::swift {
   class { 'swift::objectexpirer':
     memcache_servers => $::openstack_integration::config::swift_memcached_servers
   }
+  class { 'swift::containerreconciler':
+    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+  }
 
   # ring builder
   include swift::ringbuilder
