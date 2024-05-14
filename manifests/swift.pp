@@ -137,6 +137,7 @@ class openstack_integration::swift {
   # storage servers
   class { 'swift::storage::all':
     storage_local_net_ip     => $::openstack_integration::config::host,
+    log_name_per_daemon      => true,
     mount_check              => false,
     account_pipeline         => ['healthcheck', 'recon', 'backend_ratelimit', 'account-server'],
     container_pipeline       => ['healthcheck', 'recon', 'backend_ratelimit', 'container-server'],
