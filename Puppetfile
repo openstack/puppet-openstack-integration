@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,111 +19,111 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'stable/zed'
+  :ref => 'unmaintained/zed'
 
 ## External modules
 mod 'kmod',

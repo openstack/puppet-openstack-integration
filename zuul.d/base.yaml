@@ -5,74 +5,74 @@
     parent: puppet-openstack-base
     required-projects:
       - name: openstack/openstack
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-aodh
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-barbican
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-ceilometer
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - openstack/puppet-ceph
       - name: openstack/puppet-cinder
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-cloudkitty
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-designate
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-glance
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-gnocchi
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-heat
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-horizon
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-ironic
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-keystone
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-magnum
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-manila
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-mistral
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - x/puppet-modulesync-configs
       - name: openstack/puppet-neutron
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-nova
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-octavia
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - openstack/puppet-openstack-cookiecutter
       - name: openstack/puppet-openstack-integration
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-openstack_extras
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-openstack_spec_helper
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-openstacklib
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-oslo
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-ovn
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-placement
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-swift
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-tempest
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-trove
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-vswitch
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-vitrage
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-watcher
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - name: openstack/puppet-zaqar
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
       - openstack/tempest
       - openstack/neutron-tempest-plugin
 
@@ -123,7 +123,7 @@
     pre-run: playbooks/prepare-node-unit.yaml
     required-projects:
       - name: openstack/puppet-openstack_spec_helper
-        override-checkout: stable/zed
+        override-checkout: unmaintained/zed
 
 - job:
     name: puppet-openstack-syntax-base
