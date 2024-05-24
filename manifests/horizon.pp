@@ -4,6 +4,10 @@
 #  (optional) The django cache backend
 #  Defaults to 'memcached'.
 #
+# [*cinder_backup_enabled*]
+#  (optional) Flag to enable cinder-backup panel.
+#  Defaults to false
+#
 # [*heat_enabled*]
 #  (optional) Flag to enable heat dashboard
 #  Defaults to false.
@@ -21,11 +25,12 @@
 #  Defaults to false.
 #
 class openstack_integration::horizon (
-  $cache_backend   = 'memcached',
-  $heat_enabled    = false,
-  $manila_enabled  = false,
-  $ironic_enabled  = false,
-  $octavia_enabled = false,
+  $cache_backend         = 'memcached',
+  $cinder_backup_enabled = false,
+  $heat_enabled          = false,
+  $manila_enabled        = false,
+  $ironic_enabled        = false,
+  $octavia_enabled       = false,
 ) {
 
   include openstack_integration::config
@@ -76,6 +81,9 @@ class openstack_integration::horizon (
     wsgi_processes                 => 2,
     keystone_url                   => $::openstack_integration::config::keystone_auth_uri,
     log_level                      => 'DEBUG',
+    cinder_options                 => {
+      'enable_backup' => $cinder_backup_enabled
+    },
   }
 
   # TODO(tkajinam) Debian/Ubuntu package does not install the policy files
