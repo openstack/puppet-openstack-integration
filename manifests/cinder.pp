@@ -172,7 +172,17 @@ class openstack_integration::cinder (
 
   case $cinder_backup {
     'swift': {
-      class { 'cinder::backup::swift': }
+      # TODO(tkajinam): Enable service auth in Ubuntu/Debian once
+      # https://review.opendev.org/c/openstack/cinder/+/915979 (or its
+      # backport) is available
+      $backup_swift_service_auth = $facts['os']['family'] ? {
+        'RedHat' => true,
+        default  => false
+      }
+
+      class { 'cinder::backup::swift':
+        backup_swift_service_auth => $backup_swift_service_auth,
+      }
     }
     'ceph': {
       class { 'cinder::backup::ceph':
