@@ -79,10 +79,8 @@ class openstack_integration::repos {
       $enable_sig  = true
       $enable_epel = false
 
-      exec { 'enable-crb':
-        command => 'dnf config-manager --enable crb',
-        path    => '/usr/bin/',
-        unless  => 'test 0 -ne $(dnf repolist --enabled crb | wc -l)'
+      yumrepo { 'crb':
+        enabled => true
       }
     }
     default: {
