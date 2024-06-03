@@ -23,12 +23,14 @@ include openstack_integration::keystone
 include openstack_integration::glance
 include openstack_integration::neutron
 include openstack_integration::placement
-include openstack_integration::nova
+class { 'openstack_integration::nova':
+  cinder_enabled => true,
+}
 include openstack_integration::cinder
 include openstack_integration::horizon
 include openstack_integration::provision
 
 class { 'openstack_integration::tempest':
-  horizon => true,
   cinder  => true,
+  horizon => true,
 }
