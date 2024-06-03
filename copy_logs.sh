@@ -101,6 +101,14 @@ if which journalctl &> /dev/null; then
     sudo journalctl --no-pager > $LOG_DIR/syslog.txt
 fi
 
+# rsyslog
+if [ -d /etc/rsyslog.d ]; then
+    sudo cp -r /etc/rsyslog.d $LOG_DIR/etc/
+fi
+if [ -f /etc/rsyslog.conf ]; then
+    sudo cp /etc/rsyslog.conf $LOG_DIR/etc/
+fi
+
 # network interfaces
 if [ -d /etc/sysconfig/network-scripts ]; then
     sudo cp -r /etc/sysconfig/network-scripts $LOG_DIR/etc/sysconfig/
