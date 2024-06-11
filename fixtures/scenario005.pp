@@ -23,12 +23,10 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
-    $modular_libvirt = false
     $ovn_metadata_agent_enabled = true
   }
   'RedHat': {
     $ipv6 = true
-    $modular_libvirt = true
     $ovn_metadata_agent_enabled = false
   }
   default: {
@@ -62,7 +60,6 @@ class { 'openstack_integration::neutron':
 include openstack_integration::placement
 class { 'openstack_integration::nova':
   cinder_enabled         => true,
-  modular_libvirt        => $modular_libvirt,
   libvirt_guests_enabled => true,
 }
 class { 'openstack_integration::octavia':
