@@ -43,13 +43,13 @@ print_header 'Start (all-in-one.sh)'
 if is_fedora; then
     print_header 'Setup (RedHat based)'
     sudo -E $YUM -y remove facter puppet rdo-release
-    sudo -E $YUM -y install libxml2-devel libxslt-devel ruby-devel rubygems wget
+    sudo -E $YUM -y install libxml2-devel libxslt-devel ruby-devel rubygems wget qemu-img
     sudo -E $YUM -y groupinstall "Development Tools"
     DASHBOARD="dashboard"
 elif uses_debs; then
     print_header 'Setup (Debian based)'
     sudo apt-get update
-    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl apt-transport-https adduser
+    sudo apt-get install -y libxml2-dev libxslt-dev zlib1g-dev ruby wget lsb-release curl apt-transport-https qemu-img
     # Only purge puppet in Ubuntu, in Debian we use
     # what the distribution provides.
     if [ $(lsb_release --id -s) = "Ubuntu" ] ; then
@@ -59,6 +59,7 @@ elif uses_debs; then
 fi
 
 if [ $(lsb_release --id -s) = "Debian" ] ; then
+    sudo apt-get install -y adduser
     if ! getent passwd puppet ; then
         adduser --disabled-password --gecos puppet,,, puppet
     fi
