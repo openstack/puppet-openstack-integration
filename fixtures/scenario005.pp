@@ -25,11 +25,13 @@ case $facts['os']['family'] {
     $ipv6 = false
     $modular_libvirt = false
     $ovn_metadata_agent_enabled = true
+    $jobboard_backend = 'redis'
   }
   'RedHat': {
     $ipv6 = true
     $modular_libvirt = true
     $ovn_metadata_agent_enabled = false
+    $jobboard_backend = 'redis_sentinel'
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -66,7 +68,8 @@ class { 'openstack_integration::nova':
   libvirt_guests_enabled => true,
 }
 class { 'openstack_integration::octavia':
-  provider_driver => 'ovn'
+  provider_driver  => 'ovn',
+  jobboard_backend => $jobboard_backend,
 }
 
 class { 'openstack_integration::horizon':

@@ -8,9 +8,14 @@
 #   (optional) Provider driver used in Octavia.
 #   Defaults to 'amphora'.
 #
+# [*jobboard_backend*]
+#   (optional) Jobboard backend.
+#   Defaults to 'redis'.
+#
 class openstack_integration::octavia (
   $notification_topics = $facts['os_service_default'],
   $provider_driver     = 'amphora',
+  $jobboard_backend    = 'redis',
 ) {
 
   include openstack_integration::config
@@ -161,9 +166,18 @@ class openstack_integration::octavia (
     heartbeat_key  => 'abcdefghijkl',
   }
 
+  $jobboard_redis_sentinel = $jobboard_backend ? {
+    'redis_sentinel' => 'mymaster',
+    default          => undef
+  }
+  $jobboard_backend_port = $jobboard_backend ? {
+    'redis_sentinel' => 26379,
+    default          => 6379,
+  }
+
   class { 'octavia::task_flow':
-    max_workers                        => 2,
-    persistence_connection             => os_database_connection({
+    max_workers                         => 2,
+    persistence_connection              => os_database_connection({
       'dialect'  => 'mysql+pymysql',
       'host'     => $::openstack_integration::config::ip_for_url,
       'username' => 'octavia',
@@ -172,14 +186,20 @@ class openstack_integration::octavia (
       'charset'  => 'utf8',
       'extra'    => $::openstack_integration::config::db_extra,
     }),
-    jobboard_enabled                   => true,
-    jobboard_backend_hosts             => $::openstack_integration::config::host,
-    jobboard_backend_port              => 6379,
-    jobboard_backend_password          => 'a_big_secret',
-    jobboard_redis_backend_ssl_options => {
+    jobboard_enabled                    => true,
+    jobboard_backend_hosts              => $::openstack_integration::config::host,
+    jobboard_backend_port               => $jobboard_backend_port,
+    jobboard_backend_password           => 'a_big_secret',
+    jobboard_redis_sentinel             => $jobboard_redis_sentinel,
+    jobboard_redis_sentinel_password    => 'a_big_secret',
+    jobboard_redis_backend_ssl_options  => {
       'ssl' => $::openstack_integration::config::ssl
     },
+    jobboard_redis_sentinel_ssl_options => {
+      'ssl' => $::openstack_integration::config::ssl
+    }
   }
+
   class { 'octavia::worker':
     workers => 2,
   }
