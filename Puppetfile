@@ -144,7 +144,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v8.0.2'
+  :ref => 'v8.0.3'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -184,7 +184,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '10.4.0'
+  :ref => '11.0.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
