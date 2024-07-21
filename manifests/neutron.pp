@@ -298,9 +298,10 @@ class openstack_integration::neutron (
   }
   class { 'neutron::plugins::ml2':
     type_drivers         => [$overlay_network_type, 'vlan', 'flat'],
-    tenant_network_types => [$overlay_network_type, 'vlan', 'flat'],
+    tenant_network_types => [$overlay_network_type],
     extension_drivers    => 'port_security,qos',
     mechanism_drivers    => $drivers_real,
+    network_vlan_ranges  => 'external:1000:2999',
     max_header_size      => $max_header_size,
     overlay_ip_version   => $::openstack_integration::config::ip_version,
   }
