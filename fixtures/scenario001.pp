@@ -59,7 +59,8 @@ class { 'openstack_integration::keystone':
   token_expiration => '2400',
 }
 class { 'openstack_integration::glance':
-  backend => 'rbd',
+  backend                 => 'rbd',
+  show_multiple_locations => true,
 }
 class { 'openstack_integration::neutron':
   notification_topics => $notification_topics,

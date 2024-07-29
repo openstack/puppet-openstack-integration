@@ -53,7 +53,8 @@ include openstack_integration::ovn
 include openstack_integration::keystone
 include openstack_integration::cinder
 class { 'openstack_integration::glance':
-  backend => 'cinder',
+  backend                 => 'cinder',
+  show_multiple_locations => true,
 }
 class { 'openstack_integration::neutron':
   driver                     => 'ovn',

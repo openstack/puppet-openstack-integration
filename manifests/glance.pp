@@ -9,9 +9,14 @@
 #   (optional) Boolean to configure or not image encryption
 #   Defaults to false.
 #
+# [*show_multiple_locations*]
+#   (optional) Include the backend image locations in image properties
+#   Defaults to undef
+#
 class openstack_integration::glance (
-  $backend          = 'file',
-  $image_encryption = false,
+  $backend                 = 'file',
+  $image_encryption        = false,
+  $show_multiple_locations = undef,
 ) {
 
   include openstack_integration::config
@@ -109,10 +114,11 @@ class openstack_integration::glance (
     }),
   }
   class { 'glance::api':
-    enabled_backends => $enabled_backends,
-    default_backend  => $default_backend,
-    bind_host        => $::openstack_integration::config::host,
-    service_name     => 'httpd',
+    enabled_backends        => $enabled_backends,
+    default_backend         => $default_backend,
+    bind_host               => $::openstack_integration::config::host,
+    service_name            => 'httpd',
+    show_multiple_locations => $show_multiple_locations,
   }
   class { 'glance::wsgi::apache':
     bind_host => $::openstack_integration::config::host,

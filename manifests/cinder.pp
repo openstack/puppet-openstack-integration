@@ -139,7 +139,9 @@ class openstack_integration::cinder (
   }
   class { 'cinder::backup': }
   class { 'cinder::cron::db_purge': }
-  class { 'cinder::glance': }
+  class { 'cinder::glance':
+    allowed_direct_url_schemes => ['cinder'],
+  }
   case $backend {
     'iscsi': {
       class { 'cinder::setup_test_volume':
