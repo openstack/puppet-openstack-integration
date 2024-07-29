@@ -84,7 +84,8 @@ scenario](#all-in-one).
 | om rpc     |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | om notify  |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit   |    rabbit    |
 | oslo.cache |    redis    |   sentinel  |   memcache  |   memcache  |   memcache  |   memcache   |
-| tooz       |    redis    |   sentinel  |    redis    |    redis    |    redis    |   (redis)    |
+| tooz       |    redis    |   sentinel  |    redis    |    redis    |    redis    |              |
+| jobboard   |             |             |             |    redis    |   sentinel  |              |
 
 When the Jenkins slave is created, the *run_tests.sh* script will be executed.
 This script will execute *install_modules.sh* that prepare /etc/puppet/modules
