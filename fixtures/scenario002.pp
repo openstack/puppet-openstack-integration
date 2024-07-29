@@ -66,7 +66,9 @@ class { 'openstack_integration::neutron':
   baremetal_enabled => true,
   metering_enabled  => true,
 }
-include openstack_integration::swift
+class { 'openstack_integration::swift':
+  ceilometer_enabled => true,
+}
 class { 'openstack_integration::ironic':
   inspector_backend        => 'swift',
   send_power_notifications => true,
