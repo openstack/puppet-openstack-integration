@@ -56,7 +56,8 @@ include openstack_integration::mysql
 include openstack_integration::redis
 include openstack_integration::keystone
 class { 'openstack_integration::glance':
-  backend => 'rbd',
+  backend                 => 'rbd',
+  show_multiple_locations => true,
 }
 
 class { 'openstack_integration::neutron':
