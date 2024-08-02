@@ -9,7 +9,7 @@ class openstack_integration::rabbitmq {
       owner                   => 'root',
       mode                    => '0755',
       selinux_ignore_defaults => true,
-      before                  => File["/etc/rabbitmq/ssl/private/${facts['networking']['fqdn']}.pem"],
+      require                 => Class['rabbitmq::install'],
     }
     openstack_integration::ssl_key { 'rabbitmq':
       key_path => "/etc/rabbitmq/ssl/private/${facts['networking']['fqdn']}.pem",
