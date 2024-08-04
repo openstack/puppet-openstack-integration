@@ -64,7 +64,8 @@ if $trove_enabled {
   include openstack_integration::trove
 }
 class { 'openstack_integration::horizon':
-  heat_enabled => true
+  designate_enabled => true,
+  heat_enabled      => true
 }
 include openstack_integration::heat
 include openstack_integration::designate

@@ -24,6 +24,10 @@
 #  (optional) Flag to enable octavia dashboard
 #  Defaults to false.
 #
+# [*designate_enabled*]
+#  (optional) Flag to enable designate dashboard
+#  Defaults to false.
+#
 class openstack_integration::horizon (
   $cache_backend         = 'memcached',
   $cinder_backup_enabled = false,
@@ -31,6 +35,7 @@ class openstack_integration::horizon (
   $manila_enabled        = false,
   $ironic_enabled        = false,
   $octavia_enabled       = false,
+  $designate_enabled     = false,
 ) {
 
   include openstack_integration::config
@@ -100,6 +105,9 @@ class openstack_integration::horizon (
   }
   if $octavia_enabled {
     class { 'horizon::dashboards::octavia': }
+  }
+  if $designate_enabled {
+    class { 'horizon::dashboards::designate': }
   }
   if $manila_enabled {
     class { 'horizon::dashboards::manila': }
