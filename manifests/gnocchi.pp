@@ -118,7 +118,7 @@ class openstack_integration::gnocchi (
         swift_key          => 'a_big_secret',
       }
       class { 'gnocchi::storage::incoming::redis':
-        redis_url => $::openstack_integration::config::redis_url,
+        redis_url => $::openstack_integration::config::tooz_url,
       }
     }
     'file': {
