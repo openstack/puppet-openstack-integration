@@ -190,10 +190,6 @@ mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
   :ref => 'v7.1.0'
 
-mod 'corosync',
-  :git => 'https://github.com/voxpupuli/puppet-corosync',
-  :ref => 'v8.0.0'
-
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
   :ref => 'v6.0.0'
