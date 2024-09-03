@@ -34,11 +34,6 @@ case $facts['os']['family'] {
   }
 }
 
-# TODO(tkajinam): Vitrage is disabled due to
-# https://storyboard.openstack.org/#!/story/2011061
-# $notification_topics = ['notifications', 'vitrage_notifications']
-$notification_topics = ['notifications']
-
 include openstack_integration
 class { 'openstack_integration::config':
   ssl           => $ssl,
@@ -63,13 +58,13 @@ class { 'openstack_integration::glance':
   show_multiple_locations => true,
 }
 class { 'openstack_integration::neutron':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
   metering_enabled    => true,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
   libvirt_rbd         => true,
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
   cinder_enabled      => true,
 }
 class { 'openstack_integration::cinder':
@@ -78,16 +73,14 @@ class { 'openstack_integration::cinder':
 }
 include openstack_integration::ceilometer
 class { 'openstack_integration::aodh':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
 }
-# TODO(tkajinam): Disabled due to
-# https://storyboard.openstack.org/#!/story/2011061
-# include openstack_integration::vitrage
+include openstack_integration::vitrage
 class { 'openstack_integration::ceph':
   ceph_pools => ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
 }
 class { 'openstack_integration::heat':
-  notification_topics => $notification_topics,
+  notification_topics => ['notifications', 'vitrage_notifications'],
 }
 class { 'openstack_integration::provision':
   # NOTE(tkajinam): Use raw format to use rbd image cloning when creating
@@ -105,8 +98,6 @@ class { 'openstack_integration::tempest':
   ceilometer    => true,
   aodh          => true,
   heat          => true,
-  # TODO(tkajinam): Disabled due to
-  # https://storyboard.openstack.org/#!/story/2011061
-  # vitrage       => true,
+  vitrage       => true,
   image_format  => 'raw',
 }
