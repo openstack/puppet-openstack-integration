@@ -20,24 +20,27 @@ if $facts['os']['name'] == 'Ubuntu' {
   $ssl = true
 }
 
-if $facts['os']['name'] == 'Ubuntu' {
-  $ipv6                = false
-  # TODO(tobias-urdin): No service plugin 'BGPVPN'
-  $bgpvpn_enabled      = false
-  # TODO(tobias-urdin): Plugin 'networking_l2gw.services.l2gateway.plugin.L2GatewayPlugin' not found.
-  $l2gw_enabled        = false
-  # FIXME(ykarel) Disable bgp_dragent until Ubuntu python3 stein(with stein packages) jobs are ready
-  $bgp_dragent_enabled = false
-  # TODO(tkajinam): Enable these along with the other plugins
-  $vpnaas_enabled      = false
-  $taas_enabled        = false
-} else {
-  $ipv6                = true
-  $bgpvpn_enabled      = true
-  $l2gw_enabled        = true
-  $bgp_dragent_enabled = true
-  $vpnaas_enabled      = true
-  $taas_enabled        = true
+case $facts['os']['family'] {
+  'Debian': {
+    $ipv6 = false
+    # TODO(tkajinam): Need additional work to load the plugins
+    $bgpvpn_enabled = false
+    $l2gw_enabled = false
+    $bgp_dragent_enabled = false
+    $vpnaas_enabled = false
+    $taas_enabled = false
+  }
+  'RedHat': {
+    $ipv6 = true
+    $bgpvpn_enabled = true
+    $l2gw_enabled = true
+    $bgp_dragent_enabled = true
+    $vpnaas_enabled = true
+    $taas_enabled = true
+  }
+  default: {
+    fail("Unsupported osfamily (${facts['os']['family']})")
+  }
 }
 
 include openstack_integration
