@@ -295,7 +295,6 @@ class openstack_integration::neutron (
     rpc_workers              => $rpc_workers,
     rpc_state_report_workers => $rpc_state_report_workers,
     rpc_response_max_timeout => 300,
-    ensure_dr_package        => $bgp_dragent_enabled,
   }
 
   $overlay_network_type = $driver ? {
@@ -477,6 +476,7 @@ class openstack_integration::neutron (
       }
     }
     if $bgp_dragent_enabled {
+      class {'neutron::services::dr': }
       class {'neutron::agents::bgp_dragent':
         bgp_router_id => '127.0.0.1'
       }
