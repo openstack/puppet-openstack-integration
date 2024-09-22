@@ -15,7 +15,7 @@
 #
 # Deploy Puppet OpenStack modules, deploy OpenStack and test the setup.
 # Software requirements:
-# * Ubuntu 14.04 LTS or Ubuntu 16.04 LTS or CentOS7 fresh install
+# * Ubuntu 22.04 LTS or CentOS Stream 9 fresh install
 # * 'git' installed
 #
 # Hardware requirements:
