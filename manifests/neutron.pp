@@ -61,9 +61,6 @@ class openstack_integration::neutron (
     if $metering_enabled {
       fail('Metering agent is not supported when ovn mechanism driver is used.')
     }
-    if $vpnaas_enabled {
-      fail('VPNaaS is not supported when ovn mechanism driver is used.')
-    }
     if $bgpvpn_enabled {
       fail('BGP VPN is not supported when ovn mechanism driver is used.')
     }
@@ -158,7 +155,13 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' {
     $dhcp_agent_notification = false
-    $plugins_list = ['qos', 'ovn-router', 'trunk']
+    $vpaaas_plugin = $vpnaas_enabled ? {
+      true    => 'ovn-vpnaas',
+      default => undef,
+    }
+    $plugins_list = delete_undef_values([
+      'qos', 'ovn-router', 'trunk', $vpaaas_plugin,
+    ])
   } else {
     $dhcp_agent_notification = true
     $metering_plugin = $metering_enabled ? {
@@ -281,7 +284,10 @@ class openstack_integration::neutron (
   }
 
   $rpc_workers = $driver ? {
-    'ovn'   => 0,
+    'ovn'   => $vpnaas_enabled ? {
+      true    => 2,
+      default => 0,
+    },
     default => 2,
   }
   $rpc_state_report_workers = $driver ? {
@@ -404,6 +410,23 @@ class openstack_integration::neutron (
         ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
       }
     }
+
+    $vpn_device_driver = $facts['os']['family'] ? {
+      'Debian' => 'neutron_vpnaas.services.vpn.device_drivers.ovn_ipsec.OvnStrongSwanDriver',
+      default  => 'neutron_vpnaas.services.vpn.device_drivers.ovn_ipsec.OvnLibreSwanDriver',
+    }
+    $vpnaas_driver = 'neutron_vpnaas.services.vpn.service_drivers.ovn_ipsec.IPsecOvnVPNDriver'
+    if $vpnaas_enabled {
+      class { 'neutron::agents::vpnaas::ovn':
+        debug              => true,
+        vpn_device_driver  => $vpn_device_driver,
+        interface_driver   => 'openvswitch',
+        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+        ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
+        ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
+        ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
+      }
+    }
   } else {
     class { 'neutron::agents::metadata':
       debug             => true,
@@ -434,29 +457,19 @@ class openstack_integration::neutron (
         debug            => true,
       }
     }
-    if $vpnaas_enabled {
-      $vpn_device_driver = $facts['os']['family'] ? {
-        'Debian' => 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver',
-        default  => 'neutron_vpnaas.services.vpn.device_drivers.libreswan_ipsec.LibreSwanDriver'
-      }
-      $service_provider_name = $facts['os']['family'] ? {
-        'Debian' => 'strongswan',
-        default  => 'openswan'
-      }
 
-      class { 'neutron::services::vpnaas':
-        service_providers => join([
-          'VPN',
-          $service_provider_name,
-          'neutron_vpnaas.services.vpn.service_drivers.ipsec.IPsecVPNDriver',
-          'default'
-        ], ':')
-      }
+    $vpn_device_driver = $facts['os']['family'] ? {
+      'Debian' => 'neutron_vpnaas.services.vpn.device_drivers.strongswan_ipsec.StrongSwanDriver',
+      default  => 'neutron_vpnaas.services.vpn.device_drivers.libreswan_ipsec.LibreSwanDriver'
+    }
+    $vpnaas_driver = 'neutron_vpnaas.services.vpn.service_drivers.ipsec.IPsecVPNDriver'
+    if $vpnaas_enabled {
       class { 'neutron::agents::vpnaas':
         vpn_device_driver => $vpn_device_driver,
         interface_driver  => $driver,
       }
     }
+
     if $taas_enabled {
       class { 'neutron::agents::taas': }
       class { 'neutron::services::taas': }
@@ -480,6 +493,22 @@ class openstack_integration::neutron (
       class {'neutron::agents::bgp_dragent':
         bgp_router_id => '127.0.0.1'
       }
+    }
+  }
+
+  if $vpnaas_enabled {
+    $vpnaas_service_provider = $facts['os']['family'] ? {
+      'Debian' => 'strongswan',
+      default  => 'openswan'
+    }
+
+    class { 'neutron::services::vpnaas':
+      service_providers => join([
+        'VPN',
+        $vpnaas_service_provider,
+        $vpnaas_driver,
+        'default'
+      ], ':')
     }
   }
 

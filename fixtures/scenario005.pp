@@ -25,11 +25,14 @@ case $facts['os']['family'] {
     $ipv6 = false
     $ovn_metadata_agent_enabled = true
     $jobboard_backend = 'redis'
+    # TODO(tkajinam): Enable these along with the other plugins
+    $vpnaas_enabled = false
   }
   'RedHat': {
     $ipv6 = true
     $ovn_metadata_agent_enabled = false
     $jobboard_backend = 'redis_sentinel'
+    $vpnaas_enabled = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -59,6 +62,7 @@ class { 'openstack_integration::glance':
 class { 'openstack_integration::neutron':
   driver                     => 'ovn',
   ovn_metadata_agent_enabled => $ovn_metadata_agent_enabled,
+  vpnaas_enabled             => $vpnaas_enabled
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
@@ -88,4 +92,5 @@ class { 'openstack_integration::tempest':
   octavia        => true,
   neutron_driver => 'ovn',
   image_format   => 'raw',
+  vpnaas         => $vpnaas_enabled,
 }
