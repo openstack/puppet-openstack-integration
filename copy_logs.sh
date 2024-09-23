@@ -338,14 +338,14 @@ if [ `command -v apt` ]; then
     apt-cache policy > $LOG_DIR/apt-cache-policy.txt
     sudo cp -r /etc/apt $LOG_DIR/etc/apt
 fi
-if [ `command -v rpm` ]; then
+
+if is_fedora; then
     rpm -qa |sort > $LOG_DIR/rpm-qa.txt
-    sudo $YUM repolist -v > $LOG_DIR/repolist.txt
-    sudo $YUM list installed > $LOG_DIR/installed-packages.txt
-    sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
-fi
-if [ `command -v dnf` ]; then
+    sudo dnf repolist -v > $LOG_DIR/repolist.txt
+    sudo dnf list installed > $LOG_DIR/installed-packages.txt
     sudo dnf module list > $LOG_DIR/modulelist.txt
+
+    sudo cp -r /etc/yum.repos.d $LOG_DIR/etc/yum.repos.d
     mkdir $LOG_DIR/dnf
     sudo cp /var/log/dnf.log $LOG_DIR/dnf
     sudo cp /var/log/dnf.rpm.log $LOG_DIR/dnf

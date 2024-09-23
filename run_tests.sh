@@ -166,7 +166,7 @@ fi
 if uses_debs; then
     $SUDO apt-get install -y dstat ebtables iotop sysstat
 elif is_fedora; then
-    $SUDO $YUM install -y dstat setools setroubleshoot audit iotop sysstat
+    $SUDO dnf install -y dstat setools setroubleshoot audit iotop sysstat
     $SUDO systemctl start auditd
     # SElinux in permissive mode so later we can catch alerts
     $SUDO selinuxenabled && $SUDO setenforce 0
@@ -224,7 +224,7 @@ if [ "${MANAGE_REPOS,,}" = true ]; then
     fi
     print_header 'Updating packages'
     if is_fedora; then
-        $SUDO $YUM update -y
+        $SUDO dnf update -y
         update_ret=$?
     elif uses_debs; then
         export DEBIAN_FRONTEND=noninteractive
