@@ -42,7 +42,8 @@
           - libxslt-devel
           - ruby-devel
           - zlib-devel
-          - rubygem-rexml
+          - langpacks-en
+          - glibc-langpack-en
 
       when:
         - ansible_os_family == 'RedHat'
