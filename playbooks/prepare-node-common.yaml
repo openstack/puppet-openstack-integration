@@ -27,7 +27,8 @@
           - libxslt-devel
           - ruby-devel
           - zlib-devel
-          - rubygem-rexml
+          - langpacks-en
+          - glibc-langpack-en
 
       - name: Install yum (CentOS/RHEL)
         dnf:
