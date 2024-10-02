@@ -302,7 +302,6 @@ class openstack_integration::tempest (
     project_name                       => 'demo',
     user_domain_name                   => 'Default',
     project_domain_name                => 'Default',
-    auth_version                       => 'v3',
     tempest_roles                      => ['member', 'creator'], # needed to use barbican.
     reseller_admin_role                => $reseller_admin_role,
     image_name                         => 'cirros',
