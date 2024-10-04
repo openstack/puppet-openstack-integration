@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,111 +19,111 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'master'
+  :ref => 'stable/2024.2'
 
 ## External modules
 mod 'kmod',
