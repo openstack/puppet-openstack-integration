@@ -14,12 +14,6 @@
       scenario: scenario001
 
 - job:
-    name: puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
-    parent: puppet-openstack-integration-7-scenario001
-    nodeset: ubuntu-jammy
-    voting: false
-
-- job:
     name: puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario001
     nodeset:
@@ -33,12 +27,6 @@
     abstract: true
     vars:
       scenario: scenario002
-
-- job:
-    name: puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
-    parent: puppet-openstack-integration-7-scenario002
-    nodeset: ubuntu-jammy
-    voting: false
 
 - job:
     name: puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
@@ -56,12 +44,6 @@
       scenario: scenario003
 
 - job:
-    name: puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
-    parent: puppet-openstack-integration-7-scenario003
-    nodeset: ubuntu-jammy
-    voting: false
-
-- job:
     name: puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario003
     nodeset:
@@ -77,12 +59,6 @@
       scenario: scenario004
 
 - job:
-    name: puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
-    parent: puppet-openstack-integration-7-scenario004
-    nodeset: ubuntu-jammy
-    voting: false
-
-- job:
     name: puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
     parent: puppet-openstack-integration-7-scenario004
     nodeset:
@@ -96,12 +72,6 @@
     abstract: true
     vars:
       scenario: scenario005
-
-- job:
-    name: puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
-    parent: puppet-openstack-integration-7-scenario005
-    nodeset: ubuntu-jammy
-    voting: false
 
 - job:
     name: puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
@@ -128,12 +98,10 @@
       scenario: scenario001
 
 - job:
-    name: puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
+    name: puppet-openstack-integration-8-scenario001-tempest-ubuntu-noble
     parent: puppet-openstack-integration-8-scenario001
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
+    nodeset: ubuntu-noble
+    voting: false
 
 - job:
     name: puppet-openstack-integration-8-scenario002
@@ -143,12 +111,10 @@
       scenario: scenario002
 
 - job:
-    name: puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
+    name: puppet-openstack-integration-8-scenario002-tempest-ubuntu-noble
     parent: puppet-openstack-integration-8-scenario002
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
+    nodeset: ubuntu-noble
+    voting: false
 
 - job:
     name: puppet-openstack-integration-8-scenario003
@@ -158,12 +124,10 @@
       scenario: scenario003
 
 - job:
-    name: puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
+    name: puppet-openstack-integration-8-scenario003-tempest-ubuntu-noble
     parent: puppet-openstack-integration-8-scenario003
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
+    nodeset: ubuntu-noble
+    voting: false
 
 - job:
     name: puppet-openstack-integration-8-scenario004
@@ -173,12 +137,10 @@
       scenario: scenario004
 
 - job:
-    name: puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
+    name: puppet-openstack-integration-8-scenario004-tempest-ubuntu-noble
     parent: puppet-openstack-integration-8-scenario004
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
+    nodeset: ubuntu-noble
+    voting: false
 
 - job:
     name: puppet-openstack-integration-8-scenario005
@@ -188,9 +150,7 @@
       scenario: scenario005
 
 - job:
-    name: puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
+    name: puppet-openstack-integration-8-scenario005-tempest-ubuntu-noble
     parent: puppet-openstack-integration-8-scenario005
-    nodeset:
-      nodes:
-        - name: centos-9-stream
-          label: centos-9-stream
+    nodeset: ubuntu-noble
+    voting: false
