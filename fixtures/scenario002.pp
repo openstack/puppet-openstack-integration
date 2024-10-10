@@ -113,6 +113,7 @@ class { 'openstack_integration::tempest':
   horizon                 => true,
   swift                   => true,
   ironic                  => true,
+  ironic_inspector        => true,
   zaqar                   => true,
   attach_encrypted_volume => true,
 }

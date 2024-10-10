@@ -48,6 +48,10 @@
 #   (optional) Define if Ironic needs to be tested.
 #   Default to false.
 #
+# [*ironic_inspector*]
+#   (optional) Define if Ironic-inspector needs to be tested.
+#   Default to false.
+#
 # [*l2gw*]
 #   (optional) Define if L2GW needs to be tested.
 #   Default to false.
@@ -160,6 +164,7 @@ class openstack_integration::tempest (
   $heat                    = false,
   $horizon                 = false,
   $ironic                  = false,
+  $ironic_inspector        = false,
   $l2gw                    = false,
   $l2gw_switch             = undef,
   $dr                      = false,
@@ -324,6 +329,7 @@ class openstack_integration::tempest (
     heat_available                     => $heat,
     swift_available                    => $swift,
     ironic_available                   => $ironic,
+    ironic_inspector_available         => $ironic_inspector,
     zaqar_available                    => $zaqar,
     manila_available                   => $manila,
     mistral_available                  => $mistral,
