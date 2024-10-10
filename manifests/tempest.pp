@@ -330,7 +330,6 @@ class openstack_integration::tempest (
     vitrage_available                  => $vitrage,
     gnocchi_available                  => $gnocchi,
     watcher_available                  => $watcher,
-    volume_catalog_type                => 'volumev3',
     public_network_name                => 'public',
     neutron_api_extensions             => join(any2array($neutron_api_extensions_real), ','),
     dashboard_url                      => $dashboard_url,
