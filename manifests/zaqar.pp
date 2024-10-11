@@ -68,7 +68,6 @@ class openstack_integration::zaqar {
     service_token_roles_required => true,
   }
   class { 'zaqar':
-    unreliable       => true,
     management_store => 'sqlalchemy',
     message_store    => 'swift',
   }
