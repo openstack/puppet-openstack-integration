@@ -162,7 +162,7 @@ class openstack_integration::cinder (
         manage_volume_type => true,
       }
       # make sure ceph pool exists before running Cinder Volume
-      Exec['create-cinder'] -> Service['cinder-volume']
+      Ceph::Pool['cinder'] -> Service['cinder-volume']
     }
     default: {
       fail("Unsupported backend (${backend})")
@@ -191,7 +191,7 @@ class openstack_integration::cinder (
         backup_ceph_user => 'openstack',
       }
       # make sure ceph pool exists before running Cinder Backup
-      Exec['create-backups'] -> Service['cinder-backup']
+      Ceph::Pool['backups'] -> Service['cinder-backup']
     }
     default: {}
   }
