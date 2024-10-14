@@ -261,7 +261,7 @@ class openstack_integration::nova (
       manage_ceph_client      => false,
     }
     # make sure ceph pool exists before running nova-compute
-    Exec['create-nova'] -> Service['nova-compute']
+    Ceph::Pool['nova'] -> Service['nova-compute']
   } else {
     include openstacklib::iscsid
     Service['iscsid'] -> Service['nova-compute']
