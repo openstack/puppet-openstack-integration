@@ -67,7 +67,7 @@ class openstack_integration::glance (
         rbd_store_pool => 'glance',
       }
       # make sure ceph pool exists before running Glance API
-      Exec['create-glance'] -> Service['glance-api']
+      Ceph::Pool['glance'] -> Service['glance-api']
       $default_backend = 'rbd1'
     }
     'swift': {

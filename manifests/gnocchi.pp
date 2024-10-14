@@ -118,7 +118,7 @@ class openstack_integration::gnocchi (
         manage_rados  => true,
       }
       # make sure ceph pool exists before running gnocchi (dbsync & services)
-      Exec['create-gnocchi'] -> Exec['gnocchi-db-sync']
+      Ceph::Pool['gnocchi'] -> Anchor['gnocchi::dbsync::begin']
     }
     'swift': {
       class { 'gnocchi::storage::swift':
