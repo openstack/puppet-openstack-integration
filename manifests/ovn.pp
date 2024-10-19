@@ -6,6 +6,8 @@ class openstack_integration::ovn(
   include openstack_integration::config
   include openstack_integration::params
 
+  require openstack_integration::ovs
+
   if $::openstack_integration::config::ssl {
     class { 'vswitch::pki::cacert': }
     vswitch::pki::cert { ['ovnnb', 'ovnsb', 'ovncontroller']: }

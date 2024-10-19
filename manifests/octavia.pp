@@ -134,6 +134,7 @@ class openstack_integration::octavia (
       ovn_sb_certificate => '/etc/octavia/ovnsb-cert.pem',
       ovn_sb_ca_cert     => '/etc/octavia/switchcacert.pem',
     }
+    require openstack_integration::ovn
   } else{
     $enabled_provider_drivers = undef
     $enabled_provider_agents = undef

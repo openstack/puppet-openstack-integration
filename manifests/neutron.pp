@@ -123,8 +123,11 @@ class openstack_integration::neutron (
   }
 
   case $driver {
-    'openvswitch', 'ovn': {
-      include openstack_integration::ovs
+    'openvswitch': {
+      require openstack_integration::ovs
+    }
+    'ovn': {
+      require openstack_integration::ovn
     }
     'linuxbridge': {
       exec { 'create_dummy_iface':
