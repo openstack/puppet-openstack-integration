@@ -14,11 +14,6 @@
 #   Possible values include custom, host-model, none, host-passthrough.
 #   Defaults to 'none'
 #
-# [*modular_libvirt*]
-#   (optional) Use modular libvirt daemons instead of the monolithic libvirtd
-#   deamon
-#   Defaults to false
-#
 # [*volume_encryption*]
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
@@ -39,7 +34,6 @@ class openstack_integration::nova (
   $libvirt_rbd            = false,
   $libvirt_virt_type      = 'qemu',
   $libvirt_cpu_mode       = 'none',
-  $modular_libvirt        = false,
   $volume_encryption      = false,
   $notification_topics    = $facts['os_service_default'],
   $cinder_enabled         = false,
@@ -235,9 +229,8 @@ class openstack_integration::nova (
     default  => 'tcp'
   }
   class { 'nova::migration::libvirt':
-    transport       => $migration_transport,
-    listen_address  => $::openstack_integration::config::host,
-    modular_libvirt => $modular_libvirt,
+    transport      => $migration_transport,
+    listen_address => $::openstack_integration::config::host,
   }
 
   $images_type = $libvirt_rbd ? {
@@ -250,9 +243,7 @@ class openstack_integration::nova (
     images_type             => $images_type,
     manage_libvirt_services => false,
   }
-  class { 'nova::compute::libvirt::services':
-    modular_libvirt => $modular_libvirt,
-  }
+  class { 'nova::compute::libvirt::services': }
   class { 'nova::compute::libvirt::networks': }
   if $libvirt_rbd {
     class { 'nova::compute::rbd':
