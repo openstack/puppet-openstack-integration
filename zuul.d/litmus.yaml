@@ -16,6 +16,7 @@
       - ^spec/unit/.*$
       - ^spec/classes/.*$
       - ^spec/defines/.*$
+      - ^spec/type_aliases/.*$
       - ^requirements.txt$
       - ^test-requirements.txt$
       - ^metadata.json$
