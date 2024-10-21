@@ -135,9 +135,21 @@ class openstack_integration::manila (
     }
   }
   class { 'manila::data': }
-
-  class { 'manila::compute::nova': }
-  class { 'manila::network::neutron': }
-  class { 'manila::volume::cinder': }
+  class { 'manila::compute::nova':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'manila::network::neutron':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'manila::volume::cinder':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
+  class { 'manila::image::glance':
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    password => 'a_big_secret',
+  }
   class { 'manila::cron::db_purge': }
 }
