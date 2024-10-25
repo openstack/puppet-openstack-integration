@@ -23,7 +23,6 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
-    $neutron_use_httpd = false
     # TODO(tkajinam): Need additional work to load the plugins
     $bgpvpn_enabled = false
     $l2gw_enabled = false
@@ -33,7 +32,6 @@ case $facts['os']['family'] {
   }
   'RedHat': {
     $ipv6 = true
-    $neutron_use_httpd = true
     $bgpvpn_enabled = true
     $l2gw_enabled = true
     $bgp_dragent_enabled = true
@@ -66,7 +64,6 @@ class { 'openstack_integration::glance':
 }
 
 class { 'openstack_integration::neutron':
-  use_httpd           => $neutron_use_httpd,
   vpnaas_enabled      => $vpnaas_enabled,
   taas_enabled        => $taas_enabled,
   bgpvpn_enabled      => $bgpvpn_enabled,

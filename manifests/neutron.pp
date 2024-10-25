@@ -5,10 +5,6 @@
 #   Can be: openvswitch, linuxbridge or ovn.
 #   Defaults to 'openvswitch'.
 #
-# [*use_httpd*]
-#   (optional) Use httpd to run neutron api
-#   Defaults to false
-#
 # [*ovn_metadata_agent_enabled*]
 #   (optional) Enable ovn-metadata-agent
 #   Defaults to true
@@ -47,7 +43,6 @@
 #
 class openstack_integration::neutron (
   $driver                     = 'openvswitch',
-  $use_httpd                  = false,
   $ovn_metadata_agent_enabled = true,
   $metering_enabled           = false,
   $vpnaas_enabled             = false,
@@ -58,6 +53,11 @@ class openstack_integration::neutron (
   $baremetal_enabled          = false,
   $notification_topics        = $facts['os_service_default'],
 ) {
+
+  $use_httpd = $facts['os']['family'] ? {
+    'RedHat' => true,
+    default  => false,
+  }
 
   include openstack_integration::config
   include openstack_integration::params
