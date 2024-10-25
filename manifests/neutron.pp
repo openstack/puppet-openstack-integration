@@ -5,6 +5,10 @@
 #   Can be: openvswitch, linuxbridge or ovn.
 #   Defaults to 'openvswitch'.
 #
+# [*use_httpd*]
+#   (optional) Use httpd to run neutron api
+#   Defaults to false
+#
 # [*ovn_metadata_agent_enabled*]
 #   (optional) Enable ovn-metadata-agent
 #   Defaults to true
@@ -43,6 +47,7 @@
 #
 class openstack_integration::neutron (
   $driver                     = 'openvswitch',
+  $use_httpd                  = false,
   $ovn_metadata_agent_enabled = true,
   $metering_enabled           = false,
   $vpnaas_enabled             = false,
@@ -77,11 +82,16 @@ class openstack_integration::neutron (
   }
 
   if $::openstack_integration::config::ssl {
+    $api_service = $use_httpd ? {
+      true    => 'httpd',
+      default => 'neutron-server',
+    }
+
     openstack_integration::ssl_key { 'neutron':
-      notify  => Service['neutron-server'],
+      notify  => Service[$api_service],
       require => Anchor['neutron::install::end'],
     }
-    Exec['update-ca-certificates'] ~> Service<| tag == 'neutron-service' |>
+    Exec['update-ca-certificates'] ~> Service[$api_service]
 
     if $driver == 'ovn' {
       openstack_integration::ovn::ssl_key { 'neutron':
@@ -286,6 +296,53 @@ class openstack_integration::neutron (
     }),
   }
 
+  if $use_httpd {
+    class { 'neutron::wsgi::apache':
+      bind_host => $::openstack_integration::config::host,
+      ssl_key   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
+      ssl_cert  => $::openstack_integration::params::cert_path,
+      ssl       => $::openstack_integration::config::ssl,
+      workers   => 2,
+    }
+
+    $vpnaas_conf = $vpnaas_enabled ? {
+      true    => 'neutron_vpnaas.conf',
+      default => undef,
+    }
+    $taas_conf = $taas_enabled ? {
+      true    => 'taas_plugin.ini',
+      default => undef,
+    }
+    $bgpvpn_conf = $bgpvpn_enabled ? {
+      true    => 'networking_bgpvpn.conf',
+      default => undef,
+    }
+    $l2gw_conf = $l2gw_enabled ? {
+      true    => 'l2gw_plugin.ini',
+      default => undef,
+    }
+
+    $neutron_conf_files = delete_undef_values([
+      'neutron.conf', 'plugins/ml2/ml2_conf.ini',
+      $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf
+    ])
+
+    # TODO(tkajinam): Should this be in puppet-neutron ?
+    systemd::dropin_file { 'apache-os-neutron':
+      unit     => "${::apache::service::service_name}.service",
+      filename => 'os-neutron.conf',
+      content  => "[Service]
+Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
+      require  => Package['httpd'],
+    }
+
+    $server_service_name = false
+    $api_service_name = 'httpd'
+  } else {
+    $server_service_name = $::neutron::params::server_service
+    $api_service_name = $::neutron::params::api_service_name
+  }
+
   $rpc_workers = $driver ? {
     'ovn'   => $vpnaas_enabled ? {
       true    => 2,
@@ -297,6 +354,10 @@ class openstack_integration::neutron (
     'ovn'   => 0,
     default => $facts['os_service_default'],
   }
+  $rpc_service_name = $rpc_workers ? {
+    0       => false,
+    default => $::neutron::params::rpc_service_name
+  }
 
   class { 'neutron::server':
     sync_db                  => true,
@@ -304,6 +365,9 @@ class openstack_integration::neutron (
     rpc_workers              => $rpc_workers,
     rpc_state_report_workers => $rpc_state_report_workers,
     rpc_response_max_timeout => 300,
+    service_name             => $server_service_name,
+    api_service_name         => $api_service_name,
+    rpc_service_name         => $rpc_service_name,
   }
 
   $overlay_network_type = $driver ? {
@@ -429,6 +493,10 @@ class openstack_integration::neutron (
         ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
         ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
       }
+    }
+
+    if $use_httpd {
+      class { 'neutron::plugins::ml2::ovn::maintenance_worker': }
     }
   } else {
     class { 'neutron::agents::metadata':

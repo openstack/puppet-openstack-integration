@@ -24,10 +24,12 @@ case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
     $cache_backend = 'memcached'
+    $neutron_use_httpd = false
   }
   'RedHat': {
     $ipv6 = true
     $cache_backend = 'redis'
+    $neutron_use_httpd = true
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -59,6 +61,7 @@ class { 'openstack_integration::glance':
 }
 class { 'openstack_integration::neutron':
   notification_topics => ['notifications', 'vitrage_notifications'],
+  use_httpd           => $neutron_use_httpd,
   metering_enabled    => true,
 }
 include openstack_integration::placement
