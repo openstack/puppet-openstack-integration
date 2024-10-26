@@ -10,6 +10,19 @@ class openstack_integration::swift(
 
   include openstack_integration::config
 
+  if $::openstack_integration::config::ssl {
+    openstack_integration::ssl_key { 'swift':
+      notify  => Service['swift-proxy-server'],
+      require => Anchor['swift::install::end'],
+    }
+    Exec['update-ca-certificates'] ~> Service['swift-proxy-server']
+    $cert_file = $::openstack_integration::params::cert_path
+    $key_file = "/etc/swift/ssl/private/${facts['networking']['fqdn']}.pem"
+  } else {
+    $cert_file = undef
+    $key_file = undef
+  }
+
   # Setup logging to /var/log/swift
   # TODO: Move rsyslog implementation to something more generic
   package { 'rsyslog':
@@ -94,6 +107,8 @@ class openstack_integration::swift(
     workers            => 2,
     pipeline           => $pipeline,
     node_timeout       => 30,
+    cert_file          => $cert_file,
+    key_file           => $key_file,
   }
   include swift::proxy::catch_errors
   include swift::proxy::gatekeeper
@@ -127,15 +142,14 @@ class openstack_integration::swift(
   include swift::proxy::slo
   include swift::proxy::symlink
   include swift::proxy::versioned_writes
-
   # keystone resources
   class { 'swift::keystone::auth':
-    public_url      => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
-    admin_url       => "http://${::openstack_integration::config::ip_for_url}:8080",
-    internal_url    => "http://${::openstack_integration::config::ip_for_url}:8080/v1/AUTH_%(tenant_id)s",
-    public_url_s3   => "http://${::openstack_integration::config::ip_for_url}:8080",
-    admin_url_s3    => "http://${::openstack_integration::config::ip_for_url}:8080",
-    internal_url_s3 => "http://${::openstack_integration::config::ip_for_url}:8080",
+    public_url      => "${::openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
+    admin_url       => "${::openstack_integration::config::base_url}:8080",
+    internal_url    => "${::openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
+    public_url_s3   => "${::openstack_integration::config::base_url}:8080",
+    admin_url_s3    => "${::openstack_integration::config::base_url}:8080",
+    internal_url_s3 => "${::openstack_integration::config::base_url}:8080",
     roles           => ['admin', 'service'],
     password        => 'a_big_secret',
     operator_roles  => ['admin', 'SwiftOperator', 'ResellerAdmin'],
