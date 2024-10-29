@@ -91,6 +91,8 @@ class { 'openstack_integration::gnocchi':
   backend => 'ceph',
 }
 
+include openstack_integration::watcher
+
 class { 'openstack_integration::tempest':
   cinder        => true,
   cinder_backup => true,
@@ -99,5 +101,6 @@ class { 'openstack_integration::tempest':
   aodh          => true,
   heat          => true,
   vitrage       => true,
+  watcher       => true,
   image_format  => 'raw',
 }

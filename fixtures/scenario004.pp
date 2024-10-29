@@ -83,7 +83,6 @@ class { 'openstack_integration::ceph':
 class { 'openstack_integration::horizon':
   octavia_enabled => true
 }
-include openstack_integration::watcher
 class { 'openstack_integration::manila':
   backend => 'cephfsnative'
 }
@@ -98,7 +97,6 @@ class { 'openstack_integration::provision':
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
   horizon             => true,
-  watcher             => true,
   vpnaas              => $vpnaas_enabled,
   taas                => $taas_enabled,
   bgpvpn              => $bgpvpn_enabled,
