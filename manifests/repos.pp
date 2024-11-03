@@ -100,16 +100,6 @@ class openstack_integration::repos {
   }
 
   if $facts['os']['family'] == 'RedHat' {
-    # NOTE(tobias-urdin): Install libibverbs to fix an issue where OVS outputs errors
-    # that causes the puppet-openvswitch module to fail parsing the output.
-    # This issue does not occur in integration testing but only module tests since some
-    # other package (probably nova) causes this package to be installed, or the yum upgrade
-    # part in integration catches it.
-    # Reported upstream: https://bugzilla.redhat.com/show_bug.cgi?id=1658141
-    package { 'libibverbs':
-      ensure => 'present',
-    }
-
     Yumrepo<||> -> Package<| title == 'ruby-augeas' |>
   }
 }
