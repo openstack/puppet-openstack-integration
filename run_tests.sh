@@ -354,7 +354,7 @@ print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
-    python3 -m virtualenv run_tempest
+    python3 -m venv run_tempest
     /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
     /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
 
