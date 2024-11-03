@@ -142,6 +142,10 @@ class openstack_integration::cinder (
   class { 'cinder::glance':
     allowed_direct_url_schemes => ['cinder'],
   }
+  class { 'cinder::nova':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+  }
   case $backend {
     'iscsi': {
       class { 'cinder::setup_test_volume':
