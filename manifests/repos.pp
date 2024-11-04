@@ -1,7 +1,5 @@
 class openstack_integration::repos {
 
-  $ceph_version_real = pick($facts['ceph_version'], 'reef')
-
   case $facts['os']['family'] {
     'Debian': {
       case $facts['os']['name'] {
@@ -24,25 +22,6 @@ class openstack_integration::repos {
           fail("Unsupported package type (${facts['os']['name']})")
         }
       }
-
-      $ceph_mirror = pick($facts['ceph_mirror_host'], "http://download.ceph.com/debian-${ceph_version_real}/")
-      # Ceph is both packaged on UCA and official download.ceph.com packages
-      # which we mirror. We want to use the official packages or our mirror.
-      if $ceph_mirror !~ '^http://download.ceph.com/.*' {
-        $ceph_version_cap = capitalize($ceph_version_real)
-        apt::pin { 'ceph':
-          priority   => 1001,
-          originator => "Ceph ${ceph_version_cap}",
-        }
-      } else {
-        apt::pin { 'ceph':
-          priority => 1001,
-          origin   => 'download.ceph.com',
-        }
-      }
-
-      $enable_sig  = false
-      $enable_epel = false
     }
     'RedHat': {
       $centos_mirror = pick(
@@ -69,6 +48,7 @@ class openstack_integration::repos {
         update_packages   => true,
       }
 
+      $ceph_version_real = pick($facts['ceph_version'], 'reef')
       $ceph_mirror = pick(
         $facts['ceph_mirror_host'],
         "${centos_mirror}/SIGs/${facts['os']['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
@@ -76,8 +56,11 @@ class openstack_integration::repos {
 
       # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
       # https://wiki.centos.org/SpecialInterestGroup/Storage/
-      $enable_sig  = true
-      $enable_epel = false
+      class { 'ceph::repo':
+        enable_sig  => true,
+        enable_epel => false,
+        ceph_mirror => $ceph_mirror,
+      }
 
       yumrepo { 'crb':
         enabled => true
@@ -86,12 +69,6 @@ class openstack_integration::repos {
     default: {
       fail("Unsupported osfamily (${facts['os']['family']})")
     }
-  }
-
-  class { 'ceph::repo':
-    enable_sig  => $enable_sig,
-    enable_epel => $enable_epel,
-    ceph_mirror => $ceph_mirror,
   }
 
   # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
