@@ -149,6 +149,9 @@ class openstack_integration::nova (
     notification_driver        => 'messagingv2',
     notify_on_state_change     => 'vm_and_task_state',
     notification_topics        => $notification_topics,
+    ssl_only                   => $::openstack_integration::config::ssl,
+    key                        => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
+    cert                       => $::openstack_integration::params::cert_path,
   }
   class { 'nova::api':
     api_bind_address => $::openstack_integration::config::host,
@@ -215,9 +218,12 @@ class openstack_integration::nova (
     }
   }
   class { 'nova::compute':
-    vnc_enabled                 => true,
-    instance_usage_audit        => true,
-    instance_usage_audit_period => 'hour',
+    vnc_enabled                   => true,
+    instance_usage_audit          => true,
+    instance_usage_audit_period   => 'hour',
+    vncproxy_protocol             => $::openstack_integration::config::proto,
+    vncproxy_host                 => $::openstack_integration::config::host,
+    vncserver_proxyclient_address => $::openstack_integration::config::host,
   }
 
   # NOTE(tkajinam): In Ubuntu, libvirtd-tcp.socket fails to start because of
@@ -242,6 +248,7 @@ class openstack_integration::nova (
     cpu_mode                => $libvirt_cpu_mode,
     images_type             => $images_type,
     manage_libvirt_services => false,
+    vncserver_listen        => $::openstack_integration::config::host,
   }
   class { 'nova::compute::libvirt::services': }
   class { 'nova::compute::libvirt::networks': }
