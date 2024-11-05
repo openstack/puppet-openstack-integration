@@ -184,7 +184,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '11.0.0'
+  :ref => '11.0.1'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
