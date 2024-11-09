@@ -286,7 +286,7 @@ echo "dashboard" >> /tmp/openstack/tempest/test-include-list.txt
 echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Gnocchi
-echo "telemetry_tempest_plugin.gnocchi" >> /tmp/openstack/tempest/test-include-list.txt
+echo "telemetry_tempest_plugin.scenario.test_gnocchi" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Vitrage
 echo "TestEvents" >> /tmp/openstack/tempest/test-include-list.txt
