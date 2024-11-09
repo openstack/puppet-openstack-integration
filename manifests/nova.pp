@@ -150,6 +150,7 @@ class openstack_integration::nova (
     notify_on_state_change     => 'vm_and_task_state',
     notification_topics        => $notification_topics,
     ssl_only                   => $::openstack_integration::config::ssl,
+    source_is_ipv6             => $::openstack_integration::config::ipv6,
     key                        => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
     cert                       => $::openstack_integration::params::cert_path,
   }
