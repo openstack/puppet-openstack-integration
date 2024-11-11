@@ -345,6 +345,7 @@ class openstack_integration::tempest (
     compute_build_interval             => 10,
     ca_certificates_file               => $::openstack_integration::params::ca_bundle_cert_path,
     attach_encrypted_volume            => $attach_encrypted_volume,
+    vnc_console                        => true,
     tempest_workspace                  => '/tmp/openstack/tempest',
     run_ssh                            => true,
     l2gw_switch                        => $l2gw_switch,

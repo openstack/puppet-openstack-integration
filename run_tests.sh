@@ -279,8 +279,10 @@ set +e
 # Smoke suite
 echo "smoke" > /tmp/openstack/tempest/test-include-list.txt
 
+echo "tempest.api.compute.servers.test_novnc.NoVNCConsoleTestJSON" >> /tmp/openstack/tempest/test-include-list.txt
+
 # Horizon
-echo "dashboard" >> /tmp/openstack/tempest/test-include-list.txt
+echo "tempest.scenario.test_dashboard_basic_ops" >> /tmp/openstack/tempest/test-include-list.txt
 
 # Aodh
 echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-include-list.txt
