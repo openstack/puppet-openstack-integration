@@ -140,7 +140,7 @@ mod 'apt',
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v9.0.2'
+  :ref => 'v9.1.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
@@ -168,7 +168,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v9.6.0'
+  :ref => 'v9.7.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
