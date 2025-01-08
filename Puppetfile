@@ -156,7 +156,7 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v10.4.0'
+  :ref => 'v10.5.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -196,7 +196,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v11.0.0'
+  :ref => 'v11.1.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
