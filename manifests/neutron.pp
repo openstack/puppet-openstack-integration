@@ -2,7 +2,7 @@
 #
 # [*driver*]
 #   (optional) Neutron Driver to test
-#   Can be: openvswitch, linuxbridge or ovn.
+#   Can be: openvswitch or ovn.
 #   Defaults to 'openvswitch'.
 #
 # [*ovn_metadata_agent_enabled*]
@@ -111,7 +111,7 @@ class openstack_integration::neutron (
       before     => Anchor['neutron::service::begin'],
     }
 
-    if $driver == 'openvswitch' or $driver == 'linuxbridge' {
+    if $driver == 'openvswitch' {
       selboolean { 'os_dnsmasq_dac_override':
         persistent => true,
         value      => on,
@@ -138,14 +138,6 @@ class openstack_integration::neutron (
     }
     'ovn': {
       require openstack_integration::ovn
-    }
-    'linuxbridge': {
-      exec { 'create_dummy_iface':
-        path     => '/usr/bin:/bin:/usr/sbin:/sbin',
-        provider => shell,
-        unless   => 'ip l show loop0',
-        command  => 'ip link add name loop0 type dummy && ip addr add 172.24.5.1/24 dev loop0 && ip link set loop0 up',
-      }
     }
     default: {
       fail("Unsupported neutron driver (${driver})")
@@ -213,12 +205,6 @@ class openstack_integration::neutron (
     ])
   }
 
-  if $driver == 'linuxbridge' {
-    $global_physnet_mtu = '1450'
-  } else {
-    $global_physnet_mtu = undef
-  }
-
   class { 'neutron::logging':
     debug => true,
   }
@@ -246,7 +232,6 @@ class openstack_integration::neutron (
     key_file                   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
-    global_physnet_mtu         => $global_physnet_mtu,
     dhcp_agent_notification    => $dhcp_agent_notification,
   }
   class { 'neutron::keystone::authtoken':
@@ -422,14 +407,6 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
         ovn_sb_certificate   => '/etc/neutron/ovnsb-cert.pem',
         ovn_sb_ca_cert       => '/etc/neutron/switchcacert.pem',
         ovn_metadata_enabled => true,
-      }
-    }
-    'linuxbridge': {
-      class { 'neutron::agents::ml2::linuxbridge':
-        local_ip                    => $facts['networking']['ip'],
-        tunnel_types                => ['vxlan'],
-        physical_interface_mappings => ['external:loop0'],
-        firewall_driver             => 'iptables',
       }
     }
     default: {
