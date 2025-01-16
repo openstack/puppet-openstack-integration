@@ -109,6 +109,7 @@ class openstack_integration::manila (
   }
   class { 'manila::quota': }
   class { 'manila::scheduler': }
+  class { 'manila::scheduler::filter': }
   class { 'manila::share': }
   class { 'manila::backends':
     enabled_share_backends => [$backend],
