@@ -260,8 +260,6 @@ class openstack_integration::nova (
       libvirt_rbd_secret_key  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
       libvirt_images_rbd_pool => 'nova',
       rbd_keyring             => 'client.openstack',
-      # ceph packaging is already managed by puppet-ceph
-      manage_ceph_client      => false,
     }
     # make sure ceph pool exists before running nova-compute
     Ceph::Pool['nova'] -> Service['nova-compute']
