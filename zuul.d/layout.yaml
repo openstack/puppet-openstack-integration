@@ -30,10 +30,13 @@
         - puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.29-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.29-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-unit-8.5-centos-9-stream
+        - puppet-openstack-libraries-litmus-7.29-centos-9-stream
+        - puppet-openstack-libraries-litmus-7.29-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-8.10-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.29-centos-9-stream
         - puppet-openstack-libraries-litmus-7.29-ubuntu-jammy
+        - puppet-openstack-libraries-litmus-8.10-centos-9-stream
         - puppet-openstack-libraries-litmus-latest-ubuntu-jammy
     gate:
       jobs:
@@ -42,9 +45,6 @@
         - puppet-openstack-libraries-puppet-unit-7.29-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.29-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.29-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-libraries-litmus-8.5-centos-9-stream
 
 # integration jobs
 - project-template:
@@ -61,6 +61,11 @@
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
@@ -68,13 +73,6 @@
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
-        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
-        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
-        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
-        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario001
@@ -82,12 +80,10 @@
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario002
@@ -95,12 +91,10 @@
       jobs:
         - puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario003
@@ -108,12 +102,10 @@
       jobs:
         - puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario004
@@ -121,12 +113,10 @@
       jobs:
         - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario005
@@ -134,9 +124,7 @@
       jobs:
         - puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
-    experimental:
-      jobs:
-        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream

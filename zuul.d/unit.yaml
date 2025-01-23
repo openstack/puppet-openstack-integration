@@ -16,12 +16,11 @@
       puppet_gem_version: 7.29
 
 - job:
-    name: puppet-openstack-unit-8.5-centos-9-stream
+    name: puppet-openstack-unit-8.10-centos-9-stream
     parent: puppet-openstack-unit-base
     nodeset: centos-9-stream
-    voting: false
     vars:
-      puppet_gem_version: 8.5
+      puppet_gem_version: 8.10
       dnf_modules:
         ruby: 3.1
 
@@ -39,9 +38,10 @@
       jobs:
         - puppet-openstack-unit-7.29-centos-9-stream
         - puppet-openstack-unit-7.29-ubuntu-jammy
-        - puppet-openstack-unit-8.5-centos-9-stream
+        - puppet-openstack-unit-8.10-centos-9-stream
         - puppet-openstack-unit-latest-ubuntu-jammy
     gate:
       jobs:
         - puppet-openstack-unit-7.29-centos-9-stream
         - puppet-openstack-unit-7.29-ubuntu-jammy
+        - puppet-openstack-unit-8.10-centos-9-stream
