@@ -136,7 +136,7 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v10.0.0'
+  :ref => 'v10.0.1'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
