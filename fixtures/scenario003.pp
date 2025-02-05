@@ -54,7 +54,8 @@ include openstack_integration::keystone
 include openstack_integration::glance
 
 class { 'openstack_integration::neutron':
-  driver => 'ovn',
+  driver            => 'ovn',
+  designate_enabled => true,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':

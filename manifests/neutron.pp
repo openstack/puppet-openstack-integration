@@ -37,6 +37,10 @@
 #   (optional) Flag to enable networking-baremetal
 #   Defaults to false.
 #
+# [*designate_enabled*]
+#   (optional) Flag to enable external dns integration with Designate
+#   Defaults to false.
+#
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default'].
@@ -51,6 +55,7 @@ class openstack_integration::neutron (
   $l2gw_enabled               = false,
   $bgp_dragent_enabled        = false,
   $baremetal_enabled          = false,
+  $designate_enabled          = false,
   $notification_topics        = $facts['os_service_default'],
 ) {
 
@@ -572,6 +577,14 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     }
 
     Anchor['ironic::service::end'] -> Service['ironic-neutron-agent-service']
+  }
+
+  if $designate_enabled {
+    class { 'neutron::designate':
+      password => 'a_big_secret',
+      url      => "${::openstack_integration::config::base_url}:9001",
+      auth_url => $::openstack_integration::config::keystone_admin_uri,
+    }
   }
 
   class { 'neutron::server::notifications::nova':
