@@ -170,8 +170,15 @@ if [ -d /etc/named ]; then
     if [ -f /etc/rndc.conf ]; then
         sudo cp -r /etc/rndc.conf $LOG_DIR/rndc.conf
     fi
-elif [ -d /etc/bind ]; then
+fi
+if [ -d /etc/bind ]; then
     sudo cp -r /etc/bind $LOG_DIR/etc
+fi
+if [ -f /etc/rndc.key ]; then
+    sudo cp /etc/rndc.key $LOG_DIR/etc
+fi
+if [ -f /etc/named.conf ]; then
+    sudo cp /etc/named.conf $LOG_DIR/etc
 fi
 
 # tempest logs
