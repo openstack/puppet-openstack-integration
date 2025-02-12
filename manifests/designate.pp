@@ -121,16 +121,11 @@ class openstack_integration::designate (
   }
 
   class { 'designate::backend::bind9':
-    nameservers      => [$::openstack_integration::config::host],
-    bind9_hosts      => [$::openstack_integration::config::host],
-    dns_port         => 5322,
-    mdns_hosts       => [$::openstack_integration::config::host],
-    rndc_config_file => "${::dns::params::dnsdir}/rndc.conf",
-    rndc_key_file    => $::dns::params::rndckeypath,
-    # Configure bind using openstack_integration::bind
-    configure_bind   => false,
+    nameservers   => [$::openstack_integration::config::host],
+    bind9_hosts   => [$::openstack_integration::config::host],
+    dns_port      => 5322,
+    mdns_hosts    => [$::openstack_integration::config::host],
+    rndc_key_file => $::dns::rndckeypath,
   }
-
-  File['rndc.conf'] -> Anchor['designate::service::begin']
   Class['dns::service'] -> Anchor['designate::service::begin']
 }
