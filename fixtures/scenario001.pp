@@ -102,10 +102,12 @@ class { 'openstack_integration::gnocchi':
 }
 
 include openstack_integration::watcher
+include openstack_integration::cloudkitty
 
 class { 'openstack_integration::tempest':
   cinder        => true,
   cinder_backup => true,
+  cloudkitty    => true,
   gnocchi       => true,
   ceilometer    => true,
   aodh          => true,

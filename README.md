@@ -73,6 +73,7 @@ scenario](#all-in-one).
 | ceph rgw   |             |             |             |      X      |             |              |
 | vitrage    |      X      |             |             |             |             |              |
 | watcher    |      X      |             |             |             |             |              |
+| cloudkitty |      X      |             |             |             |             |              |
 | vpnaas     |             |             |             |      X      |      X      |              |
 | taas       |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |      X      |             |              |
