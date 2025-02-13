@@ -99,6 +99,10 @@ class openstack_integration::octavia (
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
+  class { 'octavia::neutron':
+    password => 'a_big_secret',
+    auth_url => $::openstack_integration::config::keystone_admin_uri,
+  }
 
   class { 'octavia::certificates':
     ca_private_key_passphrase => 'not-secure-passphrase',
