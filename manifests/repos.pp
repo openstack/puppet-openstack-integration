@@ -70,13 +70,4 @@ class openstack_integration::repos {
       fail("Unsupported osfamily (${facts['os']['family']})")
     }
   }
-
-  # NOTE(tobias-urdin): Needed where augeas is used, like puppet-ovn.
-  package { 'ruby-augeas':
-    ensure => 'present',
-  }
-
-  if $facts['os']['family'] == 'RedHat' {
-    Yumrepo<||> -> Package<| title == 'ruby-augeas' |>
-  }
 }
