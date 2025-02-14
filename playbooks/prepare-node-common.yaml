@@ -41,6 +41,7 @@
           - libxml2-devel
           - libxslt-devel
           - ruby-devel
+          - augeas-devel
           - zlib-devel
           - langpacks-en
           - glibc-langpack-en
@@ -72,6 +73,8 @@
         - libxml2-dev
         - libxslt-dev
         - ruby-dev
+        - libaugeas-dev
+        - pkg-config
         - zlib1g-dev
         - python3-pip
 
