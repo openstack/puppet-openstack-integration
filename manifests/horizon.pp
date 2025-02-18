@@ -1,5 +1,9 @@
 # Configure the Horizon service
 #
+# [*root_url*]
+#  (optional) The base URL used to construct horizon web addresses.
+#  Defaults to undef
+#
 # [*cache_backend*]
 #  (optional) The django cache backend
 #  Defaults to 'memcached'.
@@ -29,6 +33,7 @@
 #  Defaults to false.
 #
 class openstack_integration::horizon (
+  $root_url              = undef,
   $cache_backend         = 'memcached',
   $cinder_backup_enabled = false,
   $heat_enabled          = false,
@@ -75,6 +80,7 @@ class openstack_integration::horizon (
     cache_backend                  => $django_cache_backend,
     cache_server_url               => $cache_server_url,
     allowed_hosts                  => $::openstack_integration::config::ip_for_url,
+    root_url                       => $root_url,
     listen_ssl                     => $::openstack_integration::config::ssl,
     ssl_redirect                   => $::openstack_integration::config::ssl,
     ssl_cert                       => $::openstack_integration::params::cert_path,
