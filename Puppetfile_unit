@@ -10,7 +10,7 @@ mod 'cron_core',
 
 mod 'sshkeys_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-sshkeys_core',
-  :ref => 'v2.5.0'
+  :ref => 'v2.5.1'
 
 mod 'yumrepo_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
