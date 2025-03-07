@@ -28,7 +28,7 @@ case $facts['os']['family'] {
     $tooz_backend = 'redis'
   }
   'RedHat': {
-    $ipv6 = false
+    $ipv6 = true
     $cache_backend = 'redis_sentinel'
     $django_cache_backend = 'redis'
     $tooz_backend = 'redis_sentinel'
