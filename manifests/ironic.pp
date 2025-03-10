@@ -39,6 +39,7 @@ class openstack_integration::ironic (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
+  # ironic
   openstack_integration::mq_user { 'ironic':
     password => 'an_even_bigger_secret',
     before   => Anchor['ironic::service::begin'],
@@ -146,6 +147,15 @@ class openstack_integration::ironic (
     enabled_vendor_interfaces     => ['fake', 'ipmitool', 'no-vendor'],
   }
   class { 'ironic::drivers::ipmi': }
+  class { 'ironic::vnc':
+    host_ip    => $::openstack_integration::config::host,
+    public_url => "${::openstack_integration::config::base_url}:6090/vnc_auto.html",
+  }
+
+  # shared
+  class { 'ironic::pxe': }
+
+  # ironic-inspector
   class { 'ironic::keystone::auth_inspector':
     public_url   => "${::openstack_integration::config::base_url}:5050",
     internal_url => "${::openstack_integration::config::base_url}:5050",
@@ -168,7 +178,6 @@ class openstack_integration::ironic (
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
-  class { 'ironic::pxe': }
   class { 'ironic::inspector::logging':
     debug => true,
   }
