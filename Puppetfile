@@ -180,7 +180,7 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v10.0.0'
+  :ref => 'v10.0.1'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
