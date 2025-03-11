@@ -148,8 +148,11 @@ class openstack_integration::ironic (
   }
   class { 'ironic::drivers::ipmi': }
   class { 'ironic::vnc':
-    host_ip    => $::openstack_integration::config::host,
-    public_url => "${::openstack_integration::config::base_url}:6090/vnc_auto.html",
+    host_ip       => $::openstack_integration::config::host,
+    public_url    => "${::openstack_integration::config::base_url}:6090/vnc_auto.html",
+    enable_ssl    => $::openstack_integration::config::ssl,
+    ssl_cert_file => $::openstack_integration::params::cert_path,
+    ssl_key_file  => "/etc/ironic/ssl/private/${facts['networking']['fqdn']}.pem",
   }
 
   # shared
