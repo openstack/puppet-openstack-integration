@@ -42,6 +42,9 @@
         - puppet-openstack-libraries-puppet-unit-7.29-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-7.29-ubuntu-jammy
         - puppet-openstack-libraries-litmus-7.29-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-libraries-litmus-8.5-centos-9-stream
 
 # integration jobs
 - project-template:
@@ -65,6 +68,13 @@
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
+        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario001
@@ -75,6 +85,9 @@
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario002
@@ -85,6 +98,9 @@
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario003
@@ -95,6 +111,9 @@
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario004
@@ -105,6 +124,9 @@
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
 
 - project-template:
     name: puppet-openstack-integration-jobs-scenario005
@@ -115,3 +137,6 @@
     gate:
       jobs:
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
+    experimental:
+      jobs:
+        - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
