@@ -331,7 +331,7 @@ class openstack_integration::tempest (
     gnocchi_available                  => $gnocchi,
     watcher_available                  => $watcher,
     public_network_name                => 'public',
-    neutron_api_extensions             => join(any2array($neutron_api_extensions_real), ','),
+    neutron_api_extensions             => $neutron_api_extensions_real,
     dashboard_url                      => $dashboard_url,
     flavor_ref                         => '42',
     flavor_ref_alt                     => '84',
@@ -352,7 +352,7 @@ class openstack_integration::tempest (
     heat_image_name                    => 'cirros',
     heat_flavor_ref                    => '84',
     baremetal_driver                   => 'fake-hardware',
-    baremetal_enabled_hardware_types   => 'ipmi,fake-hardware',
+    baremetal_enabled_hardware_types   => ['ipmi', 'fake-hardware'],
     load_balancer_member_role          => 'member',
     load_balancer_admin_role           => 'admin',
     load_balancer_observer_role        => 'member',
@@ -361,7 +361,7 @@ class openstack_integration::tempest (
     share_multitenancy_enabled         => false,
     share_enable_protocols             => [downcase($share_protocol)],
     share_capability_storage_protocol  => $share_protocol,
-    designate_nameservers              => "${::openstack_integration::config::ip_for_url}:5322",
+    designate_nameservers              => ["${::openstack_integration::config::ip_for_url}:5322"],
     metric_backends                    => $metric_backends,
   }
 
