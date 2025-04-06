@@ -367,7 +367,7 @@ if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
     fi
     pushd /tmp/openstack/neutron-tempest-plugin
     /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
-    /tmp/openstack/tempest/run_tempest/bin/pip3 setup.py install
+    /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
     popd
 
     run_tempest/bin/pip3 install os-testr
