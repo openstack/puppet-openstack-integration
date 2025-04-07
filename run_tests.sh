@@ -57,6 +57,8 @@ else
        export TEMPEST_FROM_SOURCE=${TEMPEST_FROM_SOURCE:-false}
     fi
 fi
+export UPPER_CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/master}
+
 # Cirros Image directory
 export IMG_DIR=${IMG_DIR:-/tmp/openstack/image}
 export CIRROS_VERSION=${CIRROS_VERSION:-0.6.2}
@@ -111,10 +113,11 @@ print_header 'Clone Tempest, plugins & pre-cache CirrOS'
 # the local directory but works needs to be added into puppet to properly find
 # the path.
 
+[ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
+
 if [ -d /home/zuul/src/opendev.org ]; then
     if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
         if [ -d /home/zuul/src/opendev.org/openstack/tempest ]; then
-            [ ! -d /tmp/openstack ] && mkdir -p /tmp/openstack
             cp -R /home/zuul/src/opendev.org/openstack/tempest /tmp/openstack/tempest
         else
             git clone https://opendev.org/openstack/tempest /tmp/openstack/tempest
@@ -136,13 +139,11 @@ fi
 # NOTE(pabelanger): We cache cirros images on our jenkins slaves, check if it
 # exists.
 
-if [[ ! -e $IMG_DIR ]]; then
-    mkdir -p $IMG_DIR
-fi
+[ ! -d $IMG_DIR ] && mkdir -p $IMG_DIR
 
 if [ -f ~/cache/files/cirros-${CIRROS_VERSION}-x86_64-disk.img ]; then
     # Create a symlink for tempest.
-    if ! [ -h /tmp/openstack/image/cirros-${CIRROS_VERSION}-x86_64-disk.img ] ; then
+    if ! [ -h $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img ] ; then
         ln -s ~/cache/files/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR
     fi
 else
@@ -357,8 +358,9 @@ cd /tmp/openstack/tempest
 
 if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
     python3 -m venv run_tempest
-    /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
-    /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
+    PIP=/tmp/openstack/tempest/run_tempest/bin/pip3
+
+    $PIP install -c $UPPER_CONSTRAINTS_FILE -U .
 
     # TODO(tobias-urdin): We must have the neutron-tempest-plugin to even test Neutron, is also required by
     # vpnaas and dynamic routing projects.
@@ -368,11 +370,11 @@ if [ "${TEMPEST_FROM_SOURCE,,}" = true ]; then
         git clone https://opendev.org/openstack/neutron-tempest-plugin /tmp/openstack/neutron-tempest-plugin
     fi
     pushd /tmp/openstack/neutron-tempest-plugin
-    /tmp/openstack/tempest/run_tempest/bin/pip3 install -c https://opendev.org/openstack/requirements/raw/branch/master/upper-constraints.txt -U -r requirements.txt
-    /tmp/openstack/tempest/run_tempest/bin/python3 setup.py install
+    $PIP install -c $UPPER_CONSTRAINTS_FILE -U .
     popd
 
-    run_tempest/bin/pip3 install os-testr
+    # NOTE(tkajinam): os-testr is required to use subunit2html
+    $PIP install -c $UPPER_CONSTRAINTS_FILE os-testr
     run_tempest/bin/stestr init
     export tempest_binary="run_tempest/bin/tempest"
     export stestr="run_tempest/bin/stestr"
