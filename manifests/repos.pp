@@ -7,6 +7,9 @@ class openstack_integration::repos {
           include apt
           class { 'openstack_extras::repo::debian::ubuntu':
             release         => 'caracal',
+            # TODO(tkajinam): Switch to UCA once openstackclient in Dalmatian
+            # is updated. See https://bugs.launchpad.net/bugs/2097764 .
+            manage_uca      => false,
             package_require => true,
             uca_location    => pick($facts['uca_mirror_host'], 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
           }

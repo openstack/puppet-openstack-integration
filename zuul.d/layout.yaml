@@ -7,13 +7,14 @@
     name: puppet-openstack-check-jobs
     check:
       jobs:
-        - puppet-openstack-lint-ubuntu-jammy
-        - puppet-openstack-syntax-7-ubuntu-jammy
-        - puppet-openstack-syntax-8-centos-9-stream
+        - puppet-openstack-lint-ubuntu-noble
+        - puppet-openstack-syntax-7-ubuntu-noble
+        - puppet-openstack-syntax-8-ubuntu-noble
     gate:
       jobs:
-        - puppet-openstack-lint-ubuntu-jammy
-        - puppet-openstack-syntax-7-ubuntu-jammy
+        - puppet-openstack-lint-ubuntu-noble
+        - puppet-openstack-syntax-7-ubuntu-noble
+        - puppet-openstack-syntax-8-ubuntu-noble
 
 - project:
     templates:
@@ -25,23 +26,22 @@
     name: puppet-openstack-library-jobs
     check:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
+        - puppet-openstack-libraries-puppet-lint-ubuntu-noble
+        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-noble
+        - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
         - puppet-openstack-libraries-puppet-unit-7.32-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.32-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-unit-8.10-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
+        - puppet-openstack-libraries-puppet-unit-latest-ubuntu-noble
         - puppet-openstack-libraries-litmus-7.32-centos-9-stream
-        - puppet-openstack-libraries-litmus-7.32-ubuntu-jammy
-        - puppet-openstack-libraries-litmus-8.10-centos-9-stream
-        - puppet-openstack-libraries-litmus-latest-ubuntu-jammy
+        - puppet-openstack-libraries-litmus-8.10-ubuntu-noble
+        - puppet-openstack-libraries-litmus-latest-ubuntu-noble
     gate:
       jobs:
-        - puppet-openstack-libraries-puppet-lint-ubuntu-jammy
-        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-lint-ubuntu-noble
+        - puppet-openstack-libraries-puppet-syntax-7-ubuntu-noble
+        - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
         - puppet-openstack-libraries-puppet-unit-7.32-centos-9-stream
-        - puppet-openstack-libraries-puppet-unit-7.32-ubuntu-jammy
+        - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
         - puppet-openstack-libraries-litmus-7.32-centos-9-stream
 
 # integration jobs
@@ -49,11 +49,11 @@
     name: puppet-openstack-integration-jobs-all
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
-        - puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
-        - puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
-        - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
-        - puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario001-tempest-ubuntu-noble
+        - puppet-openstack-integration-8-scenario002-tempest-ubuntu-noble
+        - puppet-openstack-integration-8-scenario003-tempest-ubuntu-noble
+        - puppet-openstack-integration-8-scenario004-tempest-ubuntu-noble
+        - puppet-openstack-integration-8-scenario005-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
@@ -76,7 +76,7 @@
     name: puppet-openstack-integration-jobs-scenario001
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario001-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario001-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario001-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
     gate:
@@ -87,7 +87,7 @@
     name: puppet-openstack-integration-jobs-scenario002
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario002-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario002-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario002-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
     gate:
@@ -98,7 +98,7 @@
     name: puppet-openstack-integration-jobs-scenario003
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario003-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario003-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
     gate:
@@ -109,7 +109,7 @@
     name: puppet-openstack-integration-jobs-scenario004
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario004-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario004-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
     gate:
@@ -120,7 +120,7 @@
     name: puppet-openstack-integration-jobs-scenario005
     check:
       jobs:
-        - puppet-openstack-integration-7-scenario005-tempest-ubuntu-jammy
+        - puppet-openstack-integration-8-scenario005-tempest-ubuntu-noble
         - puppet-openstack-integration-7-scenario005-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
     gate:

@@ -1,42 +1,34 @@
 ---
 - job:
-    name: puppet-openstack-lint-ubuntu-jammy
+    name: puppet-openstack-lint-ubuntu-noble
     parent: puppet-openstack-module-base
     run: playbooks/run-lint-tests.yaml
 
 - job:
-    name: puppet-openstack-syntax-7-ubuntu-jammy
+    name: puppet-openstack-syntax-7-ubuntu-noble
     parent: puppet-openstack-syntax-base
     vars:
       puppet: 7
 
 - job:
-    name: puppet-openstack-syntax-8-centos-9-stream
+    name: puppet-openstack-syntax-8-ubuntu-noble
     parent: puppet-openstack-syntax-base
-    nodeset: centos-9-stream
-    voting: false
     vars:
       puppet: 8
-      dnf_modules:
-        ruby: 3.1
 
 - job:
-    name: puppet-openstack-libraries-puppet-lint-ubuntu-jammy
+    name: puppet-openstack-libraries-puppet-lint-ubuntu-noble
     parent: puppet-openstack-module-base
     run: playbooks/run-libraries-lint-tests.yaml
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-7-ubuntu-jammy
+    name: puppet-openstack-libraries-puppet-syntax-7-ubuntu-noble
     parent: puppet-openstack-libraries-puppet-syntax-base
     vars:
       puppet: 7
 
 - job:
-    name: puppet-openstack-libraries-puppet-syntax-8-centos-9-stream
+    name: puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
     parent: puppet-openstack-libraries-puppet-syntax-base
-    nodeset: centos-9-stream
-    voting: false
     vars:
       puppet: 8
-      dnf_modules:
-        ruby: 3.1

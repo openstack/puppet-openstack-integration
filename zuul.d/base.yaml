@@ -79,7 +79,7 @@
     name: puppet-openstack-base
     pre-run: playbooks/prepare-node-common.yaml
     abstract: true
-    nodeset: ubuntu-jammy
+    nodeset: ubuntu-noble
     vars:
       puppet: 7
 
