@@ -43,19 +43,19 @@
     run: playbooks/run-libraries-litmus-tests.yaml
 
 - job:
-    name: puppet-openstack-litmus-7.32-centos-9-stream
+    name: puppet-openstack-litmus-7.35-centos-9-stream
     parent: puppet-openstack-litmus-module-base
     nodeset: centos-9-stream
     vars:
-      puppet_gem_version: 7.32
+      puppet_gem_version: 7.35
 
 - job:
-    name: puppet-openstack-litmus-8.10-ubuntu-noble
+    name: puppet-openstack-litmus-8.11-ubuntu-noble
     parent: puppet-openstack-litmus-module-base
     nodeset: ubuntu-noble
     voting: false
     vars:
-      puppet_gem_version: 8.10
+      puppet_gem_version: 8.11
 
 - job:
     name: puppet-openstack-litmus-latest-ubuntu-noble
@@ -66,19 +66,19 @@
       puppet_gem_version: latest
 
 - job:
-    name: puppet-openstack-libraries-litmus-7.32-centos-9-stream
+    name: puppet-openstack-libraries-litmus-7.35-centos-9-stream
     parent: puppet-openstack-litmus-libraries-base
     nodeset: centos-9-stream
     vars:
-      puppet_gem_version: 7.32
+      puppet_gem_version: 7.35
 
 - job:
-    name: puppet-openstack-libraries-litmus-8.10-ubuntu-noble
+    name: puppet-openstack-libraries-litmus-8.11-ubuntu-noble
     parent: puppet-openstack-litmus-libraries-base
     nodeset: ubuntu-noble
     voting: false
     vars:
-      puppet_gem_version: 8.10
+      puppet_gem_version: 8.11
 
 - job:
     name: puppet-openstack-libraries-litmus-latest-ubuntu-noble
@@ -92,9 +92,9 @@
     name: puppet-openstack-litmus-jobs
     check:
       jobs:
-        - puppet-openstack-litmus-7.32-centos-9-stream
-        - puppet-openstack-litmus-8.10-ubuntu-noble
+        - puppet-openstack-litmus-7.35-centos-9-stream
+        - puppet-openstack-litmus-8.11-ubuntu-noble
         - puppet-openstack-litmus-latest-ubuntu-noble
     gate:
       jobs:
-        - puppet-openstack-litmus-7.32-centos-9-stream
+        - puppet-openstack-litmus-7.35-centos-9-stream
