@@ -29,10 +29,10 @@
         - puppet-openstack-libraries-puppet-lint-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
-        - puppet-openstack-libraries-puppet-unit-7.32-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.34-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-noble
-        - puppet-openstack-libraries-litmus-7.32-centos-9-stream
+        - puppet-openstack-libraries-litmus-7.34-centos-9-stream
         - puppet-openstack-libraries-litmus-8.10-ubuntu-noble
         - puppet-openstack-libraries-litmus-latest-ubuntu-noble
     gate:
@@ -40,9 +40,9 @@
         - puppet-openstack-libraries-puppet-lint-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-7-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
-        - puppet-openstack-libraries-puppet-unit-7.32-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-7.34-centos-9-stream
         - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
-        - puppet-openstack-libraries-litmus-7.32-centos-9-stream
+        - puppet-openstack-libraries-litmus-7.34-centos-9-stream
 
 # integration jobs
 - project-template:
