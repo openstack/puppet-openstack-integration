@@ -367,8 +367,7 @@ class openstack_integration::tempest (
 
   if $magnum {
     class { 'tempest::magnum':
-      provision_image     => false,
-      tempest_config_file => '/tmp/openstack/tempest/etc/tempest.conf',
+      provision_image => false,
     }
   }
 }
