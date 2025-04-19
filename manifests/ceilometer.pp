@@ -27,7 +27,7 @@ class openstack_integration::ceilometer (
   class { 'ceilometer::cache':
     backend          => $::openstack_integration::config::cache_driver,
     enabled          => true,
-    memcache_servers => $::openstack_integration::config::memcached_servers,
+    memcache_servers => $::openstack_integration::config::memcache_servers,
     redis_server     => $::openstack_integration::config::redis_server,
     redis_password   => 'a_big_secret',
     redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
