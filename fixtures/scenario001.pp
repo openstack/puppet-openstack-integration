@@ -24,10 +24,15 @@ case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
     $cache_backend = 'memcached'
+    # NOTE(tkajinam): Disable due to package conflict
+    $vitrage = false
+    $notification_topics = $facts['os_service_default']
   }
   'RedHat': {
     $ipv6 = true
     $cache_backend = 'redis'
+    $vitrage = true
+    $notification_topics = ['notifications', 'vitrage_notifications']
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
@@ -58,13 +63,13 @@ class { 'openstack_integration::glance':
   show_multiple_locations => true,
 }
 class { 'openstack_integration::neutron':
-  notification_topics => ['notifications', 'vitrage_notifications'],
+  notification_topics => $notification_topics,
   metering_enabled    => true,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
   libvirt_rbd         => true,
-  notification_topics => ['notifications', 'vitrage_notifications'],
+  notification_topics => $notification_topics,
   cinder_enabled      => true,
 }
 class { 'openstack_integration::cinder':
@@ -73,14 +78,16 @@ class { 'openstack_integration::cinder':
 }
 include openstack_integration::ceilometer
 class { 'openstack_integration::aodh':
-  notification_topics => ['notifications', 'vitrage_notifications'],
+  notification_topics => $notification_topics,
 }
-include openstack_integration::vitrage
+if $vitrage {
+  include openstack_integration::vitrage
+}
 class { 'openstack_integration::ceph':
   ceph_pools => ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
 }
 class { 'openstack_integration::heat':
-  notification_topics => ['notifications', 'vitrage_notifications'],
+  notification_topics => $notification_topics,
 }
 class { 'openstack_integration::provision':
   # NOTE(tkajinam): Use raw format to use rbd image cloning when creating
@@ -100,7 +107,7 @@ class { 'openstack_integration::tempest':
   ceilometer    => true,
   aodh          => true,
   heat          => true,
-  vitrage       => true,
+  vitrage       => $vitrage,
   watcher       => true,
   image_format  => 'raw',
 }
