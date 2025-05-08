@@ -144,7 +144,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v8.1.5'
+  :ref => 'v8.1.6'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
