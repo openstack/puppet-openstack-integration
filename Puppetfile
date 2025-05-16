@@ -3,15 +3,15 @@
 ## OpenStack modules
 mod 'aodh',
   :git => 'https://opendev.org/openstack/puppet-aodh',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'barbican',
   :git => 'https://opendev.org/openstack/puppet-barbican',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'ceilometer',
   :git => 'https://opendev.org/openstack/puppet-ceilometer',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'ceph',
   :git => 'https://opendev.org/openstack/puppet-ceph',
@@ -19,111 +19,111 @@ mod 'ceph',
 
 mod 'cinder',
   :git => 'https://opendev.org/openstack/puppet-cinder',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'cloudkitty',
   :git => 'https://opendev.org/openstack/puppet-cloudkitty',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'designate',
   :git => 'https://opendev.org/openstack/puppet-designate',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'glance',
   :git => 'https://opendev.org/openstack/puppet-glance',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'gnocchi',
   :git => 'https://opendev.org/openstack/puppet-gnocchi',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'heat',
   :git => 'https://opendev.org/openstack/puppet-heat',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'horizon',
   :git => 'https://opendev.org/openstack/puppet-horizon',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'ironic',
   :git => 'https://opendev.org/openstack/puppet-ironic',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'keystone',
   :git => 'https://opendev.org/openstack/puppet-keystone',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'magnum',
   :git => 'https://opendev.org/openstack/puppet-magnum',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'manila',
   :git => 'https://opendev.org/openstack/puppet-manila',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'mistral',
   :git => 'https://opendev.org/openstack/puppet-mistral',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'neutron',
   :git => 'https://opendev.org/openstack/puppet-neutron',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'nova',
   :git => 'https://opendev.org/openstack/puppet-nova',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'octavia',
   :git => 'https://opendev.org/openstack/puppet-octavia',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'openstack_extras',
   :git => 'https://opendev.org/openstack/puppet-openstack_extras',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'openstacklib',
   :git => 'https://opendev.org/openstack/puppet-openstacklib',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'oslo',
   :git => 'https://opendev.org/openstack/puppet-oslo',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'ovn',
   :git => 'https://opendev.org/openstack/puppet-ovn',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'placement',
   :git => 'https://opendev.org/openstack/puppet-placement',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'swift',
   :git => 'https://opendev.org/openstack/puppet-swift',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'tempest',
   :git => 'https://opendev.org/openstack/puppet-tempest',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'trove',
   :git => 'https://opendev.org/openstack/puppet-trove',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'vitrage',
   :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 mod 'zaqar',
   :git => 'https://opendev.org/openstack/puppet-zaqar',
-  :ref => 'stable/2023.1'
+  :ref => 'unmaintained/2023.1'
 
 ## External modules
 mod 'kmod',
