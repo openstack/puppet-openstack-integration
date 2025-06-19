@@ -525,13 +525,6 @@ share type list --all
 EOC
 fi
 
-# mistral resources
-if [ -d $LOG_DIR/mistral ]; then
-    openstack >> $LOG_DIR/openstack_resources/mistral.txt <<-EOC
-workflow engine service list
-EOC
-fi
-
 # octavia resources
 if [ -d $LOG_DIR/octavia ]; then
     openstack >> $LOG_DIR/openstack_resources/octavia.txt <<-EOC
