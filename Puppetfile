@@ -160,7 +160,7 @@ mod 'postgresql',
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v14.3.0'
+  :ref => 'v14.4.1'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -188,7 +188,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v7.1.0'
+  :ref => 'v8.0.0'
 
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
