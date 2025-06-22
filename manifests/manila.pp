@@ -37,16 +37,14 @@ class openstack_integration::manila (
     host     => $::openstack_integration::config::host,
   }
   class { 'manila::keystone::auth':
-    public_url             => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
-    internal_url           => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
-    admin_url              => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
-    public_url_v2          => "${::openstack_integration::config::base_url}:8786/v2",
-    internal_url_v2        => "${::openstack_integration::config::base_url}:8786/v2",
-    admin_url_v2           => "${::openstack_integration::config::base_url}:8786/v2",
-    roles                  => ['admin', 'service'],
-    password               => 'a_big_secret',
-    configure_user_v2      => false,
-    configure_user_role_v2 => false,
+    public_url      => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
+    internal_url    => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
+    admin_url       => "${::openstack_integration::config::base_url}:8786/v1/%(tenant_id)s",
+    public_url_v2   => "${::openstack_integration::config::base_url}:8786/v2",
+    internal_url_v2 => "${::openstack_integration::config::base_url}:8786/v2",
+    admin_url_v2    => "${::openstack_integration::config::base_url}:8786/v2",
+    roles           => ['admin', 'service'],
+    password        => 'a_big_secret',
   }
   class { 'manila::logging':
     debug => true,
