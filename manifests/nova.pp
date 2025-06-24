@@ -259,7 +259,6 @@ class openstack_integration::nova (
       libvirt_rbd_secret_uuid => '7200aea0-2ddd-4a32-aa2a-d49f66ab554c',
       libvirt_rbd_secret_key  => 'AQD7kyJQQGoOBhAAqrPAqSopSwPrrfMMomzVdw==',
       libvirt_images_rbd_pool => 'nova',
-      rbd_keyring             => 'client.openstack',
     }
     # make sure ceph pool exists before running nova-compute
     Ceph::Pool['nova'] -> Service['nova-compute']
