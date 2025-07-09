@@ -23,14 +23,12 @@ if $facts['os']['name'] == 'Ubuntu' {
 case $facts['os']['family'] {
   'Debian': {
     $ipv6 = false
-    $ovn_metadata_agent_enabled = true
     $jobboard_backend = 'redis'
     # TODO(tkajinam): Enable these along with the other plugins
     $vpnaas_enabled = false
   }
   'RedHat': {
     $ipv6 = true
-    $ovn_metadata_agent_enabled = false
     $jobboard_backend = 'redis_sentinel'
     $vpnaas_enabled = true
   }
@@ -61,7 +59,7 @@ class { 'openstack_integration::glance':
 }
 class { 'openstack_integration::neutron':
   driver                     => 'ovn',
-  ovn_metadata_agent_enabled => $ovn_metadata_agent_enabled,
+  ovn_metadata_agent_enabled => false,
   vpnaas_enabled             => $vpnaas_enabled
 }
 include openstack_integration::placement
