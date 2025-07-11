@@ -59,6 +59,11 @@ class openstack_integration::glance (
     memcached_servers            => $::openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
+  class { 'glance::backend::defaults::file': }
+  class { 'glance::backend::defaults::rbd': }
+  class { 'glance::backend::defaults::swift': }
+  class { 'glance::backend::defaults::cinder': }
+
   case $backend {
     'file': {
       glance::backend::multistore::file { 'file1': }
