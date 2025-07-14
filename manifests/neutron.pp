@@ -420,31 +420,28 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   }
 
   if $driver == 'ovn' {
-    # NOTE(tkajinam): ovn-agent is currently available only in RDO
-    if $facts['os']['family'] == 'RedHat' {
-      $ovn_agent_extensions = $ovn_metadata_agent_enabled ? {
-        false   => ['metadata'],
-        default => undef
+    $ovn_agent_extensions = $ovn_metadata_agent_enabled ? {
+      false   => ['metadata'],
+      default => undef
+    }
+    if ! $ovn_metadata_agent_enabled {
+      class { 'neutron::agents::ml2::ovn::metadata':
+        shared_secret     => 'a_big_secret',
+        metadata_host     => $::openstack_integration::config::host,
+        metadata_protocol => $::openstack_integration::config::proto,
       }
-      if ! $ovn_metadata_agent_enabled {
-        class { 'neutron::agents::ml2::ovn::metadata':
-          shared_secret     => 'a_big_secret',
-          metadata_host     => $::openstack_integration::config::host,
-          metadata_protocol => $::openstack_integration::config::proto,
-        }
-      }
-      class { 'neutron::agents::ml2::ovn':
-        debug              => true,
-        extensions         => $ovn_agent_extensions,
-        ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
-        ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
-        ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
-        ovn_nb_ca_cert     => '/etc/neutron/switchcacert.pem',
-        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
-        ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
-        ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
-        ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
-      }
+    }
+    class { 'neutron::agents::ml2::ovn':
+      debug              => true,
+      extensions         => $ovn_agent_extensions,
+      ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
+      ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
+      ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
+      ovn_nb_ca_cert     => '/etc/neutron/switchcacert.pem',
+      ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+      ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
+      ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
+      ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
     }
 
     if $ovn_metadata_agent_enabled {
