@@ -95,13 +95,9 @@ class openstack_integration::heat (
     configure_delegated_roles => true,
   }
   class { 'heat::keystone::auth_cfn':
-    password            => 'a_big_secret',
-    # NOTE(tkajinam): heat-cfn service user is not used
-    configure_user      => false,
-    configure_user_role => false,
-    public_url          => "${::openstack_integration::config::base_url}:8000/v1",
-    internal_url        => "${::openstack_integration::config::base_url}:8000/v1",
-    admin_url           => "${::openstack_integration::config::base_url}:8000/v1",
+    public_url   => "${::openstack_integration::config::base_url}:8000/v1",
+    internal_url => "${::openstack_integration::config::base_url}:8000/v1",
+    admin_url    => "${::openstack_integration::config::base_url}:8000/v1",
   }
   class { 'heat::keystone::domain':
     domain_password => 'oh_my_no_secret',
