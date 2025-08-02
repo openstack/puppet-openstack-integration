@@ -76,4 +76,12 @@ class openstack_integration::mistral {
   class { 'mistral::executor': }
   class { 'mistral::event_engine': }
 
+  $notifier_type = $facts['os']['family'] ? {
+    'RedHat' => 'remote',
+    default  => 'local',
+  }
+
+  class { 'mistral::notifier':
+    type => $notifier_type
+  }
 }
