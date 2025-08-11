@@ -308,7 +308,7 @@ class openstack_integration::neutron (
       default => undef,
     }
     $l2gw_conf = $l2gw_enabled ? {
-      true    => 'l2gw_plugin.ini',
+      true    => 'networking_l2gw.conf',
       default => undef,
     }
 
@@ -595,5 +595,17 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   class { 'neutron::server::placement':
     auth_url => $::openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
+  }
+
+  # TODO(tkajinam): Remove this once the following change is available
+  # https://review.opendev.org/c/x/networking-l2gw/+/951422
+  if $l2gw_enabled {
+    file { '/etc/neutron/networking_l2gw.conf':
+      ensure  => 'link',
+      target  => '/etc/neutron/l2gw_plugin.ini',
+      replace => false,
+      require => Anchor['neutron::install::end'],
+      before  => Anchor['neutron::config::begin'],
+    }
   }
 }
