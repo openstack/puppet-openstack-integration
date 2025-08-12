@@ -31,7 +31,7 @@ class openstack_integration::repos {
       )
       $delorean_repo = pick(
         $facts['delorean_repo_path'],
-        "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/puppet-passed-ci/delorean.repo"
+        "https://trunk.rdoproject.org/centos${facts['os']['release']['major']}-master/current/delorean.repo"
       )
       $delorean_deps_repo = pick(
         $facts['delorean_deps_repo_path'],

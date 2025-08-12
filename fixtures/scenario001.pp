@@ -31,8 +31,11 @@ case $facts['os']['family'] {
   'RedHat': {
     $ipv6 = true
     $cache_backend = 'redis'
-    $vitrage = true
-    $notification_topics = ['notifications', 'vitrage_notifications']
+    # TODO(tkajinam): Disabled due to 500 error
+    #$vitrage = true
+    #$notification_topics = ['notifications', 'vitrage_notifications']
+    $vitrage = false
+    $notification_topics = $facts['os_service_default']
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")
