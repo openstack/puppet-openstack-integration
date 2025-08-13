@@ -81,7 +81,7 @@
     abstract: true
     nodeset: ubuntu-noble
     vars:
-      puppet: 7
+      puppet: 8
 
 - job:
     name: puppet-openstack-module-base
