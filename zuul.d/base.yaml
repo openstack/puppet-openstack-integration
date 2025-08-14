@@ -82,6 +82,7 @@
     nodeset: ubuntu-noble
     vars:
       puppet: 8
+      use_openvox: false
 
 - job:
     name: puppet-openstack-module-base
