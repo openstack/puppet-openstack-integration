@@ -8,7 +8,7 @@ class openstack_integration::ovn(
 
   require openstack_integration::ovs
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     class { 'vswitch::pki::cacert': }
     vswitch::pki::cert { ['ovnnb', 'ovnsb', 'ovncontroller']: }
 
@@ -25,7 +25,7 @@ class openstack_integration::ovn(
 
     ['ovnnb', 'ovnsb'].each |$ovndb| {
       file { "/etc/openvswitch/${ovndb}-privkey.pem":
-        ensure  => present,
+        ensure  => file,
         mode    => '0600',
         owner   => 'openvswitch',
         group   => 'openvswitch',
@@ -34,7 +34,7 @@ class openstack_integration::ovn(
     }
 
     file { '/etc/openvswitch/ovncontroller-privkey.pem':
-      ensure  => present,
+      ensure  => file,
       mode    => '0600',
       owner   => 'openvswitch',
       group   => 'openvswitch',
@@ -59,7 +59,7 @@ class openstack_integration::ovn(
     default  => 60000,
   }
   class { 'ovn::northd':
-    dbs_listen_ip              => $::openstack_integration::config::ip_for_url,
+    dbs_listen_ip              => $openstack_integration::config::ip_for_url,
     ovn_nb_db_ssl_key          => $ovn_nb_db_ssl_key,
     ovn_nb_db_ssl_cert         => $ovn_nb_db_ssl_cert,
     ovn_nb_db_ssl_ca_cert      => $ovn_nb_db_ssl_ca_cert,
@@ -70,8 +70,8 @@ class openstack_integration::ovn(
     ovn_sb_db_inactivity_probe => $inactivity_probe,
   }
   class { 'ovn::controller':
-    ovn_remote                 => $::openstack_integration::config::ovn_sb_connection,
-    ovn_encap_ip               => $::openstack_integration::config::host,
+    ovn_remote                 => $openstack_integration::config::ovn_sb_connection,
+    ovn_encap_ip               => $openstack_integration::config::host,
     ovn_bridge_mappings        => ['external:br-ex'],
     ovn_cms_options            => 'enable-chassis-as-gw',
     manage_ovs_bridge          => false,

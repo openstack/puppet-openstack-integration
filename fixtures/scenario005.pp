@@ -60,7 +60,7 @@ class { 'openstack_integration::glance':
 class { 'openstack_integration::neutron':
   driver                     => 'ovn',
   ovn_metadata_agent_enabled => false,
-  vpnaas_enabled             => $vpnaas_enabled
+  vpnaas_enabled             => $vpnaas_enabled,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':
@@ -73,7 +73,7 @@ class { 'openstack_integration::octavia':
 }
 
 class { 'openstack_integration::horizon':
-  manila_enabled => true
+  manila_enabled => true,
 }
 include openstack_integration::manila
 

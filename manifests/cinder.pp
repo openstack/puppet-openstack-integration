@@ -33,7 +33,7 @@ class openstack_integration::cinder (
     before   => Anchor['cinder::service::begin'],
   }
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'cinder':
       notify  => Service['httpd'],
       require => Anchor['cinder::install::end'],
@@ -42,15 +42,15 @@ class openstack_integration::cinder (
   }
   include cinder::client
   class { 'cinder::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'cinder',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
   class { 'cinder::keystone::auth':
-    public_url_v3   => "${::openstack_integration::config::base_url}:8776/v3",
-    internal_url_v3 => "${::openstack_integration::config::base_url}:8776/v3",
-    admin_url_v3    => "${::openstack_integration::config::base_url}:8776/v3",
+    public_url_v3   => "${openstack_integration::config::base_url}:8776/v3",
+    internal_url_v3 => "${openstack_integration::config::base_url}:8776/v3",
+    admin_url_v3    => "${openstack_integration::config::base_url}:8776/v3",
     roles           => ['admin', 'service'],
     password        => 'a_big_secret',
   }
@@ -59,57 +59,57 @@ class openstack_integration::cinder (
   }
   if $volume_encryption {
     class { 'cinder::key_manager':
-      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager',
     }
     class { 'cinder::key_manager::barbican':
-      barbican_endpoint       => "${::openstack_integration::config::base_url}:9311",
-      auth_endpoint           => $::openstack_integration::config::keystone_auth_uri,
+      barbican_endpoint       => "${openstack_integration::config::base_url}:9311",
+      auth_endpoint           => $openstack_integration::config::keystone_auth_uri,
       send_service_user_token => true,
     }
     class { 'cinder::key_manager::barbican::service_user':
       password            => 'a_big_secret',
       user_domain_name    => 'Default',
       project_domain_name => 'Default',
-      auth_url            => $::openstack_integration::config::keystone_admin_uri,
+      auth_url            => $openstack_integration::config::keystone_admin_uri,
     }
   }
   class { 'cinder::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'cinder',
       'password' => 'cinder',
       'database' => 'cinder',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   class { 'cinder':
     default_transport_url      => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_default_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_default_port,
+      'transport' => $openstack_integration::config::messaging_default_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_default_port,
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_transport_url => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_notify_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'transport' => $openstack_integration::config::messaging_notify_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_notify_port,
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
   }
   class { 'cinder::keystone::authtoken':
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'cinder::keystone::service_user':
@@ -117,18 +117,18 @@ class openstack_integration::cinder (
     password                => 'a_big_secret',
     user_domain_name        => 'Default',
     project_domain_name     => 'Default',
-    auth_url                => $::openstack_integration::config::keystone_admin_uri,
+    auth_url                => $openstack_integration::config::keystone_admin_uri,
   }
   class { 'cinder::api':
     default_volume_type => 'BACKEND_1',
-    public_endpoint     => "${::openstack_integration::config::base_url}:8776",
+    public_endpoint     => "${openstack_integration::config::base_url}:8776",
     service_name        => 'httpd',
   }
   class { 'cinder::wsgi::apache':
-    bind_host => $::openstack_integration::config::host,
-    ssl       => $::openstack_integration::config::ssl,
+    bind_host => $openstack_integration::config::host,
+    ssl       => $openstack_integration::config::ssl,
     ssl_key   => "/etc/cinder/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_cert  => $openstack_integration::params::cert_path,
     workers   => 2,
   }
   class { 'cinder::quota': }
@@ -144,7 +144,7 @@ class openstack_integration::cinder (
   }
   class { 'cinder::nova':
     password => 'a_big_secret',
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
   }
   case $backend {
     'iscsi': {
@@ -152,7 +152,7 @@ class openstack_integration::cinder (
         size => '15G',
       }
       cinder::backend::iscsi { 'BACKEND_1':
-        target_ip_address  => $::openstack_integration::config::host,
+        target_ip_address  => $openstack_integration::config::host,
         manage_volume_type => true,
       }
       include openstacklib::iscsid

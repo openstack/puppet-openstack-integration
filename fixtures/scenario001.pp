@@ -87,7 +87,7 @@ if $vitrage {
   include openstack_integration::vitrage
 }
 class { 'openstack_integration::ceph':
-  ceph_pools => ['glance', 'nova', 'cinder', 'gnocchi', 'backups']
+  ceph_pools => ['glance', 'nova', 'cinder', 'gnocchi', 'backups'],
 }
 class { 'openstack_integration::heat':
   notification_topics => $notification_topics,

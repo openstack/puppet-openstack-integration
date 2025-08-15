@@ -26,7 +26,7 @@ class openstack_integration::ceph (
 
   include openstack_integration::config
 
-  if $::openstack_integration::config::ipv6 {
+  if $openstack_integration::config::ipv6 {
     $ms_bind_ipv4 = false
     $ms_bind_ipv6 = true
   } else {
@@ -59,16 +59,16 @@ test -b /dev/ceph_vg/lv_data
     packages => ['ceph', 'ceph-volume']
   }
 
-  $rgw_frontends = $::openstack_integration::config::ssl ? {
+  $rgw_frontends = $openstack_integration::config::ssl ? {
     true    => [
       'beast',
-      "ssl_endpoint=${::openstack_integration::config::ip_for_url}:8080",
+      "ssl_endpoint=${openstack_integration::config::ip_for_url}:8080",
       "ssl_private_key=/etc/ceph/ssl/private/${facts['networking']['fqdn']}.pem",
-      "ssl_certificate=${::openstack_integration::params::cert_path}"
+      "ssl_certificate=${openstack_integration::params::cert_path}"
     ],
     default => [
       'beast',
-      "endpoint=${::openstack_integration::config::ip_for_url}:8080"
+      "endpoint=${openstack_integration::config::ip_for_url}:8080",
     ]
   }
 
@@ -78,7 +78,7 @@ test -b /dev/ceph_vg/lv_data
     ms_bind_ipv4                 => $ms_bind_ipv4,
     ms_bind_ipv6                 => $ms_bind_ipv6,
     authentication_type          => 'cephx',
-    mon_host                     => $::openstack_integration::config::ip_for_url,
+    mon_host                     => $openstack_integration::config::ip_for_url,
     mon_initial_members          => $facts['networking']['hostname'],
     osd_pool_default_size        => '1',
     osd_pool_default_min_size    => '1',
@@ -118,7 +118,7 @@ test -b /dev/ceph_vg/lv_data
         'cap_mon' => 'allow rwx',
         'cap_osd' => 'allow rwx',
         'inject'  => true,
-      }
+      },
     },
     osds                         => {
       'ceph_vg/lv_data' => {},
@@ -129,15 +129,15 @@ test -b /dev/ceph_vg/lv_data
     rgw_frontends                => join($rgw_frontends, ' '),
     rgw_user                     => 'ceph',
     rgw_keystone_integration     => true,
-    rgw_keystone_url             => $::openstack_integration::config::keystone_admin_uri,
+    rgw_keystone_url             => $openstack_integration::config::keystone_admin_uri,
     rgw_keystone_admin_domain    => 'Default',
     rgw_keystone_admin_user      => 'rgwuser',
     rgw_keystone_admin_password  => 'secret',
     rgw_keystone_admin_project   => 'services',
-    rgw_swift_url                => "${::openstack_integration::config::base_url}:8080",
-    rgw_swift_public_url         => "${::openstack_integration::config::base_url}:8080/swift/v1",
-    rgw_swift_admin_url          => "${::openstack_integration::config::base_url}:8080/swift/v1",
-    rgw_swift_internal_url       => "${::openstack_integration::config::base_url}:8080/swift/v1",
+    rgw_swift_url                => "${openstack_integration::config::base_url}:8080",
+    rgw_swift_public_url         => "${openstack_integration::config::base_url}:8080/swift/v1",
+    rgw_swift_admin_url          => "${openstack_integration::config::base_url}:8080/swift/v1",
+    rgw_swift_internal_url       => "${openstack_integration::config::base_url}:8080/swift/v1",
     rbd_default_features         => '15',
   }
 
@@ -176,7 +176,7 @@ test -b /dev/ceph_vg/lv_data
   }
 
   if $deploy_rgw {
-    if $::openstack_integration::config::ssl {
+    if $openstack_integration::config::ssl {
       openstack_integration::ssl_key { 'ceph':
         require => Package['ceph'],
       }

@@ -86,7 +86,7 @@ class openstack_integration::neutron (
     fail('TaaS is supported only when ovs mechanism driver is used.')
   }
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     $api_service = $use_httpd ? {
       true    => 'httpd',
       default => 'neutron-server',
@@ -150,15 +150,15 @@ class openstack_integration::neutron (
   }
 
   class { 'neutron::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'neutron',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
   class { 'neutron::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:9696",
-    internal_url => "${::openstack_integration::config::base_url}:9696",
-    admin_url    => "${::openstack_integration::config::base_url}:9696",
+    public_url   => "${openstack_integration::config::base_url}:9696",
+    internal_url => "${openstack_integration::config::base_url}:9696",
+    admin_url    => "${openstack_integration::config::base_url}:9696",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -206,7 +206,7 @@ class openstack_integration::neutron (
       $taas_plugin,
       $bgpvpn_plugin,
       $l2gw_plugin,
-      $bgp_dr_plugin
+      $bgp_dr_plugin,
     ])
   }
 
@@ -215,25 +215,25 @@ class openstack_integration::neutron (
   }
   class { 'neutron':
     default_transport_url      => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_default_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_default_port,
+      'transport' => $openstack_integration::config::messaging_default_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_default_port,
       'username'  => 'neutron',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_transport_url => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_notify_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'transport' => $openstack_integration::config::messaging_notify_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_notify_port,
       'username'  => 'neutron',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
     core_plugin                => 'ml2',
     service_plugins            => $plugins_list,
-    bind_host                  => $::openstack_integration::config::host,
-    use_ssl                    => $::openstack_integration::config::ssl,
-    cert_file                  => $::openstack_integration::params::cert_path,
+    bind_host                  => $openstack_integration::config::host,
+    use_ssl                    => $openstack_integration::config::ssl,
+    cert_file                  => $openstack_integration::params::cert_path,
     key_file                   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
@@ -243,14 +243,14 @@ class openstack_integration::neutron (
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
 
   if $facts['os']['family'] == 'Debian' {
-    $auth_url = $::openstack_integration::config::keystone_auth_uri
+    $auth_url = $openstack_integration::config::keystone_auth_uri
     $auth_opts = "--os-auth-url ${auth_url} --os-project-name services --os-username neutron --os-identity-api-version 3"
     exec { 'check-neutron-server':
       command     => "openstack ${auth_opts} network list",
@@ -266,32 +266,32 @@ class openstack_integration::neutron (
   }
 
   class { 'neutron::cache':
-    backend          => $::openstack_integration::config::cache_driver,
+    backend          => $openstack_integration::config::cache_driver,
     enabled          => true,
-    memcache_servers => $::openstack_integration::config::memcache_servers,
-    redis_server     => $::openstack_integration::config::redis_server,
+    memcache_servers => $openstack_integration::config::memcache_servers,
+    redis_server     => $openstack_integration::config::redis_server,
     redis_password   => 'a_big_secret',
-    redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
-    tls_enabled      => $::openstack_integration::config::cache_tls_enabled,
+    redis_sentinels  => $openstack_integration::config::redis_sentinel_server,
+    tls_enabled      => $openstack_integration::config::cache_tls_enabled,
   }
   class { 'neutron::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'neutron',
       'password' => 'neutron',
       'database' => 'neutron',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
 
   if $use_httpd {
     class { 'neutron::wsgi::apache':
-      bind_host => $::openstack_integration::config::host,
+      bind_host => $openstack_integration::config::host,
       ssl_key   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
-      ssl_cert  => $::openstack_integration::params::cert_path,
-      ssl       => $::openstack_integration::config::ssl,
+      ssl_cert  => $openstack_integration::params::cert_path,
+      ssl       => $openstack_integration::config::ssl,
       workers   => 2,
     }
 
@@ -314,12 +314,12 @@ class openstack_integration::neutron (
 
     $neutron_conf_files = delete_undef_values([
       'neutron.conf', 'plugins/ml2/ml2_conf.ini',
-      $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf
+      $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf,
     ])
 
     # TODO(tkajinam): Should this be in puppet-neutron ?
     systemd::dropin_file { 'apache-os-neutron':
-      unit     => "${::apache::service::service_name}.service",
+      unit     => "${apache::service::service_name}.service",
       filename => 'os-neutron.conf',
       content  => "[Service]
 Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
@@ -329,8 +329,8 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     $server_service_name = false
     $api_service_name = 'httpd'
   } else {
-    $server_service_name = $::neutron::params::server_service
-    $api_service_name = $::neutron::params::api_service_name
+    $server_service_name = $neutron::params::server_service
+    $api_service_name = $neutron::params::api_service_name
   }
 
   $rpc_workers = $driver ? {
@@ -346,7 +346,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   }
   $rpc_service_name = $rpc_workers ? {
     0       => false,
-    default => $::neutron::params::rpc_service_name
+    default => $neutron::params::rpc_service_name
   }
 
   class { 'neutron::server':
@@ -379,7 +379,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     mechanism_drivers    => $drivers_real,
     network_vlan_ranges  => 'external:1000:2999',
     max_header_size      => $max_header_size,
-    overlay_ip_version   => $::openstack_integration::config::ip_version,
+    overlay_ip_version   => $openstack_integration::config::ip_version,
   }
 
   case $driver {
@@ -390,12 +390,12 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       }
 
       class { 'neutron::agents::ml2::ovs':
-        local_ip          => $::openstack_integration::config::host,
+        local_ip          => $openstack_integration::config::host,
         tunnel_types      => ['vxlan'],
         bridge_mappings   => ['external:br-ex'],
         manage_vswitch    => false,
         firewall_driver   => 'iptables_hybrid',
-        of_listen_address => $::openstack_integration::config::host,
+        of_listen_address => $openstack_integration::config::host,
         extensions        => $agent_extensions,
       }
     }
@@ -403,11 +403,11 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       # NOTE(tkajinam): neutron::plugins::ml2::ovn requires neutron::plugins::ml2,
       #                 thus it should be included after neutron::plugins::ml2.
       class { 'neutron::plugins::ml2::ovn':
-        ovn_nb_connection    => $::openstack_integration::config::ovn_nb_connection,
+        ovn_nb_connection    => $openstack_integration::config::ovn_nb_connection,
         ovn_nb_private_key   => '/etc/neutron/ovnnb-privkey.pem',
         ovn_nb_certificate   => '/etc/neutron/ovnnb-cert.pem',
         ovn_nb_ca_cert       => '/etc/neutron/switchcacert.pem',
-        ovn_sb_connection    => $::openstack_integration::config::ovn_sb_connection,
+        ovn_sb_connection    => $openstack_integration::config::ovn_sb_connection,
         ovn_sb_private_key   => '/etc/neutron/ovnsb-privkey.pem',
         ovn_sb_certificate   => '/etc/neutron/ovnsb-cert.pem',
         ovn_sb_ca_cert       => '/etc/neutron/switchcacert.pem',
@@ -427,18 +427,18 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     if ! $ovn_metadata_agent_enabled {
       class { 'neutron::agents::ml2::ovn::metadata':
         shared_secret     => 'a_big_secret',
-        metadata_host     => $::openstack_integration::config::host,
-        metadata_protocol => $::openstack_integration::config::proto,
+        metadata_host     => $openstack_integration::config::host,
+        metadata_protocol => $openstack_integration::config::proto,
       }
     }
     class { 'neutron::agents::ml2::ovn':
       debug              => true,
       extensions         => $ovn_agent_extensions,
-      ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
+      ovn_nb_connection  => $openstack_integration::config::ovn_nb_connection,
       ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
       ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
       ovn_nb_ca_cert     => '/etc/neutron/switchcacert.pem',
-      ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+      ovn_sb_connection  => $openstack_integration::config::ovn_sb_connection,
       ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
       ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
       ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
@@ -448,9 +448,9 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       class { 'neutron::agents::ovn_metadata':
         debug              => true,
         shared_secret      => 'a_big_secret',
-        metadata_host      => $::openstack_integration::config::host,
-        metadata_protocol  => $::openstack_integration::config::proto,
-        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+        metadata_host      => $openstack_integration::config::host,
+        metadata_protocol  => $openstack_integration::config::proto,
+        ovn_sb_connection  => $openstack_integration::config::ovn_sb_connection,
         ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
         ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
         ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
@@ -467,7 +467,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
         debug              => true,
         vpn_device_driver  => $vpn_device_driver,
         interface_driver   => 'openvswitch',
-        ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+        ovn_sb_connection  => $openstack_integration::config::ovn_sb_connection,
         ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
         ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
         ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
@@ -482,8 +482,8 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       debug             => true,
       shared_secret     => 'a_big_secret',
       metadata_workers  => 2,
-      metadata_host     => $::openstack_integration::config::host,
-      metadata_protocol => $::openstack_integration::config::proto,
+      metadata_host     => $openstack_integration::config::host,
+      metadata_protocol => $openstack_integration::config::proto,
     }
 
     $l3_extensions = $vpnaas_enabled ? {
@@ -529,19 +529,19 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
         # NOTE(tkajinm): This value is picked up from the one used in CI, but is
         # apparently wrong (It should have rpc_l2gw), but we can't enable
         # the correct provider because of incomplete setup we have in CI.
-        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default']
+        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default'],
       }
       class { 'neutron::agents::l2gw': }
     }
     if $bgpvpn_enabled {
       class {'neutron::services::bgpvpn':
-        service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default'
+        service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default',
       }
     }
     if $bgp_dragent_enabled {
       class {'neutron::services::dr': }
       class {'neutron::agents::bgp_dragent':
-        bgp_router_id => '127.0.0.1'
+        bgp_router_id => '127.0.0.1',
       }
     }
   }
@@ -549,7 +549,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   if $vpnaas_enabled {
     $vpnaas_service_provider = $facts['os']['family'] ? {
       'Debian' => 'strongswan',
-      default  => 'openswan'
+      default  => 'openswan',
     }
 
     class { 'neutron::services::vpnaas':
@@ -557,19 +557,19 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
         'VPN',
         $vpnaas_service_provider,
         $vpnaas_driver,
-        'default'
-      ], ':')
+        'default',
+      ], ':'),
     }
   }
 
   if $baremetal_enabled {
     class { 'neutron::plugins::ml2::networking_baremetal': }
     class { 'neutron::agents::ml2::networking_baremetal':
-      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      auth_url => $openstack_integration::config::keystone_admin_uri,
       password => 'a_big_secret',
     }
     class { 'neutron::server::notifications::ironic':
-      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      auth_url => $openstack_integration::config::keystone_admin_uri,
       password => 'a_big_secret',
     }
 
@@ -579,18 +579,18 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   if $designate_enabled {
     class { 'neutron::designate':
       password => 'a_big_secret',
-      url      => "${::openstack_integration::config::base_url}:9001",
-      auth_url => $::openstack_integration::config::keystone_admin_uri,
+      url      => "${openstack_integration::config::base_url}:9001",
+      auth_url => $openstack_integration::config::keystone_admin_uri,
     }
   }
 
   class { 'neutron::server::notifications::nova':
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
   class { 'neutron::server::notifications': }
   class { 'neutron::server::placement':
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
 
@@ -598,7 +598,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   # https://review.opendev.org/c/x/networking-l2gw/+/951422
   if $l2gw_enabled {
     file { '/etc/neutron/networking_l2gw.conf':
-      ensure  => 'link',
+      ensure  => link,
       target  => '/etc/neutron/l2gw_plugin.ini',
       replace => false,
       require => Anchor['neutron::install::end'],

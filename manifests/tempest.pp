@@ -277,8 +277,8 @@ class openstack_integration::tempest (
   }
 
   $dashboard_url = $facts['os']['family'] ? {
-    'RedHat' => "${::openstack_integration::config::base_url}/dashboard",
-    default  => "${::openstack_integration::config::base_url}/horizon"
+    'RedHat' => "${openstack_integration::config::base_url}/dashboard",
+    default  => "${openstack_integration::config::base_url}/horizon"
   }
 
   $metric_backends = $gnocchi ? {
@@ -297,7 +297,7 @@ class openstack_integration::tempest (
     lock_path                          => '/tmp/openstack/tempest',
     configure_images                   => $configure_images,
     configure_networks                 => $configure_networks,
-    identity_uri_v3                    => "${::openstack_integration::config::keystone_auth_uri}/v3",
+    identity_uri_v3                    => "${openstack_integration::config::keystone_auth_uri}/v3",
     admin_username                     => 'admin',
     admin_project_name                 => 'openstack',
     admin_password                     => 'a_big_secret',
@@ -347,7 +347,7 @@ class openstack_integration::tempest (
     img_file                           => "/tmp/openstack/image/cirros-0.6.2-x86_64-disk-${image_format}.img",
     img_disk_format                    => $image_format,
     compute_build_interval             => 10,
-    ca_certificates_file               => $::openstack_integration::params::ca_bundle_cert_path,
+    ca_certificates_file               => $openstack_integration::params::ca_bundle_cert_path,
     attach_encrypted_volume            => $attach_encrypted_volume,
     vnc_console                        => true,
     tempest_workspace                  => '/tmp/openstack/tempest',
@@ -365,7 +365,7 @@ class openstack_integration::tempest (
     share_multitenancy_enabled         => false,
     share_enable_protocols             => [downcase($share_protocol)],
     share_capability_storage_protocol  => $share_protocol,
-    designate_nameservers              => ["${::openstack_integration::config::ip_for_url}:5322"],
+    designate_nameservers              => ["${openstack_integration::config::ip_for_url}:5322"],
     metric_backends                    => $metric_backends,
   }
 

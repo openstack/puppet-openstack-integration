@@ -16,7 +16,7 @@ class openstack_integration::aodh (
     before   => Anchor['aodh::service::begin'],
   }
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'aodh':
       notify  => Service['httpd'],
       require => Anchor['aodh::install::end'],
@@ -30,43 +30,43 @@ class openstack_integration::aodh (
   class { 'aodh::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'aodh',
       'password' => 'aodh',
       'database' => 'aodh',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   class { 'aodh':
     default_transport_url      => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_default_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_default_port,
+      'transport' => $openstack_integration::config::messaging_default_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_default_port,
       'username'  => 'aodh',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_transport_url => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_notify_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'transport' => $openstack_integration::config::messaging_notify_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_notify_port,
       'username'  => 'aodh',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'aodh::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'aodh',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
   class { 'aodh::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8042",
-    internal_url => "${::openstack_integration::config::base_url}:8042",
-    admin_url    => "${::openstack_integration::config::base_url}:8042",
+    public_url   => "${openstack_integration::config::base_url}:8042",
+    internal_url => "${openstack_integration::config::base_url}:8042",
+    admin_url    => "${openstack_integration::config::base_url}:8042",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -74,9 +74,9 @@ class openstack_integration::aodh (
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'aodh::api':
@@ -85,14 +85,14 @@ class openstack_integration::aodh (
     sync_db      => true,
   }
   class { 'aodh::wsgi::apache':
-    bind_host => $::openstack_integration::config::host,
-    ssl       => $::openstack_integration::config::ssl,
+    bind_host => $openstack_integration::config::host,
+    ssl       => $openstack_integration::config::ssl,
     ssl_key   => "/etc/aodh/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_cert  => $openstack_integration::params::cert_path,
     workers   => 2,
   }
   class { 'aodh::service_credentials':
-    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    auth_url => $openstack_integration::config::keystone_auth_uri,
     password => 'a_big_secret',
   }
   class { 'aodh::client': }
@@ -103,7 +103,7 @@ class openstack_integration::aodh (
     workers => 2,
   }
   class { 'aodh::coordination':
-    backend_url => $::openstack_integration::config::tooz_url,
+    backend_url => $openstack_integration::config::tooz_url,
   }
   Class['openstack_integration::redis'] -> Anchor['aodh::service::begin']
   class { 'aodh::evaluator':

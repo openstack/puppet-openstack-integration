@@ -7,7 +7,7 @@ class openstack_integration::placement {
 
   include placement
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'placement':
       notify  => Service['httpd'],
       require => Anchor['placement::install::end'],
@@ -17,16 +17,16 @@ class openstack_integration::placement {
 
   include placement::client
   class { 'placement::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'placement',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
 
   class { 'placement::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8778",
-    internal_url => "${::openstack_integration::config::base_url}:8778",
-    admin_url    => "${::openstack_integration::config::base_url}:8778",
+    public_url   => "${openstack_integration::config::base_url}:8778",
+    internal_url => "${openstack_integration::config::base_url}:8778",
+    admin_url    => "${openstack_integration::config::base_url}:8778",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -34,9 +34,9 @@ class openstack_integration::placement {
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'placement::logging':
@@ -45,22 +45,22 @@ class openstack_integration::placement {
   class { 'placement::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'placement',
       'password' => 'placement',
       'database' => 'placement',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   include placement::db::sync
   include placement::api
   if ($facts['os']['name'] != 'Debian') {
     class { 'placement::wsgi::apache':
-      bind_host => $::openstack_integration::config::host,
+      bind_host => $openstack_integration::config::host,
       ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
-      ssl_cert  => $::openstack_integration::params::cert_path,
-      ssl       => $::openstack_integration::config::ssl,
+      ssl_cert  => $openstack_integration::params::cert_path,
+      ssl       => $openstack_integration::config::ssl,
       workers   => 2,
     }
   }

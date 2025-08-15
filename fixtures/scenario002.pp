@@ -100,7 +100,7 @@ class { 'openstack_integration::gnocchi':
 class { 'openstack_integration::horizon':
   cache_backend         => $django_cache_backend,
   cinder_backup_enabled => true,
-  ironic_enabled        => true
+  ironic_enabled        => true,
 }
 
 class { 'openstack_integration::tempest':

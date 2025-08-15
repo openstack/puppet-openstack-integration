@@ -43,7 +43,7 @@ class openstack_integration::repos {
         centos_mirror_url => $centos_mirror,
         repo_source_hash  => {
           'delorean.repo'      => $delorean_repo,
-          'delorean-deps.repo' => $delorean_deps_repo
+          'delorean-deps.repo' => $delorean_deps_repo,
         },
         repo_replace      => false,
         update_packages   => true,
@@ -64,7 +64,7 @@ class openstack_integration::repos {
       }
 
       yumrepo { 'crb':
-        enabled => true
+        enabled => true,
       }
     }
     default: {

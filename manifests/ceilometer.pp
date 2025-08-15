@@ -25,31 +25,31 @@ class openstack_integration::ceilometer (
     debug => true,
   }
   class { 'ceilometer::cache':
-    backend          => $::openstack_integration::config::cache_driver,
+    backend          => $openstack_integration::config::cache_driver,
     enabled          => true,
-    memcache_servers => $::openstack_integration::config::memcache_servers,
-    redis_server     => $::openstack_integration::config::redis_server,
+    memcache_servers => $openstack_integration::config::memcache_servers,
+    redis_server     => $openstack_integration::config::redis_server,
     redis_password   => 'a_big_secret',
-    redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
-    tls_enabled      => $::openstack_integration::config::cache_tls_enabled,
+    redis_sentinels  => $openstack_integration::config::redis_sentinel_server,
+    tls_enabled      => $openstack_integration::config::cache_tls_enabled,
   }
   class { 'ceilometer':
     telemetry_secret           => 'secrete',
     default_transport_url      => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_default_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_default_port,
+      'transport' => $openstack_integration::config::messaging_default_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_default_port,
       'username'  => 'ceilometer',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_transport_url => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_notify_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'transport' => $openstack_integration::config::messaging_notify_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_notify_port,
       'username'  => 'ceilometer',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
   }
   class { 'ceilometer::keystone::auth':
     roles    => ['admin', 'service'],
@@ -65,7 +65,7 @@ class openstack_integration::ceilometer (
     Class['gnocchi::keystone::auth'] -> Exec['ceilometer-upgrade']
 
     class { 'ceilometer::coordination':
-      backend_url => $::openstack_integration::config::tooz_url,
+      backend_url => $openstack_integration::config::tooz_url,
     }
     Class['openstack_integration::redis'] -> Anchor['ceilometer::service::begin']
     class { 'ceilometer::agent::notification':
@@ -86,7 +86,7 @@ class openstack_integration::ceilometer (
     # NOTE(tobias-urdin): When running the module tests we need to exclude the
     # gnocchi resource types since the acceptance test does not setup gnocchi.
     class { 'ceilometer::db::sync':
-      skip_gnocchi_resource_types => true
+      skip_gnocchi_resource_types => true,
     }
     class { 'ceilometer::agent::notification':
       workers                   => 2,
@@ -103,7 +103,7 @@ class openstack_integration::ceilometer (
 
   class { 'ceilometer::agent::service_credentials':
     password => 'a_big_secret',
-    auth_url => $::openstack_integration::config::keystone_auth_uri,
+    auth_url => $openstack_integration::config::keystone_auth_uri,
   }
 
 }

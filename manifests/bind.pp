@@ -6,13 +6,13 @@ class openstack_integration::bind {
   include openstack_integration::config
   include openstack_integration::params
 
-  $bind_host = $::openstack_integration::config::host
+  $bind_host = $openstack_integration::config::host
 
-  $listen_on = $::openstack_integration::config::ipv6 ? {
+  $listen_on = $openstack_integration::config::ipv6 ? {
     true    => 'none',
     default => $bind_host,
   }
-  $listen_on_v6 = $::openstack_integration::config::ipv6 ? {
+  $listen_on_v6 = $openstack_integration::config::ipv6 ? {
     true    => $bind_host,
     default => 'none',
   }
@@ -38,7 +38,7 @@ class openstack_integration::bind {
         'port'              => 953,
         'allowed_addresses' => [$bind_host],
         'keys'              => ['rndc-key'],
-      }
+      },
     },
   }
 }

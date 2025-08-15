@@ -9,17 +9,17 @@ define openstack_integration::ovn::ssl_key(
   ['ovnnb', 'ovnsb'].each |$ovndb| {
     ["${ovndb}-privkey.pem", "${ovndb}-cert.pem"].each |$ovn_ssl_file| {
       file { "/etc/${key_owner}/${ovn_ssl_file}":
-        ensure  => present,
+        ensure  => file,
         owner   => $key_owner,
         mode    => '0600',
         source  => "/etc/openvswitch/${ovn_ssl_file}",
-        require => Vswitch::Pki::Cert[$ovndb]
+        require => Vswitch::Pki::Cert[$ovndb],
       }
     }
   }
 
   file { "/etc/${key_owner}/switchcacert.pem":
-    ensure  => present,
+    ensure  => file,
     owner   => $key_owner,
     mode    => '0600',
     source  => '/var/lib/openvswitch/pki/switchca/cacert.pem',

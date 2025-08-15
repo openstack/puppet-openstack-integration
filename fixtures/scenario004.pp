@@ -81,10 +81,10 @@ class { 'openstack_integration::ceph':
   ceph_pools    => ['glance', 'nova'],
 }
 class { 'openstack_integration::horizon':
-  octavia_enabled => true
+  octavia_enabled => true,
 }
 class { 'openstack_integration::manila':
-  backend => 'cephfsnative'
+  backend => 'cephfsnative',
 }
 include openstack_integration::octavia
 

@@ -19,41 +19,41 @@ class openstack_integration::redis {
   }
 
   class { 'redis':
-    bind             => $::openstack_integration::config::host,
+    bind             => $openstack_integration::config::host,
     port             => $port,
     tls_port         => $tls_port,
-    tls_cert_file    => $::openstack_integration::params::cert_path,
+    tls_cert_file    => $openstack_integration::params::cert_path,
     tls_key_file     => "/etc/redis/ssl/private/${facts['networking']['fqdn']}.pem",
-    tls_ca_cert_file => $::openstack_integration::params::ca_bundle_cert_path,
+    tls_ca_cert_file => $openstack_integration::params::ca_bundle_cert_path,
     ulimit_managed   => false,
     requirepass      => 'a_big_secret',
   }
 
   class { 'redis::sentinel':
     auth_pass         => 'a_big_secret',
-    redis_host        => $::openstack_integration::config::host,
+    redis_host        => $openstack_integration::config::host,
     redis_port        => 6379,
     requirepass       => 'a_big_secret',
     quorum            => 1,
     sentinel_port     => $sentinel_port,
     sentinel_tls_port => $sentinel_tls_port,
-    sentinel_bind     => $::openstack_integration::config::host,
-    tls_cert_file     => $::openstack_integration::params::cert_path,
+    sentinel_bind     => $openstack_integration::config::host,
+    tls_cert_file     => $openstack_integration::params::cert_path,
     tls_key_file      => "/etc/redis/ssl/private/${facts['networking']['fqdn']}.pem",
-    tls_ca_cert_file  => $::openstack_integration::params::ca_bundle_cert_path,
+    tls_ca_cert_file  => $openstack_integration::params::ca_bundle_cert_path,
     tls_replication   => $openstack_integration::config::ssl,
   }
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'redis':
       require => [
-        Package[$::redis::package_name],
-        Package[$::redis::sentinel::package_name],
+        Package[$redis::package_name],
+        Package[$redis::sentinel::package_name],
       ],
       notify  => [
-        Service[$::redis::service_name],
-        Service[$::redis::sentinel::service_name],
-      ]
+        Service[$redis::service_name],
+        Service[$redis::sentinel::service_name],
+      ],
     }
   }
 }

@@ -26,7 +26,7 @@ class openstack_integration::octavia (
     before   => Anchor['octavia::service::begin'],
   }
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'octavia':
       notify  => Service['httpd'],
       require => Anchor['octavia::install::end'],
@@ -47,46 +47,46 @@ class openstack_integration::octavia (
   class { 'octavia::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'octavia',
       'password' => 'octavia',
       'database' => 'octavia',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   class { 'octavia':
     default_transport_url      => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_default_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_default_port,
+      'transport' => $openstack_integration::config::messaging_default_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_default_port,
       'username'  => 'octavia',
       'password'  => 'an_even_bigger_secret',
     }),
     notification_transport_url => os_transport_url({
-      'transport' => $::openstack_integration::config::messaging_notify_proto,
-      'host'      => $::openstack_integration::config::host,
-      'port'      => $::openstack_integration::config::messaging_notify_port,
+      'transport' => $openstack_integration::config::messaging_notify_proto,
+      'host'      => $openstack_integration::config::host,
+      'port'      => $openstack_integration::config::messaging_notify_port,
       'username'  => 'octavia',
       'password'  => 'an_even_bigger_secret',
     }),
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
     notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'octavia::db::mysql':
-    charset            => $::openstack_integration::params::mysql_charset,
-    collate            => $::openstack_integration::params::mysql_collate,
+    charset            => $openstack_integration::params::mysql_charset,
+    collate            => $openstack_integration::params::mysql_collate,
     password           => 'octavia',
-    host               => $::openstack_integration::config::host,
+    host               => $openstack_integration::config::host,
     persistence_dbname => 'octavia_persistence',
   }
   class { 'octavia::db::sync': }
   class { 'octavia::db::sync_persistence': }
   class { 'octavia::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:9876",
-    internal_url => "${::openstack_integration::config::base_url}:9876",
-    admin_url    => "${::openstack_integration::config::base_url}:9876",
+    public_url   => "${openstack_integration::config::base_url}:9876",
+    internal_url => "${openstack_integration::config::base_url}:9876",
+    admin_url    => "${openstack_integration::config::base_url}:9876",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -94,14 +94,14 @@ class openstack_integration::octavia (
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'octavia::neutron':
     password => 'a_big_secret',
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
   }
 
   class { 'octavia::certificates':
@@ -124,16 +124,16 @@ class openstack_integration::octavia (
     $enabled_provider_drivers = {
       'amphora' => 'The Octavia Amphora driver.',
       'octavia' => 'Deprecated alias of the Octavia Amphora driver.',
-      'ovn'     => 'OVN provider driver.'
+      'ovn'     => 'OVN provider driver.',
     }
     $enabled_provider_agents = 'ovn'
 
     class { 'octavia::provider::ovn':
-      ovn_nb_connection  => $::openstack_integration::config::ovn_nb_connection,
+      ovn_nb_connection  => $openstack_integration::config::ovn_nb_connection,
       ovn_nb_private_key => '/etc/octavia/ovnnb-privkey.pem',
       ovn_nb_certificate => '/etc/octavia/ovnnb-cert.pem',
       ovn_nb_ca_cert     => '/etc/octavia/switchcacert.pem',
-      ovn_sb_connection  => $::openstack_integration::config::ovn_sb_connection,
+      ovn_sb_connection  => $openstack_integration::config::ovn_sb_connection,
       ovn_sb_private_key => '/etc/octavia/ovnsb-privkey.pem',
       ovn_sb_certificate => '/etc/octavia/ovnsb-cert.pem',
       ovn_sb_ca_cert     => '/etc/octavia/switchcacert.pem',
@@ -151,10 +151,10 @@ class openstack_integration::octavia (
     enabled_provider_drivers => $enabled_provider_drivers,
   }
   class { 'octavia::wsgi::apache':
-    bind_host => $::openstack_integration::config::host,
-    ssl       => $::openstack_integration::config::ssl,
+    bind_host => $openstack_integration::config::host,
+    ssl       => $openstack_integration::config::ssl,
     ssl_key   => "/etc/octavia/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_cert  => $openstack_integration::params::cert_path,
     workers   => 2,
   }
   class { 'octavia::client': }
@@ -184,25 +184,25 @@ class openstack_integration::octavia (
     max_workers                         => 2,
     persistence_connection              => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'octavia',
       'password' => 'octavia',
       'database' => 'octavia_persistence',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
     jobboard_enabled                    => true,
-    jobboard_backend_hosts              => $::openstack_integration::config::host,
+    jobboard_backend_hosts              => $openstack_integration::config::host,
     jobboard_backend_port               => $jobboard_backend_port,
     jobboard_backend_password           => 'a_big_secret',
     jobboard_redis_sentinel             => $jobboard_redis_sentinel,
     jobboard_redis_sentinel_password    => 'a_big_secret',
     jobboard_redis_backend_ssl_options  => {
-      'ssl' => $::openstack_integration::config::ssl
+      'ssl' => $openstack_integration::config::ssl,
     },
     jobboard_redis_sentinel_ssl_options => {
-      'ssl' => $::openstack_integration::config::ssl
-    }
+      'ssl' => $openstack_integration::config::ssl,
+    },
   }
 
   class { 'octavia::worker':
@@ -218,7 +218,7 @@ class openstack_integration::octavia (
     enabled_provider_agents => $enabled_provider_agents,
   }
   class { 'octavia::service_auth':
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
 }

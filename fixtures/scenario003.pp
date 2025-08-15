@@ -66,7 +66,7 @@ if $trove_enabled {
 }
 class { 'openstack_integration::horizon':
   designate_enabled => true,
-  heat_enabled      => true
+  heat_enabled      => true,
 }
 include openstack_integration::heat
 include openstack_integration::designate
@@ -75,7 +75,7 @@ include openstack_integration::provision
 
 include openstack_integration::barbican
 class { 'openstack_integration::magnum':
-  cert_manager_type => 'barbican'
+  cert_manager_type => 'barbican',
 }
 
 class { 'openstack_integration::tempest':

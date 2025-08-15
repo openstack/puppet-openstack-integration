@@ -43,7 +43,7 @@ class openstack_integration::nova (
   include openstack_integration::config
   include openstack_integration::params
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'nova':
       notify  => Service['httpd'],
       require => Anchor['nova::install::end'],
@@ -52,17 +52,17 @@ class openstack_integration::nova (
   }
 
   $default_transport_url = os_transport_url({
-    'transport' => $::openstack_integration::config::messaging_default_proto,
-    'host'      => $::openstack_integration::config::host,
-    'port'      => $::openstack_integration::config::messaging_default_port,
+    'transport' => $openstack_integration::config::messaging_default_proto,
+    'host'      => $openstack_integration::config::host,
+    'port'      => $openstack_integration::config::messaging_default_port,
     'username'  => 'nova',
     'password'  => 'an_even_bigger_secret',
   })
 
   $notification_transport_url = os_transport_url({
-    'transport' => $::openstack_integration::config::messaging_notify_proto,
-    'host'      => $::openstack_integration::config::host,
-    'port'      => $::openstack_integration::config::messaging_notify_port,
+    'transport' => $openstack_integration::config::messaging_notify_proto,
+    'host'      => $openstack_integration::config::host,
+    'port'      => $openstack_integration::config::messaging_notify_port,
     'username'  => 'nova',
     'password'  => 'an_even_bigger_secret',
   })
@@ -73,16 +73,16 @@ class openstack_integration::nova (
   }
 
   class { 'nova::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'nova',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
   class { 'nova::db::mysql_api':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'nova',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
   include nova::cell_v2::simple_setup
 
@@ -97,9 +97,9 @@ class openstack_integration::nova (
   }
 
   class { 'nova::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8774/v2.1",
-    internal_url => "${::openstack_integration::config::base_url}:8774/v2.1",
-    admin_url    => "${::openstack_integration::config::base_url}:8774/v2.1",
+    public_url   => "${openstack_integration::config::base_url}:8774/v2.1",
+    internal_url => "${openstack_integration::config::base_url}:8774/v2.1",
+    admin_url    => "${openstack_integration::config::base_url}:8774/v2.1",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -107,9 +107,9 @@ class openstack_integration::nova (
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'nova::keystone::service_user':
@@ -117,7 +117,7 @@ class openstack_integration::nova (
     password                => 'a_big_secret',
     user_domain_name        => 'Default',
     project_domain_name     => 'Default',
-    auth_url                => $::openstack_integration::config::keystone_admin_uri,
+    auth_url                => $openstack_integration::config::keystone_admin_uri,
   }
   class { 'nova::logging':
     debug => true,
@@ -125,49 +125,49 @@ class openstack_integration::nova (
   class { 'nova::db':
     database_connection     => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'nova',
       'password' => 'nova',
       'database' => 'nova',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
     api_database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'nova_api',
       'password' => 'nova',
       'database' => 'nova_api',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   class { 'nova':
     default_transport_url      => $default_transport_url,
     notification_transport_url => $notification_transport_url,
-    rabbit_use_ssl             => $::openstack_integration::config::ssl,
+    rabbit_use_ssl             => $openstack_integration::config::ssl,
     notification_driver        => 'messagingv2',
     notify_on_state_change     => 'vm_and_task_state',
     notification_topics        => $notification_topics,
-    ssl_only                   => $::openstack_integration::config::ssl,
-    source_is_ipv6             => $::openstack_integration::config::ipv6,
+    ssl_only                   => $openstack_integration::config::ssl,
+    source_is_ipv6             => $openstack_integration::config::ipv6,
     key                        => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    cert                       => $::openstack_integration::params::cert_path,
+    cert                       => $openstack_integration::params::cert_path,
   }
   class { 'nova::api':
-    api_bind_address => $::openstack_integration::config::host,
+    api_bind_address => $openstack_integration::config::host,
     sync_db          => false,
     sync_db_api      => false,
     service_name     => 'httpd',
   }
   class { 'nova::cache':
-    backend          => $::openstack_integration::config::cache_driver,
+    backend          => $openstack_integration::config::cache_driver,
     enabled          => true,
-    memcache_servers => $::openstack_integration::config::memcache_servers,
-    redis_server     => $::openstack_integration::config::redis_server,
+    memcache_servers => $openstack_integration::config::memcache_servers,
+    redis_server     => $openstack_integration::config::redis_server,
     redis_password   => 'a_big_secret',
-    redis_sentinels  => $::openstack_integration::config::redis_sentinel_server,
-    tls_enabled      => $::openstack_integration::config::cache_tls_enabled,
+    redis_sentinels  => $openstack_integration::config::redis_sentinel_server,
+    tls_enabled      => $openstack_integration::config::cache_tls_enabled,
   }
   class { 'nova::db::sync':
     extra_params    => '--debug',
@@ -181,21 +181,21 @@ class openstack_integration::nova (
     neutron_metadata_proxy_shared_secret => 'a_big_secret',
   }
   class { 'nova::wsgi::apache_api':
-    bind_host => $::openstack_integration::config::host,
+    bind_host => $openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
-    ssl       => $::openstack_integration::config::ssl,
+    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }
   class { 'nova::wsgi::apache_metadata':
-    bind_host => $::openstack_integration::config::host,
+    bind_host => $openstack_integration::config::host,
     ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
-    ssl       => $::openstack_integration::config::ssl,
+    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }
   class { 'nova::placement':
-    auth_url => $::openstack_integration::config::keystone_admin_uri,
+    auth_url => $openstack_integration::config::keystone_admin_uri,
     password => 'a_big_secret',
   }
   class { 'nova::conductor':
@@ -204,27 +204,27 @@ class openstack_integration::nova (
   class { 'nova::cron::archive_deleted_rows': }
   if $volume_encryption {
     class { 'nova::key_manager':
-      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager'
+      backend => 'castellan.key_manager.barbican_key_manager.BarbicanKeyManager',
     }
     class { 'nova::key_manager::barbican':
-      auth_endpoint           => $::openstack_integration::config::keystone_auth_uri,
-      barbican_endpoint       => "${::openstack_integration::config::base_url}:9311",
+      auth_endpoint           => $openstack_integration::config::keystone_auth_uri,
+      barbican_endpoint       => "${openstack_integration::config::base_url}:9311",
       send_service_user_token => true,
     }
     class { 'nova::key_manager::barbican::service_user':
       password            => 'a_big_secret',
       user_domain_name    => 'Default',
       project_domain_name => 'Default',
-      auth_url            => $::openstack_integration::config::keystone_admin_uri,
+      auth_url            => $openstack_integration::config::keystone_admin_uri,
     }
   }
   class { 'nova::compute':
     vnc_enabled                   => true,
     instance_usage_audit          => true,
     instance_usage_audit_period   => 'hour',
-    vncproxy_protocol             => $::openstack_integration::config::proto,
-    vncproxy_host                 => $::openstack_integration::config::host,
-    vncserver_proxyclient_address => $::openstack_integration::config::host,
+    vncproxy_protocol             => $openstack_integration::config::proto,
+    vncproxy_host                 => $openstack_integration::config::host,
+    vncserver_proxyclient_address => $openstack_integration::config::host,
   }
 
   # NOTE(tkajinam): In Ubuntu, libvirtd-tcp.socket fails to start because of
@@ -237,7 +237,7 @@ class openstack_integration::nova (
   }
   class { 'nova::migration::libvirt':
     transport      => $migration_transport,
-    listen_address => $::openstack_integration::config::host,
+    listen_address => $openstack_integration::config::host,
   }
 
   $images_type = $libvirt_rbd ? {
@@ -249,7 +249,7 @@ class openstack_integration::nova (
     cpu_mode                => $libvirt_cpu_mode,
     images_type             => $images_type,
     manage_libvirt_services => false,
-    vncserver_listen        => $::openstack_integration::config::host,
+    vncserver_listen        => $openstack_integration::config::host,
   }
   class { 'nova::compute::libvirt::services': }
   class { 'nova::compute::libvirt::networks': }
@@ -271,17 +271,17 @@ class openstack_integration::nova (
   }
   class { 'nova::scheduler::filter': }
   class { 'nova::vncproxy':
-    host => $::openstack_integration::config::host
+    host => $openstack_integration::config::host,
   }
 
   class { 'nova::network::neutron':
-    auth_url              => "${::openstack_integration::config::keystone_admin_uri}/v3",
+    auth_url              => "${openstack_integration::config::keystone_admin_uri}/v3",
     password              => 'a_big_secret',
     default_floating_pool => 'public',
   }
   if $cinder_enabled {
     class { 'nova::cinder':
-      auth_url  => $::openstack_integration::config::keystone_admin_uri,
+      auth_url  => $openstack_integration::config::keystone_admin_uri,
       password  => 'a_big_secret',
       auth_type => 'password',
     }

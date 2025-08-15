@@ -46,7 +46,7 @@ class openstack_integration::horizon (
   include openstack_integration::config
   include openstack_integration::params
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'openstack-dashboard':
       key_owner => 'root',
       notify    => Service['httpd'],
@@ -55,19 +55,19 @@ class openstack_integration::horizon (
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
 
-  $redis_scheme = $::openstack_integration::config::ssl ? {
+  $redis_scheme = $openstack_integration::config::ssl ? {
     true    => 'rediss',
     default => 'redis',
   }
   $redis_url = os_url({
     'scheme'   => $redis_scheme,
     'password' => 'a_big_secret',
-    'host'     => $::openstack_integration::config::ip_for_url,
+    'host'     => $openstack_integration::config::ip_for_url,
     'port'     => '6379',
   })
   $cache_server_url = $cache_backend ? {
     'redis' => $redis_url,
-    default => ["${::openstack_integration::config::ip_for_url}:11211"]
+    default => ["${openstack_integration::config::ip_for_url}:11211"]
   }
 
   $django_cache_backend = $cache_backend ? {
@@ -79,21 +79,21 @@ class openstack_integration::horizon (
     secret_key                     => 'big_secret',
     cache_backend                  => $django_cache_backend,
     cache_server_url               => $cache_server_url,
-    allowed_hosts                  => $::openstack_integration::config::ip_for_url,
+    allowed_hosts                  => $openstack_integration::config::ip_for_url,
     root_url                       => $root_url,
-    listen_ssl                     => $::openstack_integration::config::ssl,
-    ssl_redirect                   => $::openstack_integration::config::ssl,
-    ssl_cert                       => $::openstack_integration::params::cert_path,
+    listen_ssl                     => $openstack_integration::config::ssl,
+    ssl_redirect                   => $openstack_integration::config::ssl,
+    ssl_cert                       => $openstack_integration::params::cert_path,
     ssl_key                        => "/etc/openstack-dashboard/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_ca                         => $::openstack_integration::params::ca_bundle_cert_path,
+    ssl_ca                         => $openstack_integration::params::ca_bundle_cert_path,
     ssl_verify_client              => 'optional',
-    enable_secure_proxy_ssl_header => $::openstack_integration::config::ssl,
-    secure_cookies                 => $::openstack_integration::config::ssl,
+    enable_secure_proxy_ssl_header => $openstack_integration::config::ssl,
+    secure_cookies                 => $openstack_integration::config::ssl,
     wsgi_processes                 => 2,
-    keystone_url                   => $::openstack_integration::config::keystone_auth_uri,
+    keystone_url                   => $openstack_integration::config::keystone_auth_uri,
     log_level                      => 'DEBUG',
     cinder_options                 => {
-      'enable_backup' => $cinder_backup_enabled
+      'enable_backup' => $cinder_backup_enabled,
     },
   }
 

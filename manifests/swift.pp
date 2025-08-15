@@ -10,13 +10,13 @@ class openstack_integration::swift(
 
   include openstack_integration::config
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'swift':
       notify  => Service['swift-proxy-server'],
       require => Anchor['swift::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['swift-proxy-server']
-    $cert_file = $::openstack_integration::params::cert_path
+    $cert_file = $openstack_integration::params::cert_path
     $key_file = "/etc/swift/ssl/private/${facts['networking']['fqdn']}.pem"
   } else {
     $cert_file = undef
@@ -46,7 +46,7 @@ class openstack_integration::swift(
       ensure => directory,
       mode   => '0750',
       owner  => $log_dir_owner,
-      group  => 'adm'
+      group  => 'adm',
     }
 
   } else {
@@ -57,7 +57,7 @@ class openstack_integration::swift(
   }
 
   file { '/etc/rsyslog.d/10-swift.conf':
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/rsyslog-swift.conf",
     require => [Package['rsyslog'], File['/var/log/swift']],
     notify  => Service['rsyslog'],
@@ -74,16 +74,16 @@ class openstack_integration::swift(
     }
 
     class { 'swift::proxy::ceilometer':
-      auth_url              => $::openstack_integration::config::keystone_admin_uri,
+      auth_url              => $openstack_integration::config::keystone_admin_uri,
       password              => 'a_big_secret',
       default_transport_url => os_transport_url({
-        'transport' => $::openstack_integration::config::messaging_default_proto,
-        'host'      => $::openstack_integration::config::host,
-        'port'      => $::openstack_integration::config::messaging_default_port,
+        'transport' => $openstack_integration::config::messaging_default_proto,
+        'host'      => $openstack_integration::config::host,
+        'port'      => $openstack_integration::config::messaging_default_port,
         'username'  => 'swift',
         'password'  => 'an_even_bigger_secret',
       }),
-      rabbit_use_ssl        => $::openstack_integration::config::ssl,
+      rabbit_use_ssl        => $openstack_integration::config::ssl,
     }
     $ceilometer_middleware = ['ceilometer']
 
@@ -98,12 +98,12 @@ class openstack_integration::swift(
     'catch_errors', 'gatekeeper', 'healthcheck', 'proxy-logging', 'cache',
     'listing_formats', 'container_sync', 'bulk', 'tempurl', 'ratelimit',
     'authtoken', 'keystone', 'copy', 'formpost', 'staticweb', 'container_quotas',
-    'account_quotas', 'slo', 'dlo', 'versioned_writes', 'symlink', 'proxy-logging'
+    'account_quotas', 'slo', 'dlo', 'versioned_writes', 'symlink', 'proxy-logging',
   ] + $ceilometer_middleware + ['proxy-server']
 
   # proxy server
   class { 'swift::proxy':
-    proxy_local_net_ip => $::openstack_integration::config::host,
+    proxy_local_net_ip => $openstack_integration::config::host,
     workers            => 2,
     pipeline           => $pipeline,
     node_timeout       => 30,
@@ -117,19 +117,19 @@ class openstack_integration::swift(
   # Note (dmsimard): ipv6 parsing in Swift and keystone_authtoken are
   # different: https://bugs.launchpad.net/swift/+bug/1610064
   class { 'swift::proxy::cache':
-    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+    memcache_servers => $openstack_integration::config::swift_memcached_servers,
   }
   include swift::proxy::listing_formats
   include swift::proxy::tempurl
   include swift::proxy::ratelimit
   class { 'swift::proxy::authtoken':
-    www_authenticate_uri         => "${::openstack_integration::config::keystone_auth_uri}/v3",
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => "${openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
     password                     => 'a_big_secret',
     service_token_roles_required => true,
   }
   class { 'swift::proxy::keystone':
-    operator_roles => ['member', 'admin', 'SwiftOperator']
+    operator_roles => ['member', 'admin', 'SwiftOperator'],
   }
   include swift::proxy::copy
   include swift::proxy::formpost
@@ -144,12 +144,12 @@ class openstack_integration::swift(
   include swift::proxy::versioned_writes
   # keystone resources
   class { 'swift::keystone::auth':
-    public_url      => "${::openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
-    admin_url       => "${::openstack_integration::config::base_url}:8080",
-    internal_url    => "${::openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
-    public_url_s3   => "${::openstack_integration::config::base_url}:8080",
-    admin_url_s3    => "${::openstack_integration::config::base_url}:8080",
-    internal_url_s3 => "${::openstack_integration::config::base_url}:8080",
+    public_url      => "${openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
+    admin_url       => "${openstack_integration::config::base_url}:8080",
+    internal_url    => "${openstack_integration::config::base_url}:8080/v1/AUTH_%(tenant_id)s",
+    public_url_s3   => "${openstack_integration::config::base_url}:8080",
+    admin_url_s3    => "${openstack_integration::config::base_url}:8080",
+    internal_url_s3 => "${openstack_integration::config::base_url}:8080",
     roles           => ['admin', 'service'],
     password        => 'a_big_secret',
     operator_roles  => ['admin', 'SwiftOperator', 'ResellerAdmin'],
@@ -163,7 +163,7 @@ class openstack_integration::swift(
   include swift::internal_client::catch_errors
   include swift::internal_client::proxy_logging
   class { 'swift::internal_client::cache':
-    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+    memcache_servers => $openstack_integration::config::swift_memcached_servers,
   }
   include swift::internal_client::symlink
 
@@ -186,7 +186,7 @@ class openstack_integration::swift(
 
   # storage servers
   class { 'swift::storage::all':
-    storage_local_net_ip     => $::openstack_integration::config::host,
+    storage_local_net_ip     => $openstack_integration::config::host,
     log_name_per_daemon      => true,
     mount_check              => false,
     account_pipeline         => ['healthcheck', 'recon', 'backend_ratelimit', 'account-server'],
@@ -201,10 +201,10 @@ class openstack_integration::swift(
   swift::storage::filter::recon { $swift_components : }
   swift::storage::filter::healthcheck { $swift_components : }
   class { 'swift::objectexpirer':
-    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+    memcache_servers => $openstack_integration::config::swift_memcached_servers,
   }
   class { 'swift::containerreconciler':
-    memcache_servers => $::openstack_integration::config::swift_memcached_servers
+    memcache_servers => $openstack_integration::config::swift_memcached_servers,
   }
 
   # ring builder
@@ -212,15 +212,15 @@ class openstack_integration::swift(
   # As of mitaka swift-ring-builder requires devices >= replica count
   # Default replica count is 3
   [1, 2, 3].each |$dev| {
-    ring_object_device { "${::openstack_integration::config::ip_for_url}:6000/${dev}":
+    ring_object_device { "${openstack_integration::config::ip_for_url}:6000/${dev}":
       zone   => 1,
       weight => 1,
     }
-    ring_container_device { ["${::openstack_integration::config::ip_for_url}:6001/${dev}"]:
+    ring_container_device { ["${openstack_integration::config::ip_for_url}:6001/${dev}"]:
       zone   => 1,
       weight => 1,
     }
-    ring_account_device { ["${::openstack_integration::config::ip_for_url}:6002/${dev}"]:
+    ring_account_device { ["${openstack_integration::config::ip_for_url}:6002/${dev}"]:
       zone   => 1,
       weight => 1,
     }

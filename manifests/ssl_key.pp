@@ -36,12 +36,12 @@ define openstack_integration::ssl_key(
       mode                    => '0755',
       require                 => File["/etc/${name}/ssl"],
       selinux_ignore_defaults => true,
-      before                  => File[$_key_path]
+      before                  => File[$_key_path],
     }
   }
 
   file { $_key_path:
-    ensure                  => present,
+    ensure                  => file,
     owner                   => $key_owner,
     source                  => "puppet:///modules/openstack_integration/ipv${openstack_integration::config::ip_version}.key",
     selinux_ignore_defaults => true,

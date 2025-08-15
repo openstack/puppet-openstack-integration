@@ -11,7 +11,7 @@ class openstack_integration::gnocchi (
   include openstack_integration::config
   include openstack_integration::params
 
-  if $::openstack_integration::config::ssl {
+  if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'gnocchi':
       notify  => Service['httpd'],
       require => Anchor['gnocchi::install::end'],
@@ -25,23 +25,23 @@ class openstack_integration::gnocchi (
   class { 'gnocchi::db':
     database_connection => os_database_connection({
       'dialect'  => 'mysql+pymysql',
-      'host'     => $::openstack_integration::config::ip_for_url,
+      'host'     => $openstack_integration::config::ip_for_url,
       'username' => 'gnocchi',
       'password' => 'gnocchi',
       'database' => 'gnocchi',
       'charset'  => 'utf8',
-      'extra'    => $::openstack_integration::config::db_extra,
+      'extra'    => $openstack_integration::config::db_extra,
     }),
   }
   class { 'gnocchi':
-    coordination_url => $::openstack_integration::config::tooz_url,
+    coordination_url => $openstack_integration::config::tooz_url,
   }
   Class['openstack_integration::redis'] -> Anchor['gnocchi::service::begin']
   class { 'gnocchi::db::mysql':
-    charset  => $::openstack_integration::params::mysql_charset,
-    collate  => $::openstack_integration::params::mysql_collate,
+    charset  => $openstack_integration::params::mysql_charset,
+    collate  => $openstack_integration::params::mysql_collate,
     password => 'gnocchi',
-    host     => $::openstack_integration::config::host,
+    host     => $openstack_integration::config::host,
   }
 
   # TODO(tkajinam): We need to find a way to enforce swift is up before
@@ -58,9 +58,9 @@ class openstack_integration::gnocchi (
   }
 
   class { 'gnocchi::keystone::auth':
-    public_url   => "${::openstack_integration::config::base_url}:8041",
-    internal_url => "${::openstack_integration::config::base_url}:8041",
-    admin_url    => "${::openstack_integration::config::base_url}:8041",
+    public_url   => "${openstack_integration::config::base_url}:8041",
+    internal_url => "${openstack_integration::config::base_url}:8041",
+    admin_url    => "${openstack_integration::config::base_url}:8041",
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
@@ -68,9 +68,9 @@ class openstack_integration::gnocchi (
     password                     => 'a_big_secret',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => $::openstack_integration::config::keystone_admin_uri,
-    www_authenticate_uri         => $::openstack_integration::config::keystone_auth_uri,
-    memcached_servers            => $::openstack_integration::config::memcached_servers,
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
+    memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
   class { 'gnocchi::api':
@@ -78,10 +78,10 @@ class openstack_integration::gnocchi (
     service_name => 'httpd',
   }
   class { 'gnocchi::wsgi::apache':
-    bind_host => $::openstack_integration::config::host,
-    ssl       => $::openstack_integration::config::ssl,
+    bind_host => $openstack_integration::config::host,
+    ssl       => $openstack_integration::config::ssl,
     ssl_key   => "/etc/gnocchi/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $::openstack_integration::params::cert_path,
+    ssl_cert  => $openstack_integration::params::cert_path,
     workers   => 2,
   }
   class { 'gnocchi::client': }
@@ -113,12 +113,12 @@ class openstack_integration::gnocchi (
     'swift': {
       class { 'gnocchi::storage::swift':
         swift_auth_version => '3',
-        swift_authurl      => $::openstack_integration::config::keystone_admin_uri,
+        swift_authurl      => $openstack_integration::config::keystone_admin_uri,
         swift_user         => 'services:gnocchi',
         swift_key          => 'a_big_secret',
       }
       class { 'gnocchi::storage::incoming::redis':
-        redis_url => $::openstack_integration::config::tooz_url,
+        redis_url => $openstack_integration::config::tooz_url,
       }
     }
     'file': {
@@ -129,7 +129,7 @@ class openstack_integration::gnocchi (
     }
   }
   class { 'gnocchi::statsd':
-    host                => $::openstack_integration::config::host,
+    host                => $openstack_integration::config::host,
     archive_policy_name => 'high',
     flush_delay         => '100',
     # random datas:

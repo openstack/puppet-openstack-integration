@@ -43,7 +43,7 @@ class openstack_integration::config (
     $messaging_default_port = '5671'
     $messaging_notify_port = '5671'
     $db_extra = {
-      'ssl_ca' => $::openstack_integration::params::ca_bundle_cert_path,
+      'ssl_ca' => $openstack_integration::params::ca_bundle_cert_path,
     }
     $ovn_proto = 'ssl'
   } else {
@@ -101,7 +101,7 @@ class openstack_integration::config (
     'port'     => '6379',
     'query'    => {
       'ssl' => $ssl,
-    }
+    },
   })
 
   $sentinel_url = os_url({
@@ -114,7 +114,7 @@ class openstack_integration::config (
       'sentinel_password' => 'a_big_secret',
       'ssl'               => $ssl,
       'sentinel_ssl'      => $ssl,
-    }
+    },
   })
 
   $tooz_url = $tooz_backend ? {
