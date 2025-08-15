@@ -87,5 +87,8 @@ class openstack_integration::barbican {
   }
   class { 'barbican::worker': }
   class { 'barbican::retry_scheduler': }
+  class { 'barbican::plugins::simple_crypto':
+    simple_crypto_plugin_kek => 'dGhpcnR5X3R3b19ieXRlX2tleWJsYWhibGFoYmxhaGg=',
+  }
 
 }
