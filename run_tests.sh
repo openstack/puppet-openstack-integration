@@ -346,13 +346,9 @@ echo 'barbican_tempest_plugin.tests.scenario.test_image_signing.ImageSigningTest
 echo 'manila_tempest_tests.tests.api.test_shares.SharesCephFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 echo 'manila_tempest_tests.tests.api.test_shares.SharesNFSTest.test_create_get_delete_share' >> /tmp/openstack/tempest/test-include-list.txt
 
-if uses_debs; then
-  #EXCLUDES="--exclude-regex=..."
-  EXCLUDES=""
-else
-  #EXCLUDES="--exclude-regex=..."
-  EXCLUDES=""
-fi
+# NOTE(tkajinam): Disable AccountQuotaTest, because test_overlimit_upload consistently fails with rgw
+EXCLUDES="--exclude-regex=^tempest.api.object_storage.test_account_quotas.AccountQuotasTest"
+
 print_header 'Running Tempest'
 cd /tmp/openstack/tempest
 
