@@ -34,7 +34,7 @@ class openstack_integration::ceph (
     $ms_bind_ipv6 = false
   }
 
-  ensure_packages(['lvm2'], {'ensure' => 'present', before  => Exec['lvm_create']})
+  stdlib::ensure_packages(['lvm2'], {'ensure' => 'present', before  => Exec['lvm_create']})
 
   exec { 'lvm_create':
     command   => "/bin/true # comment to satisfy puppet syntax requirements
