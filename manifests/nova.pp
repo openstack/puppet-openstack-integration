@@ -155,10 +155,9 @@ class openstack_integration::nova (
     cert                       => $openstack_integration::params::cert_path,
   }
   class { 'nova::api':
-    api_bind_address => $openstack_integration::config::host,
-    sync_db          => false,
-    sync_db_api      => false,
-    service_name     => 'httpd',
+    sync_db      => false,
+    sync_db_api  => false,
+    service_name => 'httpd',
   }
   class { 'nova::cache':
     backend          => $openstack_integration::config::cache_driver,
