@@ -55,6 +55,11 @@
         - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
         - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario001-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario002-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario003-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario004-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario005-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
@@ -69,6 +74,7 @@
       jobs:
         - puppet-openstack-integration-8-scenario001-tempest-ubuntu-noble
         - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario001-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario001-tempest-centos-9-stream
@@ -79,6 +85,7 @@
       jobs:
         - puppet-openstack-integration-8-scenario002-tempest-ubuntu-noble
         - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario002-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario002-tempest-centos-9-stream
@@ -89,6 +96,7 @@
       jobs:
         - puppet-openstack-integration-8-scenario003-tempest-ubuntu-noble
         - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario003-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario003-tempest-centos-9-stream
@@ -99,6 +107,7 @@
       jobs:
         - puppet-openstack-integration-8-scenario004-tempest-ubuntu-noble
         - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario004-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario004-tempest-centos-9-stream
@@ -109,6 +118,7 @@
       jobs:
         - puppet-openstack-integration-8-scenario005-tempest-ubuntu-noble
         - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream
+        - openvox-openstack-integration-8-scenario005-tempest-centos-9-stream
     gate:
       jobs:
         - puppet-openstack-integration-8-scenario005-tempest-centos-9-stream

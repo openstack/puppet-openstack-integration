@@ -177,15 +177,14 @@ print_header() {
 
 install_puppetlabs_repo() {
     print_header 'Install Puppetlabs repo'
+    source /etc/os-release
     if uses_debs; then
-        PUPPET_CODENAME=$(lsb_release -s -c)
         $SUDO mkdir -p /etc/apt/sources.list.d
-        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${PUPPET_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${VERSION_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-key add files/GPG-KEY-puppetlabs
         $SUDO apt-key add files/GPG-KEY-ceph
         $SUDO apt-get update
     elif is_fedora; then
-        source /etc/os-release
         $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
         $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
         $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
@@ -194,6 +193,28 @@ name=Puppet Labs Products El ${VERSION_ID} - x86_64
 baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
 gpgkey=${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
        ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
+enabled=1
+gpgcheck=1
+EOF"
+    fi
+}
+
+install_openvox_repo() {
+    print_header 'Install OpenVox repo'
+    source /etc/os-release
+    if uses_debs; then
+        $SUDO mkdir -p /etc/apt/sources.list.d
+        echo "deb https://apt.voxpupuli.org ${ID}${VERSION_ID} openvox${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/openvox.list
+        $SUDO apt-key add files/GPG-KEY-openvox.pub
+        $SUDO apt-key add files/GPG-KEY-ceph
+        $SUDO apt-get update
+    elif is_fedora; then
+        $SUDO rpm --import https://yum.voxpupuli.org/GPG-KEY-openvox.pub
+        $SUDO bash -c "cat << EOF > /etc/yum.repos.d/openvox.repo
+[openvox]
+name=OpenVox El ${VERSION_ID} - x86_64
+baseurl=https://yum.voxpupuli.org/openvox${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
+gpgkey=https://yum.voxpupuli.org/GPG-KEY-openvox.pub
 enabled=1
 gpgcheck=1
 EOF"

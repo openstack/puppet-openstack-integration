@@ -22,13 +22,18 @@ export PUPPET_MAJ_VERSION=${PUPPET_MAJ_VERSION:-7}
 export SCENARIO=${SCENARIO:-scenario001}
 export MANAGE_PUPPET_MODULES=${MANAGE_PUPPET_MODULES:-true}
 export MANAGE_REPOS=${MANAGE_REPOS:-true}
+export USE_OPENVOX=${USE_OPENVOX:-false}
 export USE_PUPPETLABS=${USE_PUPPETLABS:-true}
 export ADD_SWAP=${ADD_SWAP:-true}
 export SWAP_SIZE_GB=${SWAP_SIZE_GB:-8}
 export HIERA_CONFIG=${HIERA_CONFIG:-${SCRIPT_DIR}/hiera.yaml}
 export MANAGE_HIERA=${MANAGE_HIERA:-true}
 
-if [ "${USE_PUPPETLABS,,}" = true ];then
+if [ "${USE_OPENVOX,,}" = true ];then
+    export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
+    export PUPPET_BASE_PATH=/etc/puppetlabs/code
+    export PUPPET_PKG=${PUPPET_PKG:-openvox-agent}
+elif [ "${USE_PUPPETLABS,,}" = true ]; then
     export PATH=${PATH}:/opt/puppetlabs/bin:/opt/puppetlabs/puppet/bin
     export PUPPET_BASE_PATH=/etc/puppetlabs/code
     export PUPPET_PKG=${PUPPET_PKG:-puppet-agent}
@@ -154,8 +159,12 @@ ln -s $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS
 qemu-img convert -f qcow2 -O raw $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk.img $IMG_DIR/cirros-${CIRROS_VERSION}-x86_64-disk-raw.img
 
 
-if [ "${MANAGE_REPOS,,}" = true ] && [ "${USE_PUPPETLABS,,}" = true ]; then
-    install_puppetlabs_repo
+if [ "${MANAGE_REPOS,,}" = true ]; then
+    if [ "${USE_OPENVOX,,}" = true ]; then
+        install_openvox_repo
+    elif [ "${USE_PUPPETLABS,,}" = true ]; then
+        install_puppetlabs_repo
+    fi
 fi
 install_puppet
 PUPPET_FULL_PATH=$(which puppet)
