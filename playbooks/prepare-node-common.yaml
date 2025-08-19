@@ -32,6 +32,12 @@
         become: true
         with_items: "{{ dnf_modules | default({}) | dict2items }}"
 
+      - name: Enable CRB (CentOS/RHEL)
+        shell:
+          cmd: |-
+            dnf config-manager --enable crb
+        become: true
+
       - name: Install Ruby dependencies (CentOS/RHEL)
         dnf:
           name: "{{ item }}"
