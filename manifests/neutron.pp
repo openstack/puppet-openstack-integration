@@ -59,11 +59,6 @@ class openstack_integration::neutron (
   $notification_topics        = $facts['os_service_default'],
 ) {
 
-  $use_httpd = $facts['os']['family'] ? {
-    'RedHat' => true,
-    default  => false,
-  }
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -87,16 +82,11 @@ class openstack_integration::neutron (
   }
 
   if $openstack_integration::config::ssl {
-    $api_service = $use_httpd ? {
-      true    => 'httpd',
-      default => 'neutron-server',
-    }
-
     openstack_integration::ssl_key { 'neutron':
-      notify  => Service[$api_service],
+      notify  => Service['httpd'],
       require => Anchor['neutron::install::end'],
     }
-    Exec['update-ca-certificates'] ~> Service[$api_service]
+    Exec['update-ca-certificates'] ~> Service['httpd']
 
     if $driver == 'ovn' {
       openstack_integration::ovn::ssl_key { 'neutron':
@@ -286,51 +276,43 @@ class openstack_integration::neutron (
     }),
   }
 
-  if $use_httpd {
-    class { 'neutron::wsgi::apache':
-      bind_host => $openstack_integration::config::host,
-      ssl_key   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
-      ssl_cert  => $openstack_integration::params::cert_path,
-      ssl       => $openstack_integration::config::ssl,
-      workers   => 2,
-    }
+  class { 'neutron::wsgi::apache':
+    bind_host => $openstack_integration::config::host,
+    ssl_key   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl       => $openstack_integration::config::ssl,
+    workers   => 2,
+  }
 
-    $vpnaas_conf = $vpnaas_enabled ? {
-      true    => 'neutron_vpnaas.conf',
-      default => undef,
-    }
-    $taas_conf = $taas_enabled ? {
-      true    => 'taas_plugin.ini',
-      default => undef,
-    }
-    $bgpvpn_conf = $bgpvpn_enabled ? {
-      true    => 'networking_bgpvpn.conf',
-      default => undef,
-    }
-    $l2gw_conf = $l2gw_enabled ? {
-      true    => 'networking_l2gw.conf',
-      default => undef,
-    }
+  $vpnaas_conf = $vpnaas_enabled ? {
+    true    => 'neutron_vpnaas.conf',
+    default => undef,
+  }
+  $taas_conf = $taas_enabled ? {
+    true    => 'taas_plugin.ini',
+    default => undef,
+  }
+  $bgpvpn_conf = $bgpvpn_enabled ? {
+    true    => 'networking_bgpvpn.conf',
+    default => undef,
+  }
+  $l2gw_conf = $l2gw_enabled ? {
+    true    => 'networking_l2gw.conf',
+    default => undef,
+  }
 
-    $neutron_conf_files = delete_undef_values([
-      'neutron.conf', 'plugins/ml2/ml2_conf.ini',
-      $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf,
-    ])
+  $neutron_conf_files = delete_undef_values([
+    'neutron.conf', 'plugins/ml2/ml2_conf.ini',
+    $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf,
+  ])
 
-    # TODO(tkajinam): Should this be in puppet-neutron ?
-    systemd::dropin_file { 'apache-os-neutron':
-      unit     => "${apache::service::service_name}.service",
-      filename => 'os-neutron.conf',
-      content  => "[Service]
+  # TODO(tkajinam): Should this be in puppet-neutron ?
+  systemd::dropin_file { 'apache-os-neutron':
+    unit     => "${apache::service::service_name}.service",
+    filename => 'os-neutron.conf',
+    content  => "[Service]
 Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
-      require  => Package['httpd'],
-    }
-
-    $server_service_name = false
-    $api_service_name = 'httpd'
-  } else {
-    $server_service_name = $neutron::params::server_service
-    $api_service_name = $neutron::params::api_service_name
+    require  => Package['httpd'],
   }
 
   $rpc_workers = $driver ? {
@@ -355,8 +337,8 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     rpc_workers              => $rpc_workers,
     rpc_state_report_workers => $rpc_state_report_workers,
     rpc_response_max_timeout => 300,
-    service_name             => $server_service_name,
-    api_service_name         => $api_service_name,
+    service_name             => false,
+    api_service_name         => 'httpd',
     rpc_service_name         => $rpc_service_name,
   }
 
@@ -474,9 +456,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       }
     }
 
-    if $use_httpd {
-      class { 'neutron::plugins::ml2::ovn::maintenance_worker': }
-    }
+    class { 'neutron::plugins::ml2::ovn::maintenance_worker': }
   } else {
     class { 'neutron::agents::metadata':
       debug             => true,
