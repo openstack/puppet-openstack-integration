@@ -17,7 +17,6 @@ class openstack_integration::octavia (
   $provider_driver     = 'amphora',
   $jobboard_backend    = 'redis',
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -139,7 +138,7 @@ class openstack_integration::octavia (
       ovn_sb_ca_cert     => '/etc/octavia/switchcacert.pem',
     }
     require openstack_integration::ovn
-  } else{
+  } else {
     $enabled_provider_drivers = undef
     $enabled_provider_agents = undef
   }

@@ -1,5 +1,4 @@
 class openstack_integration::mysql {
-
   include openstack_integration::config
   include openstack_integration::params
 

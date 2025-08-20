@@ -4,10 +4,9 @@
 #   (Optional) Enable the ceilometer middleware
 #   Defaults to false
 #
-class openstack_integration::swift(
-  $ceilometer_enabled = false
-){
-
+class openstack_integration::swift (
+  $ceilometer_enabled = false,
+) {
   include openstack_integration::config
 
   if $openstack_integration::config::ssl {
@@ -48,7 +47,6 @@ class openstack_integration::swift(
       owner  => $log_dir_owner,
       group  => 'adm',
     }
-
   } else {
     file { '/var/log/swift':
       ensure => directory,
@@ -157,7 +155,7 @@ class openstack_integration::swift(
 
   # internal client
   class { 'swift::internal_client':
-    pipeline     => [ 'catch_errors', 'proxy-logging', 'cache', 'symlink', 'proxy-server' ],
+    pipeline     => ['catch_errors', 'proxy-logging', 'cache', 'symlink', 'proxy-server'],
     node_timeout => 30,
   }
   include swift::internal_client::catch_errors
@@ -175,7 +173,7 @@ class openstack_integration::swift(
     require => Anchor['swift::install::end'],
   }
   # Create 3 directories under /srv/node for 3 devices
-  [1, 2, 3].each | $device | {
+  [1, 2, 3].each |$device| {
     file { "/srv/node/${device}":
       ensure  => directory,
       owner   => 'swift',

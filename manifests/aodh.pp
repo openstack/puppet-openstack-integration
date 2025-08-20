@@ -7,7 +7,6 @@
 class openstack_integration::aodh (
   $notification_topics = $facts['os_service_default'],
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -111,5 +110,4 @@ class openstack_integration::aodh (
     workers             => 2,
   }
   class { 'aodh::expirer': }
-
 }

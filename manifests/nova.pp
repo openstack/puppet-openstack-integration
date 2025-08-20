@@ -39,7 +39,6 @@ class openstack_integration::nova (
   $cinder_enabled         = false,
   $libvirt_guests_enabled = false,
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

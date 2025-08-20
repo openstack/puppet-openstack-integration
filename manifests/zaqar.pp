@@ -1,5 +1,4 @@
 class openstack_integration::zaqar {
-
   include openstack_integration::config
 
   if $openstack_integration::config::ssl {
@@ -9,7 +8,7 @@ class openstack_integration::zaqar {
     }
     Exec['update-ca-certificates'] ~> Service['httpd']
   }
-  class {'zaqar::logging':
+  class { 'zaqar::logging':
     debug => true,
   }
   class { 'zaqar::db::mysql':
@@ -89,9 +88,8 @@ class openstack_integration::zaqar {
       bind              => $openstack_integration::config::host,
       notification_bind => $openstack_integration::config::host,
     }
-    zaqar::server_instance{ '1':
+    zaqar::server_instance { '1':
       transport => 'websocket',
     }
   }
-
 }

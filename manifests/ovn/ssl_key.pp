@@ -3,9 +3,9 @@
 #   (optional) Owner of SSL private key
 #   Defaults to $name.
 #
-define openstack_integration::ovn::ssl_key(
+define openstack_integration::ovn::ssl_key (
   $key_owner = $name,
-){
+) {
   ['ovnnb', 'ovnsb'].each |$ovndb| {
     ["${ovndb}-privkey.pem", "${ovndb}-cert.pem"].each |$ovn_ssl_file| {
       file { "/etc/${key_owner}/${ovn_ssl_file}":

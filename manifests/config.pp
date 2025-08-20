@@ -32,7 +32,6 @@ class openstack_integration::config (
   $cache_backend  = 'memcached',
   $tooz_backend   = 'redis',
 ) {
-
   include openstack_integration::params
 
   $messaging_default_proto = $rpc_backend

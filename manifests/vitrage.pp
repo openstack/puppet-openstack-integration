@@ -1,5 +1,4 @@
 class openstack_integration::vitrage {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -103,5 +102,4 @@ class openstack_integration::vitrage {
   }
   Class['openstack_integration::redis'] -> Anchor['vitrage::service::begin']
   class { 'vitrage::client': }
-
 }

@@ -13,7 +13,6 @@ class openstack_integration::manila (
   $backend             = 'lvm',
   $notification_topics = $facts['os_service_default'],
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

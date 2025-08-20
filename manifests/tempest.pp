@@ -195,7 +195,6 @@ class openstack_integration::tempest (
   $image_format            = 'qcow2',
   $share_protocol          = 'NFS',
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

@@ -18,7 +18,6 @@ class openstack_integration::glance (
   $image_encryption        = false,
   $show_multiple_locations = undef,
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

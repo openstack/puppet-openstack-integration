@@ -1,5 +1,4 @@
 class openstack_integration::mistral {
-
   include openstack_integration::config
   include openstack_integration::params
 

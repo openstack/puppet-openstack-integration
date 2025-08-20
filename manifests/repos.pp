@@ -1,5 +1,4 @@
 class openstack_integration::repos {
-
   case $facts['os']['family'] {
     'Debian': {
       case $facts['os']['name'] {
