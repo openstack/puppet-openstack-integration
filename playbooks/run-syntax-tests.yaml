@@ -6,10 +6,7 @@
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
           export GEM_BIN_DIR=$GEM_HOME/bin
-          ruby <<EOF
-          cmd = 'gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}'
-          system(cmd)
-          EOF
+          gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}
           $GEM_BIN_DIR/bundle install --retry 3
           $GEM_BIN_DIR/bundle exec rake syntax
         chdir: '{{ ansible_user_dir }}/workspace'
