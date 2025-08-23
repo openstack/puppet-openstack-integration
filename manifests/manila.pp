@@ -7,11 +7,11 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
+#   Defaults to undef.
 #
 class openstack_integration::manila (
   $backend             = 'lvm',
-  $notification_topics = $facts['os_service_default'],
+  $notification_topics = undef,
 ) {
   include openstack_integration::config
   include openstack_integration::params

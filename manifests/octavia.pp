@@ -2,7 +2,7 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
+#   Defaults to undef.
 #
 # [*provider_driver*]
 #   (optional) Provider driver used in Octavia.
@@ -13,7 +13,7 @@
 #   Defaults to 'redis'.
 #
 class openstack_integration::octavia (
-  $notification_topics = $facts['os_service_default'],
+  $notification_topics = undef,
   $provider_driver     = 'amphora',
   $jobboard_backend    = 'redis',
 ) {
