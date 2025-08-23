@@ -92,4 +92,5 @@ class openstack_integration::zaqar {
       transport => 'websocket',
     }
   }
+  class { 'zaqar::client': }
 }
