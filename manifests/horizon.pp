@@ -42,7 +42,6 @@ class openstack_integration::horizon (
   $octavia_enabled       = false,
   $designate_enabled     = false,
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

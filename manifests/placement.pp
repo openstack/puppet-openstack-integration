@@ -1,7 +1,6 @@
 # Configure the Placement service
 
 class openstack_integration::placement {
-
   include openstack_integration::config
   include openstack_integration::params
 

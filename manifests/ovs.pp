@@ -4,7 +4,7 @@
 #   (Optional) Set up br-ex bridge.
 #   Defaults to true.
 #
-class openstack_integration::ovs(
+class openstack_integration::ovs (
   $manage_bridge = true
 ) {
   include vswitch::ovs

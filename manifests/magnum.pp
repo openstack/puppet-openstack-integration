@@ -5,11 +5,9 @@
 #   Can be 'barbican', 'x509keypair' or 'local'.
 #   Defaults to 'barbican'.
 #
-
 class openstack_integration::magnum (
   $cert_manager_type = 'barbican'
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -116,5 +114,4 @@ class openstack_integration::magnum (
     cert_manager_type => $cert_manager_type,
   }
   class { 'magnum::clients': }
-
 }

@@ -6,8 +6,7 @@
 #
 class openstack_integration::gnocchi (
   $backend = 'file',
-){
-
+) {
   include openstack_integration::config
   include openstack_integration::params
 
@@ -135,5 +134,4 @@ class openstack_integration::gnocchi (
     # random datas:
     resource_id         => '07f26121-5777-48ba-8a0b-d70468133dd9',
   }
-
 }

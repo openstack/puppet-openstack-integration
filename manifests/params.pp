@@ -1,5 +1,4 @@
 class openstack_integration::params {
-
   case $facts['os']['family'] {
     'RedHat': {
       $ca_bundle_cert_path = '/etc/ssl/certs/ca-bundle.crt'
@@ -21,5 +20,4 @@ class openstack_integration::params {
       fail("Unsupported osfamily: ${facts['os']['family']} operatingsystem")
     }
   }
-
 }

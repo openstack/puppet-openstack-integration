@@ -1,8 +1,6 @@
 # Configure the cloudkitty service
 #
-class openstack_integration::cloudkitty (
-) {
-
+class openstack_integration::cloudkitty {
   include openstack_integration::config
   include openstack_integration::params
 

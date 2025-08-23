@@ -1,8 +1,6 @@
 # Configure the ovn service
 #
-class openstack_integration::ovn(
-){
-
+class openstack_integration::ovn {
   include openstack_integration::config
   include openstack_integration::params
 
@@ -23,6 +21,7 @@ class openstack_integration::ovn(
     $ovn_controller_ssl_cert    = '/etc/openvswitch/ovncontroller-cert.pem'
     $ovn_controller_ssl_ca_cert = '/var/lib/openvswitch/pki/switchca/cacert.pem'
 
+    # lint:ignore:manifest_whitespace_opening_bracket_before
     ['ovnnb', 'ovnsb'].each |$ovndb| {
       file { "/etc/openvswitch/${ovndb}-privkey.pem":
         ensure  => file,
@@ -32,6 +31,7 @@ class openstack_integration::ovn(
         require => Vswitch::Pki::Cert[$ovndb],
       } ~> Service['northd']
     }
+    # lint:endignore
 
     file { '/etc/openvswitch/ovncontroller-privkey.pem':
       ensure  => file,
@@ -40,7 +40,6 @@ class openstack_integration::ovn(
       group   => 'openvswitch',
       require => Vswitch::Pki::Cert['ovncontroller'],
     } ~> Service['controller']
-
   } else {
     $ovn_nb_db_ssl_key     = undef
     $ovn_nb_db_ssl_cert    = undef

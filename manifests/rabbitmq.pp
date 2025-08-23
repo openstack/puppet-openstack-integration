@@ -1,5 +1,4 @@
 class openstack_integration::rabbitmq {
-
   include openstack_integration::params
   include openstack_integration::config
 
@@ -46,5 +45,4 @@ class openstack_integration::rabbitmq {
     provider => 'rabbitmqctl',
     require  => Class['rabbitmq'],
   }
-
 }

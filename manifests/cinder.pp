@@ -24,7 +24,6 @@ class openstack_integration::cinder (
   $cinder_backup       = undef,
   $notification_topics = $facts['os_service_default'],
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

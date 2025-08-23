@@ -1,5 +1,4 @@
 class openstack_integration::watcher {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -48,7 +47,7 @@ class openstack_integration::watcher {
     roles        => ['admin', 'service'],
     password     => 'a_big_secret',
   }
-  class {'watcher::keystone::authtoken':
+  class { 'watcher::keystone::authtoken':
     password                     => 'a_big_secret',
     auth_version                 => 'v3',
     user_domain_name             => 'Default',
@@ -103,5 +102,4 @@ class openstack_integration::watcher {
     decision_engine_workers => 2,
   }
   class { 'watcher::cron::db_purge': }
-
 }

@@ -11,8 +11,7 @@
 class openstack_integration::ceilometer (
   $integration_enable = true,
   $separate_polling   = false,
-){
-
+) {
   include openstack_integration::config
   include openstack_integration::params
 
@@ -105,5 +104,4 @@ class openstack_integration::ceilometer (
     password => 'a_big_secret',
     auth_url => $openstack_integration::config::keystone_auth_uri,
   }
-
 }

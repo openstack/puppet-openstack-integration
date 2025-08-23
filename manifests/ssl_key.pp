@@ -8,11 +8,10 @@
 #   (optional) Owner of SSL private key
 #   Defaults to $name.
 #
-define openstack_integration::ssl_key(
+define openstack_integration::ssl_key (
   $key_path  = undef,
   $key_owner = $name,
 ) {
-
   include openstack_integration::config
 
   if $key_path == undef {

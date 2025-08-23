@@ -16,7 +16,6 @@ define openstack_integration::mq_user (
   $admin = true,
   $vhost = '/',
 ) {
-
   include openstack_integration::config
   include openstack_integration::rabbitmq
 

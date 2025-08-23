@@ -15,13 +15,11 @@
 #   (optional) Define the token expiration to use.
 #   Default to '600'.
 #
-
 class openstack_integration::keystone (
   $default_domain      = undef,
   $using_domain_config = false,
   $token_expiration    = '600',
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

@@ -2,7 +2,6 @@
 #
 
 class openstack_integration::bind {
-
   include openstack_integration::config
   include openstack_integration::params
 

@@ -58,7 +58,6 @@ class openstack_integration::neutron (
   $designate_enabled          = false,
   $notification_topics        = $facts['os_service_default'],
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 
@@ -514,13 +513,13 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       class { 'neutron::agents::l2gw': }
     }
     if $bgpvpn_enabled {
-      class {'neutron::services::bgpvpn':
+      class { 'neutron::services::bgpvpn':
         service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default',
       }
     }
     if $bgp_dragent_enabled {
-      class {'neutron::services::dr': }
-      class {'neutron::agents::bgp_dragent':
+      class { 'neutron::services::dr': }
+      class { 'neutron::agents::bgp_dragent':
         bgp_router_id => '127.0.0.1',
       }
     }

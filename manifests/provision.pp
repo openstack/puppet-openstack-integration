@@ -22,8 +22,7 @@ class openstack_integration::provision (
   $nova         = true,
   $neutron      = true,
   $image_format = 'qcow2',
-){
-
+) {
   include openstack_integration::config
 
   if $nova {

@@ -1,5 +1,4 @@
 class openstack_integration::cacert {
-
   include openstack_integration::params
   include openstack_integration::config
 
@@ -17,5 +16,4 @@ class openstack_integration::cacert {
     subscribe   => File[$openstack_integration::params::cert_path],
     refreshonly => true,
   }
-
 }

@@ -17,7 +17,6 @@ class openstack_integration::ironic (
   $inspector_backend        = 'database',
   $send_power_notifications = false,
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
 

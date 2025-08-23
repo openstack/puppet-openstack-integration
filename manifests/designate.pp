@@ -7,7 +7,6 @@
 class openstack_integration::designate (
   $notification_topics = $facts['os_service_default'],
 ) {
-
   include openstack_integration::config
   include openstack_integration::params
   include openstack_integration::bind
