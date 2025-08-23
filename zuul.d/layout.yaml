@@ -26,7 +26,7 @@
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
-        - puppet-openstack-libraries-puppet-unit-8.10-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-8.10-centos-10-stream
         - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
         - puppet-openstack-libraries-puppet-unit-latest-ubuntu-noble
         - puppet-openstack-libraries-litmus-8.10-centos-9-stream
@@ -36,7 +36,7 @@
       jobs:
         - puppet-openstack-libraries-puppet-lint-ubuntu-noble
         - puppet-openstack-libraries-puppet-syntax-8-ubuntu-noble
-        - puppet-openstack-libraries-puppet-unit-8.10-centos-9-stream
+        - puppet-openstack-libraries-puppet-unit-8.10-centos-10-stream
         - puppet-openstack-libraries-puppet-unit-8.10-ubuntu-noble
         - puppet-openstack-libraries-litmus-8.10-centos-9-stream
 
