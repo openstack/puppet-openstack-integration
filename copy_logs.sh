@@ -546,6 +546,15 @@ rca service list
 EOC
 fi
 
+# watcher resources
+if [ -d $LOG_DIR/watcher ]; then
+    openstack >> $LOG_DIR/openstack_resources/watcher.txt <<-EOC
+optimize service list
+optimize datamodel list
+optimize scoringengine list
+EOC
+fi
+
 # gnocchi resources
 if [ -d $LOG_DIR/gnocchi ]; then
     openstack >> $LOG_DIR/openstack_resources/gnocchi.txt <<-EOC
