@@ -68,10 +68,7 @@ fi
 print_header 'Install Bundler'
 mkdir -p .bundled_gems
 export GEM_HOME=`pwd`/.bundled_gems
-ruby <<EOF
-cmd = 'gem install --no-user-install bundler --no-document --verbose'
-system(cmd)
-EOF
+gem install --no-user-install bundler --no-document --verbose
 
 set -e
 ./run_tests.sh

@@ -42,9 +42,6 @@
     - name: Install bundler
       shell:
         cmd: |
-          ruby <<EOF
-          cmd = 'gem install bundler --no-document --verbose --no-user-install'
-          system(cmd)
-          EOF
+          gem install bundler --no-document --verbose --no-user-install
       environment:
         GEM_HOME: "{{ ansible_user_dir }}/workspace/puppet-openstack-integration/.bundled_gems"
