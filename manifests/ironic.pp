@@ -2,7 +2,7 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
+#   Defaults to undef.
 #
 # [*inspector_backend*]
 #   (optional) The storage backend for storing introspection data.
@@ -13,7 +13,7 @@
 #   Defaults to false
 #
 class openstack_integration::ironic (
-  $notification_topics      = $facts['os_service_default'],
+  $notification_topics      = undef,
   $inspector_backend        = 'database',
   $send_power_notifications = false,
 ) {

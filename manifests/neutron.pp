@@ -43,7 +43,7 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
+#   Defaults to undef.
 #
 class openstack_integration::neutron (
   $driver                     = 'openvswitch',
@@ -56,7 +56,7 @@ class openstack_integration::neutron (
   $bgp_dragent_enabled        = false,
   $baremetal_enabled          = false,
   $designate_enabled          = false,
-  $notification_topics        = $facts['os_service_default'],
+  $notification_topics        = undef,
 ) {
   include openstack_integration::config
   include openstack_integration::params
@@ -323,11 +323,11 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   }
   $rpc_state_report_workers = $driver ? {
     'ovn'   => 0,
-    default => $facts['os_service_default'],
+    default => undef,
   }
   $rpc_service_name = $rpc_workers ? {
     0       => false,
-    default => $neutron::params::rpc_service_name
+    default => undef,
   }
 
   class { 'neutron::server':
@@ -343,11 +343,11 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
 
   $overlay_network_type = $driver ? {
     'ovn'   => 'geneve',
-    default => 'vxlan'
+    default => 'vxlan',
   }
   $max_header_size = $driver ? {
     'ovn'   => 38,
-    default => $facts['os_service_default']
+    default => undef,
   }
   $drivers_real = $baremetal_enabled ? {
     true    => [$driver, 'baremetal'],
@@ -367,7 +367,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     'openvswitch': {
       $agent_extensions = $taas_enabled ? {
         true    => ['taas'],
-        default => $facts['os_service_default'],
+        default => undef,
       }
 
       class { 'neutron::agents::ml2::ovs':
@@ -467,7 +467,7 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
 
     $l3_extensions = $vpnaas_enabled ? {
       true    => ['vpnaas'],
-      default => $facts['os_service_default'],
+      default => undef,
     }
     class { 'neutron::agents::l3':
       interface_driver => $driver,

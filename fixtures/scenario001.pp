@@ -26,7 +26,7 @@ case $facts['os']['family'] {
     $cache_backend = 'memcached'
     # NOTE(tkajinam): Disable due to package conflict
     $vitrage = false
-    $notification_topics = $facts['os_service_default']
+    $notification_topics = undef
   }
   'RedHat': {
     $ipv6 = true
@@ -35,7 +35,7 @@ case $facts['os']['family'] {
     #$vitrage = true
     #$notification_topics = ['notifications', 'vitrage_notifications']
     $vitrage = false
-    $notification_topics = $facts['os_service_default']
+    $notification_topics = undef
   }
   default: {
     fail("Unsupported osfamily (${facts['os']['family']})")

@@ -20,7 +20,7 @@
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
+#   Defaults to undef.
 #
 # [*cinder_enabled*]
 #   (optional) Boolean to configure or not cinder options.
@@ -35,7 +35,7 @@ class openstack_integration::nova (
   $libvirt_virt_type      = 'qemu',
   $libvirt_cpu_mode       = 'none',
   $volume_encryption      = false,
-  $notification_topics    = $facts['os_service_default'],
+  $notification_topics    = undef,
   $cinder_enabled         = false,
   $libvirt_guests_enabled = false,
 ) {
@@ -240,7 +240,7 @@ class openstack_integration::nova (
 
   $images_type = $libvirt_rbd ? {
     true  => 'rbd',
-    false => $facts['os_service_default']
+    false => undef,
   }
   class { 'nova::compute::libvirt':
     virt_type               => $libvirt_virt_type,
