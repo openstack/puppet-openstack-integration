@@ -336,7 +336,6 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     rpc_workers              => $rpc_workers,
     rpc_state_report_workers => $rpc_state_report_workers,
     rpc_response_max_timeout => 300,
-    service_name             => false,
     api_service_name         => 'httpd',
     rpc_service_name         => $rpc_service_name,
   }
