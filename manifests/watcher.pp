@@ -99,7 +99,8 @@ class openstack_integration::watcher {
     applier_workers => 2,
   }
   class { 'watcher::decision_engine':
-    decision_engine_workers => 2,
+    max_audit_workers   => 2,
+    max_general_workers => 2,
   }
   class { 'watcher::cron::db_purge': }
   class { 'watcher::client': }
