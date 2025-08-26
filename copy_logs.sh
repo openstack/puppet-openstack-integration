@@ -503,13 +503,6 @@ orchestration service list
 EOC
 fi
 
-# ironic resources
-if [ -d $LOG_DIR/ironic ]; then
-    openstack >> $LOG_DIR/openstack_resources/ironic.txt <<-EOC
-baremetal driver list --long
-EOC
-fi
-
 # magnum resources
 if [ -d $LOG_DIR/magnum ]; then
     openstack >> $LOG_DIR/openstack_resources/magnum.txt <<-EOC
@@ -564,6 +557,15 @@ metric list
 metric resource list
 EOC
 fi
+
+export OS_CLOUD=system
+# ironic resources
+if [ -d $LOG_DIR/ironic ]; then
+    openstack >> $LOG_DIR/openstack_resources/ironic.txt <<-EOC
+baremetal driver list --long
+EOC
+fi
+
 
 unset OS_CLOUD
 unset OS_CLIENT_CONFIG_FILE
