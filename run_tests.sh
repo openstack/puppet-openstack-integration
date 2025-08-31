@@ -330,6 +330,9 @@ echo "TestEncryptedCinderVolumes" >> /tmp/openstack/tempest/test-include-list.tx
 # Mistral
 echo "test_create_and_delete_workflow" >> /tmp/openstack/tempest/test-include-list.txt
 
+# FWaaS
+echo "api.test_fwaasv2_extensions" >> /tmp/openstack/tempest/test-include-list.txt
+
 # TaaS
 echo "test_create_tap_service_and_flow" >> /tmp/openstack/tempest/test-include-list.txt
 

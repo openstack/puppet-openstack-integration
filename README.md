@@ -74,6 +74,7 @@ scenario](#all-in-one).
 | vitrage    |      X      |             |             |             |             |              |
 | watcher    |      X      |             |             |             |             |              |
 | cloudkitty |      X      |             |             |             |             |              |
+| fwaas      |             |             |             |      X      |      X      |              |
 | vpnaas     |             |             |             |      X      |      X      |              |
 | taas       |             |             |             |      X      |             |              |
 | bgpvpn-api |             |             |             |      X      |             |              |

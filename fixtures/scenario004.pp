@@ -27,6 +27,7 @@ case $facts['os']['family'] {
     $bgpvpn_enabled = false
     $l2gw_enabled = false
     $bgp_dragent_enabled = false
+    $fwaas_enabled = false
     $vpnaas_enabled = false
     $taas_enabled = false
   }
@@ -35,6 +36,7 @@ case $facts['os']['family'] {
     $bgpvpn_enabled = true
     $l2gw_enabled = true
     $bgp_dragent_enabled = true
+    $fwaas_enabled = true
     $vpnaas_enabled = true
     $taas_enabled = true
   }
@@ -64,6 +66,7 @@ class { 'openstack_integration::glance':
 }
 
 class { 'openstack_integration::neutron':
+  fwaas_enabled       => $fwaas_enabled,
   vpnaas_enabled      => $vpnaas_enabled,
   taas_enabled        => $taas_enabled,
   bgpvpn_enabled      => $bgpvpn_enabled,
@@ -97,6 +100,7 @@ class { 'openstack_integration::provision':
 # Glance, nova, neutron are true by default.
 class { 'openstack_integration::tempest':
   horizon             => true,
+  fwaas               => $fwaas_enabled,
   vpnaas              => $vpnaas_enabled,
   taas                => $taas_enabled,
   bgpvpn              => $bgpvpn_enabled,

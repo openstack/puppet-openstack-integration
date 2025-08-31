@@ -13,6 +13,10 @@
 #   (optional) Flag to enable metering agent
 #   Defaults to false.
 #
+# [*fwaas_enabled*]
+#   (optional) Flag to enable FWaaS.
+#   Defaults to false.
+#
 # [*vpnaas_enabled*]
 #   (optional) Flag to enable VPNaaS.
 #   Defaults to false.
@@ -49,6 +53,7 @@ class openstack_integration::neutron (
   $driver                     = 'openvswitch',
   $ovn_metadata_agent_enabled = true,
   $metering_enabled           = false,
+  $fwaas_enabled              = false,
   $vpnaas_enabled             = false,
   $taas_enabled               = false,
   $bgpvpn_enabled             = false,
@@ -154,17 +159,27 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' {
     $dhcp_agent_notification = false
+    $fwaas_plugin = $fwaas_enabled ? {
+      true    => 'firewall_v2',
+      default => undef,
+    }
     $vpnaas_plugin = $vpnaas_enabled ? {
       true    => 'ovn-vpnaas',
       default => undef,
     }
     $plugins_list = delete_undef_values([
-      'qos', 'ovn-router', 'trunk', $vpnaas_plugin,
+      'qos', 'ovn-router', 'trunk',
+      $fwaas_plugin,
+      $vpnaas_plugin,
     ])
   } else {
     $dhcp_agent_notification = true
     $metering_plugin = $metering_enabled ? {
       true    => 'metering',
+      default => undef,
+    }
+    $fwaas_plugin = $fwaas_enabled ? {
+      true    => 'firewall_v2',
       default => undef,
     }
     $vpnaas_plugin = $vpnaas_enabled ? {
@@ -191,6 +206,7 @@ class openstack_integration::neutron (
     $plugins_list = delete_undef_values([
       'router', 'qos', 'trunk',
       $metering_plugin,
+      $fwaas_plugin,
       $vpnaas_plugin,
       $taas_plugin,
       $bgpvpn_plugin,
@@ -283,6 +299,10 @@ class openstack_integration::neutron (
     workers   => 2,
   }
 
+  $fwaas_conf = $fwaas_enabled ? {
+    true    => 'neutron_fwaas.conf',
+    default => undef,
+  }
   $vpnaas_conf = $vpnaas_enabled ? {
     true    => 'neutron_vpnaas.conf',
     default => undef,
@@ -302,7 +322,7 @@ class openstack_integration::neutron (
 
   $neutron_conf_files = delete_undef_values([
     'neutron.conf', 'plugins/ml2/ml2_conf.ini',
-    $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf,
+    $fwaas_conf, $vpnaas_conf, $taas_conf, $bgpvpn_conf, $l2gw_conf,
   ])
 
   # TODO(tkajinam): Should this be in puppet-neutron ?
@@ -364,10 +384,17 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
 
   case $driver {
     'openvswitch': {
-      $agent_extensions = $taas_enabled ? {
-        true    => ['taas'],
+      $fwaas_agent_extension = $fwaas_enabled ? {
+        true    => 'taas',
         default => undef,
       }
+      $taas_agent_extension = $taas_enabled ? {
+        true    => 'taas',
+        default => undef,
+      }
+      $agent_extensions = delete_undef_values([
+        $fwaas_agent_extension, $taas_agent_extension,
+      ])
 
       class { 'neutron::agents::ml2::ovs':
         local_ip          => $openstack_integration::config::host,
@@ -437,6 +464,24 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       }
     }
 
+    if $fwaas_enabled {
+      class { 'neutron::services::fwaas':
+        service_providers => join([
+          'FIREWALL_V2',
+          'fwaas_db',
+          'neutron_fwaas.services.firewall.service_drivers.ovn.firewall_l3_driver.OVNFwaasDriver',
+          'default',
+        ], ':'),
+      }
+      # TODO(tkajinam): Remove this once the following change is available.
+      # https://review.rdoproject.org/r/c/openstack/neutron-fwaas-distgit/+/57896
+      file { '/usr/share/neutron/server/neutron_fwaas.conf':
+        ensure => link,
+        target => '/etc/neutron/neutron_fwaas.conf',
+        tag    => 'neutron-config-file',
+      }
+    }
+
     $vpn_device_driver = $facts['os']['family'] ? {
       'Debian' => 'neutron_vpnaas.services.vpn.device_drivers.ovn_ipsec.OvnStrongSwanDriver',
       default  => 'neutron_vpnaas.services.vpn.device_drivers.ovn_ipsec.OvnLibreSwanDriver',
@@ -464,10 +509,17 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       metadata_protocol => $openstack_integration::config::proto,
     }
 
-    $l3_extensions = $vpnaas_enabled ? {
-      true    => ['vpnaas'],
+    $fwaas_l3_extension = $fwaas_enabled ? {
+      true    => 'fwaas_v2',
       default => undef,
     }
+    $vpnaas_l3_extension = $vpnaas_enabled ? {
+      true    => 'vpnaas',
+      default => undef,
+    }
+    $l3_extensions = delete_undef_values([
+      $fwaas_l3_extension, $vpnaas_l3_extension,
+    ])
     class { 'neutron::agents::l3':
       interface_driver => $driver,
       debug            => true,
@@ -483,6 +535,29 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       class { 'neutron::agents::metering':
         interface_driver => $driver,
         debug            => true,
+      }
+    }
+
+    if $fwaas_enabled {
+      class { 'neutron::services::fwaas':
+        service_providers => join([
+          'FIREWALL_V2',
+          'fwaas_db',
+          'neutron_fwaas.services.firewall.service_drivers.agents.agents.FirewallAgentDriver',
+          'default',
+        ], ':'),
+      }
+      # TODO(tkajinam): Remove this once the following change is available.
+      # https://review.rdoproject.org/r/c/openstack/neutron-fwaas-distgit/+/57896
+      file { '/usr/share/neutron/server/neutron_fwaas.conf':
+        ensure => link,
+        target => '/etc/neutron/neutron_fwaas.conf',
+        tag    => 'neutron-config-file',
+      }
+      class { 'neutron::agents::fwaas':
+        enabled            => true,
+        driver             => 'iptables_v2',
+        firewall_l2_driver => 'noop',
       }
     }
 
@@ -507,13 +582,23 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
         # NOTE(tkajinm): This value is picked up from the one used in CI, but is
         # apparently wrong (It should have rpc_l2gw), but we can't enable
         # the correct provider because of incomplete setup we have in CI.
-        service_providers => ['L2GW:l2gw:networking_l2gw.services.l2gateway.service_drivers.L2gwDriver:default'],
+        service_providers => join([
+          'L2GW',
+          'l2gw',
+          'networking_l2gw.services.l2gateway.service_drivers.L2gwDriver',
+          'default',
+        ], ':'),
       }
       class { 'neutron::agents::l2gw': }
     }
     if $bgpvpn_enabled {
       class { 'neutron::services::bgpvpn':
-        service_providers => 'BGPVPN:Dummy:networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver:default',
+        service_providers => join([
+          'BGPVPN',
+          'Dummy',
+          'networking_bgpvpn.neutron.services.service_drivers.driver_api.BGPVPNDriver',
+          'default',
+        ], ':'),
       }
     }
     if $bgp_dragent_enabled {

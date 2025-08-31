@@ -25,11 +25,13 @@ case $facts['os']['family'] {
     $ipv6 = false
     $jobboard_backend = 'redis'
     # TODO(tkajinam): Enable these along with the other plugins
+    $fwaas_enabled  = false
     $vpnaas_enabled = false
   }
   'RedHat': {
     $ipv6 = true
     $jobboard_backend = 'redis_sentinel'
+    $fwaas_enabled  = true
     $vpnaas_enabled = true
   }
   default: {
@@ -60,6 +62,7 @@ class { 'openstack_integration::glance':
 class { 'openstack_integration::neutron':
   driver                     => 'ovn',
   ovn_metadata_agent_enabled => false,
+  fwaas_enabled              => $fwaas_enabled,
   vpnaas_enabled             => $vpnaas_enabled,
 }
 include openstack_integration::placement
@@ -90,5 +93,6 @@ class { 'openstack_integration::tempest':
   octavia        => true,
   neutron_driver => 'ovn',
   image_format   => 'raw',
+  fwaas          => $fwaas_enabled,
   vpnaas         => $vpnaas_enabled,
 }
