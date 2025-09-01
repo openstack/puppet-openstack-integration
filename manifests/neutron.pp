@@ -154,12 +154,12 @@ class openstack_integration::neutron (
 
   if $driver == 'ovn' {
     $dhcp_agent_notification = false
-    $vpaaas_plugin = $vpnaas_enabled ? {
+    $vpnaas_plugin = $vpnaas_enabled ? {
       true    => 'ovn-vpnaas',
       default => undef,
     }
     $plugins_list = delete_undef_values([
-      'qos', 'ovn-router', 'trunk', $vpaaas_plugin,
+      'qos', 'ovn-router', 'trunk', $vpnaas_plugin,
     ])
   } else {
     $dhcp_agent_notification = true
@@ -167,7 +167,7 @@ class openstack_integration::neutron (
       true    => 'metering',
       default => undef,
     }
-    $vpaaas_plugin = $vpnaas_enabled ? {
+    $vpnaas_plugin = $vpnaas_enabled ? {
       true    => 'vpnaas',
       default => undef,
     }
@@ -191,7 +191,7 @@ class openstack_integration::neutron (
     $plugins_list = delete_undef_values([
       'router', 'qos', 'trunk',
       $metering_plugin,
-      $vpaaas_plugin,
+      $vpnaas_plugin,
       $taas_plugin,
       $bgpvpn_plugin,
       $l2gw_plugin,
