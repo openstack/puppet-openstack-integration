@@ -67,6 +67,7 @@
       - ^.gitreview$
       - ^.gitignore$
       - ^.pdkignore$
+      - ^.puppet-lint\.rc$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
@@ -115,6 +116,7 @@
       - ^.gitreview$
       - ^.gitignore$
       - ^.pdkignore$
+      - ^.puppet-lint\.rc$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
@@ -145,6 +147,7 @@
       - ^.gitreview$
       - ^.gitignore$
       - ^.pdkignore$
+      - ^.puppet-lint\.rc$
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
