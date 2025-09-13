@@ -3,16 +3,6 @@
     - shell:
         cmd: |
           set -e
-          if [ -f metadata.json ]; then
-            MODULE=$(python3 -c 'import json;print(json.load(open("metadata.json"))["name"])')
-            if [ -z "$MODULE" ]; then
-              echo "Module name not defined in metadata.json"
-            else
-              mkdir -p "$MODULE"
-              rsync -a --exclude="$MODULE" --exclude ".*" . "$MODULE"
-              cd "$MODULE"
-            fi
-          fi
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
           export GEM_BIN_DIR=$GEM_HOME/bin
