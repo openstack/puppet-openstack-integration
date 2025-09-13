@@ -6,24 +6,12 @@
           mkdir .bundled_gems
           export GEM_HOME=`pwd`/.bundled_gems
           export GEM_BIN_DIR=$GEM_HOME/bin
-          if [ -f Gemfile ]; then
-            gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}
-            $GEM_BIN_DIR/bundle config set --local without system_tests
-            $GEM_BIN_DIR/bundle install --retry 3
-            $GEM_BIN_DIR/bundle exec rake lint 2>&1
-            if [ -f metadata.json ]; then
-              $GEM_BIN_DIR/bundle exec rake metadata_lint 2>&1
-            fi
-          else
-            gem install rake -n ./.bundled_gems/ --no-document --no-user-install
-            gem install puppet-lint -n ./.bundled_gems/ --no-document --no-user-install
-            gem install metadata-json-lint -n ./.bundled_gems/ --no-document --no-user-install
-            gem install puppetlabs_spec_helper -n ./.bundled_gems/ --no-document --no-user-install
-            gem install puppet -n ./.bundled_gems/ --no-document --no-user-install
-            ./.bundled_gems/rake lint 2>&1
-            if [ -f metadata.json ]; then
-              ./.bundled_gems/metadata-json-lint
-            fi
+          gem install bundler --no-document --verbose --no-user-install --bindir=${GEM_BIN_DIR}
+          $GEM_BIN_DIR/bundle config set --local without system_tests
+          $GEM_BIN_DIR/bundle install --retry 3
+          $GEM_BIN_DIR/bundle exec rake lint 2>&1
+          if [ -f metadata.json ]; then
+            $GEM_BIN_DIR/bundle exec rake metadata_lint 2>&1
           fi
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
