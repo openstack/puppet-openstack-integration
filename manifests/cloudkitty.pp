@@ -91,9 +91,10 @@ class openstack_integration::cloudkitty {
   }
   class { 'cloudkitty::processor': }
   class { 'cloudkitty::orchestrator':
-    coordination_url => $openstack_integration::config::tooz_url,
-    max_workers      => 2,
-    max_threads      => 4,
+    coordination_url         => $openstack_integration::config::tooz_url,
+    max_workers              => 2,
+    max_workers_reprocessing => 2,
+    max_threads              => 4,
   }
   class { 'cloudkitty::fetcher::keystone':
     auth_type           => 'password',
