@@ -53,14 +53,14 @@ class openstack_integration::placement {
     }),
   }
   include placement::db::sync
-  include placement::api
-  if ($facts['os']['name'] != 'Debian') {
-    class { 'placement::wsgi::apache':
-      bind_host => $openstack_integration::config::host,
-      ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
-      ssl_cert  => $openstack_integration::params::cert_path,
-      ssl       => $openstack_integration::config::ssl,
-      workers   => 2,
-    }
+  class { 'placement::api':
+    api_service_name => 'httpd',
+  }
+  class { 'placement::wsgi::apache':
+    bind_host => $openstack_integration::config::host,
+    ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl       => $openstack_integration::config::ssl,
+    workers   => 2,
   }
 }
