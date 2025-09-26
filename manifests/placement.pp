@@ -54,7 +54,9 @@ class openstack_integration::placement {
     }),
   }
   include placement::db::sync
-  include placement::api
+  class { 'placement::api':
+    api_service_name => 'httpd',
+  }
   if ($facts['os']['name'] != 'Debian') {
     class { 'placement::wsgi::apache':
       bind_host => $::openstack_integration::config::host,
