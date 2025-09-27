@@ -24,7 +24,6 @@ export DLRN_ROOT=${DLRN_ROOT:-${OS_NAME_VERS}-${OPENSTACK_VERSION}}
 export DLRN_BASE=${DLRN_BASE:-${DLRN_ROOT}/${DLRN_TAG}}
 export DLRN_BASE_URL=${DLRN_BASE_URL:-${DLRN_BASE}/delorean.repo}
 export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${DLRN_ROOT}/delorean-deps.repo}
-export CEPH_VERSION=${CEPH_VERSION:-reef}
 
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
@@ -34,10 +33,8 @@ if [ -f /etc/ci/mirror_info.sh ]; then
 
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
     if uses_debs; then
-        CEPH_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/ceph-deb-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
     fi
 else
@@ -45,22 +42,15 @@ else
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
     if uses_debs; then
-        CEPH_MIRROR_HOST="https://download.ceph.com/debian-${CEPH_VERSION}"
         NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
     else
-        CEPH_MIRROR_HOST="${CENTOS_MIRROR_HOST}/SIGs/${VERSION_ID}-stream/storage/x86_64/ceph-${CEPH_VERSION}/"
         NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
     fi
 fi
 
 export FACTER_openstack_version=${OPENSTACK_VERSION}
-export FACTER_ceph_mirror_host=${CEPH_MIRROR_HOST}
-export FACTER_ceph_version=${CEPH_VERSION}
 
-COMMON_MIRROR_FACTS="\
-openstack_version=${FACTER_openstack_version}
-ceph_mirror_host=${FACTER_ceph_mirror_host}
-ceph_version=${FACTER_ceph_version}"
+COMMON_MIRROR_FACTS="openstack_version=${FACTER_openstack_version}"
 
 if uses_debs; then
     export FACTER_uca_mirror_host=${NODEPOOL_UCA_MIRROR}
@@ -73,7 +63,6 @@ else
 
     curl -o /tmp/delorean-deps.repo "${NODEPOOL_RDO_PROXY}/${DLRN_DEPS_URL}"
     sed -i -e "s|https://trunk.rdoproject.org|${NODEPOOL_RDO_PROXY}|g" /tmp/delorean-deps.repo
-    sed -i -e "s|http://mirror.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
     sed -i -e "s|http://mirror.stream.centos.org|${CENTOS_MIRROR_HOST}|g" /tmp/delorean-deps.repo
 
     export FACTER_centos_mirror_host=${CENTOS_MIRROR_HOST}

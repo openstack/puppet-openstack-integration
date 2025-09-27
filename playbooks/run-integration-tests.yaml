@@ -5,7 +5,6 @@
           set -ex
           trap "./copy_logs.sh" EXIT
           export USE_OPENVOX={{ use_openvox }}
-          export CEPH_VERSION={{ ceph }}
           export PUPPET_MAJ_VERSION={{ puppet }}
           export SCENARIO={{ scenario }}
           export GEM_HOME=`pwd`/.bundled_gems
