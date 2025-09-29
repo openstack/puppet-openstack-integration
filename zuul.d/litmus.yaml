@@ -28,8 +28,6 @@
       - ^setup.cfg$
       - ^setup.py$
       - ^tox.ini$
-    vars:
-      ceph: reef
 
 - job:
     name: puppet-openstack-litmus-module-base

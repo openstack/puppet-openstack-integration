@@ -11,7 +11,6 @@
             $GEM_BIN_DIR/bundle exec rake spec_clean
           }
           trap trap_exit_sig EXIT
-          export CEPH_VERSION={{ ceph }}
           if [ "{{ puppet_gem_version }}" != "latest" ]; then
             export PUPPET_GEM_VERSION='~> {{ puppet_gem_version }}'
           fi

@@ -73,8 +73,6 @@
       - ^tox.ini$
     roles:
       - zuul: zuul/zuul-jobs
-    vars:
-      ceph: reef
 
 - job:
     name: puppet-openstack-base

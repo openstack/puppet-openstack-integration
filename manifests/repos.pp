@@ -48,20 +48,6 @@ class openstack_integration::repos {
         update_packages   => true,
       }
 
-      $ceph_version_real = pick($facts['ceph_version'], 'reef')
-      $ceph_mirror = pick(
-        $facts['ceph_mirror_host'],
-        "${centos_mirror}/SIGs/${facts['os']['release']['major']}-stream/storage/x86_64/ceph-${ceph_version_real}/"
-      )
-
-      # On CentOS, deploy Ceph using SIG repository and get rid of EPEL.
-      # https://wiki.centos.org/SpecialInterestGroup/Storage/
-      class { 'ceph::repo':
-        enable_sig  => true,
-        enable_epel => false,
-        ceph_mirror => $ceph_mirror,
-      }
-
       yumrepo { 'crb':
         enabled => true,
       }
