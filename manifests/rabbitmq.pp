@@ -32,6 +32,7 @@ class openstack_integration::rabbitmq {
       'RABBITMQ_NODENAME' => "rabbit@${openstack_integration::config::hostname}",
     },
     repos_ensure          => false,
+    enable_centos_release => false,
     manage_python         => false,
     # the interface parameter is ignored if ssl_only is true
     interface             => $openstack_integration::config::host,
