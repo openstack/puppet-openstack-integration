@@ -140,6 +140,9 @@ class openstack_integration::cinder (
   class { 'cinder::cron::db_purge': }
   class { 'cinder::glance':
     allowed_direct_url_schemes => ['cinder'],
+    auth_type                  => 'password',
+    auth_url                   => $openstack_integration::config::keystone_admin_uri,
+    password                   => 'a_big_secret',
   }
   class { 'cinder::nova':
     password => 'a_big_secret',
