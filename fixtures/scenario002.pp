@@ -70,7 +70,6 @@ class { 'openstack_integration::swift':
   ceilometer_enabled => true,
 }
 class { 'openstack_integration::ironic':
-  inspector_backend        => 'swift',
   send_power_notifications => true,
 }
 include openstack_integration::zaqar
@@ -113,7 +112,6 @@ class { 'openstack_integration::tempest':
   horizon                 => true,
   swift                   => true,
   ironic                  => true,
-  ironic_inspector        => true,
   zaqar                   => true,
   attach_encrypted_volume => true,
 }
