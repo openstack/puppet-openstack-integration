@@ -370,6 +370,8 @@ class openstack_integration::tempest (
     share_multitenancy_enabled        => false,
     share_enable_protocols            => [downcase($share_protocol)],
     share_capability_storage_protocol => $share_protocol,
+    # TODO(tkajinam): Remove this once we complete migration to c10s.
+    share_max_microversion            => '2.89',
     designate_nameservers             => ["${openstack_integration::config::ip_for_url}:5322"],
     metric_backends                   => $metric_backends,
   }
