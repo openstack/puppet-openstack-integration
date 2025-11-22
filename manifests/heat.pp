@@ -32,11 +32,18 @@ class openstack_integration::heat (
     memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
+  class { 'heat::ec2authtoken':
+    password            => 'a_big_secret',
+    user_domain_name    => 'Default',
+    project_domain_name => 'Default',
+    auth_url            => $openstack_integration::config::keystone_admin_uri,
+  }
   class { 'heat::trustee':
     password         => 'a_big_secret',
     auth_url         => $openstack_integration::config::keystone_admin_uri,
     user_domain_name => 'Default',
   }
+
   class { 'heat::logging':
     debug => true,
   }
