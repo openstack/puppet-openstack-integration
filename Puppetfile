@@ -128,15 +128,15 @@ mod 'zaqar',
 ## External modules
 mod 'kmod',
   :git => 'https://github.com/voxpupuli/puppet-kmod',
-  :ref => 'v4.1.0'
+  :ref => 'v5.0.0'
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v13.0.0'
+  :ref => 'v13.1.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v11.1.0'
+  :ref => 'v11.2.0'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -144,11 +144,11 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v8.2.0'
+  :ref => 'v8.3.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => 'v6.2.0'
+  :ref => 'v6.3.1'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
@@ -156,11 +156,11 @@ mod 'mysql',
 
 mod 'postgresql',
   :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v10.6.0'
+  :ref => 'v10.6.1'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
-  :ref => 'v14.4.1'
+  :ref => 'v15.0.0'
 
 mod 'rsync',
   :git => 'https://github.com/puppetlabs/puppetlabs-rsync',
@@ -180,11 +180,11 @@ mod 'xinetd',
 
 mod 'memcached',
   :git => 'https://github.com/saz/puppet-memcached',
-  :ref => 'v10.0.1'
+  :ref => 'v11.0.0'
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '11.1.0'
+  :ref => '12.1.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
@@ -196,9 +196,10 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v12.0.0'
+  # NOTE(tkajinam): Temporal bump to fix broken idempotency
+  :ref => '27a95724b0a9597bbd9a314a96ff47da7eaaac18'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v9.1.0'
+  :ref => 'v9.4.0'
 
