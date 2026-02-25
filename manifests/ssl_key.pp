@@ -26,14 +26,14 @@ define openstack_integration::ssl_key(
   if $key_path == undef {
     file { "/etc/${name}/ssl":
       ensure                  => directory,
-      owner                   => $name,
-      mode                    => '0775',
+      owner                   => $key_owner,
+      mode                    => '0750',
       selinux_ignore_defaults => true,
     }
     file { "/etc/${name}/ssl/private":
       ensure                  => directory,
-      owner                   => $name,
-      mode                    => '0755',
+      owner                   => $key_owner,
+      mode                    => '0750',
       require                 => File["/etc/${name}/ssl"],
       selinux_ignore_defaults => true,
       before                  => File[$_key_path]
@@ -45,6 +45,6 @@ define openstack_integration::ssl_key(
     owner                   => $key_owner,
     source                  => "puppet:///modules/openstack_integration/ipv${openstack_integration::config::ip_version}.key",
     selinux_ignore_defaults => true,
-    mode                    => '0600',
+    mode                    => '0640',
   }
 }
