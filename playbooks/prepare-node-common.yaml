@@ -45,6 +45,7 @@
           - zlib-devel
           - langpacks-en
           - glibc-langpack-en
+          - libffi-devel
 
       when:
         - ansible_os_family == 'RedHat'
@@ -76,6 +77,7 @@
         - libaugeas-dev
         - pkg-config
         - zlib1g-dev
+        - libffi-dev
         - python3-pip
 
     - name: Install Ruby dependencies (Debian)
@@ -91,4 +93,5 @@
         - libxslt1-dev
         - ruby-dev
         - zlib1g-dev
+        - libffi-dev
         - python3-pip

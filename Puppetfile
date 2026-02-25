@@ -184,7 +184,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '11.0.1'
+  :ref => '12.1.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
@@ -196,7 +196,8 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v11.1.0'
+  # NOTE(tkajinam): Temporal bump to fix broken idempotency
+  :ref => '27a95724b0a9597bbd9a314a96ff47da7eaaac18'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
