@@ -367,6 +367,7 @@ class openstack_integration::tempest (
     baremetal_driver                  => 'fake-hardware',
     baremetal_enabled_hardware_types  => ['ipmi', 'fake-hardware'],
     load_balancer_test_with_noop      => true,
+    share_catalog_type                => 'sharev2',
     share_multitenancy_enabled        => false,
     share_enable_protocols            => [downcase($share_protocol)],
     share_capability_storage_protocol => $share_protocol,
