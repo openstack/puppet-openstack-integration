@@ -36,12 +36,11 @@ class openstack_integration::manila (
     host     => $openstack_integration::config::host,
   }
   class { 'manila::keystone::auth':
-    configure_endpoint => false,
-    public_url_v2      => "${openstack_integration::config::base_url}:8786/v2",
-    internal_url_v2    => "${openstack_integration::config::base_url}:8786/v2",
-    admin_url_v2       => "${openstack_integration::config::base_url}:8786/v2",
-    roles              => ['admin', 'service'],
-    password           => 'a_big_secret',
+    public_url_v2   => "${openstack_integration::config::base_url}:8786/v2",
+    internal_url_v2 => "${openstack_integration::config::base_url}:8786/v2",
+    admin_url_v2    => "${openstack_integration::config::base_url}:8786/v2",
+    roles           => ['admin', 'service'],
+    password        => 'a_big_secret',
   }
   class { 'manila::logging':
     debug => true,
