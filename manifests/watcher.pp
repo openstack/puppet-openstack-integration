@@ -104,4 +104,6 @@ class openstack_integration::watcher {
   }
   class { 'watcher::cron::db_purge': }
   class { 'watcher::client': }
+
+  Keystone::Resource::Service_identity['watcher'] -> Service['watcher-decision-engine']
 }
