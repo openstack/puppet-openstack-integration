@@ -106,6 +106,7 @@ class openstack_integration::keystone (
     public_url => $openstack_integration::config::keystone_auth_uri,
     admin_url  => $openstack_integration::config::keystone_admin_uri,
   }
+  class { 'keystone::cron::trust_flush': }
 
   keystone_tenant { 'openstack':
     ensure  => present,
