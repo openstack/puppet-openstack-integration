@@ -42,15 +42,19 @@ class openstack_integration::swift (
     }
 
     file { '/var/log/swift':
-      ensure => directory,
-      mode   => '0750',
-      owner  => $log_dir_owner,
-      group  => 'adm',
+      ensure  => directory,
+      mode    => '0750',
+      owner   => $log_dir_owner,
+      group   => 'adm',
+      require => Anchor['swift::config::begin'],
+      before  => Anchor['swift::config::end'],
     }
   } else {
     file { '/var/log/swift':
-      ensure => directory,
-      mode   => '0755',
+      ensure  => directory,
+      mode    => '0755',
+      require => Anchor['swift::config::begin'],
+      before  => Anchor['swift::config::end'],
     }
   }
 
