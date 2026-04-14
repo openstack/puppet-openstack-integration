@@ -21,13 +21,22 @@ class openstack_integration::ovn {
     $ovn_controller_ssl_cert    = '/etc/openvswitch/ovncontroller-cert.pem'
     $ovn_controller_ssl_ca_cert = '/var/lib/openvswitch/pki/switchca/cacert.pem'
 
+    $ovs_group = $facts['os']['family'] ? {
+      'Debian' => 'root',
+      default  => 'openvswitch',
+    }
+    $ovs_user = $facts['os']['family'] ? {
+      'Debian' => 'root',
+      default  => 'openvswitch',
+    }
+
     # lint:ignore:manifest_whitespace_opening_bracket_before
     ['ovnnb', 'ovnsb'].each |$ovndb| {
       file { "/etc/openvswitch/${ovndb}-privkey.pem":
         ensure  => file,
         mode    => '0600',
-        owner   => 'openvswitch',
-        group   => 'openvswitch',
+        owner   => $ovs_user,
+        group   => $ovs_group,
         require => Vswitch::Pki::Cert[$ovndb],
       } ~> Service['northd']
     }
@@ -36,8 +45,8 @@ class openstack_integration::ovn {
     file { '/etc/openvswitch/ovncontroller-privkey.pem':
       ensure  => file,
       mode    => '0600',
-      owner   => 'openvswitch',
-      group   => 'openvswitch',
+      owner   => $ovs_user,
+      group   => $ovs_group,
       require => Vswitch::Pki::Cert['ovncontroller'],
     } ~> Service['controller']
   } else {
