@@ -18,11 +18,16 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to undef.
 #
+# [*image_upload_use_cinder_backend*]
+#   (optional) Use optmized image upload using a cloned volume
+#   Defaults to undef.
+#
 class openstack_integration::cinder (
-  $backend             = 'iscsi',
-  $volume_encryption   = false,
-  $cinder_backup       = undef,
-  $notification_topics = undef,
+  $backend                         = 'iscsi',
+  $volume_encryption               = false,
+  $cinder_backup                   = undef,
+  $notification_topics             = undef,
+  $image_upload_use_cinder_backend = undef,
 ) {
   include openstack_integration::config
   include openstack_integration::params
@@ -154,8 +159,9 @@ class openstack_integration::cinder (
         size => '15G',
       }
       cinder::backend::iscsi { 'BACKEND_1':
-        target_ip_address  => $openstack_integration::config::host,
-        manage_volume_type => true,
+        target_ip_address               => $openstack_integration::config::host,
+        manage_volume_type              => true,
+        image_upload_use_cinder_backend => $image_upload_use_cinder_backend,
       }
       include openstacklib::iscsid
       Service['iscsid'] -> Service['cinder-volume']

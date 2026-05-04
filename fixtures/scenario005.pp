@@ -54,7 +54,9 @@ include openstack_integration::mysql
 include openstack_integration::redis
 include openstack_integration::ovn
 include openstack_integration::keystone
-include openstack_integration::cinder
+class { 'openstack_integration::cinder':
+  image_upload_use_cinder_backend => true,
+}
 class { 'openstack_integration::glance':
   backend                 => 'cinder',
   show_multiple_locations => true,
