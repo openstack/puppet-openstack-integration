@@ -532,13 +532,6 @@ datastore list
 EOC
 fi
 
-# vitrage resources
-if [ -d $LOG_DIR/vitrage ]; then
-    openstack >> $LOG_DIR/openstack_resources/vitrage.txt <<-EOC
-rca service list
-EOC
-fi
-
 # watcher resources
 if [ -d $LOG_DIR/watcher ]; then
     openstack >> $LOG_DIR/openstack_resources/watcher.txt <<-EOC

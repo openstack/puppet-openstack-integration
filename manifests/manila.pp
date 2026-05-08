@@ -5,13 +5,8 @@
 #   Can be 'lvm'.
 #   Defaults to 'lvm'.
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to undef.
-#
 class openstack_integration::manila (
-  $backend             = 'lvm',
-  $notification_topics = undef,
+  $backend = 'lvm',
 ) {
   include openstack_integration::config
   include openstack_integration::params
@@ -74,7 +69,6 @@ class openstack_integration::manila (
       'username'  => 'manila',
       'password'  => 'an_even_bigger_secret',
     }),
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     rabbit_use_ssl             => $openstack_integration::config::ssl,
   }

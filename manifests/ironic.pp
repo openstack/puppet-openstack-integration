@@ -1,9 +1,5 @@
 # Configure the Ironic service
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to undef.
-#
 # [*inspector_backend*]
 #   (optional) The storage backend for storing introspection data.
 #   Defaults to 'database'.
@@ -13,7 +9,6 @@
 #   Defaults to false
 #
 class openstack_integration::ironic (
-  $notification_topics      = undef,
   $inspector_backend        = 'database',
   $send_power_notifications = false,
 ) {
@@ -99,7 +94,6 @@ class openstack_integration::ironic (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $openstack_integration::config::ssl,
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'ironic::db::mysql':

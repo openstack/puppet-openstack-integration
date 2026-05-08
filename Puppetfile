@@ -113,10 +113,6 @@ mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
   :ref => 'stable/2025.2'
 
-mod 'vitrage',
-  :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'stable/2025.2'
-
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
   :ref => 'stable/2025.2'
