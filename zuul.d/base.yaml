@@ -37,7 +37,6 @@
       - name: openstack/puppet-tempest
       - name: openstack/puppet-trove
       - name: openstack/puppet-vswitch
-      - name: openstack/puppet-vitrage
       - name: openstack/puppet-watcher
       - name: openstack/puppet-zaqar
       - name: openstack/tempest

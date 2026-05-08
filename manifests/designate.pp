@@ -1,12 +1,6 @@
 # Configure the Designate service
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to undef.
-#
-class openstack_integration::designate (
-  $notification_topics = undef,
-) {
+class openstack_integration::designate {
   include openstack_integration::config
   include openstack_integration::params
   include openstack_integration::bind
@@ -49,7 +43,6 @@ class openstack_integration::designate (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $openstack_integration::config::ssl,
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'designate::db':

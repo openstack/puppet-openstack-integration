@@ -18,10 +18,6 @@
 #   (optional) Boolean to configure or not volume encryption
 #   Defaults to false.
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to undef.
-#
 # [*cinder_enabled*]
 #   (optional) Boolean to configure or not cinder options.
 #   Defaults to false.
@@ -35,7 +31,6 @@ class openstack_integration::nova (
   $libvirt_virt_type      = 'qemu',
   $libvirt_cpu_mode       = 'none',
   $volume_encryption      = false,
-  $notification_topics    = undef,
   $cinder_enabled         = false,
   $libvirt_guests_enabled = false,
 ) {
@@ -147,7 +142,6 @@ class openstack_integration::nova (
     rabbit_use_ssl             => $openstack_integration::config::ssl,
     notification_driver        => 'messagingv2',
     notify_on_state_change     => 'vm_and_task_state',
-    notification_topics        => $notification_topics,
     ssl_only                   => $openstack_integration::config::ssl,
     source_is_ipv6             => $openstack_integration::config::ipv6,
     key                        => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",

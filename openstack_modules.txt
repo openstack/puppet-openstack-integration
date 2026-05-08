@@ -26,6 +26,5 @@ swift
 tempest
 trove
 vswitch
-vitrage
 watcher
 zaqar

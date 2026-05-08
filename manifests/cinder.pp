@@ -14,10 +14,6 @@
 #   Possible values: undef, swift, ceph
 #   defaults to undef
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to undef.
-#
 # [*image_upload_use_cinder_backend*]
 #   (optional) Use optmized image upload using a cloned volume
 #   Defaults to undef.
@@ -26,7 +22,6 @@ class openstack_integration::cinder (
   $backend                         = 'iscsi',
   $volume_encryption               = false,
   $cinder_backup                   = undef,
-  $notification_topics             = undef,
   $image_upload_use_cinder_backend = undef,
 ) {
   include openstack_integration::config
@@ -103,7 +98,6 @@ class openstack_integration::cinder (
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     rabbit_use_ssl             => $openstack_integration::config::ssl,
   }

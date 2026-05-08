@@ -113,10 +113,6 @@ mod 'vswitch',
   :git => 'https://opendev.org/openstack/puppet-vswitch',
   :ref => 'master'
 
-mod 'vitrage',
-  :git => 'https://opendev.org/openstack/puppet-vitrage',
-  :ref => 'master'
-
 mod 'watcher',
   :git => 'https://opendev.org/openstack/puppet-watcher',
   :ref => 'master'

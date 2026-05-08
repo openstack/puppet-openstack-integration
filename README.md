@@ -71,7 +71,6 @@ scenario](#all-in-one).
 | ceph       |      X      |             |             |      X      |             |              |
 | ceph mds   |             |             |             |      X      |             |              |
 | ceph rgw   |             |             |             |      X      |             |              |
-| vitrage    |      X      |             |             |             |             |              |
 | watcher    |      X      |             |             |             |             |              |
 | cloudkitty |      X      |             |             |             |             |              |
 | fwaas      |             |             |             |      X      |      X      |              |
