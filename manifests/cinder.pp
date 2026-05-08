@@ -14,15 +14,10 @@
 #   Possible values: undef, swift, ceph
 #   defaults to undef
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
-#
 class openstack_integration::cinder (
-  $backend             = 'iscsi',
-  $volume_encryption   = false,
-  $cinder_backup       = undef,
-  $notification_topics = $facts['os_service_default'],
+  $backend           = 'iscsi',
+  $volume_encryption = false,
+  $cinder_backup     = undef,
 ) {
 
   include openstack_integration::config
@@ -99,7 +94,6 @@ class openstack_integration::cinder (
       'username'  => 'cinder',
       'password'  => 'an_even_bigger_secret',
     }),
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
   }

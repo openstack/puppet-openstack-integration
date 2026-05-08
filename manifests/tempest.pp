@@ -92,10 +92,6 @@
 #   (optional) Define if Trove needs to be tested.
 #   Default to false.
 #
-# [*vitrage*]
-#   (optional) Define if Vitrage needs to be tested.
-#   Default to false.
-#
 # [*vpnaas*]
 #   (optional) Define if Neutron VPNaaS needs to be tested.
 #   Default to false.
@@ -172,7 +168,6 @@ class openstack_integration::tempest (
   $swift                   = false,
   $trove                   = false,
   $watcher                 = false,
-  $vitrage                 = false,
   $vpnaas                  = false,
   $taas                    = false,
   $zaqar                   = false,
@@ -327,7 +322,6 @@ class openstack_integration::tempest (
     zaqar_available                    => $zaqar,
     manila_available                   => $manila,
     mistral_available                  => $mistral,
-    vitrage_available                  => $vitrage,
     gnocchi_available                  => $gnocchi,
     watcher_available                  => $watcher,
     public_network_name                => 'public',

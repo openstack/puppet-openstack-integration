@@ -1,9 +1,5 @@
 # Configure the octavia service
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
-#
 # [*provider_driver*]
 #   (optional) Provider driver used in Octavia.
 #   Defaults to 'amphora'.
@@ -13,9 +9,8 @@
 #   Defaults to 'redis'.
 #
 class openstack_integration::octavia (
-  $notification_topics = $facts['os_service_default'],
-  $provider_driver     = 'amphora',
-  $jobboard_backend    = 'redis',
+  $provider_driver  = 'amphora',
+  $jobboard_backend = 'redis',
 ) {
 
   include openstack_integration::config
@@ -71,7 +66,6 @@ class openstack_integration::octavia (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'octavia::db::mysql':

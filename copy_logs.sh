@@ -546,13 +546,6 @@ datastore list
 EOC
 fi
 
-# vitrage resources
-if [ -d $LOG_DIR/vitrage ]; then
-    openstack >> $LOG_DIR/openstack_resources/vitrage.txt <<-EOC
-rca service list
-EOC
-fi
-
 # gnocchi resources
 if [ -d $LOG_DIR/gnocchi ]; then
     openstack >> $LOG_DIR/openstack_resources/gnocchi.txt <<-EOC

@@ -1,13 +1,6 @@
 # Configure the Aodh service
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
-#
-class openstack_integration::aodh (
-  $notification_topics = $facts['os_service_default'],
-) {
-
+class openstack_integration::aodh {
   include openstack_integration::config
   include openstack_integration::params
 
@@ -54,7 +47,6 @@ class openstack_integration::aodh (
       'password'  => 'an_even_bigger_secret',
     }),
     rabbit_use_ssl             => $::openstack_integration::config::ssl,
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
   }
   class { 'aodh::db::mysql':

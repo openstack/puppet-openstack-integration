@@ -291,9 +291,6 @@ echo "TelemetryAlarming" >> /tmp/openstack/tempest/test-include-list.txt
 # Gnocchi
 echo "telemetry_tempest_plugin.scenario.test_gnocchi" >> /tmp/openstack/tempest/test-include-list.txt
 
-# Vitrage
-echo "TestEvents" >> /tmp/openstack/tempest/test-include-list.txt
-
 # Test Autoscaling with Telemetry
 # TODO(tkajinam): This test case is disabled because of instability
 #echo "test_telemetry_integration" >> /tmp/openstack/tempest/test-include-list.txt

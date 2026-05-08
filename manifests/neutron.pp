@@ -41,10 +41,6 @@
 #   (optional) Flag to enable external dns integration with Designate
 #   Defaults to false.
 #
-# [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to $facts['os_service_default'].
-#
 class openstack_integration::neutron (
   $driver                     = 'openvswitch',
   $ovn_metadata_agent_enabled = true,
@@ -56,7 +52,6 @@ class openstack_integration::neutron (
   $bgp_dragent_enabled        = false,
   $baremetal_enabled          = false,
   $designate_enabled          = false,
-  $notification_topics        = $facts['os_service_default'],
 ) {
 
   $use_httpd = $facts['os']['family'] ? {
@@ -235,7 +230,6 @@ class openstack_integration::neutron (
     use_ssl                    => $::openstack_integration::config::ssl,
     cert_file                  => $::openstack_integration::params::cert_path,
     key_file                   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
-    notification_topics        => $notification_topics,
     notification_driver        => 'messagingv2',
     dhcp_agent_notification    => $dhcp_agent_notification,
   }
