@@ -74,7 +74,7 @@ class openstack_integration::barbican {
     service_token_roles_required => true,
   }
   class { 'barbican::api':
-    host_href    => "${openstack_integration::config::base_url}:9311",
+    host_href    => '',
     service_name => 'httpd',
   }
   class { 'barbican::wsgi::apache':
