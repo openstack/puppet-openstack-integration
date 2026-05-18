@@ -6,6 +6,8 @@ class openstack_integration::repos {
           include apt
           class { 'openstack_extras::repo::debian::ubuntu':
             release         => 'gazpacho',
+            # TODO(tkajinam): Replace this to 'update' once UCA Gazpacho is officially released.
+            repo            => 'proposed',
             manage_uca      => true,
             package_require => true,
             uca_location    => pick($facts['uca_mirror_host'], 'http://ubuntu-cloud.archive.canonical.com/ubuntu'),
