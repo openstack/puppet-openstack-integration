@@ -132,11 +132,11 @@ mod 'apache',
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v11.2.0'
+  :ref => 'v11.3.1'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
-  :ref => 'v9.1.0'
+  :ref => 'v10.0.0'
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
@@ -180,7 +180,7 @@ mod 'memcached',
 
 mod 'dns',
   :git => 'https://github.com/theforeman/puppet-dns',
-  :ref => '12.1.0'
+  :ref => '12.2.0'
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
