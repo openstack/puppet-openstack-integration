@@ -101,8 +101,8 @@ class openstack_integration::magnum (
   class { 'magnum::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/magnum/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/magnum/ssl/private/key.pem',
+    ssl_cert  => '/etc/magnum/ssl/certs/cert.pem',
     workers   => 2,
   }
 

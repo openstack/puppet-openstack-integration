@@ -62,8 +62,8 @@ test -b /dev/ceph_vg/lv_data
     true    => [
       'beast',
       "ssl_endpoint=${openstack_integration::config::ip_for_url}:8080",
-      "ssl_private_key=/etc/ceph/ssl/private/${facts['networking']['fqdn']}.pem",
-      "ssl_certificate=${openstack_integration::params::cert_path}"
+      'ssl_private_key=/etc/ceph/ssl/private/key.pem',
+      'ssl_certificate=/etc/ceph/ssl/certs/cert.pem',
     ],
     default => [
       'beast',

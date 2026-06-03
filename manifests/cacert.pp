@@ -7,7 +7,7 @@ class openstack_integration::cacert {
     owner                   => 'root',
     group                   => 'root',
     mode                    => '0444',
-    source                  => "puppet:///modules/openstack_integration/ipv${openstack_integration::config::ip_version}.crt",
+    source                  => 'puppet:///modules/openstack_integration/ca.crt',
     selinux_ignore_defaults => true,
     replace                 => true,
   }

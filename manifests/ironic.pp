@@ -110,8 +110,8 @@ class openstack_integration::ironic (
   class { 'ironic::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/ironic/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/ironic/ssl/private/key.pem',
+    ssl_cert  => '/etc/ironic/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'ironic::conductor':
@@ -129,8 +129,8 @@ class openstack_integration::ironic (
     host_ip       => $openstack_integration::config::host,
     public_url    => "${openstack_integration::config::base_url}:6090/vnc_auto.html",
     enable_ssl    => $openstack_integration::config::ssl,
-    ssl_cert_file => $openstack_integration::params::cert_path,
-    ssl_key_file  => "/etc/ironic/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert_file => '/etc/ironic/ssl/certs/cert.pem',
+    ssl_key_file  => '/etc/ironic/ssl/private/key.pem',
   }
 
   # shared

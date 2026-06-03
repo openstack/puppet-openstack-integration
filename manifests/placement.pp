@@ -58,8 +58,8 @@ class openstack_integration::placement {
   }
   class { 'placement::wsgi::apache':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/placement/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/placement/ssl/private/key.pem',
+    ssl_cert  => '/etc/placement/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }
