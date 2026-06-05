@@ -144,8 +144,8 @@ class openstack_integration::nova (
     notify_on_state_change     => 'vm_and_task_state',
     ssl_only                   => $openstack_integration::config::ssl,
     source_is_ipv6             => $openstack_integration::config::ipv6,
-    key                        => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    cert                       => $openstack_integration::params::cert_path,
+    key                        => '/etc/nova/ssl/private/key.pem',
+    cert                       => '/etc/nova/ssl/certs/cert.pem',
   }
   class { 'nova::api':
     sync_db      => false,
@@ -174,15 +174,15 @@ class openstack_integration::nova (
   }
   class { 'nova::wsgi::apache_api':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/nova/ssl/private/key.pem',
+    ssl_cert  => '/etc/nova/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }
   class { 'nova::wsgi::apache_metadata':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/nova/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/nova/ssl/private/key.pem',
+    ssl_cert  => '/etc/nova/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }

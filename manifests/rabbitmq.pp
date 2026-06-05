@@ -3,17 +3,10 @@ class openstack_integration::rabbitmq {
   include openstack_integration::config
 
   if $openstack_integration::config::ssl {
-    file { '/etc/rabbitmq/ssl/private':
-      ensure                  => directory,
-      owner                   => 'root',
-      mode                    => '0755',
-      selinux_ignore_defaults => true,
-      require                 => Class['rabbitmq::install'],
-    }
     openstack_integration::ssl_key { 'rabbitmq':
-      key_path => "/etc/rabbitmq/ssl/private/${facts['networking']['fqdn']}.pem",
-      require  => File['/etc/rabbitmq/ssl/private'],
-      notify   => Service['rabbitmq-server'],
+      root_path => '/etc/rabbitmq/ssl',
+      require   => Class['rabbitmq::install'],
+      notify    => Service['rabbitmq-server'],
     }
   }
 
@@ -24,8 +17,8 @@ class openstack_integration::rabbitmq {
     ssl_only              => $openstack_integration::config::ssl,
     # the parameters below are ignored when ssl is false
     ssl_cacert            => $openstack_integration::params::ca_bundle_cert_path,
-    ssl_cert              => $openstack_integration::params::cert_path,
-    ssl_key               => "/etc/rabbitmq/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_cert              => '/etc/rabbitmq/ssl/certs/cert.pem',
+    ssl_key               => '/etc/rabbitmq/ssl/private/key.pem',
     environment_variables => {
       'LC_ALL'            => 'en_US.UTF-8',
       'HOSTNAME'          => $openstack_integration::config::hostname,

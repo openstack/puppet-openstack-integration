@@ -84,8 +84,8 @@ class openstack_integration::trove {
   class { 'trove::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/trove/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/trove/ssl/private/key.pem',
+    ssl_cert  => '/etc/trove/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'trove::api':

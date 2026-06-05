@@ -108,8 +108,8 @@ class openstack_integration::heat {
   class { 'heat::wsgi::apache_api':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_cert  => $openstack_integration::params::cert_path,
-    ssl_key   => "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_key   => '/etc/heat/ssl/private/key.pem',
+    ssl_cert  => '/etc/heat/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'heat::engine':
@@ -124,8 +124,8 @@ class openstack_integration::heat {
   class { 'heat::wsgi::apache_api_cfn':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_cert  => $openstack_integration::params::cert_path,
-    ssl_key   => "/etc/heat/ssl/private/${facts['networking']['fqdn']}.pem",
+    ssl_key   => '/etc/heat/ssl/private/key.pem',
+    ssl_cert  => '/etc/heat/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'heat::cron::purge_deleted': }

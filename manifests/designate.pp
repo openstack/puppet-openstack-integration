@@ -89,8 +89,8 @@ class openstack_integration::designate {
   }
   class { 'designate::wsgi::apache':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/designate/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/designate/ssl/private/key.pem',
+    ssl_cert  => '/etc/designate/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }

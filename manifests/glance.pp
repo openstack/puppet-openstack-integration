@@ -127,8 +127,8 @@ class openstack_integration::glance (
   class { 'glance::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/glance/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/glance/ssl/private/key.pem',
+    ssl_cert  => '/etc/glance/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'glance::cron::db_purge': }

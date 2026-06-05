@@ -284,8 +284,8 @@ class openstack_integration::neutron (
 
   class { 'neutron::wsgi::apache':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/neutron/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/neutron/ssl/private/key.pem',
+    ssl_cert  => '/etc/neutron/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }

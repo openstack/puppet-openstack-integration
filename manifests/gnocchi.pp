@@ -79,8 +79,8 @@ class openstack_integration::gnocchi (
   class { 'gnocchi::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/gnocchi/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/gnocchi/ssl/private/key.pem',
+    ssl_cert  => '/etc/gnocchi/ssl/certs/cert.pem',
     workers   => 2,
   }
   class { 'gnocchi::client': }

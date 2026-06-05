@@ -65,8 +65,8 @@ class openstack_integration::mistral {
   class { 'mistral::wsgi::apache':
     bind_host => $openstack_integration::config::host,
     ssl       => $openstack_integration::config::ssl,
-    ssl_key   => "/etc/mistral/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/mistral/ssl/private/key.pem',
+    ssl_cert  => '/etc/mistral/ssl/certs/cert.pem',
     workers   => 2,
     threads   => 1,
   }

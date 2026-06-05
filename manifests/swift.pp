@@ -15,8 +15,8 @@ class openstack_integration::swift (
       require => Anchor['swift::install::end'],
     }
     Exec['update-ca-certificates'] ~> Service['swift-proxy-server']
-    $cert_file = $openstack_integration::params::cert_path
-    $key_file = "/etc/swift/ssl/private/${facts['networking']['fqdn']}.pem"
+    $cert_file = '/etc/swift/ssl/certs/cert.pem'
+    $key_file = '/etc/swift/ssl/private/key.pem'
   } else {
     $cert_file = undef
     $key_file = undef

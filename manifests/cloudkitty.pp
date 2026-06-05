@@ -84,8 +84,8 @@ class openstack_integration::cloudkitty {
   include apache
   class { 'cloudkitty::wsgi::apache':
     bind_host => $openstack_integration::config::host,
-    ssl_key   => "/etc/cloudkitty/ssl/private/${facts['networking']['fqdn']}.pem",
-    ssl_cert  => $openstack_integration::params::cert_path,
+    ssl_key   => '/etc/cloudkitty/ssl/private/key.pem',
+    ssl_cert  => '/etc/cloudkitty/ssl/certs/cert.pem',
     ssl       => $openstack_integration::config::ssl,
     workers   => 2,
   }

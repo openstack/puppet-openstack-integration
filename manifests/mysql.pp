@@ -6,9 +6,9 @@ class openstack_integration::mysql {
 
   if $openstack_integration::config::ssl {
     openstack_integration::ssl_key { 'mysql':
-      key_path => "${mysql_conf_dir}/${facts['networking']['fqdn']}.pem",
-      require  => Package['mysql-server'],
-      notify   => Service['mysqld'],
+      root_path => $mysql_conf_dir,
+      require   => Package['mysql-server'],
+      notify    => Service['mysqld'],
     }
   }
 
@@ -18,8 +18,8 @@ class openstack_integration::mysql {
         'bind-address' => $openstack_integration::config::host,
         'ssl'          => $openstack_integration::config::ssl,
         'ssl-ca'       => $openstack_integration::params::ca_bundle_cert_path,
-        'ssl-cert'     => $openstack_integration::params::cert_path,
-        'ssl-key'      => "${mysql_conf_dir}/${facts['networking']['fqdn']}.pem",
+        'ssl-cert'     => "${mysql_conf_dir}/certs/cert.pem",
+        'ssl-key'      => "${mysql_conf_dir}/private/key.pem",
       },
     },
   }
