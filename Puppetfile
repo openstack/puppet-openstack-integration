@@ -140,7 +140,7 @@ mod 'concat',
 
 mod 'firewall',
   :git => 'https://github.com/puppetlabs/puppetlabs-firewall',
-  :ref => 'v8.3.0'
+  :ref => 'v8.4.0'
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
@@ -164,7 +164,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v9.7.0'
+  :ref => 'v10.0.0'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
@@ -192,8 +192,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  # NOTE(tkajinam): Temporal bump to fix broken idempotency
-  :ref => '27a95724b0a9597bbd9a314a96ff47da7eaaac18'
+  :ref => 'v13.0.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
