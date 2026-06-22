@@ -180,19 +180,19 @@ install_puppetlabs_repo() {
     source /etc/os-release
     if uses_debs; then
         $SUDO mkdir -p /etc/apt/sources.list.d
-        echo "deb ${NODEPOOL_PUPPETLABS_MIRROR} ${VERSION_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
+        echo "deb https://apt.puppetlabs.com ${VERSION_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-key add files/GPG-KEY-puppetlabs
         $SUDO apt-key add files/GPG-KEY-ceph
         $SUDO apt-get update
     elif is_fedora; then
-        $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
-        $SUDO rpm --import ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
+        $SUDO rpm --import https://yum.puppetlabs.com/RPM-GPG-KEY-puppet
+        $SUDO rpm --import https://yum.puppetlabs.com/RPM-GPG-KEY-puppet-20250406
         $SUDO bash -c "cat << EOF > /etc/yum.repos.d/puppetlabs.repo
 [puppetlabs-products]
 name=Puppet Labs Products El ${VERSION_ID} - x86_64
-baseurl=${NODEPOOL_PUPPETLABS_MIRROR}/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
-gpgkey=${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet
-       ${NODEPOOL_PUPPETLABS_MIRROR}/RPM-GPG-KEY-puppet-20250406
+baseurl=https://yum.puppetlabs.com/puppet${PUPPET_MAJ_VERSION}/el/${VERSION_ID}/x86_64/
+gpgkey=https://yum.puppetlabs.com/RPM-GPG-KEY-puppet
+       https://yum.puppetlabs.com/RPM-GPG-KEY-puppet-20250406
 enabled=1
 gpgcheck=1
 EOF"
