@@ -35,20 +35,10 @@ if [ "${USE_MIRROR,,}" = true ] && [ -f /etc/ci/mirror_info.sh ]; then
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
     # TODO(tkajinam): Remove this once UCA Gazpacho is officially released.
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
-    if uses_debs; then
-        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/apt-puppetlabs"
-    else
-        NODEPOOL_PUPPETLABS_MIRROR="http://${NODEPOOL_MIRROR_HOST}/yum-puppetlabs"
-    fi
 else
     CENTOS_MIRROR_HOST='http://mirror.stream.centos.org'
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
     NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
-    if uses_debs; then
-        NODEPOOL_PUPPETLABS_MIRROR='https://apt.puppetlabs.com'
-    else
-        NODEPOOL_PUPPETLABS_MIRROR="https://yum.puppetlabs.com"
-    fi
 fi
 
 export FACTER_openstack_version=${OPENSTACK_VERSION}
