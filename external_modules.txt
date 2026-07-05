@@ -5,7 +5,6 @@ puppetlabs/puppetlabs-concat
 puppetlabs/puppetlabs-firewall
 puppetlabs/puppetlabs-inifile
 puppetlabs/puppetlabs-mysql
-puppetlabs/puppetlabs-postgresql
 voxpupuli/puppet-rabbitmq
 puppetlabs/puppetlabs-rsync
 puppetlabs/puppetlabs-stdlib

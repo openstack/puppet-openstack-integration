@@ -121,13 +121,6 @@ if [ -f /var/lib/rabbitmq/erl_crash.dump ]; then
     sudo cp /var/lib/rabbitmq/erl_crash.dump $LOG_DIR
 fi
 
-# db logs
-# postgresql
-if [ -d /var/log/postgresql ] ; then
-    # Rename log so it doesn't have an additional '.' so it won't get
-    # deleted
-    sudo cp /var/log/postgresql/*log $LOG_DIR/postgres.log
-fi
 # mysql/mariadb
 if uses_debs; then
     if [ -d /etc/mysql ] ; then

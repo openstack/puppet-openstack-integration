@@ -150,10 +150,6 @@ mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
   :ref => 'v17.0.0'
 
-mod 'postgresql',
-  :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-  :ref => 'v10.6.2'
-
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
   :ref => 'v15.0.0'
