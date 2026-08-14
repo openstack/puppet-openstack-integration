@@ -6,11 +6,11 @@ mod 'augeas_core',
 
 mod 'cron_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-cron_core',
-  :ref => 'v2.0.2'
+  :ref => 'v2.0.3'
 
 mod 'sshkeys_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-sshkeys_core',
-  :ref => 'v3.0.1'
+  :ref => 'v3.0.2'
 
 mod 'yumrepo_core',
   :git => 'https://github.com/puppetlabs/puppetlabs-yumrepo_core',
