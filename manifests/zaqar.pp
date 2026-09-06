@@ -30,7 +30,7 @@ class openstack_integration::zaqar {
     admin_url    => "ws://${openstack_integration::config::ip_for_url}:8888",
   }
   class { 'zaqar::keystone::trust':
-    auth_url => "${openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url => $openstack_integration::config::keystone_auth_uri,
     password => 'a_big_secret',
   }
   class { 'zaqar::cache':
@@ -54,7 +54,7 @@ class openstack_integration::zaqar {
     }),
   }
   class { 'zaqar::messaging::swift':
-    auth_url => "${openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url => $openstack_integration::config::keystone_auth_uri,
     uri      => 'swift://zaqar:a_big_secret@/services',
   }
   class { 'zaqar::keystone::authtoken':

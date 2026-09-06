@@ -52,8 +52,8 @@ class openstack_integration::watcher {
     auth_version                 => 'v3',
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
-    auth_url                     => "${openstack_integration::config::keystone_admin_uri}/v3",
-    www_authenticate_uri         => "${openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
     memcached_servers            => $openstack_integration::config::memcached_servers,
     service_token_roles_required => true,
   }
@@ -82,7 +82,7 @@ class openstack_integration::watcher {
     project_domain_name => 'Default',
     user_domain_name    => 'Default',
     project_name        => 'services',
-    auth_url            => "${openstack_integration::config::keystone_admin_uri}/v3",
+    auth_url            => $openstack_integration::config::keystone_admin_uri,
   }
   class { 'watcher::api':
     upgrade_db   => true,

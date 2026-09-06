@@ -125,7 +125,7 @@ class openstack_integration::swift (
   include swift::proxy::tempurl
   include swift::proxy::ratelimit
   class { 'swift::proxy::authtoken':
-    www_authenticate_uri         => "${openstack_integration::config::keystone_auth_uri}/v3",
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
     auth_url                     => $openstack_integration::config::keystone_admin_uri,
     password                     => 'a_big_secret',
     service_token_roles_required => true,
