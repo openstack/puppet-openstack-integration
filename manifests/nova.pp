@@ -267,7 +267,7 @@ class openstack_integration::nova (
   }
 
   class { 'nova::network::neutron':
-    auth_url              => "${openstack_integration::config::keystone_admin_uri}/v3",
+    auth_url              => $openstack_integration::config::keystone_admin_uri,
     password              => 'a_big_secret',
     default_floating_pool => 'public',
   }

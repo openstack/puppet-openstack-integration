@@ -66,8 +66,8 @@ class openstack_integration::barbican {
   }
   class { 'barbican::keystone::authtoken':
     password                     => 'a_big_secret',
-    auth_url                     => "${openstack_integration::config::keystone_admin_uri}/v3",
-    www_authenticate_uri         => "${openstack_integration::config::keystone_auth_uri}/v3",
+    auth_url                     => $openstack_integration::config::keystone_admin_uri,
+    www_authenticate_uri         => $openstack_integration::config::keystone_auth_uri,
     user_domain_name             => 'Default',
     project_domain_name          => 'Default',
     memcached_servers            => $openstack_integration::config::memcached_servers,
