@@ -148,7 +148,7 @@ mod 'inifile',
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v17.1.1'
+  :ref => 'v17.2.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -188,7 +188,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v13.0.0'
+  :ref => 'v13.1.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
