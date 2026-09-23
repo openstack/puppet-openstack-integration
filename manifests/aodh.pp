@@ -72,7 +72,6 @@ class openstack_integration::aodh {
     service_token_roles_required => true,
   }
   class { 'aodh::api':
-    enabled      => true,
     service_name => 'httpd',
     sync_db      => true,
   }

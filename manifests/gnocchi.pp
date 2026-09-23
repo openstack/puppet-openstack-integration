@@ -73,7 +73,6 @@ class openstack_integration::gnocchi (
     service_token_roles_required => true,
   }
   class { 'gnocchi::api':
-    enabled      => true,
     service_name => 'httpd',
   }
   class { 'gnocchi::wsgi::apache':

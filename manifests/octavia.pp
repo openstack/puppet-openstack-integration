@@ -138,7 +138,6 @@ class openstack_integration::octavia (
   }
 
   class { 'octavia::api':
-    enabled                  => true,
     service_name             => 'httpd',
     sync_db                  => true,
     enabled_provider_drivers => $enabled_provider_drivers,
