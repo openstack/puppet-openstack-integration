@@ -17,7 +17,6 @@ source /etc/os-release
 export OS_NAME_VERS=${ID}${VERSION_ID}
 
 # Write out facts to the facter folder when we generate them.
-export USE_MIRROR=${USER_MIRROR:-true}
 export WRITE_FACTS=${WRITE_FACTS:-true}
 export OPENSTACK_VERSION=${OPENSTACK_VERSION:-master}
 export DLRN_TAG=${DLRN_TAG:-current}
@@ -29,12 +28,10 @@ export DLRN_DEPS_URL=${DLRN_DEPS_URL:-${DLRN_ROOT}/delorean-deps.repo}
 export SCRIPT_DIR=$(cd `dirname $0` && pwd -P)
 source $SCRIPT_DIR/functions
 
-if [ "${USE_MIRROR,,}" = true ] && [ -f /etc/ci/mirror_info.sh ]; then
+if [ -f /etc/ci/mirror_info.sh ]; then
     source /etc/ci/mirror_info.sh
 
     CENTOS_MIRROR_HOST="http://${NODEPOOL_MIRROR_HOST}/centos-stream"
-    # TODO(tkajinam): Remove this once UCA Gazpacho is officially released.
-    NODEPOOL_UCA_MIRROR='http://ubuntu-cloud.archive.canonical.com/ubuntu'
 else
     CENTOS_MIRROR_HOST='http://mirror.stream.centos.org'
     NODEPOOL_RDO_PROXY='https://trunk.rdoproject.org'
