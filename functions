@@ -179,10 +179,10 @@ install_puppetlabs_repo() {
     print_header 'Install Puppetlabs repo'
     source /etc/os-release
     if uses_debs; then
+        $SUDO mkdir -p /etc/apt/keyrings
+        cat files/GPG-KEY-puppetlabs | $SUDO gpg --dearmor -o /etc/apt/keyrings/puppetlabs.gpg
         $SUDO mkdir -p /etc/apt/sources.list.d
-        echo "deb https://apt.puppetlabs.com ${VERSION_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
-        $SUDO apt-key add files/GPG-KEY-puppetlabs
-        $SUDO apt-key add files/GPG-KEY-ceph
+        echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/puppetlabs.gpg] https://apt.puppetlabs.com ${VERSION_CODENAME} puppet${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/puppetlabs.list
         $SUDO apt-get update
     elif is_fedora; then
         $SUDO rpm --import https://yum.puppetlabs.com/RPM-GPG-KEY-puppet
@@ -203,10 +203,10 @@ install_openvox_repo() {
     print_header 'Install OpenVox repo'
     source /etc/os-release
     if uses_debs; then
+        $SUDO mkdir -p /etc/apt/keyrings
+        cat files/GPG-KEY-openvox.pub | $SUDO gpg --dearmor -o /etc/apt/keyrings/openvox.gpg
         $SUDO mkdir -p /etc/apt/sources.list.d
-        echo "deb https://apt.voxpupuli.org ${ID}${VERSION_ID} openvox${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/openvox.list
-        $SUDO apt-key add files/GPG-KEY-openvox.pub
-        $SUDO apt-key add files/GPG-KEY-ceph
+        echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/openvox.gpg] https://apt.voxpupuli.org ${ID}${VERSION_ID} openvox${PUPPET_MAJ_VERSION}" | $SUDO tee /etc/apt/sources.list.d/openvox.list
         $SUDO apt-get update
     elif is_fedora; then
         $SUDO rpm --import https://yum.voxpupuli.org/GPG-KEY-openvox.pub
