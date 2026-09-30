@@ -364,13 +364,20 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
     default => [$driver],
   }
   class { 'neutron::plugins::ml2':
-    type_drivers         => [$overlay_network_type, 'vlan', 'flat'],
-    tenant_network_types => [$overlay_network_type],
-    extension_drivers    => 'port_security,qos',
-    mechanism_drivers    => $drivers_real,
-    network_vlan_ranges  => 'external:1000:2999',
-    max_header_size      => $max_header_size,
-    overlay_ip_version   => $openstack_integration::config::ip_version,
+    type_drivers          => [$overlay_network_type, 'vlan', 'flat'],
+    project_network_types => [$overlay_network_type],
+    extension_drivers     => 'port_security,qos',
+    mechanism_drivers     => $drivers_real,
+    network_vlan_ranges   => 'external:1000:2999',
+    max_header_size       => $max_header_size,
+    overlay_ip_version    => $openstack_integration::config::ip_version,
+  }
+
+  # TODO(tkajinam): Remove this when we can bump package versions for CentOS
+  if $facts['os']['family'] == 'RedHat' {
+    neutron_plugin_ml2 { 'ml2/tenant_network_types':
+      value => $overlay_network_type,
+    }
   }
 
   case $driver {
