@@ -96,10 +96,6 @@ class openstack_integration::trove {
   class { 'trove::conductor':
     workers => 2,
   }
-  class { 'trove::guestagent::service_credentials':
-    password => 'a_big_secret',
-    auth_url => $openstack_integration::config::keystone_auth_uri,
-  }
   class { 'trove::taskmanager': }
   class { 'trove::quota': }
 }
