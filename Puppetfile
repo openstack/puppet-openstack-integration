@@ -124,7 +124,7 @@ mod 'zaqar',
 ## External modules
 mod 'kmod',
   :git => 'https://github.com/voxpupuli/puppet-kmod',
-  :ref => 'v5.0.0'
+  :ref => 'v5.1.0'
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
@@ -180,7 +180,7 @@ mod 'dns',
 
 mod 'archive',
   :git => 'https://github.com/voxpupuli/puppet-archive',
-  :ref => 'v8.1.0'
+  :ref => 'v9.0.0'
 
 mod 'ssh_keygen',
   :git => 'https://github.com/voxpupuli/puppet-ssh_keygen',
@@ -188,7 +188,7 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v13.1.0'
+  :ref => 'v13.2.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
