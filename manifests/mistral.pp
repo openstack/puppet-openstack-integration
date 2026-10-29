@@ -83,4 +83,6 @@ class openstack_integration::mistral {
   class { 'mistral::notifier':
     type => $notifier_type,
   }
+
+  class { 'mistral::extra': }
 }
