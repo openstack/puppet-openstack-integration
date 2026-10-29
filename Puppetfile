@@ -128,11 +128,11 @@ mod 'kmod',
 
 mod 'apache',
   :git => 'https://github.com/puppetlabs/puppetlabs-apache',
-  :ref => 'v13.4.0'
+  :ref => 'v13.5.0'
 
 mod 'apt',
   :git => 'https://github.com/puppetlabs/puppetlabs-apt',
-  :ref => 'v11.4.0'
+  :ref => 'v11.4.1'
 
 mod 'concat',
   :git => 'https://github.com/puppetlabs/puppetlabs-concat',
@@ -144,11 +144,11 @@ mod 'firewall',
 
 mod 'inifile',
   :git => 'https://github.com/puppetlabs/puppetlabs-inifile',
-  :ref => 'v6.5.0'
+  :ref => 'v6.6.0'
 
 mod 'mysql',
   :git => 'https://github.com/puppetlabs/puppetlabs-mysql',
-  :ref => 'v17.3.0'
+  :ref => 'v17.4.0'
 
 mod 'rabbitmq',
   :git => 'https://github.com/voxpupuli/puppet-rabbitmq',
@@ -160,7 +160,7 @@ mod 'rsync',
 
 mod 'stdlib',
   :git => 'https://github.com/puppetlabs/puppetlabs-stdlib',
-  :ref => 'v10.1.0'
+  :ref => 'v10.1.1'
 
 mod 'vcsrepo',
   :git => 'https://github.com/puppetlabs/puppetlabs-vcsrepo',
@@ -188,9 +188,9 @@ mod 'ssh_keygen',
 
 mod 'redis',
   :git => 'https://github.com/voxpupuli/puppet-redis',
-  :ref => 'v13.2.0'
+  :ref => 'v13.3.0'
 
 mod 'systemd',
   :git => 'https://github.com/voxpupuli/puppet-systemd',
-  :ref => 'v10.3.0'
+  :ref => 'v11.0.0'
 
