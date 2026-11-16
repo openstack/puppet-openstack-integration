@@ -62,10 +62,9 @@ class { 'openstack_integration::glance':
   show_multiple_locations => true,
 }
 class { 'openstack_integration::neutron':
-  driver                     => 'ovn',
-  ovn_metadata_agent_enabled => false,
-  fwaas_enabled              => $fwaas_enabled,
-  vpnaas_enabled             => $vpnaas_enabled,
+  driver         => 'ovn',
+  fwaas_enabled  => $fwaas_enabled,
+  vpnaas_enabled => $vpnaas_enabled,
 }
 include openstack_integration::placement
 class { 'openstack_integration::nova':

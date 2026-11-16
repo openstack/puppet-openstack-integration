@@ -5,10 +5,6 @@
 #   Can be: openvswitch or ovn.
 #   Defaults to 'openvswitch'.
 #
-# [*ovn_metadata_agent_enabled*]
-#   (optional) Enable ovn-metadata-agent
-#   Defaults to true
-#
 # [*metering_enabled*]
 #   (optional) Flag to enable metering agent
 #   Defaults to false.
@@ -47,7 +43,6 @@
 #
 class openstack_integration::neutron (
   $driver                     = 'openvswitch',
-  $ovn_metadata_agent_enabled = true,
   $metering_enabled           = false,
   $fwaas_enabled              = false,
   $vpnaas_enabled             = false,
@@ -425,20 +420,14 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
   }
 
   if $driver == 'ovn' {
-    $ovn_agent_extensions = $ovn_metadata_agent_enabled ? {
-      false   => ['metadata'],
-      default => undef
-    }
-    if ! $ovn_metadata_agent_enabled {
-      class { 'neutron::agents::ml2::ovn::metadata':
-        shared_secret     => 'a_big_secret',
-        metadata_host     => $openstack_integration::config::host,
-        metadata_protocol => $openstack_integration::config::proto,
-      }
+    class { 'neutron::agents::ml2::ovn::metadata':
+      shared_secret     => 'a_big_secret',
+      metadata_host     => $openstack_integration::config::host,
+      metadata_protocol => $openstack_integration::config::proto,
     }
     class { 'neutron::agents::ml2::ovn':
       debug              => true,
-      extensions         => $ovn_agent_extensions,
+      extensions         => ['metadata'],
       ovn_nb_connection  => $openstack_integration::config::ovn_nb_connection,
       ovn_nb_private_key => '/etc/neutron/ovnnb-privkey.pem',
       ovn_nb_certificate => '/etc/neutron/ovnnb-cert.pem',
@@ -447,19 +436,6 @@ Environment=OS_NEUTRON_CONFIG_FILES=${join($neutron_conf_files, ';')}",
       ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
       ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
       ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
-    }
-
-    if $ovn_metadata_agent_enabled {
-      class { 'neutron::agents::ovn_metadata':
-        debug              => true,
-        shared_secret      => 'a_big_secret',
-        metadata_host      => $openstack_integration::config::host,
-        metadata_protocol  => $openstack_integration::config::proto,
-        ovn_sb_connection  => $openstack_integration::config::ovn_sb_connection,
-        ovn_sb_private_key => '/etc/neutron/ovnsb-privkey.pem',
-        ovn_sb_certificate => '/etc/neutron/ovnsb-cert.pem',
-        ovn_sb_ca_cert     => '/etc/neutron/switchcacert.pem',
-      }
     }
 
     if $fwaas_enabled {
