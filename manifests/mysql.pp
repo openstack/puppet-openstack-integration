@@ -12,15 +12,26 @@ class openstack_integration::mysql {
     }
   }
 
+  $ssl_opts = $openstack_integration::config::ssl ? {
+    true    => {
+      'ssl'      => true,
+      'ssl-ca'   => $openstack_integration::params::ca_bundle_cert_path,
+      'ssl-cert' => "${mysql_conf_dir}/certs/cert.pem",
+      'ssl-key'  => "${mysql_conf_dir}/private/key.pem",
+    },
+    default => {
+      'ssl' => false,
+    }
+  }
+
   class { 'mysql::server':
     override_options => {
-      'mysqld' => {
-        'bind-address' => $openstack_integration::config::host,
-        'ssl'          => $openstack_integration::config::ssl,
-        'ssl-ca'       => $openstack_integration::params::ca_bundle_cert_path,
-        'ssl-cert'     => "${mysql_conf_dir}/certs/cert.pem",
-        'ssl-key'      => "${mysql_conf_dir}/private/key.pem",
-      },
+      'mysqld' => stdlib::merge(
+        {
+          'bind-address' => $openstack_integration::config::host,
+        },
+        $ssl_opts,
+      ),
     },
   }
 }
