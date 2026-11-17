@@ -84,5 +84,8 @@ class openstack_integration::mistral {
     type => $notifier_type,
   }
 
-  class { 'mistral::extra': }
+  # TODO(tkajinam): mistral-extra is not available in UCA Gazpacho for 24.04
+  if $facts['os']['name'] != 'Ubuntu' {
+    class { 'mistral::extra': }
+  }
 }
